@@ -6,8 +6,12 @@ class Tetris(width: Int, height: Int) {
         .toList()
 
     fun tick() {
-        if (canDissolve()) {
-            dissolveLine()
+        if (arrivedAtBottom()) {
+            if (bottomLineFilled()) {
+                dissolveLine()
+            } else {
+                return // stays, no falling!
+            }
         } else {
             stoneFalls()
         }
@@ -36,7 +40,11 @@ class Tetris(width: Int, height: Int) {
         score += 1
     }
 
-    private fun canDissolve() = position == (bottom())
+    private fun arrivedAtBottom() = position == (bottom())
+
+    private fun bottomLineFilled(): Boolean {
+        return field.last().all { it != "_" }
+    }
 
     private fun bottom() = field.size - 1
 

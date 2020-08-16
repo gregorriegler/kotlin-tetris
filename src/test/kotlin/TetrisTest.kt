@@ -174,11 +174,42 @@ class `A Tetris` {
                 0
             )
         }
+
+        @Test
+        fun `stone persists without scoring`() {
+            repeat(4) { tetris.tick() }
+
+            assertDisplays(
+                tetris,
+                """
+                __
+                __
+                #_
+                """,
+                0
+            )
+        }
+
+        @Disabled
+        @Test
+        fun `another stone falls`() {
+            repeat(5) { tetris.tick() }
+
+            assertDisplays(
+                tetris,
+                """
+                #_
+                __
+                #_
+                """,
+                0
+            )
+        }
     }
 
-    private fun assertDisplays(tetris: Tetris, ouput: String, score: Int) {
+    private fun assertDisplays(tetris: Tetris, output: String, score: Int) {
         assertEquals(
-            ouput.trimIndent(),
+            output.trimIndent(),
             tetris.display()
         )
         assertEquals(
