@@ -33,8 +33,7 @@ class TetrisTest {
 
     @Test
     fun `dropped stone falls`() {
-        tetris.tick()
-        tetris.tick()
+        repeat(2) { tetris.tick() }
 
         assertDisplays(
             """
@@ -48,9 +47,7 @@ class TetrisTest {
 
     @Test
     fun `dropped stone falls to bottom`() {
-        tetris.tick()
-        tetris.tick()
-        tetris.tick()
+        repeat(3) { tetris.tick() }
 
         assertDisplays(
             """
@@ -63,11 +60,8 @@ class TetrisTest {
     }
 
     @Test
-    fun `dropped stone dissolves from bottom`() {
-        tetris.tick()
-        tetris.tick()
-        tetris.tick()
-        tetris.tick()
+    fun `dropped stone dissolves from bottom as score increases`() {
+        repeat(4) { tetris.tick() }
 
         assertDisplays(
             """
