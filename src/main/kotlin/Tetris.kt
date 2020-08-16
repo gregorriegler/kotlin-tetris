@@ -21,6 +21,7 @@ class Tetris(private val width: Int, private val height: Int) {
 
         if (arrivedAtBottom(position)) {
             land()
+            x = calcCenter()
             if (bottomLineFilled()) {
                 dissolveLine()
             } else {
@@ -107,7 +108,7 @@ class Tetris(private val width: Int, private val height: Int) {
     private fun calcCenter() = Math.round(width.toDouble().div(2)).toInt() - 1
 
     private fun bottomLineFilled(): Boolean {
-        return falling.last().all { isStone(it) }
+        return landed.last().all { isStone(it) }
     }
 
     private fun isStone(field: String) = field != "_"

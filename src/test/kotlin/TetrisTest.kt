@@ -378,9 +378,7 @@ class `A Tetris` {
         @Test
         fun `land right`() {
             tetris.right()
-            tetris.tick()
-            tetris.tick()
-            tetris.tick()
+            repeat(3) { tetris.tick() }
 
             assertDisplays(
                 tetris,
@@ -438,6 +436,58 @@ class `A Tetris` {
                 __#
                 ___
                 ___
+                """,
+                0
+            )
+        }
+
+        @Test
+        fun `dissolve filled line`() {
+            tetris.left()
+            repeat(4) { tetris.tick() }
+
+            tetris.right()
+            repeat(4) { tetris.tick() }
+
+            repeat(4) { tetris.tick() }
+
+            assertDisplays(
+                tetris,
+                """
+                ___
+                ___
+                ___
+                """,
+                1
+            )
+        }
+
+        @Test
+        fun `stack_borders`() {
+            tetris.left()
+            repeat(4) { tetris.tick() }
+
+            tetris.left()
+            repeat(3) { tetris.tick() }
+
+            tetris.left()
+            repeat(2) { tetris.tick() }
+
+            tetris.right()
+            repeat(4) { tetris.tick() }
+
+            tetris.right()
+            repeat(3) { tetris.tick() }
+
+            tetris.right()
+            repeat(2) { tetris.tick() }
+
+            assertDisplays(
+                tetris,
+                """
+                #_#
+                #_#
+                #_#
                 """,
                 0
             )
