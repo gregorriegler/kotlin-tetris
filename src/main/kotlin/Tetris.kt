@@ -11,12 +11,18 @@ class Tetris(height: Int) {
     }
 
     fun tick() {
-        if(position == (field.size - 1)) {
-            score += 1
+        if(canDissolve()) {
+            increaseScore()
         }
         position += 1
         putStoneAt(position)
     }
+
+    private fun increaseScore() {
+        score += 1
+    }
+
+    private fun canDissolve() = position == (field.size - 1)
 
     fun display(): String {
         return field.joinToString(separator = "\n") { it }
