@@ -209,8 +209,8 @@ class `A Tetris` {
 
     private fun assertDisplays(tetris: Tetris, output: String, score: Int) {
         assertEquals(
-            output.trimIndent(),
-            tetris.display()
+            "\n" + output.trimIndent() + "\n",
+            "\n" + tetris.display() + "\n"
         )
         assertEquals(
             score,
