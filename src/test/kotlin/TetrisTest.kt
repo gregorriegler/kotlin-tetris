@@ -12,7 +12,8 @@ class TetrisTest {
             _
             _
             _
-            """
+            """,
+            0
         )
     }
 
@@ -25,7 +26,8 @@ class TetrisTest {
             #
             _
             _
-            """
+            """,
+            0
         )
     }
 
@@ -39,7 +41,8 @@ class TetrisTest {
             _
             #
             _
-            """
+            """,
+            0
         )
     }
 
@@ -54,7 +57,8 @@ class TetrisTest {
             _
             _
             #
-            """
+            """,
+            0
         )
     }
 
@@ -70,14 +74,19 @@ class TetrisTest {
             _
             _
             _
-            """
+            """,
+            1
         )
     }
 
-    private fun assertDisplays(s: String) {
+    private fun assertDisplays(ouput: String, score: Int) {
         assertEquals(
-            s.trimIndent(),
+            ouput.trimIndent(),
             tetris.display()
+        )
+        assertEquals(
+            score,
+            tetris.score()
         )
     }
 

@@ -1,4 +1,5 @@
 class Tetris(height: Int) {
+    private var score: Int = 0
     private var position: Int = 0
     private var field = (position until height)
         .map { "_" }
@@ -10,6 +11,9 @@ class Tetris(height: Int) {
     }
 
     fun tick() {
+        if(position == (field.size - 1)) {
+            score += 1
+        }
         position += 1
         putStoneAt(position)
     }
@@ -20,5 +24,9 @@ class Tetris(height: Int) {
 
     private fun putStoneAt(position: Int) {
         field = field.mapIndexed { index, _ -> if (index == position) "#" else "_" }
+    }
+
+    fun score(): Int {
+        return score
     }
 }
