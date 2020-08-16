@@ -8,6 +8,7 @@ class TetrisTest {
     @Test
     fun `starts empty`() {
         assertDisplays(
+            tetris,
             """
             _
             _
@@ -22,6 +23,7 @@ class TetrisTest {
         tetris.tick()
 
         assertDisplays(
+            tetris,
             """
             #
             _
@@ -36,6 +38,7 @@ class TetrisTest {
         repeat(2) { tetris.tick() }
 
         assertDisplays(
+            tetris,
             """
             _
             #
@@ -50,6 +53,7 @@ class TetrisTest {
         repeat(3) { tetris.tick() }
 
         assertDisplays(
+            tetris,
             """
             _
             _
@@ -64,6 +68,7 @@ class TetrisTest {
         repeat(4) { tetris.tick() }
 
         assertDisplays(
+            tetris,
             """
             _
             _
@@ -78,6 +83,7 @@ class TetrisTest {
         repeat(5) { tetris.tick() }
 
         assertDisplays(
+            tetris,
             """
             #
             _
@@ -92,6 +98,7 @@ class TetrisTest {
         repeat(8) { tetris.tick() }
 
         assertDisplays(
+            tetris,
             """
             _
             _
@@ -101,7 +108,7 @@ class TetrisTest {
         )
     }
 
-    private fun assertDisplays(ouput: String, score: Int) {
+    private fun assertDisplays(tetris: Tetris, ouput: String, score: Int) {
         assertEquals(
             ouput.trimIndent(),
             tetris.display()
