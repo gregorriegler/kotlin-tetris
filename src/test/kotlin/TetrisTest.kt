@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class TetrisTest {
@@ -70,6 +71,34 @@ class TetrisTest {
             _
             """,
             1
+        )
+    }
+
+    @Test
+    fun `drops another stone`() {
+        repeat(5) { tetris.tick() }
+
+        assertDisplays(
+            """
+            #
+            _
+            _
+            """,
+            1
+        )
+    }
+
+    @Test
+    fun `scores another stone`() {
+        repeat(8) { tetris.tick() }
+
+        assertDisplays(
+            """
+            _
+            _
+            _
+            """,
+            2
         )
     }
 

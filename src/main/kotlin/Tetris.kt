@@ -7,12 +7,24 @@ class Tetris(height: Int) {
 
     fun tick() {
         if (canDissolve()) {
-            increaseScore()
+            dissolveLine()
+        } else {
+            stoneFalls()
         }
-
-        position++
-        putStoneAt(position)
     }
+
+    private fun dissolveLine() {
+        increaseScore()
+        stoneFalls()
+        position = -1
+    }
+
+    private fun stoneFalls() {
+        position++
+        field = field.mapIndexed { index, _ -> if (hasStone(index)) "#" else "_" }
+    }
+
+    private fun hasStone(index: Int) = index == position
 
     private fun increaseScore() {
         score += 1
@@ -24,10 +36,6 @@ class Tetris(height: Int) {
 
     fun display(): String {
         return field.joinToString(separator = "\n") { it }
-    }
-
-    private fun putStoneAt(position: Int) {
-        field = field.mapIndexed { index, _ -> if (index == position) "#" else "_" }
     }
 
     fun score(): Int {
