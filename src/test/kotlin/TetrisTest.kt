@@ -190,7 +190,7 @@ class `A Tetris` {
             )
         }
 
-        @Disabled
+        @Disabled // for this the position lifecycle belongs to the stone
         @Test
         fun `another stone falls`() {
             repeat(5) { tetris.tick() }

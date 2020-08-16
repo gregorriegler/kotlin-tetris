@@ -10,6 +10,7 @@ class Tetris(width: Int, height: Int) {
             if (bottomLineFilled()) {
                 dissolveLine()
             } else {
+                position = -1
                 return // stays, no falling!
             }
         } else {
