@@ -205,7 +205,6 @@ class `A Tetris` {
             )
         }
 
-        @Disabled
         @Test
         fun `stack landed stones`() {
             repeat(7) { tetris.tick() }

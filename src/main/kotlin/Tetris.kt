@@ -49,13 +49,13 @@ class Tetris(width: Int, height: Int) {
         score += 1
     }
 
-    private fun arrivedAtBottom() = position == (bottom())
+    private fun arrivedAtBottom() = position == (bottom()) || landed.get(position + 1).get(0) != "_"
 
     private fun land() {
-        landed = landed.mapIndexed {rowIndex, row ->
+        landed = landed.mapIndexed { rowIndex, row ->
             val mutableRow = row.toMutableList()
 
-            if(falling.get(rowIndex).get(0) != "_") {
+            if (falling.get(rowIndex).get(0) != "_") {
                 mutableRow.set(0, falling.get(rowIndex).get(0))
             }
 
@@ -70,9 +70,9 @@ class Tetris(width: Int, height: Int) {
     private fun bottom() = falling.size - 1
 
     fun display(): String {
-        val combined = landed.mapIndexed {rowIndex, landedRow ->
-            landedRow.mapIndexed {columnIndex, column ->
-                if(column != "_" || falling.get(rowIndex).get(columnIndex) != "_")
+        val combined = landed.mapIndexed { rowIndex, landedRow ->
+            landedRow.mapIndexed { columnIndex, column ->
+                if (column != "_" || falling.get(rowIndex).get(columnIndex) != "_")
                     "#"
                 else
                     "_"
