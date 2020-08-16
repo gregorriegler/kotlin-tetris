@@ -1,20 +1,16 @@
 class Tetris(height: Int) {
     private var score: Int = 0
-    private var position: Int = 0
-    private var field = (position until height)
+    private var position: Int = -1
+    private var field = (position + 1 until height)
         .map { "_" }
         .toList()
 
-    fun drop() {
-        position = 0
-        putStoneAt(position)
-    }
-
     fun tick() {
-        if(canDissolve()) {
+        if (canDissolve()) {
             increaseScore()
         }
-        position += 1
+
+        position++
         putStoneAt(position)
     }
 
@@ -22,7 +18,9 @@ class Tetris(height: Int) {
         score += 1
     }
 
-    private fun canDissolve() = position == (field.size - 1)
+    private fun canDissolve() = position == (bottom())
+
+    private fun bottom() = field.size - 1
 
     fun display(): String {
         return field.joinToString(separator = "\n") { it }
