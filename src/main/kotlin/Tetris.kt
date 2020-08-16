@@ -1,8 +1,8 @@
 class Tetris(width: Int, height: Int) {
     private var score: Int = 0
     private var position: Int = -1
-    private var field = (position + 1 until height)
-        .map { "_" }
+    private var field = (0 until height)
+        .map { (0 until width).map { "_" }.toList() }
         .toList()
 
     fun tick() {
@@ -21,7 +21,13 @@ class Tetris(width: Int, height: Int) {
 
     private fun stoneFalls() {
         position++
-        field = field.mapIndexed { index, _ -> if (hasStone(index)) "#" else "_" }
+        field = field.mapIndexed { index, row ->
+            val mutableList = (0 until row.size).map { "_" }.toMutableList()
+            if (hasStone(index)) {
+                mutableList.set(0,"#")
+            }
+            mutableList
+        }
     }
 
     private fun hasStone(index: Int) = index == position
@@ -35,7 +41,7 @@ class Tetris(width: Int, height: Int) {
     private fun bottom() = field.size - 1
 
     fun display(): String {
-        return field.joinToString(separator = "\n") { it }
+        return field.joinToString(separator = "\n") { it.joinToString(separator = "") { it } }
     }
 
     fun score(): Int {

@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -115,6 +116,64 @@ class `A Tetris` {
     @Nested
     inner class `with two columns should` {
         private var tetris = Tetris(2, 3)
+
+        @Test
+        fun `start empty`() {
+            assertDisplays(
+                tetris,
+                """
+                __
+                __
+                __
+                """,
+                0
+            )
+        }
+
+        @Test
+        fun `drop a stone from the top`() {
+            tetris.tick()
+
+            assertDisplays(
+                tetris,
+                """
+                #_
+                __
+                __
+                """,
+                0
+            )
+        }
+
+        @Test
+        fun `continue dropping a stone`() {
+            repeat(2) { tetris.tick() }
+
+            assertDisplays(
+                tetris,
+                """
+                __
+                #_
+                __
+                """,
+                0
+            )
+        }
+
+        @Test
+        fun `land stone on the bottom`() {
+            repeat(3) { tetris.tick() }
+
+            assertDisplays(
+                tetris,
+                """
+                __
+                __
+                #_
+                """,
+                0
+            )
+        }
     }
 
     private fun assertDisplays(tetris: Tetris, ouput: String, score: Int) {
