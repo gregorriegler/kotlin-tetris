@@ -342,6 +342,107 @@ class `A Tetris` {
                 0
             )
         }
+
+        @Test
+        fun `move stone to the right`() {
+            tetris.tick()
+            tetris.right()
+
+            assertDisplays(
+                tetris,
+                """
+                __#
+                ___
+                ___
+                """,
+                0
+            )
+        }
+
+        @Test
+        fun `stay right`() {
+            tetris.tick()
+            tetris.right()
+            tetris.tick()
+
+            assertDisplays(
+                tetris,
+                """
+                ___
+                __#
+                ___
+                """,
+                0
+            )
+        }
+
+        @Test
+        fun `land right`() {
+            tetris.right()
+            tetris.tick()
+            tetris.tick()
+            tetris.tick()
+
+            assertDisplays(
+                tetris,
+                """
+                ___
+                ___
+                __#
+                """,
+                0
+            )
+        }
+
+        @Test
+        fun `move stone to the left`() {
+            tetris.tick()
+            tetris.left()
+
+            assertDisplays(
+                tetris,
+                """
+                #__
+                ___
+                ___
+                """,
+                0
+            )
+        }
+
+        @Test
+        fun `not move more left than 0`() {
+            tetris.tick()
+            tetris.left()
+            tetris.left()
+
+            assertDisplays(
+                tetris,
+                """
+                #__
+                ___
+                ___
+                """,
+                0
+            )
+        }
+
+        @Test
+        fun `not move more right than width`() {
+            tetris.tick()
+            tetris.right()
+            tetris.right()
+
+            assertDisplays(
+                tetris,
+                """
+                __#
+                ___
+                ___
+                """,
+                0
+            )
+        }
     }
 
     private fun assertDisplays(tetris: Tetris, output: String, score: Int) {
