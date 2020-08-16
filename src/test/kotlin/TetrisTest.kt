@@ -176,7 +176,7 @@ class `A Tetris` {
         }
 
         @Test
-        fun `stone persists without scoring`() {
+        fun `land stone without scoring`() {
             repeat(4) { tetris.tick() }
 
             assertDisplays(
@@ -190,9 +190,8 @@ class `A Tetris` {
             )
         }
 
-        @Disabled // for this the position lifecycle belongs to the stone
         @Test
-        fun `another stone falls`() {
+        fun `drop another stone`() {
             repeat(5) { tetris.tick() }
 
             assertDisplays(
@@ -200,6 +199,22 @@ class `A Tetris` {
                 """
                 #_
                 __
+                #_
+                """,
+                0
+            )
+        }
+
+        @Disabled
+        @Test
+        fun `stack landed stones`() {
+            repeat(7) { tetris.tick() }
+
+            assertDisplays(
+                tetris,
+                """
+                __
+                #_
                 #_
                 """,
                 0
