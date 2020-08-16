@@ -28,7 +28,7 @@ class Tetris(private val width: Int, height: Int) {
     }
 
     private fun gameOver(): Boolean {
-        return isStone(landed.get(0).get(0))
+        return isStone(landed.get(0).get(center()))
     }
 
     private fun dissolveLine() {
@@ -44,7 +44,7 @@ class Tetris(private val width: Int, height: Int) {
             val mutableRow = row.toMutableList()
 
             if (hasStone(rowIndex)) {
-                mutableRow.set(0, "#")
+                mutableRow.set(center(), "#")
             }
             mutableRow
         }
@@ -64,19 +64,21 @@ class Tetris(private val width: Int, height: Int) {
         score += 1
     }
 
-    private fun arrivedAtBottom(position: Int) = position == (bottom()) || isStone(landed.get(position + 1).get(0))
+    private fun arrivedAtBottom(position: Int) = position == (bottom()) || isStone(landed.get(position + 1).get(center()))
 
     private fun land() {
         landed = landed.mapIndexed { rowIndex, row ->
             val mutableRow = row.toMutableList()
 
-            if (isStone(falling.get(rowIndex).get(0))) {
-                mutableRow.set(0, falling.get(rowIndex).get(0))
+            if (isStone(falling.get(rowIndex).get(center()))) {
+                mutableRow.set(center(), falling.get(rowIndex).get(center()))
             }
 
             mutableRow
         }
     }
+
+    private fun center() = Math.round(width.toDouble().div(2)).toInt() - 1
 
     private fun bottomLineFilled(): Boolean {
         return falling.last().all { isStone(it) }

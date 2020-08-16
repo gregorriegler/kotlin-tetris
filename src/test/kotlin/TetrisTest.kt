@@ -53,7 +53,7 @@ class `A Tetris` {
         }
 
         @Test
-        fun `land stone on the bottom`() {
+        fun `land stone at the bottom`() {
             repeat(3) { tetris.tick() }
 
             assertDisplays(
@@ -161,7 +161,7 @@ class `A Tetris` {
         }
 
         @Test
-        fun `land stone on the bottom`() {
+        fun `land stone at the bottom`() {
             repeat(3) { tetris.tick() }
 
             assertDisplays(
@@ -245,6 +245,99 @@ class `A Tetris` {
                 ##
                 Game Over
                 ##
+                """,
+                0
+            )
+        }
+    }
+
+    @Nested
+    inner class `with three columns should` {
+        private var tetris = Tetris(3, 3)
+
+        @Test
+        fun `start empty`() {
+            assertDisplays(
+                tetris,
+                """
+                ___
+                ___
+                ___
+                """,
+                0
+            )
+        }
+
+        @Test
+        fun `drop stone in the center`() {
+            tetris.tick()
+
+            assertDisplays(
+                tetris,
+                """
+                _#_
+                ___
+                ___
+                """,
+                0
+            )
+        }
+
+        @Test
+        fun `continue dropping a stone in the center`() {
+            repeat(2) { tetris.tick() }
+
+            assertDisplays(
+                tetris,
+                """
+                ___
+                _#_
+                ___
+                """,
+                0
+            )
+        }
+
+        @Test
+        fun `land stone at the bottom`() {
+            repeat(3) { tetris.tick() }
+
+            assertDisplays(
+                tetris,
+                """
+                ___
+                ___
+                _#_
+                """,
+                0
+            )
+        }
+
+        @Test
+        fun `land stone without scoring`() {
+            repeat(4) { tetris.tick() }
+
+            assertDisplays(
+                tetris,
+                """
+                ___
+                ___
+                _#_
+                """,
+                0
+            )
+        }
+
+        @Test
+        fun `drop another stone`() {
+            repeat(5) { tetris.tick() }
+
+            assertDisplays(
+                tetris,
+                """
+                _#_
+                ___
+                _#_
                 """,
                 0
             )
