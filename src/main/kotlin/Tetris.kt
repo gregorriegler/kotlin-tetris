@@ -1,9 +1,8 @@
-class Tetris(width: Int, height: Int) {
+class Tetris(private val width: Int, height: Int) {
     private var score: Int = 0
     private var position: Int = -1
-    private val width: Int = width;
 
-    private var falling = (0 until height)
+    private var falling: List<List<String>> = (0 until height)
         .map { (0 until width).map { "_" }.toList() }
         .toList()
     private var landed: List<List<String>> = (0 until height)
@@ -11,6 +10,10 @@ class Tetris(width: Int, height: Int) {
         .toList()
 
     fun tick() {
+        if (gameOver()) {
+            return
+        }
+
         if (arrivedAtBottom(position)) {
             land()
             if (bottomLineFilled()) {
@@ -24,6 +27,10 @@ class Tetris(width: Int, height: Int) {
         }
     }
 
+    private fun gameOver(): Boolean {
+        return isStone(landed.get(0).get(0))
+    }
+
     private fun dissolveLine() {
         increaseScore()
         landed = listOf((0 until width).map { "_" }.toList()) + landed.dropLast(1).toMutableList()
@@ -31,12 +38,8 @@ class Tetris(width: Int, height: Int) {
         startNextStone()
     }
 
-    private fun startNextStone() {
-        position = -1
-    }
-
     private fun stoneFalls() {
-        position++
+        stoneDown(position)
         falling = landed.mapIndexed { rowIndex, row ->
             val mutableRow = row.toMutableList()
 
@@ -45,6 +48,14 @@ class Tetris(width: Int, height: Int) {
             }
             mutableRow
         }
+    }
+
+    private fun startNextStone() {
+        position = -1
+    }
+
+    private fun stoneDown(position: Int) {
+        this.position = position + 1
     }
 
     private fun hasStone(index: Int) = index == position
@@ -76,6 +87,14 @@ class Tetris(width: Int, height: Int) {
     private fun bottom() = falling.size - 1
 
     fun display(): String {
+        if (gameOver()) {
+            return """
+            ##
+            Game Over
+            ##
+            """.trimIndent()
+        }
+
         val combined = landed.mapIndexed { rowIndex, landedRow ->
             landedRow.mapIndexed { columnIndex, column ->
                 if (isStone(column) || isStone(falling.get(rowIndex).get(columnIndex)))

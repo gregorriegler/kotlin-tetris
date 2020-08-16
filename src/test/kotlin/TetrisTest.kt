@@ -219,6 +219,36 @@ class `A Tetris` {
                 0
             )
         }
+
+        @Test
+        fun `stack all the way to the top`() {
+            repeat(8) { tetris.tick() }
+
+            assertDisplays(
+                tetris,
+                """
+                #_
+                #_
+                #_
+                """,
+                0
+            )
+        }
+
+        @Test
+        fun `report game over`() {
+            repeat(9) { tetris.tick() }
+
+            assertDisplays(
+                tetris,
+                """
+                ##
+                Game Over
+                ##
+                """,
+                0
+            )
+        }
     }
 
     private fun assertDisplays(tetris: Tetris, output: String, score: Int) {
