@@ -1,10 +1,9 @@
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class TetrisTest {
 
-    private val tetris = Tetris(3)
+    private var tetris = Tetris(1, 3)
 
     @Test
     fun `starts empty`() {

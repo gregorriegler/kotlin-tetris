@@ -1,4 +1,4 @@
-class Tetris(height: Int) {
+class Tetris(width: Int, height: Int) {
     private var score: Int = 0
     private var position: Int = -1
     private var field = (position + 1 until height)
