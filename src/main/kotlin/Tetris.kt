@@ -11,12 +11,12 @@ class Tetris(width: Int, height: Int) {
         .toList()
 
     fun tick() {
-        if (arrivedAtBottom()) {
+        if (arrivedAtBottom(position)) {
             land()
             if (bottomLineFilled()) {
                 dissolveLine()
             } else {
-                position = -1
+                startNextStone()
                 return // stays, no falling!
             }
         } else {
@@ -28,6 +28,10 @@ class Tetris(width: Int, height: Int) {
         increaseScore()
         landed = listOf((0 until width).map { "_" }.toList()) + landed.dropLast(1).toMutableList()
         stoneFalls()
+        startNextStone()
+    }
+
+    private fun startNextStone() {
         position = -1
     }
 
@@ -49,13 +53,13 @@ class Tetris(width: Int, height: Int) {
         score += 1
     }
 
-    private fun arrivedAtBottom() = position == (bottom()) || landed.get(position + 1).get(0) != "_"
+    private fun arrivedAtBottom(position: Int) = position == (bottom()) || isStone(landed.get(position + 1).get(0))
 
     private fun land() {
         landed = landed.mapIndexed { rowIndex, row ->
             val mutableRow = row.toMutableList()
 
-            if (falling.get(rowIndex).get(0) != "_") {
+            if (isStone(falling.get(rowIndex).get(0))) {
                 mutableRow.set(0, falling.get(rowIndex).get(0))
             }
 
@@ -64,15 +68,17 @@ class Tetris(width: Int, height: Int) {
     }
 
     private fun bottomLineFilled(): Boolean {
-        return falling.last().all { it != "_" }
+        return falling.last().all { isStone(it) }
     }
+
+    private fun isStone(field: String) = field != "_"
 
     private fun bottom() = falling.size - 1
 
     fun display(): String {
         val combined = landed.mapIndexed { rowIndex, landedRow ->
             landedRow.mapIndexed { columnIndex, column ->
-                if (column != "_" || falling.get(rowIndex).get(columnIndex) != "_")
+                if (isStone(column) || isStone(falling.get(rowIndex).get(columnIndex)))
                     "#"
                 else
                     "_"
