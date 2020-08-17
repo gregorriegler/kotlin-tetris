@@ -1,4 +1,5 @@
 import java.util.*
+import kotlin.math.roundToInt
 
 class Tetris(private val width: Int, private val height: Int) {
     private var score: Int = 0
@@ -52,8 +53,8 @@ class Tetris(private val width: Int, private val height: Int) {
         }
     }
 
-    fun gameOver(): Boolean {
-        return isStone(landed.get(0).get(x()))
+    private fun gameOver(): Boolean {
+        return isStone(landed[0][x()])
     }
 
     private fun dissolveLine() {
@@ -73,7 +74,7 @@ class Tetris(private val width: Int, private val height: Int) {
             val mutableRow = row.toMutableList()
 
             if (hasStone(rowIndex)) {
-                mutableRow.set(x(), "#")
+                mutableRow[x()] = "#"
             }
 
             Collections.unmodifiableList(mutableRow)
@@ -94,14 +95,14 @@ class Tetris(private val width: Int, private val height: Int) {
         score += 1
     }
 
-    private fun arrivedAtBottom(position: Int) = position == (bottom()) || isStone(landed.get(position + 1).get(x()))
+    private fun arrivedAtBottom(position: Int) = position == (bottom()) || isStone(landed[position + 1][x()])
 
     private fun land() {
         landed = landed.mapIndexed { rowIndex, row ->
             val mutableRow = row.toMutableList()
 
-            if (isStone(falling.get(rowIndex).get(x()))) {
-                mutableRow.set(x(), falling.get(rowIndex).get(x()))
+            if (isStone(falling[rowIndex][x()])) {
+                mutableRow[x()] = falling[rowIndex][x()]
             }
 
             mutableRow
@@ -110,7 +111,7 @@ class Tetris(private val width: Int, private val height: Int) {
 
     private fun x() = x
 
-    private fun calcCenter() = Math.round(width.toDouble().div(2)).toInt() - 1
+    private fun calcCenter() = width.toDouble().div(2).roundToInt() - 1
 
     private fun bottomLineFilled(): Boolean {
         return landed.last().all { isStone(it) }
@@ -131,14 +132,14 @@ class Tetris(private val width: Int, private val height: Int) {
 
         val combined = landed.mapIndexed { rowIndex, landedRow ->
             landedRow.mapIndexed { columnIndex, column ->
-                if (isStone(column) || isStone(falling.get(rowIndex).get(columnIndex)))
+                if (isStone(column) || isStone(falling[rowIndex][columnIndex]))
                     "#"
                 else
                     "_"
             }
         }
 
-        return combined.joinToString(separator = "\n") { it.joinToString(separator = "") { it } }
+        return combined.joinToString(separator = "\n") { it -> it.joinToString(separator = "") { it } }
     }
 
     fun score(): Int {
