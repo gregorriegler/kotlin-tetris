@@ -1,13 +1,11 @@
-import kotlin.math.roundToInt
-
 class Tetris(
     private val width: Int,
     private val height: Int
 ) {
     private val frame: Frame = Frame(width, height)
     private var score: Int = 0
-    private var x: Int = calcCenter()
-    private var stone: Stone = Stone(calcCenter(), frame)
+    private var x: Int = frame.center()
+    private var stone: Stone = Stone(frame.center(), frame)
     private val clock: GameClock = GameClock({ tick() })
 
     private var falling: List<List<String>> = frame.drawEmpty()
@@ -30,7 +28,7 @@ class Tetris(
 
         if (arrivedAtBottom(stone.y)) {
             land()
-            x = calcCenter()
+            x = frame.center()
             if (bottomLineFilled()) {
                 dissolveLine()
             } else {
@@ -72,7 +70,7 @@ class Tetris(
     }
 
     private fun startNextStone() {
-        stone = Stone(calcCenter(), frame)
+        stone = Stone(frame.center(), frame)
     }
 
     private fun increaseScore() {
@@ -92,8 +90,6 @@ class Tetris(
             mutableRow
         }
     }
-
-    private fun calcCenter() = width.toDouble().div(2).roundToInt() - 1
 
     private fun bottomLineFilled(): Boolean {
         return landed.last().all { isStone(it) }

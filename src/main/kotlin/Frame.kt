@@ -1,3 +1,5 @@
+import kotlin.math.roundToInt
+
 class Frame(
     private val width: Int,
     private val height: Int
@@ -7,4 +9,6 @@ class Frame(
             .map { (0 until width).map { "_" }.toList() }
             .toList()
     }
+
+    fun center() = width.toDouble().div(2).roundToInt() - 1
 }
