@@ -8,7 +8,7 @@ class Tetris(
     private val clock: GameClock = GameClock({ tick() })
 
     private var falling: List<List<String>> = frame.drawEmpty()
-    private var landed: List<List<String>> = frame.drawEmpty()
+    private var debris: List<List<String>> = frame.drawEmpty()
 
     fun time(time: Long) {
         clock.time(time)
@@ -19,7 +19,7 @@ class Tetris(
             return
         }
 
-        if (arrivedAtBottom(stone)) {
+        if (stone.landed(debris)) {
             land()
             if (bottomLineFilled()) {
                 increaseScore()
@@ -42,23 +42,19 @@ class Tetris(
     }
 
     private fun dissolveLine() {
-        landed = listOf((0 until width).map { "_" }.toList()) + landed.dropLast(1).toMutableList()
+        debris = listOf((0 until width).map { "_" }.toList()) + debris.dropLast(1).toMutableList()
     }
 
     private fun gameOver(): Boolean {
-        return isStone(landed[0][stone.x])
+        return isStone(debris[0][stone.x])
     }
 
     private fun increaseScore() {
         score += 1
     }
 
-    private fun arrivedAtBottom(stone: Stone) = stone.atBottom() || stone.collisionWith(landed)
-
-    private fun collisionWithDebris(stone: Stone) = isStone(landed[stone.y + 1][stone.x])
-
     private fun land() {
-        landed = landed.mapIndexed { rowIndex, row ->
+        debris = debris.mapIndexed { rowIndex, row ->
             val mutableRow = row.toMutableList()
 
             if (isStone(falling[rowIndex][stone.x])) {
@@ -70,7 +66,7 @@ class Tetris(
     }
 
     private fun bottomLineFilled(): Boolean {
-        return landed.last().all { isStone(it) }
+        return debris.last().all { isStone(it) }
     }
 
     private fun isStone(field: String) = field != "_"
@@ -84,7 +80,7 @@ class Tetris(
             """.trimIndent()
         }
 
-        val combined = landed.mapIndexed { rowIndex, landedRow ->
+        val combined = debris.mapIndexed { rowIndex, landedRow ->
             landedRow.mapIndexed { columnIndex, column ->
                 if (isStone(column) || isStone(falling[rowIndex][columnIndex]))
                     "#"
