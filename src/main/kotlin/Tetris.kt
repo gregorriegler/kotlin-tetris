@@ -1,11 +1,13 @@
-import java.util.*
 import kotlin.math.roundToInt
 
-class Tetris(private val width: Int, private val height: Int) {
+class Tetris(
+    private val width: Int,
+    private val height: Int
+) {
     private var score: Int = 0
     private var x: Int = calcCenter()
-    private var y: Int = -1
-    private val clock: GameClock = GameClock({tick()})
+    private var stone: Stone = Stone(calcCenter())
+    private val clock: GameClock = GameClock({ tick() })
 
     private var falling: List<List<String>> = createEmptyBoard(width, height)
     private var landed: List<List<String>> = createEmptyBoard(width, height)
@@ -25,7 +27,7 @@ class Tetris(private val width: Int, private val height: Int) {
             return
         }
 
-        if (arrivedAtBottom(y)) {
+        if (arrivedAtBottom(stone.y)) {
             land()
             x = calcCenter()
             if (bottomLineFilled()) {
@@ -35,21 +37,23 @@ class Tetris(private val width: Int, private val height: Int) {
                 return // stays, no falling!
             }
         } else {
-            stoneFalls(y)
+            stoneFalls()
         }
     }
 
     fun left() {
         if (x > 0) {
             x--
-            falling = calcFallingStone()
+            stone.left()
+            falling = renderFallingStone(createEmptyBoard(width, height))
         }
     }
 
     fun right() {
         if (x + 1 <= width - 1) {
             x++
-            falling = calcFallingStone()
+            stone.right()
+            falling = renderFallingStone(createEmptyBoard(width, height))
         }
     }
 
@@ -60,42 +64,28 @@ class Tetris(private val width: Int, private val height: Int) {
     private fun dissolveLine() {
         increaseScore()
         landed = listOf((0 until width).map { "_" }.toList()) + landed.dropLast(1).toMutableList()
-        stoneFalls(y)
+        stoneFalls()
         startNextStone()
     }
 
-    private fun stoneFalls(i: Int) {
-        stoneDown(i)
-        falling = calcFallingStone()
+    private fun stoneFalls() {
+        stone.down()
+        falling = renderFallingStone(createEmptyBoard(width, height))
     }
 
-    private fun calcFallingStone(): List<List<String>> {
-        return createEmptyBoard(width, height).mapIndexed { rowIndex, row ->
-            val mutableRow = row.toMutableList()
-
-            if (hasStone(rowIndex)) {
-                mutableRow[x] = "#"
-            }
-
-            Collections.unmodifiableList(mutableRow)
-        }
-    }
-
-    private fun stoneDown(position: Int) {
-        this.y = position + 1
+    private fun renderFallingStone(emptyBoard: List<List<String>>): List<List<String>> {
+         return stone.render(emptyBoard)
     }
 
     private fun startNextStone() {
-        y = -1
+        stone = Stone(calcCenter())
     }
-
-    private fun hasStone(index: Int) = index == y
 
     private fun increaseScore() {
         score += 1
     }
 
-    private fun arrivedAtBottom(position: Int) = position == (bottom()) || isStone(landed[position + 1][x])
+    private fun arrivedAtBottom(y: Int) = y == bottom() || isStone(landed[y + 1][x])
 
     private fun land() {
         landed = landed.mapIndexed { rowIndex, row ->
@@ -117,7 +107,7 @@ class Tetris(private val width: Int, private val height: Int) {
 
     private fun isStone(field: String) = field != "_"
 
-    private fun bottom() = falling.size - 1
+    private fun bottom() = height - 1
 
     fun display(): String {
         if (gameOver()) {
