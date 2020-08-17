@@ -22,7 +22,7 @@ class Tetris(
         }
 
         if (stone.landed(debris)) {
-            debris = enhanceDebris(stone, debris)
+            debris = stone.addToDebris(debris)
             if (bottomLineFilled()) {
                 increaseScore()
                 dissolveLine()
@@ -53,20 +53,6 @@ class Tetris(
 
     private fun increaseScore() {
         score += 1
-    }
-
-    private fun enhanceDebris(stone: Stone, currentDebris: List<List<String>>): List<List<String>> {
-        var stoneRender = stone.render()
-
-        return currentDebris.mapIndexed { y, row ->
-            val mutableRow = row.toMutableList()
-
-            if (stone.y == y) {
-                mutableRow[stone.x] = stoneRender[y][stone.x]
-            }
-
-            unmodifiableList(mutableRow)
-        }
     }
 
     private fun bottomLineFilled(): Boolean {

@@ -1,4 +1,4 @@
-import java.util.*
+import java.util.Collections.unmodifiableList
 
 class Stone(
     private val frame: Frame
@@ -27,6 +27,16 @@ class Stone(
 
     fun landed(debris: List<List<String>>) = atBottom() || collisionWith(debris)
 
+    fun addToDebris(debris: List<List<String>>): List<List<String>> {
+        return debris.mapIndexed { rowIndex, row ->
+            val mutableRow = row.toMutableList()
+            if (y == rowIndex) {
+                mutableRow[x] = "#"
+            }
+            unmodifiableList(mutableRow)
+        }
+    }
+
     private fun atBottom(): Boolean = frame.isBottom(y)
 
     private fun collisionWith(debris: List<List<String>>) = debris[y + 1][x] != "_"
@@ -39,7 +49,7 @@ class Stone(
                 mutableRow[x] = "#"
             }
 
-            Collections.unmodifiableList(mutableRow)
+            unmodifiableList(mutableRow)
         }
     }
 }
