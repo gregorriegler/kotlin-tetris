@@ -4,7 +4,6 @@ class Tetris(
 ) {
     private val frame: Frame = Frame(width, height)
     private var score: Int = 0
-    private var x: Int = frame.center()
     private var stone: Stone = Stone(frame)
     private val clock: GameClock = GameClock({ tick() })
 
@@ -28,7 +27,7 @@ class Tetris(
 
         if (arrivedAtBottom(stone.y)) {
             land()
-            x = frame.center()
+            stone.x = frame.center()
             if (bottomLineFilled()) {
                 dissolveLine()
             } else {
@@ -42,23 +41,21 @@ class Tetris(
     }
 
     fun left() {
-        if (x > 0) {
-            x--
+        if (stone.x > 0) {
             stone.left()
             falling = stone.render()
         }
     }
 
     fun right() {
-        if (x + 1 <= width - 1) {
-            x++
+        if (stone.x + 1 <= frame.width - 1) {
             stone.right()
             falling = stone.render()
         }
     }
 
     private fun gameOver(): Boolean {
-        return isStone(landed[0][x])
+        return isStone(landed[0][stone.x])
     }
 
     private fun dissolveLine() {
@@ -77,14 +74,14 @@ class Tetris(
         score += 1
     }
 
-    private fun arrivedAtBottom(y: Int) = y == bottom() || isStone(landed[y + 1][x])
+    private fun arrivedAtBottom(y: Int) = y == bottom() || isStone(landed[y + 1][stone.x])
 
     private fun land() {
         landed = landed.mapIndexed { rowIndex, row ->
             val mutableRow = row.toMutableList()
 
-            if (isStone(falling[rowIndex][x])) {
-                mutableRow[x] = falling[rowIndex][x]
+            if (isStone(falling[rowIndex][stone.x])) {
+                mutableRow[stone.x] = falling[rowIndex][stone.x]
             }
 
             mutableRow
