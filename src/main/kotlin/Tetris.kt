@@ -4,13 +4,14 @@ class Tetris(
     private val width: Int,
     private val height: Int
 ) {
+    private val frame: Frame = Frame(width, height)
     private var score: Int = 0
     private var x: Int = calcCenter()
     private var stone: Stone = Stone(calcCenter())
     private val clock: GameClock = GameClock({ tick() })
 
-    private var falling: List<List<String>> = createEmptyBoard(width, height)
-    private var landed: List<List<String>> = createEmptyBoard(width, height)
+    private var falling: List<List<String>> = frame.drawEmpty()
+    private var landed: List<List<String>> = frame.drawEmpty()
 
     private fun createEmptyBoard(width: Int, height: Int): List<List<String>> {
         return (0 until height)
@@ -37,7 +38,8 @@ class Tetris(
                 return // stays, no falling!
             }
         } else {
-            stoneFalls()
+            stone.down()
+            falling = stone.render(createEmptyBoard(width, height))
         }
     }
 
@@ -45,7 +47,7 @@ class Tetris(
         if (x > 0) {
             x--
             stone.left()
-            falling = renderFallingStone(createEmptyBoard(width, height))
+            falling = stone.render(createEmptyBoard(width, height))
         }
     }
 
@@ -53,7 +55,7 @@ class Tetris(
         if (x + 1 <= width - 1) {
             x++
             stone.right()
-            falling = renderFallingStone(createEmptyBoard(width, height))
+            falling = stone.render(createEmptyBoard(width, height))
         }
     }
 
@@ -64,17 +66,9 @@ class Tetris(
     private fun dissolveLine() {
         increaseScore()
         landed = listOf((0 until width).map { "_" }.toList()) + landed.dropLast(1).toMutableList()
-        stoneFalls()
-        startNextStone()
-    }
-
-    private fun stoneFalls() {
         stone.down()
-        falling = renderFallingStone(createEmptyBoard(width, height))
-    }
-
-    private fun renderFallingStone(emptyBoard: List<List<String>>): List<List<String>> {
-         return stone.render(emptyBoard)
+        falling = stone.render(createEmptyBoard(width, height))
+        startNextStone()
     }
 
     private fun startNextStone() {
