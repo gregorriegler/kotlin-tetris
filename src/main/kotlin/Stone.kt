@@ -1,9 +1,9 @@
 import java.util.*
 
 class Stone(
-    var x: Int,
     private val frame: Frame
 ) {
+    var x: Int = frame.center()
     var y: Int = -1
 
     fun down() {
@@ -18,8 +18,8 @@ class Stone(
         x += 1
     }
 
-    fun render(emptyBoard: List<List<String>>): List<List<String>> {
-        return emptyBoard.mapIndexed { rowIndex, row ->
+    fun render(): List<List<String>> {
+        return frame.drawEmpty().mapIndexed { rowIndex, row ->
             val mutableRow = row.toMutableList()
 
             if (rowIndex == y) {

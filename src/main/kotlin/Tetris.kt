@@ -5,7 +5,7 @@ class Tetris(
     private val frame: Frame = Frame(width, height)
     private var score: Int = 0
     private var x: Int = frame.center()
-    private var stone: Stone = Stone(frame.center(), frame)
+    private var stone: Stone = Stone(frame)
     private val clock: GameClock = GameClock({ tick() })
 
     private var falling: List<List<String>> = frame.drawEmpty()
@@ -37,7 +37,7 @@ class Tetris(
             }
         } else {
             stone.down()
-            falling = stone.render(createEmptyBoard(width, height))
+            falling = stone.render()
         }
     }
 
@@ -45,7 +45,7 @@ class Tetris(
         if (x > 0) {
             x--
             stone.left()
-            falling = stone.render(createEmptyBoard(width, height))
+            falling = stone.render()
         }
     }
 
@@ -53,7 +53,7 @@ class Tetris(
         if (x + 1 <= width - 1) {
             x++
             stone.right()
-            falling = stone.render(createEmptyBoard(width, height))
+            falling = stone.render()
         }
     }
 
@@ -65,12 +65,12 @@ class Tetris(
         increaseScore()
         landed = listOf((0 until width).map { "_" }.toList()) + landed.dropLast(1).toMutableList()
         stone.down()
-        falling = stone.render(createEmptyBoard(width, height))
+        falling = stone.render()
         startNextStone()
     }
 
     private fun startNextStone() {
-        stone = Stone(frame.center(), frame)
+        stone = Stone(frame)
     }
 
     private fun increaseScore() {
