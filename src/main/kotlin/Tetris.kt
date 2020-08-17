@@ -19,7 +19,7 @@ class Tetris(private val width: Int, private val height: Int) {
         clock.time(time)
     }
 
-    fun tick() {
+    private fun tick() {
         if (gameOver()) {
             return
         }
