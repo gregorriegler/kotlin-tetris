@@ -3,8 +3,8 @@ import kotlin.math.roundToInt
 
 class Tetris(private val width: Int, private val height: Int) {
     private var score: Int = 0
-    private var position: Int = -1
     private var x: Int = calcCenter()
+    private var y: Int = -1
     private val clock: GameClock = GameClock({tick()})
 
     private var falling: List<List<String>> = createEmptyBoard(width, height)
@@ -25,7 +25,7 @@ class Tetris(private val width: Int, private val height: Int) {
             return
         }
 
-        if (arrivedAtBottom(position)) {
+        if (arrivedAtBottom(y)) {
             land()
             x = calcCenter()
             if (bottomLineFilled()) {
@@ -35,7 +35,7 @@ class Tetris(private val width: Int, private val height: Int) {
                 return // stays, no falling!
             }
         } else {
-            stoneFalls(position)
+            stoneFalls(y)
         }
     }
 
@@ -60,7 +60,7 @@ class Tetris(private val width: Int, private val height: Int) {
     private fun dissolveLine() {
         increaseScore()
         landed = listOf((0 until width).map { "_" }.toList()) + landed.dropLast(1).toMutableList()
-        stoneFalls(position)
+        stoneFalls(y)
         startNextStone()
     }
 
@@ -82,14 +82,14 @@ class Tetris(private val width: Int, private val height: Int) {
     }
 
     private fun stoneDown(position: Int) {
-        this.position = position + 1
+        this.y = position + 1
     }
 
     private fun startNextStone() {
-        position = -1
+        y = -1
     }
 
-    private fun hasStone(index: Int) = index == position
+    private fun hasStone(index: Int) = index == y
 
     private fun increaseScore() {
         score += 1
