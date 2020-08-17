@@ -47,7 +47,7 @@ class Tetris(private val width: Int, private val height: Int) {
         }
     }
 
-    private fun gameOver(): Boolean {
+    public fun gameOver(): Boolean {
         return isStone(landed.get(0).get(x()))
     }
 
