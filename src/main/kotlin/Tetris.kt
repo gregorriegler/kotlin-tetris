@@ -29,23 +29,16 @@ class Tetris(
                 return // stays, no falling!
             }
         } else {
-            stone.down()
-            falling = stone.render()
+            falling = stone.down()
         }
     }
 
     fun left() {
-        if (stone.x > 0) {
-            stone.left()
-            falling = stone.render()
-        }
+        falling = stone.left()
     }
 
     fun right() {
-        if (stone.x + 1 <= frame.width - 1) {
-            stone.right()
-            falling = stone.render()
-        }
+        falling = stone.right()
     }
 
     private fun gameOver(): Boolean {
@@ -55,8 +48,7 @@ class Tetris(
     private fun dissolveLine() {
         increaseScore()
         landed = listOf((0 until width).map { "_" }.toList()) + landed.dropLast(1).toMutableList()
-        stone.down()
-        falling = stone.render()
+        falling = stone.down()
         startNextStone()
     }
 

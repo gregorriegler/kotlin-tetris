@@ -6,16 +6,23 @@ class Stone(
     var x: Int = frame.center()
     var y: Int = -1
 
-    fun down() {
+    fun down(): List<List<String>> {
         y += 1
+        return render()
     }
 
-    fun left() {
-        x -= 1
+    fun left(): List<List<String>> {
+        if (x > 0) {
+            x -= 1
+        }
+        return render()
     }
 
-    fun right() {
-        x += 1
+    fun right(): List<List<String>> {
+        if (x + 1 <= frame.width - 1) {
+            x += 1
+        }
+        return render()
     }
 
     fun render(): List<List<String>> {
