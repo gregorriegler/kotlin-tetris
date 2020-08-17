@@ -1,7 +1,8 @@
 import java.util.*
 
 class Stone(
-    var x: Int
+    var x: Int,
+    private val frame: Frame
 ) {
     var y: Int = -1
 

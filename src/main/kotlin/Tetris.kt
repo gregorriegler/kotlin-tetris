@@ -7,7 +7,7 @@ class Tetris(
     private val frame: Frame = Frame(width, height)
     private var score: Int = 0
     private var x: Int = calcCenter()
-    private var stone: Stone = Stone(calcCenter())
+    private var stone: Stone = Stone(calcCenter(), frame)
     private val clock: GameClock = GameClock({ tick() })
 
     private var falling: List<List<String>> = frame.drawEmpty()
@@ -72,7 +72,7 @@ class Tetris(
     }
 
     private fun startNextStone() {
-        stone = Stone(calcCenter())
+        stone = Stone(calcCenter(), frame)
     }
 
     private fun increaseScore() {
