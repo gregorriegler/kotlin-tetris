@@ -4,6 +4,7 @@ class Tetris(private val width: Int, private val height: Int) {
     private var score: Int = 0
     private var position: Int = -1
     private var x: Int = calcCenter()
+    private val clock: GameClock = GameClock({tick()})
 
     private var falling: List<List<String>> = createEmptyBoard(width, height)
     private var landed: List<List<String>> = createEmptyBoard(width, height)
@@ -12,6 +13,10 @@ class Tetris(private val width: Int, private val height: Int) {
         return (0 until height)
             .map { (0 until width).map { "_" }.toList() }
             .toList()
+    }
+
+    fun time(time: Long) {
+        clock.time(time)
     }
 
     fun tick() {
@@ -138,5 +143,13 @@ class Tetris(private val width: Int, private val height: Int) {
 
     fun score(): Int {
         return score
+    }
+
+    fun speed() {
+        clock.speed()
+    }
+
+    fun normal() {
+        clock.normal()
     }
 }

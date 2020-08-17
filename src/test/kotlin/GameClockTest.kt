@@ -7,7 +7,7 @@ class `A GameClock` {
     val consumerSpy = {
         called += 1
     }
-    val gameClock = GameClock(250, consumerSpy)
+    val gameClock = GameClock(consumerSpy)
 
     @Test
     fun `does not tick too quickly`() {
@@ -44,6 +44,27 @@ class `A GameClock` {
         gameClock.time(500)
 
         assertEquals(2, called)
+    }
+
+    @Test
+    fun `speeds up`() {
+        gameClock.speed()
+        gameClock.time(50)
+        gameClock.time(100)
+
+        assertEquals(2, called)
+    }
+
+    @Test
+    fun `back to normal`() {
+        gameClock.speed()
+        gameClock.time(50)
+        gameClock.time(100)
+        gameClock.normal()
+        gameClock.time(200)
+        gameClock.time(350)
+
+        assertEquals(3, called)
     }
 }
 

@@ -1,8 +1,17 @@
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class `A Tetris` {
+
+    var timesTicked: Int = 0
+    fun tickTimes(tetris: Tetris, times: Int) {
+        (timesTicked until timesTicked + times)
+            .map { (it + 1) * 250 }
+            .forEach { tetris.time(it.toLong()) }
+        timesTicked += times
+    }
 
     @Nested
     inner class `with a single column should` {
@@ -23,7 +32,7 @@ class `A Tetris` {
 
         @Test
         fun `drop a stone from the top`() {
-            tetris.tick()
+            tickTimes(tetris, 1)
 
             assertDisplays(
                 tetris,
@@ -38,7 +47,7 @@ class `A Tetris` {
 
         @Test
         fun `continue dropping a stone`() {
-            repeat(2) { tetris.tick() }
+            tickTimes(tetris, 2)
 
             assertDisplays(
                 tetris,
@@ -53,7 +62,7 @@ class `A Tetris` {
 
         @Test
         fun `land stone at the bottom`() {
-            repeat(3) { tetris.tick() }
+            tickTimes(tetris, 3)
 
             assertDisplays(
                 tetris,
@@ -68,7 +77,7 @@ class `A Tetris` {
 
         @Test
         fun `dissolve stone from bottom as score increases`() {
-            repeat(4) { tetris.tick() }
+            tickTimes(tetris, 4)
 
             assertDisplays(
                 tetris,
@@ -83,7 +92,7 @@ class `A Tetris` {
 
         @Test
         fun `drop another stone`() {
-            repeat(5) { tetris.tick() }
+            tickTimes(tetris, 5)
 
             assertDisplays(
                 tetris,
@@ -98,7 +107,7 @@ class `A Tetris` {
 
         @Test
         fun `score another stone`() {
-            repeat(8) { tetris.tick() }
+            tickTimes(tetris, 8)
 
             assertDisplays(
                 tetris,
@@ -108,6 +117,25 @@ class `A Tetris` {
                 _
                 """,
                 2
+            )
+        }
+
+        @Test
+        @Disabled
+        fun `speed`() {
+            tetris.speed()
+            tetris.time(50)
+            tetris.time(100)
+            tetris.time(150)
+
+            assertDisplays(
+                tetris,
+                """
+                _
+                _
+                _
+                """,
+                1
             )
         }
     }
@@ -131,7 +159,7 @@ class `A Tetris` {
 
         @Test
         fun `drop a stone from the top`() {
-            tetris.tick()
+            tickTimes(tetris, 1)
 
             assertDisplays(
                 tetris,
@@ -146,7 +174,7 @@ class `A Tetris` {
 
         @Test
         fun `continue dropping a stone`() {
-            repeat(2) { tetris.tick() }
+            tickTimes(tetris, 2)
 
             assertDisplays(
                 tetris,
@@ -161,7 +189,7 @@ class `A Tetris` {
 
         @Test
         fun `land stone at the bottom`() {
-            repeat(3) { tetris.tick() }
+            tickTimes(tetris, 3)
 
             assertDisplays(
                 tetris,
@@ -176,7 +204,7 @@ class `A Tetris` {
 
         @Test
         fun `land stone without scoring`() {
-            repeat(4) { tetris.tick() }
+            tickTimes(tetris, 4)
 
             assertDisplays(
                 tetris,
@@ -191,7 +219,7 @@ class `A Tetris` {
 
         @Test
         fun `drop another stone`() {
-            repeat(5) { tetris.tick() }
+            tickTimes(tetris, 5)
 
             assertDisplays(
                 tetris,
@@ -206,7 +234,7 @@ class `A Tetris` {
 
         @Test
         fun `stack landed stones`() {
-            repeat(7) { tetris.tick() }
+            tickTimes(tetris, 7)
 
             assertDisplays(
                 tetris,
@@ -221,7 +249,7 @@ class `A Tetris` {
 
         @Test
         fun `stack all the way to the top`() {
-            repeat(8) { tetris.tick() }
+            tickTimes(tetris, 8)
 
             assertDisplays(
                 tetris,
@@ -236,7 +264,7 @@ class `A Tetris` {
 
         @Test
         fun `report game over`() {
-            repeat(9) { tetris.tick() }
+            tickTimes(tetris, 9)
 
             assertDisplays(
                 tetris,
@@ -269,7 +297,7 @@ class `A Tetris` {
 
         @Test
         fun `drop stone in the center`() {
-            tetris.tick()
+            tickTimes(tetris, 1)
 
             assertDisplays(
                 tetris,
@@ -284,7 +312,7 @@ class `A Tetris` {
 
         @Test
         fun `continue dropping a stone in the center`() {
-            repeat(2) { tetris.tick() }
+            tickTimes(tetris, 2)
 
             assertDisplays(
                 tetris,
@@ -299,7 +327,7 @@ class `A Tetris` {
 
         @Test
         fun `land stone at the bottom`() {
-            repeat(3) { tetris.tick() }
+            tickTimes(tetris, 3)
 
             assertDisplays(
                 tetris,
@@ -314,7 +342,7 @@ class `A Tetris` {
 
         @Test
         fun `land stone without scoring`() {
-            repeat(4) { tetris.tick() }
+            tickTimes(tetris, 4)
 
             assertDisplays(
                 tetris,
@@ -329,7 +357,7 @@ class `A Tetris` {
 
         @Test
         fun `drop another stone`() {
-            repeat(5) { tetris.tick() }
+            tickTimes(tetris, 5)
 
             assertDisplays(
                 tetris,
@@ -344,7 +372,7 @@ class `A Tetris` {
 
         @Test
         fun `move stone to the right`() {
-            tetris.tick()
+            tickTimes(tetris, 1)
             tetris.right()
 
             assertDisplays(
@@ -360,9 +388,9 @@ class `A Tetris` {
 
         @Test
         fun `stay right`() {
-            tetris.tick()
+            tickTimes(tetris, 1)
             tetris.right()
-            tetris.tick()
+            tickTimes(tetris, 1)
 
             assertDisplays(
                 tetris,
@@ -378,7 +406,7 @@ class `A Tetris` {
         @Test
         fun `land right`() {
             tetris.right()
-            repeat(3) { tetris.tick() }
+            tickTimes(tetris, 3)
 
             assertDisplays(
                 tetris,
@@ -393,7 +421,7 @@ class `A Tetris` {
 
         @Test
         fun `move stone to the left`() {
-            tetris.tick()
+            tickTimes(tetris, 1)
             tetris.left()
 
             assertDisplays(
@@ -409,7 +437,7 @@ class `A Tetris` {
 
         @Test
         fun `not move more left than 0`() {
-            tetris.tick()
+            tickTimes(tetris, 1)
             tetris.left()
             tetris.left()
 
@@ -426,7 +454,7 @@ class `A Tetris` {
 
         @Test
         fun `not move more right than width`() {
-            tetris.tick()
+            tickTimes(tetris, 1)
             tetris.right()
             tetris.right()
 
@@ -444,12 +472,12 @@ class `A Tetris` {
         @Test
         fun `dissolve filled line`() {
             tetris.left()
-            repeat(4) { tetris.tick() }
+            tickTimes(tetris, 4)
 
             tetris.right()
-            repeat(4) { tetris.tick() }
+            tickTimes(tetris, 4)
 
-            repeat(4) { tetris.tick() }
+            tickTimes(tetris, 4)
 
             assertDisplays(
                 tetris,
@@ -463,24 +491,24 @@ class `A Tetris` {
         }
 
         @Test
-        fun `stack_borders`() {
+        fun `stack borders`() {
             tetris.left()
-            repeat(4) { tetris.tick() }
-
-            tetris.left()
-            repeat(3) { tetris.tick() }
+            tickTimes(tetris, 4)
 
             tetris.left()
-            repeat(2) { tetris.tick() }
+            tickTimes(tetris, 3)
+
+            tetris.left()
+            tickTimes(tetris, 2)
 
             tetris.right()
-            repeat(4) { tetris.tick() }
+            tickTimes(tetris, 4)
 
             tetris.right()
-            repeat(3) { tetris.tick() }
+            tickTimes(tetris, 3)
 
             tetris.right()
-            repeat(2) { tetris.tick() }
+            tickTimes(tetris, 2)
 
             assertDisplays(
                 tetris,

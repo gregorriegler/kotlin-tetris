@@ -10,7 +10,7 @@ import javafx.stage.Stage
 import java.util.function.Consumer
 
 
-fun main(args: Array<String>) {
+fun main() {
     launch(JavaFXExample::class.java)
 }
 
@@ -35,7 +35,7 @@ class JavaFXExample : Application() {
                         tetris.right()
                     }
                     KeyCode.DOWN -> {
-                        gameLoop.fast()
+                        tetris.speed()
                     }
                     else -> {
                     }
@@ -45,7 +45,7 @@ class JavaFXExample : Application() {
             text.setOnKeyReleased { event ->
                 when (event.code) {
                     KeyCode.DOWN -> {
-                        gameLoop.normal()
+                        tetris.normal()
                     }
                     else -> {
                     }
@@ -61,34 +61,13 @@ class JavaFXExample : Application() {
     }
 }
 
-class GameLoop(tetris: Tetris, display: Consumer<String>) : AnimationTimer() {
-    val tetris = tetris
-    val display = display
-    val normalTickLength = 250
-    val fastTickLength = 50
-    private var tickLength = normalTickLength
-
-    var lastTickAt: Long = 0
+class GameLoop(
+    private val tetris: Tetris,
+    private val display: Consumer<String>
+) : AnimationTimer() {
 
     override fun handle(arg0: Long) {
-        if (shouldTick()) {
-            lastTickAt = System.currentTimeMillis()
-            tetris.tick()
-            display.accept(tetris.display())
-        }
+        tetris.time(System.currentTimeMillis())
+        display.accept(tetris.display())
     }
-
-    private fun shouldTick() = System.currentTimeMillis() - lastTickAt > tickLength
-
-    fun fast() {
-        tickLength = fastTickLength
-    }
-
-    fun normal() {
-        tickLength = normalTickLength
-    }
-}
-
-private fun AnimationTimer.fast() {
-    TODO("Not yet implemented")
 }
