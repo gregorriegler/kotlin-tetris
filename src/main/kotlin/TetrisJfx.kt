@@ -15,18 +15,18 @@ fun main() {
 }
 
 class JavaFXExample : Application() {
-    val tetris: Tetris = Tetris(10, 14)
-    val text: Text = Text(10.0, 50.0, "test")
-    var gameLoop: GameLoop = GameLoop(tetris) { text.text = it }
+    private val tetris: Tetris = Tetris(10, 14)
+    private val game: Text = Text(10.0, 50.0, "test")
+    private var gameLoop: GameLoop = GameLoop(tetris) { game.text = it }
 
     override fun start(stage: Stage) {
 
         val layout = VBox().apply {
-            children.add(text)
-            text.setFont(Font("FreeMono", 20.0));
-            text.isFocusTraversable = true
-            text.requestFocus()
-            text.setOnKeyPressed { event ->
+            children.add(game)
+            game.font = Font("FreeMono", 20.0)
+            game.isFocusTraversable = true
+            game.requestFocus()
+            game.setOnKeyPressed { event ->
                 when (event.code) {
                     KeyCode.LEFT -> {
                         tetris.left()
@@ -41,8 +41,7 @@ class JavaFXExample : Application() {
                     }
                 }
             }
-
-            text.setOnKeyReleased { event ->
+            game.setOnKeyReleased { event ->
                 when (event.code) {
                     KeyCode.DOWN -> {
                         tetris.normal()
@@ -68,6 +67,6 @@ class GameLoop(
 
     override fun handle(arg0: Long) {
         tetris.time(System.currentTimeMillis())
-        display.accept(tetris.display())
+        display.accept(tetris.display() + "\n\nScore: " + tetris.score())
     }
 }
