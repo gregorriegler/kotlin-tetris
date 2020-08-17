@@ -19,15 +19,15 @@ class Tetris(
             return
         }
 
-        if (arrivedAtBottom(stone.y)) {
+        if (arrivedAtBottom(stone)) {
             land()
-            stone.x = frame.center()
             if (bottomLineFilled()) {
+                increaseScore()
                 dissolveLine()
-            } else {
-                startNextStone()
-                return // stays, no falling!
+                falling = stone.down()
             }
+            stone = Stone(frame)
+            return
         } else {
             falling = stone.down()
         }
@@ -41,26 +41,21 @@ class Tetris(
         falling = stone.right()
     }
 
+    private fun dissolveLine() {
+        landed = listOf((0 until width).map { "_" }.toList()) + landed.dropLast(1).toMutableList()
+    }
+
     private fun gameOver(): Boolean {
         return isStone(landed[0][stone.x])
-    }
-
-    private fun dissolveLine() {
-        increaseScore()
-        landed = listOf((0 until width).map { "_" }.toList()) + landed.dropLast(1).toMutableList()
-        falling = stone.down()
-        startNextStone()
-    }
-
-    private fun startNextStone() {
-        stone = Stone(frame)
     }
 
     private fun increaseScore() {
         score += 1
     }
 
-    private fun arrivedAtBottom(y: Int) = y == frame.bottom() || isStone(landed[y + 1][stone.x])
+    private fun arrivedAtBottom(stone: Stone) = stone.atBottom() || stone.collisionWith(landed)
+
+    private fun collisionWithDebris(stone: Stone) = isStone(landed[stone.y + 1][stone.x])
 
     private fun land() {
         landed = landed.mapIndexed { rowIndex, row ->

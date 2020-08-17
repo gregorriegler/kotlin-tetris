@@ -25,6 +25,12 @@ class Stone(
         return render()
     }
 
+    fun atBottom(): Boolean {
+        return frame.isBottom(y)
+    }
+
+    fun collisionWith(debris: List<List<String>>) = debris[y + 1][x] != "_"
+
     fun render(): List<List<String>> {
         return frame.drawEmpty().mapIndexed { rowIndex, row ->
             val mutableRow = row.toMutableList()

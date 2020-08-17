@@ -12,5 +12,6 @@ class Frame(
 
     fun center() = width.toDouble().div(2).roundToInt() - 1
 
-    fun bottom() = height - 1
+    fun isBottom(y: Int) = y == height - 1
+
 }
