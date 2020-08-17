@@ -10,12 +10,6 @@ class Tetris(
     private var falling: List<List<String>> = frame.drawEmpty()
     private var landed: List<List<String>> = frame.drawEmpty()
 
-    private fun createEmptyBoard(width: Int, height: Int): List<List<String>> {
-        return (0 until height)
-            .map { (0 until width).map { "_" }.toList() }
-            .toList()
-    }
-
     fun time(time: Long) {
         clock.time(time)
     }
