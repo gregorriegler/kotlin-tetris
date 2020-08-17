@@ -1,3 +1,5 @@
+import java.util.Collections.unmodifiableList
+
 class Tetris(
     private val width: Int,
     height: Int
@@ -20,7 +22,7 @@ class Tetris(
         }
 
         if (stone.landed(debris)) {
-            land()
+            debris = enhanceDebris(stone, debris)
             if (bottomLineFilled()) {
                 increaseScore()
                 dissolveLine()
@@ -53,15 +55,17 @@ class Tetris(
         score += 1
     }
 
-    private fun land() {
-        debris = debris.mapIndexed { rowIndex, row ->
+    private fun enhanceDebris(stone: Stone, currentDebris: List<List<String>>): List<List<String>> {
+        var stoneRender = stone.render()
+
+        return currentDebris.mapIndexed { y, row ->
             val mutableRow = row.toMutableList()
 
-            if (isStone(falling[rowIndex][stone.x])) {
-                mutableRow[stone.x] = falling[rowIndex][stone.x]
+            if (stone.y == y) {
+                mutableRow[stone.x] = stoneRender[y][stone.x]
             }
 
-            mutableRow
+            unmodifiableList(mutableRow)
         }
     }
 

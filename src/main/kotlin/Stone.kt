@@ -31,7 +31,7 @@ class Stone(
 
     private fun collisionWith(debris: List<List<String>>) = debris[y + 1][x] != "_"
 
-    private fun render(): List<List<String>> {
+    fun render(): List<List<String>> {
         return frame.drawEmpty().mapIndexed { rowIndex, row ->
             val mutableRow = row.toMutableList()
 
