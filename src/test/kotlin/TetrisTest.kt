@@ -119,25 +119,6 @@ class `A Tetris` {
                 2
             )
         }
-
-        @Test
-        @Disabled
-        fun `speed`() {
-            tetris.speed()
-            tetris.time(50)
-            tetris.time(100)
-            tetris.time(150)
-
-            assertDisplays(
-                tetris,
-                """
-                _
-                _
-                _
-                """,
-                1
-            )
-        }
     }
 
     @Nested
@@ -152,51 +133,6 @@ class `A Tetris` {
                 __
                 __
                 __
-                """,
-                0
-            )
-        }
-
-        @Test
-        fun `drop a stone from the top`() {
-            tickTimes(tetris, 1)
-
-            assertDisplays(
-                tetris,
-                """
-                #_
-                __
-                __
-                """,
-                0
-            )
-        }
-
-        @Test
-        fun `continue dropping a stone`() {
-            tickTimes(tetris, 2)
-
-            assertDisplays(
-                tetris,
-                """
-                __
-                #_
-                __
-                """,
-                0
-            )
-        }
-
-        @Test
-        fun `land stone at the bottom`() {
-            tickTimes(tetris, 3)
-
-            assertDisplays(
-                tetris,
-                """
-                __
-                __
-                #_
                 """,
                 0
             )
@@ -311,51 +247,6 @@ class `A Tetris` {
         }
 
         @Test
-        fun `continue dropping a stone in the center`() {
-            tickTimes(tetris, 2)
-
-            assertDisplays(
-                tetris,
-                """
-                ___
-                _#_
-                ___
-                """,
-                0
-            )
-        }
-
-        @Test
-        fun `land stone at the bottom`() {
-            tickTimes(tetris, 3)
-
-            assertDisplays(
-                tetris,
-                """
-                ___
-                ___
-                _#_
-                """,
-                0
-            )
-        }
-
-        @Test
-        fun `land stone without scoring`() {
-            tickTimes(tetris, 4)
-
-            assertDisplays(
-                tetris,
-                """
-                ___
-                ___
-                _#_
-                """,
-                0
-            )
-        }
-
-        @Test
         fun `drop another stone`() {
             tickTimes(tetris, 5)
 
@@ -453,7 +344,7 @@ class `A Tetris` {
         }
 
         @Test
-        fun `not move more right than width`() {
+        fun `not move more right than possible`() {
             tickTimes(tetris, 1)
             tetris.right()
             tetris.right()
