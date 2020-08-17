@@ -1,6 +1,6 @@
 class Tetris(
     private val width: Int,
-    private val height: Int
+    height: Int
 ) {
     private val frame: Frame = Frame(width, height)
     private var score: Int = 0
@@ -60,7 +60,7 @@ class Tetris(
         score += 1
     }
 
-    private fun arrivedAtBottom(y: Int) = y == bottom() || isStone(landed[y + 1][stone.x])
+    private fun arrivedAtBottom(y: Int) = y == frame.bottom() || isStone(landed[y + 1][stone.x])
 
     private fun land() {
         landed = landed.mapIndexed { rowIndex, row ->
@@ -79,8 +79,6 @@ class Tetris(
     }
 
     private fun isStone(field: String) = field != "_"
-
-    private fun bottom() = height - 1
 
     fun display(): String {
         if (gameOver()) {
