@@ -6,23 +6,20 @@ class Stone(
     var x: Int = frame.center()
     var y: Int = -1
 
-    fun down(): List<List<String>> {
+    fun down() {
         y += 1
-        return render()
     }
 
-    fun left(): List<List<String>> {
+    fun left() {
         if (x > 0) {
             x -= 1
         }
-        return render()
     }
 
-    fun right(): List<List<String>> {
+    fun right() {
         if (x + 1 <= frame.width - 1) {
             x += 1
         }
-        return render()
     }
 
     fun landed(debris: List<List<String>>) = atBottom() || collisionWith(debris)

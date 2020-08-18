@@ -1,13 +1,8 @@
-class Tetris(
-    private val width: Int,
-    height: Int
-) {
+class Tetris(width: Int, height: Int) {
     private val frame: Frame = Frame(width, height)
-    private var score: Int = 0
     private var stone: Stone = Stone(frame)
+    private var score: Int = 0
     private val clock: GameClock = GameClock({ tick() })
-
-    private var falling: List<List<String>> = frame.drawEmpty()
     private var debris: List<List<String>> = frame.drawEmpty()
 
     fun time(time: Long) {
@@ -24,25 +19,27 @@ class Tetris(
             if (bottomLineFilled()) {
                 increaseScore()
                 dissolveLine()
-                falling = stone.down()
+                stone.down()
             }
             stone = Stone(frame)
             return
         } else {
-            falling = stone.down()
+            stone.down()
         }
     }
 
     fun left() {
-        falling = stone.left()
+        stone.left()
     }
 
     fun right() {
-        falling = stone.right()
+        stone.right()
     }
 
     private fun dissolveLine() {
-        debris = listOf((0 until width).map { Field.EMPTY }.toList()) + debris.dropLast(1).toMutableList()
+        debris = listOf((0 until frame.width)
+            .map { Field.EMPTY }.toList()) + debris.dropLast(1)
+            .toMutableList()
     }
 
     private fun gameOver(): Boolean {
@@ -68,9 +65,10 @@ class Tetris(
             """.trimIndent()
         }
 
+        val stoneRender = stone.render()
         val combined = debris.mapIndexed { rowIndex, landedRow ->
             landedRow.mapIndexed { columnIndex, column ->
-                if (isStone(column) || isStone(falling[rowIndex][columnIndex]))
+                if (isStone(column) || isStone(stoneRender[rowIndex][columnIndex]))
                     "#"
                 else
                     Field.EMPTY
