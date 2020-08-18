@@ -6,7 +6,7 @@ class Frame(
 ) {
     fun drawEmpty(): List<List<String>> {
         return (0 until height)
-            .map { (0 until width).map { "_" }.toList() }
+            .map { (0 until width).map { Field.EMPTY }.toList() }
             .toList()
     }
 

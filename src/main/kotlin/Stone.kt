@@ -39,7 +39,7 @@ class Stone(
 
     private fun atBottom(): Boolean = frame.isBottom(y)
 
-    private fun collisionWith(debris: List<List<String>>) = debris[y + 1][x] != "_"
+    private fun collisionWith(debris: List<List<String>>) = debris[y + 1][x] != Field.EMPTY
 
     fun render(): List<List<String>> {
         return frame.drawEmpty().mapIndexed { rowIndex, row ->

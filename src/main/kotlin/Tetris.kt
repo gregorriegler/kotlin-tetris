@@ -1,5 +1,3 @@
-import java.util.Collections.unmodifiableList
-
 class Tetris(
     private val width: Int,
     height: Int
@@ -44,7 +42,7 @@ class Tetris(
     }
 
     private fun dissolveLine() {
-        debris = listOf((0 until width).map { "_" }.toList()) + debris.dropLast(1).toMutableList()
+        debris = listOf((0 until width).map { Field.EMPTY }.toList()) + debris.dropLast(1).toMutableList()
     }
 
     private fun gameOver(): Boolean {
@@ -59,7 +57,7 @@ class Tetris(
         return debris.last().all { isStone(it) }
     }
 
-    private fun isStone(field: String) = field != "_"
+    private fun isStone(field: String) = field != Field.EMPTY
 
     fun display(): String {
         if (gameOver()) {
@@ -75,7 +73,7 @@ class Tetris(
                 if (isStone(column) || isStone(falling[rowIndex][columnIndex]))
                     "#"
                 else
-                    "_"
+                    Field.EMPTY
             }
         }
 
