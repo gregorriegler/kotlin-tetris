@@ -9,7 +9,7 @@ class Debris(
         debris = debris.mapIndexed { y, row ->
             val mutableRow = row.toMutableList()
             (0 until frame.width).forEach { x ->
-                if (stone.isAt(x, y)) mutableRow[x] = Field.STONE
+                if (stone.isAt(Field(x, y))) mutableRow[x] = Field.STONE
             }
             unmodifiableList(mutableRow)
         }
@@ -29,10 +29,11 @@ class Debris(
             .toMutableList()
     }
 
-    fun drawWithStone(stone: Stone): List<List<String>> {
+    fun stateWithStone(stone: Stone): List<List<String>> {
+        val stoneState = stone.state()
         return debris.mapIndexed { y, row ->
             row.mapIndexed { x, column ->
-                if (isFilled(column) || stone.isAt(x, y))
+                if (isFilled(column) || isFilled(stoneState[y][x]))
                     Field.STONE
                 else
                     Field.EMPTY

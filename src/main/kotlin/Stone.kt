@@ -1,10 +1,13 @@
+import java.util.*
+import java.util.Collections.unmodifiableList
+
 class Stone(
     private val frame: Frame
 ) {
     private var field:Field = frame.startingField()
 
     fun down() {
-        field = field.below()
+        field = frame.below(field)
     }
 
     fun left() {
@@ -15,12 +18,23 @@ class Stone(
         field = frame.rightOf(field)
     }
 
-    fun landed(debris: Debris) = atBottom() || collisionWith(debris)
-
-    fun isAt(x: Int, y: Int): Boolean {
-        return Field(x, y) == field
+    fun isAt(field: Field): Boolean {
+        return field == this.field
     }
 
+    fun state(): List<List<String>> {
+        return frame.empty().mapIndexed { y, row ->
+            val mutableRow = row.toMutableList()
+
+            if (y == field.y) {
+                mutableRow[field.x] = "#"
+            }
+
+            unmodifiableList(mutableRow)
+        }
+    }
+
+    fun landed(debris: Debris) = atBottom() || collisionWith(debris)
     private fun atBottom(): Boolean = frame.isAtBottom(field)
     private fun collisionWith(debris: Debris) = debris.hasDebris(field.below())
 }

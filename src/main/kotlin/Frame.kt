@@ -25,7 +25,12 @@ class Frame(
         else
             field
 
-    fun isAtBottom(field: Field): Boolean = field.y == height - 1
+    fun below(field: Field): Field =
+        if (field.y < height - 1)
+            field.below()
+        else
+            field
 
+    fun isAtBottom(field: Field): Boolean = field.y == height - 1
     private fun center() = width.toDouble().div(2).roundToInt() - 1
 }

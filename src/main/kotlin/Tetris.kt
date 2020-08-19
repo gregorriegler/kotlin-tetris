@@ -1,4 +1,9 @@
 class Tetris(width: Int, height: Int) {
+    companion object {
+        fun draw(combined: List<List<String>>) =
+            combined.joinToString(separator = "\n") { it -> it.joinToString(separator = "") { it } }
+    }
+
     private val frame: Frame = Frame(width, height)
     private var stone: Stone = Stone(frame)
     var score: Int = 0
@@ -54,8 +59,7 @@ class Tetris(width: Int, height: Int) {
             """.trimIndent()
         }
 
-        val combined = debris.drawWithStone(stone)
-        return combined.joinToString(separator = "\n") { it -> it.joinToString(separator = "") { it } }
+        return draw(debris.stateWithStone(stone))
     }
 
     fun speed() {
