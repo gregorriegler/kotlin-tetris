@@ -1,4 +1,4 @@
-import java.util.*
+import java.util.Collections.unmodifiableList
 
 class Debris(
     private val frame: Frame,
@@ -6,12 +6,12 @@ class Debris(
     private var debris: List<List<String>> = frame.empty()
 
     fun add(stone: Stone) {
-        debris = debris.mapIndexed { rowIndex, row ->
+        debris = debris.mapIndexed { y, row ->
             val mutableRow = row.toMutableList()
-            if (stone.field.y == rowIndex) {
-                mutableRow[stone.field.x] = "#"
+            (0 until frame.width).forEach { x ->
+                if (stone.isAt(x, y)) mutableRow[x] = Field.STONE
             }
-            Collections.unmodifiableList(mutableRow)
+            unmodifiableList(mutableRow)
         }
     }
 
@@ -20,7 +20,7 @@ class Debris(
     }
 
     fun bottomLineFilled(): Boolean {
-        return debris.last().all { isStone(it) }
+        return debris.last().all { isFilled(it) }
     }
 
     fun dissolveLine() {
@@ -30,15 +30,15 @@ class Debris(
     }
 
     fun drawWithStone(stone: Stone): List<List<String>> {
-        return debris.mapIndexed { rowIndex, landedRow ->
-            landedRow.mapIndexed { columnIndex, column ->
-                if (isStone(column) || isStone(stone.render()[rowIndex][columnIndex]))
-                    "#"
+        return debris.mapIndexed { y, row ->
+            row.mapIndexed { x, column ->
+                if (isFilled(column) || stone.isAt(x, y))
+                    Field.STONE
                 else
                     Field.EMPTY
             }
         }
     }
 
-    private fun isStone(field: String) = field != Field.EMPTY
+    private fun isFilled(field: String) = field != Field.EMPTY
 }

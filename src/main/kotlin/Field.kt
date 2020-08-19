@@ -4,6 +4,7 @@ class Field(
 ) {
     companion object {
         const val EMPTY = "_"
+        const val STONE = "#"
     }
 
     fun below(): Field = Field(x, y + 1)
@@ -31,6 +32,4 @@ class Field(
     }
 
     override fun toString(): String = "($x,$y)"
-
-
 }
