@@ -1,11 +1,11 @@
-class Tetris(width: Int, height: Int) {
+class Tetris(width: Int, height: Int, private val stones: List<Structure>) {
     companion object {
         fun draw(combined: List<List<String>>) =
             combined.joinToString(separator = "\n") { it -> it.joinToString(separator = "") { it } }
     }
 
     private val frame: Frame = Frame(width, height)
-    private var stone: Stone = Stone(frame)
+    private var stone: Stone = Stone(stones.random(), frame)
     var score: Int = 0
         private set
 
@@ -27,7 +27,7 @@ class Tetris(width: Int, height: Int) {
                 debris.dissolveLine()
                 increaseScore()
             }
-            stone = Stone(frame)
+            stone = Stone(stones.random(), frame)
             return
         } else {
             stone.down()

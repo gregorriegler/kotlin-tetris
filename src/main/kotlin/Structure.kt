@@ -1,5 +1,11 @@
 class Structure(vararg field: Field) : Area(*field) {
     companion object {
+        fun create1by1(): Structure {
+            return Structure(
+                Field(0, 0)
+            )
+        }
+
         fun create2by2(): Structure {
             return Structure(
                 Field(0, 0),

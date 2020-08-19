@@ -15,7 +15,7 @@ fun main() {
 }
 
 class JavaFXExample : Application() {
-    private val tetris: Tetris = Tetris(10, 14)
+    private val tetris: Tetris = Tetris(10, 14, listOf(Structure.create1by1(), Structure.create2by2()))
     private val game: Text = Text(10.0, 50.0, "test")
     private var gameLoop: GameLoop = GameLoop(tetris) { game.text = it }
 
