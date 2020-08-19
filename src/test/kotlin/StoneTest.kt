@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -351,9 +350,9 @@ class `A Stone` {
     private fun assertPositionArea(stone: Stone, area: Area, state: String) {
         assertEquals(
             "\n" + state.trimIndent() + "\n",
-            "\n" + Tetris.draw(stone.areaState()) + "\n"
+            "\n" + Tetris.draw(stone.state()) + "\n"
         )
-        area.fields.forEach { field -> assertTrue(stone.isAtArea(field)) }
+        area.fields.forEach { field -> assertTrue(stone.isAt(field)) }
     }
 
     private fun assertPosition(stone: Stone, field: Field, state: String) {

@@ -16,6 +16,10 @@ class Debris (
         }
     }
 
+    fun hasDebris(area: Area): Boolean {
+        return area.fields.filter { field -> field.y >= 0 }.any { hasDebris(it) }
+    }
+
     fun hasDebris(field: Field): Boolean {
         return debris[field.y][field.x] != Field.EMPTY
     }
