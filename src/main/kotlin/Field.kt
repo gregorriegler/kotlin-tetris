@@ -13,6 +13,10 @@ class Field(
 
     fun toTheRight(): Field = Field(x + 1, y)
 
+    fun plus(field: Field): Field {
+        return Field(x + field.x, y + field.y)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -30,6 +34,5 @@ class Field(
         result = 31 * result + y
         return result
     }
-
     override fun toString(): String = "($x,$y)"
 }

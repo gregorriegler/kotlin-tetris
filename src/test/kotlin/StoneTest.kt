@@ -138,12 +138,7 @@ class `A Stone` {
 
     @Nested
     inner class `with a size 2x2` {
-        val stone = Stone(listOf(
-            Field(0, 0),
-            Field(1, 0),
-            Field(0, 1),
-            Field(1, 1)
-        ), Frame(4, 4))
+        val stone = Stone(Area.create2by2(), Frame(4, 4))
 
         @Disabled
         @Test

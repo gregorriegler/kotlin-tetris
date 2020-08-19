@@ -11,8 +11,10 @@ class Frame(
 
     fun startingField(): Field = Field(center(), -1)
 
-    fun startingFields(structure: List<Field>): List<Field> {
-        TODO("Not yet implemented")
+    fun startingArea(structure: Structure): Area {
+        val top = 0 - structure.height()
+        val left = (width - structure.width()) / 2
+        return Area(structure.fields.map { field -> field.plus(Field(left, top)) }.toList())
     }
 
     fun topCenter(): Field = Field(center(), 0)

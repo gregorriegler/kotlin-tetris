@@ -1,0 +1,1 @@
+class Structure(vararg field: Field): Area(*field)

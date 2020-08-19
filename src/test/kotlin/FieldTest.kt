@@ -17,4 +17,9 @@ class `A Field` {
     fun `returns the field to the right`() {
         assertEquals(Field(2, 1), Field(1,1).toTheRight())
     }
+
+    @Test
+    fun `adds fields`() {
+        assertEquals(Field(2, 2), Field(1,1).plus(Field(1,1)))
+    }
 }

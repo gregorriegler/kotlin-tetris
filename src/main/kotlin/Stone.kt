@@ -1,13 +1,13 @@
 import java.util.Collections.unmodifiableList
 
 class Stone(
-    private val structure: List<Field>,
+    private val area: Area,
     private val frame: Frame
 ) {
-    constructor(frame: Frame) : this(listOf(Field(0,0)), frame)
+    constructor(frame: Frame) : this(Area(Field(0,0)), frame)
 
     private var field:Field = frame.startingField()
-//    private var fields:List<Field> = frame.startingFields(structure)
+//    private var field:Field = frame.startingField(area)
 
     fun down() {
         field = frame.below(field)
