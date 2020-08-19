@@ -1,9 +1,10 @@
 import java.util.Collections.unmodifiableList
 
-class Debris(
+class Debris (
     private val frame: Frame,
-) {
-    private var debris: List<List<String>> = frame.empty()
+    private var debris: List<List<String>>
+){
+    constructor(frame: Frame) : this(frame, frame.empty())
 
     fun add(stone: Stone) {
         debris = debris.mapIndexed { y, row ->

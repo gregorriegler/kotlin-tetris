@@ -182,7 +182,7 @@ class `A Stone` {
 
         @Test
         fun `can be moved to the bottom`() {
-            repeat(4, {stone.down()})
+            repeat(4, { stone.down() })
 
             assertPositionArea(
                 stone,
@@ -204,7 +204,7 @@ class `A Stone` {
 
         @Test
         fun `can not be moved out of the frame at the bottom`() {
-            repeat(10, {stone.down()})
+            repeat(10, { stone.down() })
 
             assertPositionArea(
                 stone,
@@ -222,6 +222,35 @@ class `A Stone` {
                 """
             )
             assertTrue(stone.landed(Debris(Frame(4, 4))))
+        }
+
+        @Test
+        fun `lands on debris`() {
+            repeat(3, { stone.down() })
+
+            assertPositionArea(
+                stone,
+                Area(
+                    Field(1, 1),
+                    Field(2, 1),
+                    Field(1, 2),
+                    Field(2, 2)
+                ),
+                """
+                ____
+                _##_
+                _##_
+                ____
+                """
+            )
+
+            val debris = Debris(Frame(4, 4), listOf(
+                listOf(Field.EMPTY, Field.EMPTY, Field.EMPTY, Field.EMPTY),
+                listOf(Field.EMPTY, Field.EMPTY, Field.EMPTY, Field.EMPTY),
+                listOf(Field.STONE, Field.STONE, Field.STONE, Field.STONE),
+                listOf(Field.STONE, Field.STONE, Field.STONE, Field.STONE)
+            ))
+            assertTrue(stone.landed(debris))
         }
 
         @Test

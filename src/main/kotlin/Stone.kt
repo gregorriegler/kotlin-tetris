@@ -1,7 +1,7 @@
 import java.util.Collections.unmodifiableList
 
 class Stone(
-    private val structure: Structure,
+    structure: Structure,
     private val frame: Frame
 ) {
     constructor(frame: Frame) : this(Structure(Field(0,0)), frame)
