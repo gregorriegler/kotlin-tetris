@@ -3,23 +3,18 @@ import java.util.Collections.unmodifiableList
 class Stone(
     private val frame: Frame
 ) {
-    var x: Int = frame.center()
-    private var y: Int = -1
+    private var field:Field = Field(frame.center(), -1)
 
     fun down() {
-        y += 1
+        field = field.below()
     }
 
     fun left() {
-        if (x > 0) {
-            x -= 1
-        }
+        field = frame.leftOf(field)
     }
 
     fun right() {
-        if (x + 1 <= frame.width - 1) {
-            x += 1
-        }
+        field = frame.rightOf(field)
     }
 
     fun landed(debris: List<List<String>>) = atBottom() || collisionWith(debris)
@@ -27,23 +22,23 @@ class Stone(
     fun addToDebris(debris: List<List<String>>): List<List<String>> {
         return debris.mapIndexed { rowIndex, row ->
             val mutableRow = row.toMutableList()
-            if (y == rowIndex) {
-                mutableRow[x] = "#"
+            if (field.y == rowIndex) {
+                mutableRow[field.x] = "#"
             }
             unmodifiableList(mutableRow)
         }
     }
 
-    private fun atBottom(): Boolean = frame.isBottom(y)
+    private fun atBottom(): Boolean = frame.isBottom(field.y)
 
-    private fun collisionWith(debris: List<List<String>>) = debris[y + 1][x] != Field.EMPTY
+    private fun collisionWith(debris: List<List<String>>) = debris[field.y + 1][field.x] != Field.EMPTY
 
     fun render(): List<List<String>> {
-        return frame.drawEmpty().mapIndexed { rowIndex, row ->
+        return frame.empty().mapIndexed { rowIndex, row ->
             val mutableRow = row.toMutableList()
 
-            if (rowIndex == y) {
-                mutableRow[x] = "#"
+            if (rowIndex == field.y) {
+                mutableRow[field.x] = "#"
             }
 
             unmodifiableList(mutableRow)

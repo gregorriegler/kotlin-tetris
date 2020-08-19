@@ -3,7 +3,7 @@ class Tetris(width: Int, height: Int) {
     private var stone: Stone = Stone(frame)
     private var score: Int = 0
     private val clock: GameClock = GameClock({ tick() })
-    private var debris: List<List<String>> = frame.drawEmpty()
+    private var debris: List<List<String>> = frame.empty()
 
     fun time(time: Long) {
         clock.time(time)
@@ -43,7 +43,7 @@ class Tetris(width: Int, height: Int) {
     }
 
     private fun gameOver(): Boolean {
-        return isStone(debris[0][stone.x])
+        return isStone(debris[0][frame.center()])
     }
 
     private fun increaseScore() {
