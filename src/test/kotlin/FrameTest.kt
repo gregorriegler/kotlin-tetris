@@ -144,7 +144,17 @@ class `A Frame` {
     }
 
     @Test
+    fun `knows an area is not at the bottom`() {
+        assertEquals(false, Frame(3, 3).isAtBottomArea(Area(Field(1, 1))))
+    }
+
+    @Test
     fun `knows a field is at the bottom`() {
         assertEquals(true, Frame(3, 3).isAtBottom(Field(1, 2)))
+    }
+
+    @Test
+    fun `knows an area is at the bottom`() {
+        assertEquals(false, Frame(3, 3).isAtBottomArea(Area(Field(1, 1))))
     }
 }

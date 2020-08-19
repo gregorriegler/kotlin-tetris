@@ -16,10 +16,12 @@ class Stone(
 
     fun left() {
         field = frame.leftOf(field)
+        area = frame.left(area)
     }
 
     fun right() {
         field = frame.rightOf(field)
+        area = frame.right(area)
     }
 
     fun isAt(field: Field): Boolean {
@@ -35,7 +37,7 @@ class Stone(
             val mutableRow = row.toMutableList()
 
             if (y == field.y) {
-                mutableRow[field.x] = "#"
+                mutableRow[field.x] = Field.STONE
             }
 
             unmodifiableList(mutableRow)
@@ -57,6 +59,6 @@ class Stone(
     }
 
     fun landed(debris: Debris) = atBottom() || collisionWith(debris)
-    private fun atBottom(): Boolean = frame.isAtBottom(field)
+    private fun atBottom(): Boolean = frame.isAtBottomArea(area)
     private fun collisionWith(debris: Debris) = debris.hasDebris(field.below())
 }

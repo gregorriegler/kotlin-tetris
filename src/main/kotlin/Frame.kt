@@ -48,11 +48,16 @@ class Frame(
             field.below()
         else
             field
+
     fun down(area: Area): Area =
         if (area.bottom() < height - 1)
              area.down()
         else
             area
+
     fun isAtBottom(field: Field): Boolean = field.y == height - 1
+
+    fun isAtBottomArea(area: Area): Boolean = area.bottom() == height - 1
+
     private fun center() = width.toDouble().div(2).roundToInt() - 1
 }
