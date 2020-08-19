@@ -2,28 +2,33 @@ open class Area(val fields: List<Field>) {
 
     constructor(vararg fields: Field) : this(fields.asList())
 
-    companion object {
-        fun create2by2(): Area {
-            return Area(
-                Field(0, 0),
-                Field(1, 0),
-                Field(0, 1),
-                Field(1, 1)
-            )
-        }
-    }
-
     fun width(): Int {
-        val left = fields.map { it.x }.minOrNull()!!
-        val right = fields.map { it.x }.maxOrNull()!!
-        return (right - left) + 1
+        return (rightSide() - leftSide()) + 1
     }
 
     fun height(): Int {
         val top = fields.map { it.y }.minOrNull()!!
-        val bottom = fields.map { it.y }.maxOrNull()!!
-        return (bottom - top) + 1
+        fields.map { it.y }.maxOrNull()!!
+        return (bottom() - top) + 1
     }
+
+    fun bottom(): Int {
+        return fields.map { it.y }.maxOrNull()!!
+    }
+
+    fun leftSide(): Int {
+        return fields.map { it.x }.minOrNull()!!
+    }
+
+    fun rightSide(): Int {
+        return fields.map { it.x }.maxOrNull()!!
+    }
+
+    fun down(): Area = Area(fields.map { field -> field.below() }.toList())
+
+    fun left(): Area = Area(fields.map { field -> field.toTheLeft() }.toList())
+
+    fun right(): Area = Area(fields.map { field -> field.toTheRight() }.toList())
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -42,6 +47,10 @@ open class Area(val fields: List<Field>) {
 
     override fun toString(): String {
         return "Area(fields=$fields)"
+    }
+
+    fun covers(field: Field): Boolean {
+        return fields.contains(field)
     }
 
 

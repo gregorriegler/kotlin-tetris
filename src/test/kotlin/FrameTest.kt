@@ -33,9 +33,41 @@ class `A Frame` {
     }
 
     @Test
+    fun `moves an area to the left`() {
+        val frame = Frame(3, 3)
+        assertEquals(Area(
+            Field(0, 1),
+            Field(1, 1),
+            Field(0, 2),
+            Field(1, 2),
+        ), frame.left(Area(
+            Field(1, 1),
+            Field(2, 1),
+            Field(1, 2),
+            Field(2, 2),
+        )))
+    }
+
+    @Test
     fun `respects the left wall`() {
         val frame = Frame(3, 3)
         assertEquals(Field(0, 1), frame.leftOf(Field(0, 1)))
+    }
+
+    @Test
+    fun `respects the left wall when moving left`() {
+        val frame = Frame(3, 3)
+        assertEquals(Area(
+            Field(0, 1),
+            Field(1, 1),
+            Field(0, 2),
+            Field(1, 2),
+        ), frame.left(Area(
+            Field(0, 1),
+            Field(1, 1),
+            Field(0, 2),
+            Field(1, 2),
+        )))
     }
 
     @Test
@@ -45,9 +77,65 @@ class `A Frame` {
     }
 
     @Test
+    fun `moves an area to the right`() {
+        val frame = Frame(3, 3)
+        assertEquals(Area(
+            Field(1, 1),
+            Field(2, 1)
+        ), frame.right(Area(
+            Field(0, 1),
+            Field(1, 1)
+        )))
+    }
+
+    @Test
+    fun `respects the right wall when moving right`() {
+        val frame = Frame(3, 3)
+        assertEquals(Area(
+            Field(1, 1),
+            Field(2, 1)
+        ), frame.right(Area(
+            Field(1, 1),
+            Field(2, 1)
+        )))
+    }
+
+    @Test
     fun `respects the right wall`() {
         val frame = Frame(3, 3)
         assertEquals(Field(2, 1), frame.rightOf(Field(2, 1)))
+    }
+
+    @Test
+    fun `moves an area down`() {
+        val frame = Frame(3, 3)
+        assertEquals(Area(
+            Field(1, 1),
+            Field(2, 1),
+            Field(1, 2),
+            Field(2, 2),
+        ), frame.down(Area(
+            Field(1, 0),
+            Field(2, 0),
+            Field(1, 1),
+            Field(2, 1),
+        )))
+    }
+
+    @Test
+    fun `does not move an area below the bottom`() {
+        val frame = Frame(3, 3)
+        assertEquals(Area(
+            Field(1, 1),
+            Field(2, 1),
+            Field(1, 2),
+            Field(2, 2),
+        ), frame.down(Area(
+            Field(1, 1),
+            Field(2, 1),
+            Field(1, 2),
+            Field(2, 2),
+        )))
     }
 
     @Test

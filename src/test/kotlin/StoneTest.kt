@@ -138,14 +138,13 @@ class `A Stone` {
 
     @Nested
     inner class `with a size 2x2` {
-        val stone = Stone(Area.create2by2(), Frame(4, 4))
+        val stone = Stone(Structure.create2by2(), Frame(4, 4))
 
-        @Disabled
         @Test
         fun `starts above the center`() {
-            assertPosition(
+            assertPositionArea(
                 stone,
-                listOf(
+                Area(
                     Field(1, -2),
                     Field(2, -2),
                     Field(1, -1),
@@ -160,20 +159,26 @@ class `A Stone` {
             )
         }
 
-//        @Test
-//        fun `can be moved down`() {
-//            stone.down()
-//
-//            assertPosition(
-//                stone,
-//                Field(1, 0),
-//                """
-//                _#_
-//                ___
-//                ___
-//                """
-//            )
-//        }
+        @Test
+        fun `can be moved down`() {
+            stone.down()
+
+            assertPositionArea(
+                stone,
+                Area(
+                    Field(1, -1),
+                    Field(2, -1),
+                    Field(1, -0),
+                    Field(2, -0)
+                ),
+                """
+                _##_
+                ____
+                ____
+                ____
+                """
+            )
+        }
 //
 //        @Test
 //        fun `can be moved to the bottom`() {
@@ -272,6 +277,14 @@ class `A Stone` {
 //                """
 //            )
 //        }
+    }
+
+    private fun assertPositionArea(stone: Stone, area: Area, state: String) {
+        assertEquals(
+            "\n" + state.trimIndent() + "\n",
+            "\n" + Tetris.draw(stone.areaState()) + "\n"
+        )
+        area.fields.forEach { field -> assertTrue(stone.isAtArea(field)) }
     }
 
     private fun assertPosition(stone: Stone, field: Field, state: String) {

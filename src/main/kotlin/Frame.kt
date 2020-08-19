@@ -25,17 +25,34 @@ class Frame(
         else
             field
 
+    fun left(area: Area): Area =
+        if(area.leftSide() > 0)
+            area.left()
+        else
+            area
+
     fun rightOf(field: Field): Field =
         if (field.x < width - 1)
             field.toTheRight()
         else
             field
 
+    fun right(area: Area): Area =
+        if(area.rightSide() < width - 1)
+            area.right()
+        else
+            area
+
     fun below(field: Field): Field =
         if (field.y < height - 1)
             field.below()
         else
             field
+    fun down(area: Area): Area =
+        if (area.bottom() < height - 1)
+             area.down()
+        else
+            area
     fun isAtBottom(field: Field): Boolean = field.y == height - 1
     private fun center() = width.toDouble().div(2).roundToInt() - 1
 }
