@@ -6,17 +6,11 @@ class Field(
         const val EMPTY = "_"
     }
 
-    fun below(): Field {
-        return Field(x, y + 1)
-    }
+    fun below(): Field = Field(x, y + 1)
 
-    fun toTheLeft(): Field {
-        return Field(x - 1, y)
-    }
+    fun toTheLeft(): Field = Field(x - 1, y)
 
-    fun toTheRight(): Field {
-        return Field(x + 1, y)
-    }
+    fun toTheRight(): Field = Field(x + 1, y)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -36,9 +30,7 @@ class Field(
         return result
     }
 
-    override fun toString(): String {
-        return "($x,$y)"
-    }
+    override fun toString(): String = "($x,$y)"
 
 
 }
