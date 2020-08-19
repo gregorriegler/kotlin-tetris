@@ -420,7 +420,7 @@ class `A Tetris` {
         )
         assertEquals(
             score,
-            tetris.score()
+            tetris.score
         )
     }
 

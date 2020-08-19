@@ -67,6 +67,6 @@ class GameLoop(
 
     override fun handle(arg0: Long) {
         tetris.time(System.currentTimeMillis())
-        display.accept(tetris.display() + "\n\nScore: " + tetris.score())
+        display.accept(tetris.display() + "\n\nScore: " + tetris.score)
     }
 }

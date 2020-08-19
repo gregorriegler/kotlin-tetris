@@ -1,7 +1,9 @@
 class Tetris(width: Int, height: Int) {
     private val frame: Frame = Frame(width, height)
     private var stone: Stone = Stone(frame)
-    private var score: Int = 0
+    var score: Int = 0
+        private set
+
     private val clock: GameClock = GameClock({ tick() })
     private val debris: Debris = Debris(frame)
 
@@ -54,10 +56,6 @@ class Tetris(width: Int, height: Int) {
 
         val combined = debris.drawWithStone(stone)
         return combined.joinToString(separator = "\n") { it -> it.joinToString(separator = "") { it } }
-    }
-
-    fun score(): Int {
-        return score
     }
 
     fun speed() {
