@@ -11,6 +11,10 @@ class Frame(
 
     fun startingField(): Field = Field(center(), -1)
 
+    fun startingFields(structure: List<Field>): List<Field> {
+        TODO("Not yet implemented")
+    }
+
     fun topCenter(): Field = Field(center(), 0)
 
     fun leftOf(field: Field): Field =
@@ -30,7 +34,6 @@ class Frame(
             field.below()
         else
             field
-
     fun isAtBottom(field: Field): Boolean = field.y == height - 1
     private fun center() = width.toDouble().div(2).roundToInt() - 1
 }

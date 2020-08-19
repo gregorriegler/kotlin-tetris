@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class `A Frame` {
@@ -7,6 +8,13 @@ class `A Frame` {
     fun `returns the starting field`() {
         val frame = Frame(3, 3)
         assertEquals(Field(1, -1), frame.startingField())
+    }
+
+    @Disabled
+    @Test
+    fun `returns the starting fields`() {
+        val frame = Frame(3, 3)
+        assertEquals(Field(1, -1), frame.startingFields(listOf(Field(0, 0))))
     }
 
     @Test

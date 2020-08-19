@@ -7,6 +7,7 @@ class Stone(
     constructor(frame: Frame) : this(listOf(Field(0,0)), frame)
 
     private var field:Field = frame.startingField()
+//    private var fields:List<Field> = frame.startingFields(structure)
 
     fun down() {
         field = frame.below(field)
