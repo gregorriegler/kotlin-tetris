@@ -3,7 +3,7 @@ import java.util.Collections.unmodifiableList
 class Stone(
     private val frame: Frame
 ) {
-    private var field:Field = frame.startingField()
+    var field:Field = frame.startingField()
 
     fun down() {
         field = field.below()
@@ -17,21 +17,11 @@ class Stone(
         field = frame.rightOf(field)
     }
 
-    fun landed(debris: List<List<String>>) = atBottom() || collisionWith(debris)
+    fun landed(debris: Debris) = atBottom() || collisionWith(debris)
 
     private fun atBottom(): Boolean = frame.isAtBottom(field)
 
-    private fun collisionWith(debris: List<List<String>>) = debris[field.y + 1][field.x] != Field.EMPTY
-
-    fun addToDebris(debris: List<List<String>>): List<List<String>> {
-        return debris.mapIndexed { rowIndex, row ->
-            val mutableRow = row.toMutableList()
-            if (field.y == rowIndex) {
-                mutableRow[field.x] = "#"
-            }
-            unmodifiableList(mutableRow)
-        }
-    }
+    private fun collisionWith(debris: Debris) = debris.hasDebris(field.below())
 
     fun render(): List<List<String>> {
         return frame.empty().mapIndexed { rowIndex, row ->

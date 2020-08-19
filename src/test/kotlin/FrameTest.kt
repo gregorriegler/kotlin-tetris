@@ -10,6 +10,12 @@ class `A Frame` {
     }
 
     @Test
+    fun `returns the top center field`() {
+        val frame = Frame(3, 3)
+        assertEquals(Field(1, 0), frame.topCenter())
+    }
+
+    @Test
     fun `returns the field left of a field`() {
         val frame = Frame(3, 3)
         assertEquals(Field(0, 1), frame.leftOf(Field(1, 1)))
