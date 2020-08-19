@@ -1,9 +1,11 @@
-import java.util.*
 import java.util.Collections.unmodifiableList
 
 class Stone(
+    private val structure: List<Field>,
     private val frame: Frame
 ) {
+    constructor(frame: Frame) : this(listOf(Field(0,0)), frame)
+
     private var field:Field = frame.startingField()
 
     fun down() {
