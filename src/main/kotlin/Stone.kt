@@ -4,7 +4,7 @@ class Stone(
     private val frame: Frame
 ) {
     var x: Int = frame.center()
-    var y: Int = -1
+    private var y: Int = -1
 
     fun down() {
         y += 1

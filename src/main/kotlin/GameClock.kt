@@ -1,10 +1,9 @@
 class GameClock(
     private val consumer: () -> Unit,
-    tickEvery: Long = 250
+    private var tickEvery: Long = 250
 ) {
 
-    private var tickEvery = tickEvery
-    var lastTick: Long = 0
+    private var lastTick: Long = 0
 
     fun time(time: Long) {
         if (time - lastTick >= tickEvery) {

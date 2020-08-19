@@ -2,7 +2,7 @@ import kotlin.math.roundToInt
 
 class Frame(
     val width: Int,
-    val height: Int
+    private val height: Int
 ) {
     fun drawEmpty(): List<List<String>> {
         return (0 until height)
