@@ -68,6 +68,7 @@ class `A Stone` {
             assertTrue(stone.landed(Debris(Frame(3, 3))))
         }
 
+        // TODO left & right needs to pass debris
         @Test
         fun `can be moved to the left`() {
             stone.down()

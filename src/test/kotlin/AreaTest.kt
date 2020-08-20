@@ -38,6 +38,28 @@ class `An Area` {
     }
 
     @Test
+    fun `can be created from a string #3`() {
+        val area = Area("""
+            ___
+            _#_
+            ___
+        """.trimIndent()
+        )
+
+        assertEquals(1, area.width())
+        assertEquals(1, area.height())
+        assertFalse(area.covers(Field(0,0)))
+        assertFalse(area.covers(Field(1,0)))
+        assertFalse(area.covers(Field(2,0)))
+        assertFalse(area.covers(Field(0,1)))
+        assertTrue(area.covers(Field(1,1)))
+        assertFalse(area.covers(Field(2,1)))
+        assertFalse(area.covers(Field(0,2)))
+        assertFalse(area.covers(Field(1,2)))
+        assertFalse(area.covers(Field(2,2)))
+    }
+
+    @Test
     fun `has a width`() {
         assertEquals(1, Area(Field(0, 0)).width())
         assertEquals(2, Area(Field(0, 0), Field(1, 0)).width())
