@@ -1,6 +1,14 @@
 open class Area(val fields: List<Field>) {
 
     constructor(vararg fields: Field) : this(fields.asList())
+    constructor(string: String) : this(
+        string.split("\n")
+            .flatMapIndexed { y, row ->
+                row.chunked(1)
+                    .filter { field -> field != Field.EMPTY }
+                    .mapIndexed { x, field -> Field(x, y) }
+            }.toList()
+    )
 
     fun width(): Int {
         return (rightSide() - leftSide()) + 1

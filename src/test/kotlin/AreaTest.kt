@@ -4,6 +4,40 @@ import org.junit.jupiter.api.Test
 class `An Area` {
 
     @Test
+    fun `can be created from a string`() {
+        val area = Area("""
+            ##
+            ##
+        """.trimIndent()
+        )
+
+        assertEquals(2, area.width())
+        assertEquals(2, area.height())
+        assertTrue(area.covers(Field(0,0)))
+        assertTrue(area.covers(Field(1,0)))
+        assertTrue(area.covers(Field(0,1)))
+        assertTrue(area.covers(Field(1,1)))
+        assertFalse(area.covers(Field(2,1)))
+    }
+
+    @Test
+    fun `can be created from a string #2`() {
+        val area = Area("""
+            #_
+            ##
+        """.trimIndent()
+        )
+
+        assertEquals(2, area.width())
+        assertEquals(2, area.height())
+        assertTrue(area.covers(Field(0,0)))
+        assertFalse(area.covers(Field(1,0)))
+        assertTrue(area.covers(Field(0,1)))
+        assertTrue(area.covers(Field(1,1)))
+        assertFalse(area.covers(Field(2,1)))
+    }
+
+    @Test
     fun `has a width`() {
         assertEquals(1, Area(Field(0, 0)).width())
         assertEquals(2, Area(Field(0, 0), Field(1, 0)).width())
