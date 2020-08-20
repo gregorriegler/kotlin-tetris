@@ -14,7 +14,7 @@ class `A Tetris` {
 
     @Nested
     inner class `with a single column should` {
-        private var tetris = Tetris(1, 3, listOf(Structure.create1by4()))
+        private var tetris = Tetris(1, 3, listOf(Structure.create1by1()))
 
         @Test
         fun `start empty`() {
@@ -122,7 +122,7 @@ class `A Tetris` {
 
     @Nested
     inner class `with two columns should` {
-        private var tetris = Tetris(2, 3, listOf(Structure.create1by4()))
+        private var tetris = Tetris(2, 3, listOf(Structure.create1by1()))
 
         @Test
         fun `start empty`() {
@@ -215,7 +215,7 @@ class `A Tetris` {
 
     @Nested
     inner class `with three columns should` {
-        private var tetris = Tetris(3, 3, listOf(Structure.create1by4()))
+        private var tetris = Tetris(3, 3, listOf(Structure.create1by1()))
 
         @Test
         fun `start empty`() {

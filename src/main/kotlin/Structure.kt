@@ -1,5 +1,9 @@
 class Structure(string: String) : Area(string) {
     companion object {
+        fun create1by1(): Structure {
+            return Structure("#")
+        }
+
         fun create1by4(): Structure {
             return Structure("""
                 #
