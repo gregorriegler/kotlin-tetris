@@ -40,6 +40,10 @@ class Tetris(width: Int, height: Int, private val stones: List<Structure>) {
         stone.right(debris)
     }
 
+    fun rotate() {
+        stone.rotate()
+    }
+
     private fun gameOver(): Boolean {
         return debris.isAt(frame.topCenter())
     }

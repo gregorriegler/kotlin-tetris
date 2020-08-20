@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -351,11 +352,37 @@ class `A Stone` {
         }
     }
 
+    @Nested
+    inner class `with a size 3abd1` {
+
+        @Disabled // TODO does not work: test field again
+        @Test
+        fun `rotates`() {
+            val stone = Stone(
+                Structure("""
+                #_
+                ##
+                #_
+                """),
+                Frame(4, 4)
+            )
+
+            stone.rotate()
+
+            assertState(
+                """
+                ###_
+                _#__
+                ____
+                ____
+                """,
+                stone
+            )
+        }
+    }
+
     private fun assertPositionArea(stone: Stone, area: Area, state: String) {
-        assertEquals(
-            "\n" + state.trimIndent() + "\n",
-            "\n" + Tetris.draw(stone.state()) + "\n"
-        )
+        assertState(state, stone)
         area.fields.forEach { field -> assertTrue(stone.isAt(field)) }
     }
 
@@ -364,10 +391,14 @@ class `A Stone` {
     }
 
     private fun assertPosition(stone: Stone, fields: List<Field>, state: String) {
+        assertState(state, stone)
+        fields.forEach { field -> assertTrue(stone.isAt(field)) }
+    }
+
+    private fun assertState(state: String, stone: Stone) {
         assertEquals(
             "\n" + state.trimIndent() + "\n",
             "\n" + Tetris.draw(stone.state()) + "\n"
         )
-        fields.forEach { field -> assertTrue(stone.isAt(field)) }
     }
 }

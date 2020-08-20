@@ -13,6 +13,10 @@ class Field(
 
     fun toTheRight(): Field = Field(x + 1, y)
 
+    fun rotate(width: Int, height: Int): Field {
+        return Field(width - y - 1, x)
+    }
+
     fun plus(field: Field): Field {
         return Field(x + field.x, y + field.y)
     }
@@ -28,7 +32,6 @@ class Field(
 
         return true
     }
-
     override fun hashCode(): Int {
         var result = x
         result = 31 * result + y

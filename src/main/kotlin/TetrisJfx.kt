@@ -38,6 +38,9 @@ class JavaFXExample : Application() {
                     KeyCode.RIGHT -> {
                         tetris.right()
                     }
+                    KeyCode.UP -> {
+                        tetris.rotate()
+                    }
                     KeyCode.DOWN -> {
                         tetris.speed()
                     }

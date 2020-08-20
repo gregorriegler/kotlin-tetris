@@ -14,7 +14,7 @@ class Frame(
     fun startingArea(structure: Structure): Area {
         val top = 0 - structure.height()
         val left = (width - structure.width()) / 2
-        return Area(structure.fields.map { field -> field.plus(Field(left, top)) }.toList())
+        return Area(structure.fields.map { field -> field.plus(Field(left, top)) }.toSet())
     }
 
     fun topCenter(): Field = Field(center(), 0)

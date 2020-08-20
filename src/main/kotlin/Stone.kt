@@ -20,6 +20,10 @@ class Stone(
         area = frame.right(area, debris)
     }
 
+    fun rotate() {
+        area = area.rotate()
+    }
+
     fun isAt(field: Field): Boolean {
         return area.covers(field)
     }
@@ -37,7 +41,6 @@ class Stone(
             unmodifiableList(mutableRow)
         }
     }
-
     fun landed(debris: Debris) = atBottom() || collisionWith(debris)
     private fun atBottom(): Boolean = frame.isAtBottom(area)
     private fun collisionWith(debris: Debris) = debris.isAt(area.down())
