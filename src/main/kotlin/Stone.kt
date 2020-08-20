@@ -12,12 +12,12 @@ class Stone(
         area = frame.down(area)
     }
 
-    fun left() {
-        area = frame.left(area)
+    fun left(debris: Debris) {
+        area = frame.left(area, debris)
     }
 
-    fun right() {
-        area = frame.right(area)
+    fun right(debris: Debris) {
+        area = frame.right(area, debris)
     }
 
     fun isAt(field: Field): Boolean {

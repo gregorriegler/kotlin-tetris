@@ -2,7 +2,8 @@ open class Area(val fields: List<Field>) {
 
     constructor(vararg fields: Field) : this(fields.asList())
     constructor(string: String) : this(
-        string.split("\n")
+        string.trimIndent()
+            .split("\n")
             .flatMapIndexed { y, row ->
                 row.chunked(1)
                     .mapIndexed { x, field ->

@@ -8,7 +8,7 @@ class `An Area` {
         val area = Area("""
             ##
             ##
-        """.trimIndent()
+        """
         )
 
         assertEquals(2, area.width())
@@ -25,7 +25,7 @@ class `An Area` {
         val area = Area("""
             #_
             ##
-        """.trimIndent()
+        """
         )
 
         assertEquals(2, area.width())
@@ -43,7 +43,7 @@ class `An Area` {
             ___
             _#_
             ___
-        """.trimIndent()
+        """
         )
 
         assertEquals(1, area.width())

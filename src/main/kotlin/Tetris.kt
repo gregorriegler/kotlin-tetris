@@ -35,11 +35,11 @@ class Tetris(width: Int, height: Int, private val stones: List<Structure>) {
     }
 
     fun left() {
-        stone.left()
+        stone.left(debris)
     }
 
     fun right() {
-        stone.right()
+        stone.right(debris)
     }
 
     private fun gameOver(): Boolean {

@@ -30,19 +30,13 @@ class `A Frame` {
     fun `moves an area to the left`() {
         val frame = Frame(3, 3)
         assertEquals(
-            Area(
-                Field(0, 1),
-                Field(1, 1),
-                Field(0, 2),
-                Field(1, 2),
-            ),
+            Area("""
+                ##_
+                """),
             frame.left(
-                Area(
-                    Field(1, 1),
-                    Field(2, 1),
-                    Field(1, 2),
-                    Field(2, 2),
-                ),
+                Area("""
+                _##
+                """),
                 Debris(Frame(3, 3))
             )
         )
@@ -52,18 +46,14 @@ class `A Frame` {
     fun `respects the left wall when moving left`() {
         val frame = Frame(3, 3)
         assertEquals(
-            Area(
-                Field(0, 1),
-                Field(1, 1),
-                Field(0, 2),
-                Field(1, 2),
+            Area("""
+                ##_
+                """
             ),
             frame.left(
-                Area(
-                    Field(0, 1),
-                    Field(1, 1),
-                    Field(0, 2),
-                    Field(1, 2),
+                Area("""
+                ##_
+                """
                 ),
                 Debris(Frame(3, 3))
             )
@@ -73,41 +63,50 @@ class `A Frame` {
     @Test
     fun `respects debris when moving left`() {
         val frame = Frame(3, 3)
+        val area = Area("""
+                _##
+                """)
+        val debris = Debris("""
+                #__
+                """)
+        assertEquals(area, frame.left(area, debris))
+    }
+
+    @Test
+    fun `moves inside debris when moving left`() {
+        val frame = Frame(4, 3)
+        val area = Area("""
+                ___#
+                __##
+                ___#
+                """)
+        val debris = Debris("""
+                ##__
+                #___
+                ##__
+                """)
+
         assertEquals(
-            Area(
-                Field(1, 1),
-                Field(2, 1),
-                Field(1, 2),
-                Field(2, 2),
-            ),
-            frame.left(
-                Area(
-                    Field(1, 1),
-                    Field(2, 1),
-                    Field(1, 2),
-                    Field(2, 2)
-                ),
-                Debris("""
-                    #__
-                    #__
-                    #__
-                """.trimIndent())
-            ))
+            Area("""
+                __#_
+                _##_
+                __#_
+                """),
+            frame.left(area, debris)
+        )
     }
 
     @Test
     fun `moves an area to the right`() {
         val frame = Frame(3, 3)
         assertEquals(
-            Area(
-                Field(1, 1),
-                Field(2, 1)
-            ),
+            Area("""
+                _##
+                """),
             frame.right(
-                Area(
-                    Field(0, 1),
-                    Field(1, 1)
-                ),
+                Area("""
+                ##_
+                """),
                 Debris(frame)
             )
         )
@@ -115,16 +114,18 @@ class `A Frame` {
 
     @Test
     fun `respects the right wall when moving right`() {
-        val frame = Frame(3, 3)
+        val frame = Frame(2, 2)
         assertEquals(
-            Area(
-                Field(1, 1),
-                Field(2, 1)
+            Area("""
+                _#
+                _#
+                """
             ),
             frame.right(
-                Area(
-                    Field(1, 1),
-                    Field(2, 1)
+                Area("""
+                _#
+                _#
+                """
                 ),
                 Debris(frame)
             )
@@ -135,57 +136,85 @@ class `A Frame` {
     fun `respects debris when moving right`() {
         val frame = Frame(3, 3)
         assertEquals(
-            Area(
-                Field(0, 1),
-                Field(1, 1),
-                Field(0, 2),
-                Field(1, 2),
+            Area("""
+                ___
+                ##_
+                """
             ),
             frame.right(
-                Area(
-                    Field(0, 1),
-                    Field(1, 1),
-                    Field(0, 2),
-                    Field(1, 2)
+                Area("""
+                ___
+                ##_
+                """
                 ),
                 Debris("""
-                    __#
-                    __#
-                    __#
-                """.trimIndent())
+                __#
+                __#
+                __#
+                """)
             ))
+    }
+
+    @Test
+    fun `moves inside debris when moving right`() {
+        val frame = Frame(4, 3)
+        val area = Area("""
+                #___
+                ##__
+                #___
+                """)
+        val debris = Debris("""
+                __##
+                ___#
+                __##
+                """)
+
+        assertEquals(
+            Area("""
+                _#__
+                _##_
+                _#__
+                """),
+            frame.right(area, debris)
+        )
     }
 
     @Test
     fun `moves an area down`() {
         val frame = Frame(3, 3)
-        assertEquals(Area(
-            Field(1, 1),
-            Field(2, 1),
-            Field(1, 2),
-            Field(2, 2),
-        ), frame.down(Area(
-            Field(1, 0),
-            Field(2, 0),
-            Field(1, 1),
-            Field(2, 1),
-        )))
+        assertEquals(
+            Area("""
+                __
+                ##
+                """
+            ),
+            frame.down(
+                Area("""
+                    ##
+                    __
+                    """
+                )
+            )
+        )
     }
 
     @Test
     fun `does not move an area below the bottom`() {
-        val frame = Frame(3, 3)
-        assertEquals(Area(
-            Field(1, 1),
-            Field(2, 1),
-            Field(1, 2),
-            Field(2, 2),
-        ), frame.down(Area(
-            Field(1, 1),
-            Field(2, 1),
-            Field(1, 2),
-            Field(2, 2),
-        )))
+        val frame = Frame(2, 2)
+        assertEquals(
+            Area("""
+                __
+                ##
+                """
+            ),
+            frame.down(
+                Area("""
+                __
+                ##
+                """
+                )
+            )
+        )
     }
 
     @Test

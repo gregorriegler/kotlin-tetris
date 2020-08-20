@@ -9,7 +9,7 @@ class `A Debris` {
             ___
             _#_
             ###
-        """.trimIndent())
+        """)
 
         assertEquals(3, debris.width())
         assertEquals(3, debris.height())

@@ -7,10 +7,11 @@ class Debris(
     constructor(frame: Frame) : this(frame, frame.empty())
     constructor(debris: String) : this(
         Frame(
-            debris.substringBefore('\n').length,
-            debris.count { it == '\n' } + 1
+            debris.trimIndent().substringBefore('\n').length,
+            debris.trimIndent().count { it == '\n' } + 1
         ),
-        debris.split("\n")
+        debris.trimIndent()
+            .split("\n")
             .map { row -> row.chunked(1) }
             .toList()
     )

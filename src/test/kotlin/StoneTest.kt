@@ -4,9 +4,13 @@ import org.junit.jupiter.api.Test
 
 class `A Stone` {
 
+    val frame = Frame(3, 3)
+    val debris3x3 = Debris(frame)
+    val debris4x4 = Debris(Frame(4, 4))
+
     @Nested
     inner class `with the size of a single field` {
-        val stone = Stone(Frame(3, 3))
+        val stone = Stone(frame)
 
         @Test
         fun `starts above the center`() {
@@ -49,7 +53,7 @@ class `A Stone` {
                 _#_
                 """
             )
-            assertTrue(stone.landed(Debris(Frame(3, 3))))
+            assertTrue(stone.landed(debris3x3))
         }
 
         @Test
@@ -65,14 +69,13 @@ class `A Stone` {
                 _#_
                 """
             )
-            assertTrue(stone.landed(Debris(Frame(3, 3))))
+            assertTrue(stone.landed(Debris(frame)))
         }
 
-        // TODO left & right needs to pass debris
         @Test
         fun `can be moved to the left`() {
             stone.down()
-            stone.left()
+            stone.left(debris3x3)
 
             assertPosition(
                 stone,
@@ -88,8 +91,8 @@ class `A Stone` {
         @Test
         fun `can not be moved out of the frame at the left`() {
             stone.down()
-            stone.left()
-            stone.left()
+            stone.left(debris3x3)
+            stone.left(debris3x3)
 
             assertPosition(
                 stone,
@@ -105,7 +108,7 @@ class `A Stone` {
         @Test
         fun `can be moved to the right`() {
             stone.down()
-            stone.right()
+            stone.right(debris3x3)
 
             assertPosition(
                 stone,
@@ -121,8 +124,8 @@ class `A Stone` {
         @Test
         fun `can not be moved out of the frame at the right`() {
             stone.down()
-            stone.right()
-            stone.right()
+            stone.right(debris3x3)
+            stone.right(debris3x3)
 
             assertPosition(
                 stone,
@@ -208,12 +211,12 @@ class `A Stone` {
 
             assertPositionArea(
                 stone,
-                Area(
-                    Field(1, 2),
-                    Field(2, 2),
-                    Field(1, 3),
-                    Field(2, 3)
-                ),
+                Area("""
+                    ___
+                    ___
+                    _##
+                    _##
+                """),
                 """
                 ____
                 ____
@@ -230,12 +233,11 @@ class `A Stone` {
 
             assertPositionArea(
                 stone,
-                Area(
-                    Field(1, 1),
-                    Field(2, 1),
-                    Field(1, 2),
-                    Field(2, 2)
-                ),
+                Area("""
+                ___
+                _##
+                _##
+                """),
                 """
                 ____
                 _##_
@@ -244,19 +246,20 @@ class `A Stone` {
                 """
             )
 
-            val debris = Debris(Frame(4, 4), listOf(
-                listOf(Field.EMPTY, Field.EMPTY, Field.EMPTY, Field.EMPTY),
-                listOf(Field.EMPTY, Field.EMPTY, Field.EMPTY, Field.EMPTY),
-                listOf(Field.STONE, Field.STONE, Field.STONE, Field.STONE),
-                listOf(Field.STONE, Field.STONE, Field.STONE, Field.STONE)
-            ))
+            val debris = Debris("""
+                ____
+                ____
+                ____
+                ####
+            """
+            )
             assertTrue(stone.landed(debris))
         }
 
         @Test
         fun `can be moved to the left`() {
             stone.down()
-            stone.left()
+            stone.left(debris4x4)
 
             assertPositionArea(
                 stone,
@@ -279,8 +282,8 @@ class `A Stone` {
         @Test
         fun `can not be moved out of the frame at the left`() {
             stone.down()
-            stone.left()
-            stone.left()
+            stone.left(debris4x4)
+            stone.left(debris4x4)
 
             assertPositionArea(
                 stone,
@@ -303,7 +306,7 @@ class `A Stone` {
         @Test
         fun `can be moved to the right`() {
             stone.down()
-            stone.right()
+            stone.right(debris4x4)
 
             assertPositionArea(
                 stone,
@@ -326,8 +329,8 @@ class `A Stone` {
         @Test
         fun `can not be moved out of the frame at the right`() {
             stone.down()
-            stone.right()
-            stone.right()
+            stone.right(debris4x4)
+            stone.right(debris4x4)
 
             assertPositionArea(
                 stone,
