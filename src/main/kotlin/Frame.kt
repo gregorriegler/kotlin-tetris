@@ -2,7 +2,7 @@ import kotlin.math.roundToInt
 
 class Frame(
     val width: Int,
-    private val height: Int,
+    val height: Int,
 ) {
     fun empty(): List<List<String>> =
         (0 until height)
@@ -20,10 +20,16 @@ class Frame(
     fun topCenter(): Field = Field(center(), 0)
 
     fun left(area: Area): Area =
-        if(area.leftSide() > 0)
-            area.left()
-        else
+        if (isAtLeftBorder(area))
             area
+        else
+            area.left()
+
+    fun left(area: Area, debris: Debris): Area =
+        if (isAtLeftBorder(area) || debris.isAt(area.left()))
+            area
+        else
+            area.left()
 
     fun right(area: Area): Area =
         if(area.rightSide() < width - 1)
@@ -31,11 +37,21 @@ class Frame(
         else
             area
 
+    fun right(area: Area, debris: Debris): Area =
+        if (isAtRightBorder(area) || debris.isAt(area.right()))
+            area
+        else
+            area.right()
+
     fun down(area: Area): Area =
         if (area.bottom() < height - 1)
              area.down()
         else
             area
+
+    private fun isAtLeftBorder(area: Area) = area.leftSide() <= 0
+
+    private fun isAtRightBorder(area: Area) = area.rightSide() >= width - 1
 
     fun isAtBottom(area: Area): Boolean = area.bottom() == height - 1
 

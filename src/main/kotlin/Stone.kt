@@ -40,5 +40,5 @@ class Stone(
 
     fun landed(debris: Debris) = atBottom() || collisionWith(debris)
     private fun atBottom(): Boolean = frame.isAtBottom(area)
-    private fun collisionWith(debris: Debris) = debris.hasDebris(area.down())
+    private fun collisionWith(debris: Debris) = debris.isAt(area.down())
 }

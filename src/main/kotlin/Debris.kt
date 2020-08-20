@@ -1,10 +1,27 @@
 import java.util.Collections.unmodifiableList
 
-class Debris (
+class Debris(
     private val frame: Frame,
-    private var debris: List<List<String>>
-){
+    private var debris: List<List<String>>,
+) {
     constructor(frame: Frame) : this(frame, frame.empty())
+    constructor(debris: String) : this(
+        Frame(
+            debris.substringBefore('\n').length,
+            debris.count { it == '\n' } + 1
+        ),
+        debris.split("\n")
+            .map { row -> row.chunked(1) }
+            .toList()
+    )
+
+    fun width(): Int {
+        return frame.width
+    }
+
+    fun height(): Int {
+        return frame.height
+    }
 
     fun add(stone: Stone) {
         debris = debris.mapIndexed { y, row ->
@@ -16,17 +33,14 @@ class Debris (
         }
     }
 
-    fun hasDebris(area: Area): Boolean {
-        return area.fields.filter { field -> field.y >= 0 }.any { hasDebris(it) }
-    }
+    fun isAt(area: Area): Boolean =
+        area.fields
+            .filter { field -> field.y >= 0 }
+            .any { isAt(it) }
 
-    fun hasDebris(field: Field): Boolean {
-        return debris[field.y][field.x] != Field.EMPTY
-    }
+    fun isAt(field: Field): Boolean = debris[field.y][field.x] != Field.EMPTY
 
-    fun bottomLineFilled(): Boolean {
-        return debris.last().all { isFilled(it) }
-    }
+    fun bottomLineFilled(): Boolean = debris.last().all { isFilled(it) }
 
     fun dissolveLine() {
         debris = listOf((0 until frame.width)
