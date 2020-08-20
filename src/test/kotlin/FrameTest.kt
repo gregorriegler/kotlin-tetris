@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class `A Frame` {
@@ -27,12 +26,6 @@ class `A Frame` {
     }
 
     @Test
-    fun `returns the field left of a field`() {
-        val frame = Frame(3, 3)
-        assertEquals(Field(0, 1), frame.leftOf(Field(1, 1)))
-    }
-
-    @Test
     fun `moves an area to the left`() {
         val frame = Frame(3, 3)
         assertEquals(Area(
@@ -49,12 +42,6 @@ class `A Frame` {
     }
 
     @Test
-    fun `respects the left wall`() {
-        val frame = Frame(3, 3)
-        assertEquals(Field(0, 1), frame.leftOf(Field(0, 1)))
-    }
-
-    @Test
     fun `respects the left wall when moving left`() {
         val frame = Frame(3, 3)
         assertEquals(Area(
@@ -68,12 +55,6 @@ class `A Frame` {
             Field(0, 2),
             Field(1, 2),
         )))
-    }
-
-    @Test
-    fun `returns the field right of a field`() {
-        val frame = Frame(3, 3)
-        assertEquals(Field(2, 1), frame.rightOf(Field(1, 1)))
     }
 
     @Test
@@ -98,12 +79,6 @@ class `A Frame` {
             Field(1, 1),
             Field(2, 1)
         )))
-    }
-
-    @Test
-    fun `respects the right wall`() {
-        val frame = Frame(3, 3)
-        assertEquals(Field(2, 1), frame.rightOf(Field(2, 1)))
     }
 
     @Test
@@ -139,22 +114,12 @@ class `A Frame` {
     }
 
     @Test
-    fun `knows a field is not at the bottom`() {
-        assertEquals(false, Frame(3, 3).isAtBottom(Field(1, 1)))
-    }
-
-    @Test
     fun `knows an area is not at the bottom`() {
-        assertEquals(false, Frame(3, 3).isAtBottomArea(Area(Field(1, 1))))
-    }
-
-    @Test
-    fun `knows a field is at the bottom`() {
-        assertEquals(true, Frame(3, 3).isAtBottom(Field(1, 2)))
+        assertEquals(false, Frame(3, 3).isAtBottom(Area(Field(1, 1))))
     }
 
     @Test
     fun `knows an area is at the bottom`() {
-        assertEquals(false, Frame(3, 3).isAtBottomArea(Area(Field(1, 1))))
+        assertEquals(false, Frame(3, 3).isAtBottom(Area(Field(1, 1))))
     }
 }

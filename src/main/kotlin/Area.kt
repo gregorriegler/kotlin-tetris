@@ -52,6 +52,4 @@ open class Area(val fields: List<Field>) {
     fun covers(field: Field): Boolean {
         return fields.contains(field)
     }
-
-
 }
