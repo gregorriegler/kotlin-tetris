@@ -1,18 +1,27 @@
-class Structure(vararg field: Field) : Area(*field) {
+class Structure(string: String) : Area(string) {
     companion object {
-        fun create1by1(): Structure {
-            return Structure(
-                Field(0, 0)
-            )
+        fun create1by4(): Structure {
+            return Structure("""
+                #
+                #
+                #
+                #
+            """.trimIndent())
         }
 
         fun create2by2(): Structure {
-            return Structure(
-                Field(0, 0),
-                Field(1, 0),
-                Field(0, 1),
-                Field(1, 1)
-            )
+            return Structure("""
+                ##
+                ##
+            """)
+        }
+
+        fun create3and1(): Structure {
+            return Structure("""
+                #_
+                ##
+                #_
+            """)
         }
     }
 }

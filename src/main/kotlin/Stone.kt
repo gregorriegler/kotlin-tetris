@@ -4,7 +4,7 @@ class Stone(
     structure: Structure,
     private val frame: Frame
 ) {
-    constructor(frame: Frame) : this(Structure(Field(0,0)), frame)
+    constructor(frame: Frame) : this(Structure("#"), frame)
 
     private var area:Area = frame.startingArea(structure)
 

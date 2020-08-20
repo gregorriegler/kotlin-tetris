@@ -23,10 +23,8 @@ class Tetris(width: Int, height: Int, private val stones: List<Structure>) {
 
         if (stone.landed(debris)) {
             debris.add(stone)
-            if (debris.bottomLineFilled()) {
-                debris.dissolveLine()
-                increaseScore()
-            }
+                val count = debris.dissolveFilledRows()
+                increaseScore(count)
             stone = Stone(stones.random(), frame)
             return
         } else {
@@ -46,8 +44,8 @@ class Tetris(width: Int, height: Int, private val stones: List<Structure>) {
         return debris.isAt(frame.topCenter())
     }
 
-    private fun increaseScore() {
-        score += 1
+    private fun increaseScore(count: Int) {
+        score += count
     }
 
     fun display(): String {

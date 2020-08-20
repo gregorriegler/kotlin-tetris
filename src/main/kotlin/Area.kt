@@ -6,11 +6,9 @@ open class Area(val fields: List<Field>) {
             .split("\n")
             .flatMapIndexed { y, row ->
                 row.chunked(1)
-                    .mapIndexed { x, field ->
-                        if (field != Field.EMPTY) Field(x, y)
-                        else null
-                    }
-                    .filterNotNull()
+                    .withIndex()
+                    .filter { field -> field.value != Field.EMPTY }
+                    .map { Field(it.index, y) }
             }.toList()
     )
 

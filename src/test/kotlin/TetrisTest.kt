@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -15,7 +14,7 @@ class `A Tetris` {
 
     @Nested
     inner class `with a single column should` {
-        private var tetris = Tetris(1, 3, listOf(Structure.create1by1()))
+        private var tetris = Tetris(1, 3, listOf(Structure.create1by4()))
 
         @Test
         fun `start empty`() {
@@ -123,7 +122,7 @@ class `A Tetris` {
 
     @Nested
     inner class `with two columns should` {
-        private var tetris = Tetris(2, 3, listOf(Structure.create1by1()))
+        private var tetris = Tetris(2, 3, listOf(Structure.create1by4()))
 
         @Test
         fun `start empty`() {
@@ -216,7 +215,7 @@ class `A Tetris` {
 
     @Nested
     inner class `with three columns should` {
-        private var tetris = Tetris(3, 3, listOf(Structure.create1by1()))
+        private var tetris = Tetris(3, 3, listOf(Structure.create1by4()))
 
         @Test
         fun `start empty`() {

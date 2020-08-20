@@ -11,13 +11,13 @@ class `A Frame` {
 
     @Test
     fun `returns the starting area for a structure`() {
-        assertEquals(Area(Field(1, -1)), Frame(3, 3).startingArea(Structure(Field(0, 0))))
-        assertEquals(Area(Field(1, -1)), Frame(4, 4).startingArea(Structure(Field(0, 0))))
-        assertEquals(Area(Field(1, -2), Field(1, -1)), Frame(3, 3).startingArea(Structure(Field(0, 0), Field(0, 1))))
-        assertEquals(Area(Field(1, -1), Field(2, -1)), Frame(4, 4).startingArea(Structure(Field(0, 0), Field(1, 0))))
-        assertEquals(Area(Field(1, -1), Field(2, -1)), Frame(4, 4).startingArea(Structure(Field(0, 0), Field(1, 0))))
+        assertEquals(Area(Field(1, -1)), Frame(3, 3).startingArea(Structure("#")))
+        assertEquals(Area(Field(1, -1)), Frame(4, 4).startingArea(Structure("#")))
+        assertEquals(Area(Field(1, -2), Field(1, -1)), Frame(3, 3).startingArea(Structure("#\n#")))
+        assertEquals(Area(Field(1, -1), Field(2, -1)), Frame(4, 4).startingArea(Structure("##")))
+        assertEquals(Area(Field(1, -1), Field(2, -1)), Frame(4, 4).startingArea(Structure("##")))
         assertEquals(Area(Field(0, -1), Field(1, -1), Field(2, -1)),
-            Frame(3, 3).startingArea(Structure(Field(0, 0), Field(1, 0), Field(2, 0))))
+            Frame(3, 3).startingArea(Structure("###")))
     }
 
     @Test

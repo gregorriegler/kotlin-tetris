@@ -41,12 +41,31 @@ class Debris(
 
     fun isAt(field: Field): Boolean = debris[field.y][field.x] != Field.EMPTY
 
-    fun bottomLineFilled(): Boolean = debris.last().all { isFilled(it) }
+    fun dissolveFilledRows(): Int {
+        val filledRows = filledRows()
+        debris = makeEmptyRowsFor(filledRows) + removeRows(filledRows)
+        return filledRows.size
+    }
 
-    fun dissolveLine() {
-        debris = listOf((0 until frame.width)
-            .map { Field.EMPTY }.toList()) + debris.dropLast(1)
-            .toMutableList()
+    private fun removeRows(rows: List<Int>) =
+        debris.filterIndexed { index, _ -> !rows.contains(index) }.toList()
+
+    private fun makeEmptyRowsFor(filledLines: List<Int>): List<List<String>> {
+        return filledLines.indices
+            .map { emptyRow() }
+            .toList()
+    }
+
+    private fun filledRows(): List<Int> =
+        debris.withIndex()
+            .filter { it -> it.value.all { isFilled(it) } }
+            .map { it.index }
+            .toList()
+
+    private fun emptyRow(): List<String> {
+        return (0 until frame.width)
+            .map { Field.EMPTY }
+            .toList()
     }
 
     fun stateWithStone(stone: Stone): List<List<String>> {
@@ -62,4 +81,26 @@ class Debris(
     }
 
     private fun isFilled(field: String) = field != Field.EMPTY
+
+    override fun toString(): String {
+        return "\n" + Tetris.draw(debris) + "\n"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Debris
+
+        if (frame != other.frame) return false
+        if (debris != other.debris) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = frame.hashCode()
+        result = 31 * result + debris.hashCode()
+        return result
+    }
 }

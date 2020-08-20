@@ -56,4 +56,22 @@ class Frame(
     fun isAtBottom(area: Area): Boolean = area.bottom() == height - 1
 
     private fun center() = width.toDouble().div(2).roundToInt() - 1
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Frame
+
+        if (width != other.width) return false
+        if (height != other.height) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = width
+        result = 31 * result + height
+        return result
+    }
 }
