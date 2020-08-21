@@ -32,7 +32,7 @@ open class Area(val fields: Set<Field>) {
     fun rightSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.maxOrNull()!!
     fun bottomOfFilled(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull()!!
 
-    private fun state(): List<List<String>> {
+    private fun state(): List<List<Filling>> {
         return Frame(rightSide() + 1, bottom() + 1)
             .empty()
             .mapIndexed { y, row ->
@@ -40,7 +40,7 @@ open class Area(val fields: Set<Field>) {
 
                 row.mapIndexed { x, _ ->
                     if (has(Field.filled(x, y))) {
-                        mutableRow[x] = Filling.FILLED.toString()
+                        mutableRow[x] = Filling.FILLED
                     }
                 }
 

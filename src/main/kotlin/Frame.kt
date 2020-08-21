@@ -4,9 +4,9 @@ class Frame(
     val width: Int,
     val height: Int,
 ) {
-    fun empty(): List<List<String>> =
+    fun empty(): List<List<Filling>> =
         (0 until height)
-            .map { (0 until width).map { Filling.EMPTY.toString() }.toList() }
+            .map { (0 until width).map { Filling.EMPTY }.toList() }
             .toList()
 
     fun startingArea(structure: Structure): Area {

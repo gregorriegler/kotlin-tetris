@@ -29,13 +29,13 @@ class Stone(
         return area.has(field)
     }
 
-    fun state(): List<List<String>> {
+    fun state(): List<List<Filling>> {
         return frame.empty().mapIndexed { y, row ->
             val mutableRow = row.toMutableList()
 
             row.mapIndexed { x, _ ->
                 if(area.has(Field.filled(x, y))) {
-                    mutableRow[x] = Filling.FILLED.toString()
+                    mutableRow[x] = Filling.FILLED
                 }
             }
 

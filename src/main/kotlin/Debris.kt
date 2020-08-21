@@ -2,7 +2,7 @@ import java.util.Collections.unmodifiableList
 
 class Debris(
     private val frame: Frame,
-    private var debris: List<List<String>>,
+    private var debris: List<List<Filling>>,
 ) {
     constructor(frame: Frame) : this(frame, frame.empty())
     constructor(debris: String) : this(
@@ -12,7 +12,7 @@ class Debris(
         ),
         debris.trimIndent()
             .split("\n")
-            .map { row -> row.chunked(1) }
+            .map { row -> row.chunked(1).map { Filling.of(it) } }
             .toList()
     )
 
@@ -28,7 +28,7 @@ class Debris(
         debris = debris.mapIndexed { y, row ->
             val mutableRow = row.toMutableList()
             (0 until frame.width).forEach { x ->
-                if (stone.has(Field.filled(x, y))) mutableRow[x] = Filling.FILLED.toString()
+                if (stone.has(Field.filled(x, y))) mutableRow[x] = Filling.FILLED
             }
             unmodifiableList(mutableRow)
         }
@@ -43,7 +43,7 @@ class Debris(
     fun isAt(field: Field): Boolean = field.y >= 0 && field.x >= 0
             && field.y < debris.size
             && field.x < debris[field.y].size
-            && debris[field.y][field.x] != Filling.EMPTY.toString()
+            && debris[field.y][field.x] != Filling.EMPTY
 
     fun dissolveFilledRows(): Int {
         val filledRows = filledRows()
@@ -54,7 +54,7 @@ class Debris(
     private fun removeRows(rows: List<Int>) =
         debris.filterIndexed { index, _ -> !rows.contains(index) }.toList()
 
-    private fun makeEmptyRowsFor(filledLines: List<Int>): List<List<String>> {
+    private fun makeEmptyRowsFor(filledLines: List<Int>): List<List<Filling>> {
         return filledLines.indices
             .map { emptyRow() }
             .toList()
@@ -66,25 +66,25 @@ class Debris(
             .map { it.index }
             .toList()
 
-    private fun emptyRow(): List<String> {
+    private fun emptyRow(): List<Filling> {
         return (0 until frame.width)
-            .map { Filling.EMPTY.toString() }
+            .map { Filling.EMPTY }
             .toList()
     }
 
-    fun stateWithStone(stone: Stone): List<List<String>> {
+    fun stateWithStone(stone: Stone): List<List<Filling>> {
         val stoneState = stone.state()
         return debris.mapIndexed { y, row ->
             row.mapIndexed { x, column ->
                 if (isFilled(column) || isFilled(stoneState[y][x]))
-                    Filling.FILLED.toString()
+                    Filling.FILLED
                 else
-                    Filling.EMPTY.toString()
+                    Filling.EMPTY
             }
         }
     }
 
-    private fun isFilled(field: String) = field != Filling.EMPTY.toString()
+    private fun isFilled(field: Filling) = field != Filling.EMPTY
 
     override fun toString(): String {
         return "\n" + Tetris.draw(debris) + "\n"

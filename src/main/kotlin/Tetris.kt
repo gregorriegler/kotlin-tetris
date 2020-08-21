@@ -1,7 +1,7 @@
 class Tetris(width: Int, height: Int, private val stones: List<Structure>) {
     companion object {
-        fun draw(combined: List<List<String>>) =
-            combined.joinToString(separator = "\n") { it -> it.joinToString(separator = "") { it } }
+        fun draw(combined: List<List<Filling>>) =
+            combined.joinToString(separator = "\n") { it -> it.joinToString(separator = "") { it.toString() } }
     }
 
     private val frame: Frame = Frame(width, height)
