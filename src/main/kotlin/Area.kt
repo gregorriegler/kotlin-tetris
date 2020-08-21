@@ -1,16 +1,24 @@
+import java.util.concurrent.atomic.AtomicReferenceArray
+
 open class Area(val fields: Set<Field>) {
+
+    companion object {
+        fun parseFields(string: String): Set<Field> {
+            return string.trimIndent()
+                .split("\n")
+                .flatMapIndexed { y, row ->
+                    row.chunked(1)
+                        .withIndex()
+                        .filterNot { it.value == Filling.INDENT_VALUE }
+                        .map { Field(it.index, y, it.value) }
+                }.toSet()
+        }
+    }
 
     constructor(vararg fields: Field) : this(fields.toSet())
 
     constructor(string: String) : this(
-        string.trimIndent()
-            .split("\n")
-            .flatMapIndexed { y, row ->
-                row.chunked(1)
-                    .withIndex()
-                    .filterNot { it.value == Filling.INDENT_VALUE }
-                    .map { Field(it.index, y, it.value) }
-            }.toSet()
+        parseFields(string)
     )
 
     fun down(): Area = Area(fields.map { it.down() }.toSet())
@@ -65,6 +73,15 @@ open class Area(val fields: Set<Field>) {
 
     override fun hashCode(): Int {
         return fields.hashCode()
+    }
+
+    fun combine(area: Area): Area {
+        return Area(
+            (0 until maxOf(height(), area.height())).flatMap { y ->
+                (0 until maxOf(width(), area.width())).map { x ->
+                    Field(x, y, fillingOf(x, y).or(area.fillingOf(x, y)))
+                }
+            }.toSet())
     }
 
 }

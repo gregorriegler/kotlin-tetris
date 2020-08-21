@@ -1,20 +1,19 @@
 enum class Filling {
 
     FILLED {
-        override fun toString(): String {
-            return FILLED_VALUE
-        }
+        override fun or(filling: Filling): Filling = FILLED
+        override fun toString(): String = FILLED_VALUE
     },
     EMPTY {
-        override fun toString(): String {
-            return EMPTY_VALUE
-        }
+        override fun or(filling: Filling): Filling = filling
+        override fun toString(): String = EMPTY_VALUE
     },
     INDENT {
-        override fun toString(): String {
-            return INDENT_VALUE
-        }
+        override fun or(filling: Filling): Filling = filling
+        override fun toString(): String = INDENT_VALUE
     };
+
+    abstract fun or(filling: Filling): Filling
 
     companion object {
         const val FILLED_VALUE: String = "#"

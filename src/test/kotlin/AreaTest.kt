@@ -130,6 +130,12 @@ class `An Area` {
     }
 
     @Test
+    fun combines() {
+        assertThat(Area("_#\n#_").combine(Area("#_")))
+            .isEqualTo(Area("##\n#_"))
+    }
+
+    @Test
     fun `moves down`() {
         assertThat(
             Area("""

@@ -4,7 +4,8 @@ class Stone(
 ) {
     constructor(frame: Frame) : this(Structure("#"), frame)
 
-    private var area: Area = frame.startingArea(structure) //todo remove
+    var area: Area = frame.startingArea(structure)
+        private set
 
     fun down() {
         area = frame.down(area)

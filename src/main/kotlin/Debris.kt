@@ -3,8 +3,9 @@ import java.util.Collections.unmodifiableList
 class Debris(
     private val frame: Frame,
     private var debris: List<List<Filling>>,
+    private var debrisNew: Set<Field>
 ) {
-    constructor(frame: Frame) : this(frame, frame.empty())
+    constructor(frame: Frame) : this(frame, frame.empty(), emptySet())
     constructor(debris: String) : this(
         Frame(
             debris.trimIndent().substringBefore('\n').length,
@@ -13,7 +14,8 @@ class Debris(
         debris.trimIndent()
             .split("\n")
             .map { row -> row.chunked(1).map { Filling.of(it) } }
-            .toList()
+            .toList(),
+        Area.parseFields(debris)
     )
 
     fun width(): Int {
