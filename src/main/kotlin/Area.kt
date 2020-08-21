@@ -79,7 +79,7 @@ open class Area(val fields: Set<Field>) {
         return fields.contains(field)
     }
 
-    fun rotate(): Area = Area(fields.map { field -> field.rotate(width(), height()) }.toSet())
+    fun rotate(): Area = Area(fields.map { field -> field.rotate(maxOf(width(), height())) }.toSet())
 
 
 }

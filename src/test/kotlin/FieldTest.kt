@@ -24,20 +24,20 @@ class `A Field` {
     }
 
     @Test
-    fun `rotates a field`() {
+    fun `rotates a field in a 3x3 block`() {
         //top row
-        assertEquals(Field(2, 0), Field(0,0).rotate(3, 3))
-        assertEquals(Field(2, 1), Field(1,0).rotate(3, 3))
-        assertEquals(Field(2, 2), Field(2,0).rotate(3, 3))
+        assertEquals(Field(2, 0), Field(0,0).rotate(3))
+        assertEquals(Field(2, 1), Field(1,0).rotate(3))
+        assertEquals(Field(2, 2), Field(2,0).rotate(3))
 
         //center row
-        assertEquals(Field(1, 0), Field(0,1).rotate(3, 3))
-        assertEquals(Field(1, 1), Field(1,1).rotate(3, 3))
-        assertEquals(Field(1, 2), Field(2,1).rotate(3, 3))
+        assertEquals(Field(1, 0), Field(0,1).rotate(3))
+        assertEquals(Field(1, 1), Field(1,1).rotate(3))
+        assertEquals(Field(1, 2), Field(2,1).rotate(3))
 
         //bottom row
-        assertEquals(Field(0, 0), Field(0,2).rotate(3, 3))
-        assertEquals(Field(0, 1), Field(1,2).rotate(3, 3))
-        assertEquals(Field(0, 2), Field(2,2).rotate(3, 3))
+        assertEquals(Field(0, 0), Field(0,2).rotate(3))
+        assertEquals(Field(0, 1), Field(1,2).rotate(3))
+        assertEquals(Field(0, 2), Field(2,2).rotate(3))
     }
 }

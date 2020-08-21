@@ -13,7 +13,7 @@ class Field(
 
     fun toTheRight(): Field = Field(x + 1, y)
 
-    fun rotate(width: Int, height: Int): Field {
+    fun rotate(width: Int): Field {
         return Field(width - y - 1, x)
     }
 

@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.assertj.core.api.Assertions.*
 
 class `An Area` {
 
@@ -14,11 +15,11 @@ class `An Area` {
 
         assertEquals(2, area.width())
         assertEquals(2, area.height())
-        assertTrue(area.covers(Field(0,0)))
-        assertTrue(area.covers(Field(1,0)))
-        assertTrue(area.covers(Field(0,1)))
-        assertTrue(area.covers(Field(1,1)))
-        assertFalse(area.covers(Field(2,1)))
+        assertTrue(area.covers(Field(0, 0)))
+        assertTrue(area.covers(Field(1, 0)))
+        assertTrue(area.covers(Field(0, 1)))
+        assertTrue(area.covers(Field(1, 1)))
+        assertFalse(area.covers(Field(2, 1)))
     }
 
     @Test
@@ -31,11 +32,11 @@ class `An Area` {
 
         assertEquals(2, area.width())
         assertEquals(2, area.height())
-        assertTrue(area.covers(Field(0,0)))
-        assertFalse(area.covers(Field(1,0)))
-        assertTrue(area.covers(Field(0,1)))
-        assertTrue(area.covers(Field(1,1)))
-        assertFalse(area.covers(Field(2,1)))
+        assertTrue(area.covers(Field(0, 0)))
+        assertFalse(area.covers(Field(1, 0)))
+        assertTrue(area.covers(Field(0, 1)))
+        assertTrue(area.covers(Field(1, 1)))
+        assertFalse(area.covers(Field(2, 1)))
     }
 
     @Test
@@ -49,15 +50,15 @@ class `An Area` {
 
         assertEquals(1, area.width())
         assertEquals(1, area.height())
-        assertFalse(area.covers(Field(0,0)))
-        assertFalse(area.covers(Field(1,0)))
-        assertFalse(area.covers(Field(2,0)))
-        assertFalse(area.covers(Field(0,1)))
-        assertTrue(area.covers(Field(1,1)))
-        assertFalse(area.covers(Field(2,1)))
-        assertFalse(area.covers(Field(0,2)))
-        assertFalse(area.covers(Field(1,2)))
-        assertFalse(area.covers(Field(2,2)))
+        assertFalse(area.covers(Field(0, 0)))
+        assertFalse(area.covers(Field(1, 0)))
+        assertFalse(area.covers(Field(2, 0)))
+        assertFalse(area.covers(Field(0, 1)))
+        assertTrue(area.covers(Field(1, 1)))
+        assertFalse(area.covers(Field(2, 1)))
+        assertFalse(area.covers(Field(0, 2)))
+        assertFalse(area.covers(Field(1, 2)))
+        assertFalse(area.covers(Field(2, 2)))
     }
 
     @Test
@@ -124,46 +125,43 @@ class `An Area` {
     }
 
     @Test
-    fun `rotates`() {
-        assertEquals(
-            Area("""
-                _#_
-                _#_
-                _#_
-            """),
-            Area("""
+    fun rotates() {
+        assertThat(Area("""
                 ___
                 ###
                 ___
-            """).rotate()
-        )
+                """).rotate())
+            .isEqualTo(Area("""
+                _#_
+                _#_
+                _#_
+                """))
 
-        assertEquals(
-            Area("""
-                _#
-                ##
-                _#
-            """),
+        assertThat(
             Area("""
                 ___
                 ###
                 _#_
-            """).rotate()
-        )
-//      TODO does not work
-//        assertEquals(
-//            Area("""
-//                _#
-//                ##
-//                _#
-//            """),
-//            Area("""
-//                _#__
-//                _##_
-//                _#__
-//                ____
-//            """).rotate()
-//        )
+                """).rotate())
+            .isEqualTo(
+                Area("""
+                _#_
+                ##_
+                _#_
+                """))
+
+        assertThat(
+            Area("""
+                ##_
+                #__
+                #__
+                """).rotate())
+            .isEqualTo(
+                Area("""
+                ###
+                __#
+                ___
+                """))
     }
 }
 
