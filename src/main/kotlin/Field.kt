@@ -46,5 +46,6 @@ open class Field(
         result = 31 * result + y
         return result
     }
+
     override fun toString(): String = "($x,$y)"
 }

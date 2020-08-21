@@ -1,0 +1,1 @@
+class FieldWithFilling(x: Int, y:Int, filling: Filling) : Field(x, y)

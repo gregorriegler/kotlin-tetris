@@ -12,9 +12,9 @@ open class Area(val fields: Set<Field>) {
                     .filter { field -> field.value != Field.INDENT }
                     .map { field ->
                         if (field.value != Field.EMPTY) {
-                            FilledField(field.index, y)
+                            Field(field.index, y).filled()
                         } else {
-                            EmptyField(field.index, y)
+                            Field(field.index, y).empty()
                         }
                     }
             }.toSet()

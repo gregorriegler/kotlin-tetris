@@ -27,7 +27,7 @@ class `A Frame` {
     fun `moves an area to the left`() {
         val frame = Frame(3, 3)
         assertEquals(
-            Area(EmptyField(-1, 0), FilledField(0, 0), FilledField(1, 0)),
+            Area(Field(-1, 0).empty(), Field(0, 0).filled(), Field(1, 0).filled()),
             frame.left(
                 Area("""
                 _##
@@ -82,18 +82,18 @@ class `A Frame` {
                 """)
 
         val expected = Area(
-            EmptyField(-1, 0),
-            EmptyField(0, 0),
-            EmptyField(1, 0),
-            FilledField(2, 0),
-            EmptyField(-1, 1),
-            EmptyField(0, 1),
-            FilledField(1, 1),
-            FilledField(2, 1),
-            EmptyField(-1, 2),
-            EmptyField(0, 2),
-            EmptyField(1, 2),
-            FilledField(2, 2),
+            Field(-1, 0).empty(),
+            Field(0, 0).empty(),
+            Field(1, 0).empty(),
+            Field(2, 0).filled(),
+            Field(-1, 1).empty(),
+            Field(0, 1).empty(),
+            Field(1, 1).filled(),
+            Field(2, 1).filled(),
+            Field(-1, 2).empty(),
+            Field(0, 2).empty(),
+            Field(1, 2).empty(),
+            Field(2, 2).filled(),
         )
         val actual = frame.left(area, debris)
         assertEquals(
