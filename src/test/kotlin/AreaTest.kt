@@ -124,6 +124,7 @@ class `An Area` {
         )
     }
 
+    @Disabled
     @Test
     fun rotates() {
         assertThat(Area("""
@@ -152,12 +153,16 @@ class `An Area` {
 
         assertThat(
             Area("""
+                ___
+                ___
                 ##_
                 #__
                 #__
                 """).rotate())
             .isEqualTo(
                 Area("""
+                ___
+                ___
                 ###
                 __#
                 ___

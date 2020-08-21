@@ -19,9 +19,13 @@ open class Area(val fields: Set<Field>) {
     }
 
     fun height(): Int {
-        val top = fields.map { it.y }.minOrNull()!!
-        fields.map { it.y }.maxOrNull()!!
-        return (bottom() - top) + 1
+        return (bottom() - top()) + 1
+    }
+
+    private fun size() = maxOf(width(), height())
+
+    fun top(): Int {
+        return fields.map { it.y }.minOrNull()!!
     }
 
     fun bottom(): Int {
@@ -53,14 +57,6 @@ open class Area(val fields: Set<Field>) {
         return true
     }
 
-    override fun hashCode(): Int {
-        return fields.hashCode()
-    }
-
-    override fun toString(): String {
-        return "\n" + Tetris.draw(state()) + "\n"
-    }
-
     fun state(): List<List<String>> {
         return Frame(rightSide() + 1, bottom() +1).empty().mapIndexed { y, row ->
             val mutableRow = row.toMutableList()
@@ -79,7 +75,25 @@ open class Area(val fields: Set<Field>) {
         return fields.contains(field)
     }
 
-    fun rotate(): Area = Area(fields.map { field -> field.rotate(maxOf(width(), height())) }.toSet())
+    fun rotate(): Area {
+        val distance = distance()
 
+        return Area(fields
+            .map { field -> Field(field.x + distance.x * -1, field.y + distance.y * -1) }
+            .map { field -> field.rotate(size()) }
+            .map { field -> Field(field.x + distance.x, field.y + distance.y) }
+            .toSet()
+        )
+    }
+
+    private fun distance() = Field(leftSide(), top())
+
+    override fun hashCode(): Int {
+        return fields.hashCode()
+    }
+
+    override fun toString(): String {
+        return "\n" + Tetris.draw(state()) + "\n"
+    }
 
 }

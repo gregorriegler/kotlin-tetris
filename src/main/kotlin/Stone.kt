@@ -1,12 +1,12 @@
 import java.util.Collections.unmodifiableList
 
 class Stone(
-    structure: Structure,
+    private val structure: Structure,
     private val frame: Frame
 ) {
     constructor(frame: Frame) : this(Structure("#"), frame)
 
-    private var area:Area = frame.startingArea(structure)
+    private var area:Area = frame.startingArea(structure) //todo remove
 
     fun down() {
         area = frame.down(area)

@@ -9,8 +9,6 @@ class Frame(
             .map { (0 until width).map { Field.EMPTY }.toList() }
             .toList()
 
-    fun startingField(): Field = Field(center(), -1)
-
     fun startingArea(structure: Structure): Area {
         val top = 0 - structure.height()
         val left = (width - structure.width()) / 2

@@ -353,11 +353,11 @@ class `A Stone` {
     }
 
     @Nested
-    inner class `with a size 3abd1` {
+    inner class `with a size 3and1` {
 
-        @Disabled // TODO does not work: test field again
+        @Disabled
         @Test
-        fun `rotates`() {
+        fun rotates() {
             val stone = Stone(
                 Structure("""
                 #_
@@ -367,6 +367,8 @@ class `A Stone` {
                 Frame(4, 4)
             )
 
+            stone.down()
+            stone.down()
             stone.rotate()
 
             assertState(

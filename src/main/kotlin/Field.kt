@@ -32,10 +32,12 @@ class Field(
 
         return true
     }
+
     override fun hashCode(): Int {
         var result = x
         result = 31 * result + y
         return result
     }
+
     override fun toString(): String = "($x,$y)"
 }

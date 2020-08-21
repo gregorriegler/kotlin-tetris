@@ -4,12 +4,6 @@ import org.junit.jupiter.api.Test
 class `A Frame` {
 
     @Test
-    fun `returns the starting field`() {
-        val frame = Frame(3, 3)
-        assertEquals(Field(1, -1), frame.startingField())
-    }
-
-    @Test
     fun `returns the starting area for a structure`() {
         assertEquals(Area(Field(1, -1)), Frame(3, 3).startingArea(Structure("#")))
         assertEquals(Area(Field(1, -1)), Frame(4, 4).startingArea(Structure("#")))
