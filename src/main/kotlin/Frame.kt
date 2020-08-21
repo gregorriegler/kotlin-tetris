@@ -11,7 +11,7 @@ class Frame(
 
     fun startingArea(structure: Structure): Area {
         val top = 0 - structure.filledHeight()
-        val left = (width - structure.filledWidth()) / 2
+        val left = (width - structure.width()) / 2
         val vector = Field(left, top)
         return Area( // this is area.move
             structure.fields

@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.assertj.core.api.Assertions.*
 
@@ -6,17 +5,17 @@ class `A Field` {
 
     @Test
     fun `returns the field below`() {
-        assertThat(Field(1,1).below()).isEqualTo(Field(1, 2))
+        assertThat(Field(1,1).down()).isEqualTo(Field(1, 2))
     }
 
     @Test
     fun `returns the field to the left`() {
-        assertThat(Field(1,1).toTheLeft()).isEqualTo(Field(0, 1))
+        assertThat(Field(1,1).left()).isEqualTo(Field(0, 1))
     }
 
     @Test
     fun `returns the field to the right`() {
-        assertThat(Field(1,1).toTheRight()).isEqualTo(Field(2, 1))
+        assertThat(Field(1,1).right()).isEqualTo(Field(2, 1))
     }
 
     @Test

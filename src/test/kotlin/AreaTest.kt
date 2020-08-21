@@ -12,7 +12,7 @@ class `An Area` {
         """
         )
 
-        assertEquals(2, area.filledWidth())
+        assertEquals(2, area.width())
         assertEquals(2, area.filledHeight())
         assertTrue(area.covers(Field(0, 0)))
         assertTrue(area.covers(Field(1, 0)))
@@ -29,7 +29,7 @@ class `An Area` {
         """
         )
 
-        assertEquals(2, area.filledWidth())
+        assertEquals(2, area.width())
         assertEquals(2, area.filledHeight())
         assertTrue(area.covers(Field(0, 0)))
         assertFalse(area.covers(Field(1, 0)))
@@ -47,7 +47,7 @@ class `An Area` {
         """
         )
 
-        assertEquals(1, area.filledWidth())
+        assertEquals(3, area.width())
         assertEquals(1, area.filledHeight())
         assertFalse(area.covers(Field(0, 0)))
         assertFalse(area.covers(Field(1, 0)))
@@ -67,7 +67,7 @@ class `An Area` {
             >##
         """)
 
-        assertEquals(2, area.filledWidth())
+        assertEquals(2, area.width())
         assertEquals(2, area.filledHeight())
         assertTrue(area.covers(Field(1, 0)))
         assertTrue(area.covers(Field(2, 0)))
@@ -84,7 +84,7 @@ class `An Area` {
             ##
         """)
 
-        assertEquals(2, area.filledWidth())
+        assertEquals(2, area.width())
         assertEquals(2, area.filledHeight())
         assertTrue(area.covers(Field(0, 1)))
         assertTrue(area.covers(Field(1, 1)))
@@ -95,8 +95,8 @@ class `An Area` {
 
     @Test
     fun `has a width`() {
-        assertEquals(1, Area("#").filledWidth())
-        assertEquals(2, Area("##").filledWidth())
+        assertEquals(1, Area("#").width())
+        assertEquals(2, Area("##").width())
     }
 
     @Test

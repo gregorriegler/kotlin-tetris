@@ -3,33 +3,39 @@ import java.util.*
 open class Area(val fields: Set<Field>) {
 
     constructor(vararg fields: Field) : this(fields.toSet())
+
     constructor(string: String) : this(
         string.trimIndent()
             .split("\n")
             .flatMapIndexed { y, row ->
                 row.chunked(1)
                     .withIndex()
-                    .filter { field -> field.value != Filling.INDENT.toString() }
-                    .map { field -> Field(field.index, y, field.value)
-                    }
+                    .filterNot { it.value == Filling.INDENT_VALUE }
+                    .map { Field(it.index, y, it.value) }
             }.toSet()
     )
 
-    fun filledWidth(): Int {
-        return (rightSideOfFilled() - leftSideOfFilled()) + 1
+    fun down(): Area = Area(fields.map { it.down() }.toSet())
+
+    fun left(): Area = Area(fields.map { it.left() }.toSet())
+
+    fun right(): Area = Area(fields.map { it.right() }.toSet())
+
+    private fun size() = maxOf(width(), filledHeight())
+
+    fun width(): Int {
+        return (rightSide() - leftSide()) + 1
     }
 
     fun filledHeight(): Int {
         return (bottomOfFilled() - topOfFilled()) + 1
     }
 
-    private fun size() = maxOf(filledWidth(), filledHeight())
-
-    fun top(): Int {
+    private fun top(): Int {
         return fields.map { it.y }.minOrNull()!!
     }
 
-    fun topOfFilled(): Int {
+    private fun topOfFilled(): Int {
         return fields.filter { it.isFilled() }
             .map { it.y }
             .minOrNull()!!
@@ -41,7 +47,7 @@ open class Area(val fields: Set<Field>) {
             .maxOrNull()!!
     }
 
-    fun leftSide(): Int {
+    private fun leftSide(): Int {
         return fields.map { it.x }.minOrNull()!!
     }
 
@@ -56,23 +62,17 @@ open class Area(val fields: Set<Field>) {
             .maxOrNull()!!
     }
 
-    fun rightSide(): Int {
+    private fun rightSide(): Int {
         return fields.map { it.x }
             .maxOrNull()!!
     }
 
-    fun bottom(): Int {
+    private fun bottom(): Int {
         return fields.map { it.y }
             .maxOrNull()!!
     }
 
-    fun down(): Area = Area(fields.map { field -> field.below() }.toSet())
-
-    fun left(): Area = Area(fields.map { field -> field.toTheLeft() }.toSet())
-
-    fun right(): Area = Area(fields.map { field -> field.toTheRight() }.toSet())
-
-    fun state(): List<List<String>> {
+    private fun state(): List<List<String>> {
         return Frame(rightSide() + 1, bottom() + 1)
             .empty()
             .mapIndexed { y, row ->
@@ -105,6 +105,10 @@ open class Area(val fields: Set<Field>) {
 
     private fun distance() = Field(leftSide(), top())
 
+    override fun toString(): String {
+        return "\n" + Tetris.draw(state()) + "\n"
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -118,10 +122,6 @@ open class Area(val fields: Set<Field>) {
 
     override fun hashCode(): Int {
         return fields.hashCode()
-    }
-
-    override fun toString(): String {
-        return "\n" + Tetris.draw(state()) + "\n"
     }
 
 }
