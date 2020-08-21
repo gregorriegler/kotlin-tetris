@@ -1,5 +1,3 @@
-import java.util.concurrent.atomic.AtomicReferenceArray
-
 open class Area(val fields: Set<Field>) {
 
     companion object {
@@ -16,10 +14,7 @@ open class Area(val fields: Set<Field>) {
     }
 
     constructor(vararg fields: Field) : this(fields.toSet())
-
-    constructor(string: String) : this(
-        parseFields(string)
-    )
+    constructor(string: String) : this(parseFields(string))
 
     fun down(): Area = Area(fields.map { it.down() }.toSet())
     fun left(): Area = Area(fields.map { it.left() }.toSet())
@@ -29,14 +24,14 @@ open class Area(val fields: Set<Field>) {
     fun width(): Int = (rightSide() - leftSide()) + 1
     fun height(): Int = (bottom() - top()) + 1
 
-    private fun leftSide(): Int = fields.map { it.x }.minOrNull()!!
-    private fun rightSide(): Int = fields.map { it.x }.maxOrNull()!!
-    private fun top(): Int = fields.map { it.y }.minOrNull()!!
-    private fun bottom(): Int = fields.map { it.y }.maxOrNull()!!
+    private fun leftSide(): Int = fields.map { it.x }.minOrNull() ?: 0
+    private fun rightSide(): Int = fields.map { it.x }.maxOrNull() ?: 0
+    private fun top(): Int = fields.map { it.y }.minOrNull() ?: 0
+    private fun bottom(): Int = fields.map { it.y }.maxOrNull() ?: 0
 
-    fun leftSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.minOrNull()!!
-    fun rightSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.maxOrNull()!!
-    fun bottomOfFilled(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull()!!
+    fun leftSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.minOrNull() ?: 0
+    fun rightSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.maxOrNull() ?: 0
+    fun bottomOfFilled(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull() ?: 0
 
     private fun state(): List<List<Filling>> =
         (0 until height()).map { y ->
@@ -58,8 +53,18 @@ open class Area(val fields: Set<Field>) {
 
     private fun distance() = Field(leftSide(), top())
 
-    override fun toString(): String = "\n" + Tetris.draw(state()) + "\n"
+    fun combine(area: Area): Area = Area(
+        (0 until maxOf(height(), area.height())).flatMap { y ->
+            (0 until maxOf(width(), area.width())).map { x ->
+                Field(x, y, fillingOf(x, y).or(area.fillingOf(x, y)))
+            }
+        }.toSet())
 
+    fun overlaps(area: Area): Boolean {
+        return fields.any { area.has(it) }
+    }
+
+    override fun toString(): String = "\n" + Tetris.draw(state()) + "\n"
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -71,17 +76,19 @@ open class Area(val fields: Set<Field>) {
         return true
     }
 
-    override fun hashCode(): Int {
-        return fields.hashCode()
+    override fun hashCode(): Int = fields.hashCode()
+
+    fun removeFilledLines(): Area {
+        return Area(
+            (0 until height())
+                .filter { y ->
+                    (0 until width()).map { x -> fillingOf(x, y) }.any { it == Filling.EMPTY }
+                }.flatMapIndexed { newY, y ->
+                    (0 until width()).map { x -> Field(x, newY, fillingOf(x, y)) }
+                }.toSet()
+        )
+
     }
 
-    fun combine(area: Area): Area {
-        return Area(
-            (0 until maxOf(height(), area.height())).flatMap { y ->
-                (0 until maxOf(width(), area.width())).map { x ->
-                    Field(x, y, fillingOf(x, y).or(area.fillingOf(x, y)))
-                }
-            }.toSet())
-    }
 
 }

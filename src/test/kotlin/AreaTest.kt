@@ -136,6 +136,29 @@ class `An Area` {
     }
 
     @Test
+    fun overlaps() {
+        assertThat(Area("#_").overlaps(Area("#_"))).isTrue
+    }
+
+    @Test
+    fun `does not overlap`() {
+        assertThat(Area("#_").overlaps(Area("_#"))).isFalse
+    }
+
+    @Test
+    fun `removes filled lines`() {
+        assertThat(Area("""
+            #_
+            ##
+            #_
+            ##
+        """).removeFilledLines()).isEqualTo(Area("""
+            #_
+            #_
+        """))
+    }
+
+    @Test
     fun `moves down`() {
         assertThat(
             Area("""

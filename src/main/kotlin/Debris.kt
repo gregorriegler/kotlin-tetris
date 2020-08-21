@@ -3,9 +3,9 @@ import java.util.Collections.unmodifiableList
 class Debris(
     private val frame: Frame,
     private var debris: List<List<Filling>>,
-    private var debrisNew: Set<Field>
+    private var debrisNew: Area,
 ) {
-    constructor(frame: Frame) : this(frame, frame.empty(), emptySet())
+    constructor(frame: Frame) : this(frame, frame.empty(), Area())
     constructor(debris: String) : this(
         Frame(
             debris.trimIndent().substringBefore('\n').length,
@@ -15,7 +15,7 @@ class Debris(
             .split("\n")
             .map { row -> row.chunked(1).map { Filling.of(it) } }
             .toList(),
-        Area.parseFields(debris)
+        Area(debris)
     )
 
     fun width(): Int {
@@ -27,6 +27,7 @@ class Debris(
     }
 
     fun add(stone: Stone) {
+        addNew(stone)
         debris = debris.mapIndexed { y, row ->
             val mutableRow = row.toMutableList()
             (0 until frame.width).forEach { x ->
@@ -34,6 +35,10 @@ class Debris(
             }
             unmodifiableList(mutableRow)
         }
+    }
+
+    fun addNew(stone: Stone) {
+        debrisNew = debrisNew.combine(stone.area)
     }
 
     fun isAt(area: Area): Boolean =
@@ -48,10 +53,19 @@ class Debris(
             && debris[field.y][field.x] != Filling.EMPTY
 
     fun dissolveFilledRows(): Int {
+//        dissolveFilledRowsNew()
         val filledRows = filledRows()
         debris = makeEmptyRowsFor(filledRows) + removeRows(filledRows)
         return filledRows.size
     }
+
+//    fun dissolveFilledRowsNew(): Int {
+//        (0 until height()).flatMap { y ->
+//            (0 until width()).map { x ->
+////                debrisNew.
+//            }
+//        }
+//    }
 
     private fun removeRows(rows: List<Int>) =
         debris.filterIndexed { index, _ -> !rows.contains(index) }.toList()
