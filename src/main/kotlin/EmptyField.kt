@@ -1,5 +1,7 @@
 class EmptyField(x: Int, y: Int) : Field(x, y) {
 
+    override fun isFilled(): Boolean = false
+
     override fun below(): Field {
         return super.below().empty()
     }

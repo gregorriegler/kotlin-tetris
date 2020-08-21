@@ -35,13 +35,13 @@ open class Area(val fields: Set<Field>) {
     }
 
     fun topOfFilled(): Int {
-        return fields.filter { it is FilledField }
+        return fields.filter { it.isFilled() }
             .map { it.y }
             .minOrNull()!!
     }
 
     fun bottomOfFilled(): Int {
-        return fields.filter { it is FilledField }
+        return fields.filter { it.isFilled() }
             .map { it.y }
             .maxOrNull()!!
     }
@@ -51,12 +51,12 @@ open class Area(val fields: Set<Field>) {
     }
 
     fun leftSideOfFilled(): Int {
-        return fields.filter { it is FilledField }
+        return fields.filter { it.isFilled() }
             .map { it.x }.minOrNull()!!
     }
 
     fun rightSideOfFilled(): Int {
-        return fields.filter { it is FilledField }
+        return fields.filter { it.isFilled() }
             .map { it.x }
             .maxOrNull()!!
     }

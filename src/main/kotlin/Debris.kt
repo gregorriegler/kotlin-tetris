@@ -37,7 +37,7 @@ class Debris(
     fun isAt(area: Area): Boolean =
         area.fields
             .filter { field -> field.y >= 0 }
-            .filter { it is FilledField }
+            .filter { it.isFilled() }
             .any { isAt(it) }
 
     fun isAt(field: Field): Boolean = field.y >= 0 && field.x >= 0

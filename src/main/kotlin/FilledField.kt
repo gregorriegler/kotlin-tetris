@@ -1,5 +1,7 @@
 class FilledField(x: Int, y: Int) : Field(x, y) {
 
+    override fun isFilled(): Boolean = true
+
     // todo need to find a better design to get rid of these duplicates
     override fun below(): Field {
         return super.below().filled()
