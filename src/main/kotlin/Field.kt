@@ -19,8 +19,8 @@ open class Field(
 
     constructor(x: Int, y: Int) : this(x, y, EMPTY)
 
-    fun filled(): Field = Field(x, y, FILLED)
-    fun empty(): Field = Field(x, y, EMPTY)
+    fun filled(): Field = filled(x, y)
+    fun empty(): Field = empty(x, y)
 
     open fun below(): Field = Field(x, y + 1, filling)
 
