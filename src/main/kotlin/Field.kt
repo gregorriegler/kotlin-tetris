@@ -1,12 +1,26 @@
+import Filling.EMPTY
+import Filling.FILLED
+
 open class Field(
     val x: Int,
     val y: Int,
     val filling: Filling
 ) {
-    constructor(x: Int, y: Int) : this(x, y, Filling.EMPTY)
 
-    fun filled(): Field = Field(x, y, Filling.FILLED)
-    fun empty(): Field = Field(x, y, Filling.EMPTY)
+    companion object {
+        fun filled(x: Int, y: Int): Field {
+            return Field(x, y, FILLED)
+        }
+
+        fun empty(x: Int, y: Int): Field {
+            return Field(x, y, EMPTY)
+        }
+    }
+
+    constructor(x: Int, y: Int) : this(x, y, EMPTY)
+
+    fun filled(): Field = Field(x, y, FILLED)
+    fun empty(): Field = Field(x, y, EMPTY)
 
     open fun below(): Field = Field(x, y + 1, filling)
 
@@ -26,7 +40,7 @@ open class Field(
         return Field(x - field.x, y - field.y, filling)
     }
 
-    open fun isFilled(): Boolean = filling == Filling.FILLED
+    open fun isFilled(): Boolean = filling == FILLED
 
     override fun toString(): String = "($x,$y)"
 
