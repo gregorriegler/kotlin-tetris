@@ -13,7 +13,7 @@ class `An Area` {
         )
 
         assertEquals(2, area.width())
-        assertEquals(2, area.filledHeight())
+        assertEquals(2, area.height())
         assertTrue(area.covers(Field(0, 0)))
         assertTrue(area.covers(Field(1, 0)))
         assertTrue(area.covers(Field(0, 1)))
@@ -30,7 +30,7 @@ class `An Area` {
         )
 
         assertEquals(2, area.width())
-        assertEquals(2, area.filledHeight())
+        assertEquals(2, area.height())
         assertTrue(area.covers(Field(0, 0)))
         assertFalse(area.covers(Field(1, 0)))
         assertTrue(area.covers(Field(0, 1)))
@@ -48,7 +48,7 @@ class `An Area` {
         )
 
         assertEquals(3, area.width())
-        assertEquals(1, area.filledHeight())
+        assertEquals(3, area.height())
         assertFalse(area.covers(Field(0, 0)))
         assertFalse(area.covers(Field(1, 0)))
         assertFalse(area.covers(Field(2, 0)))
@@ -68,7 +68,7 @@ class `An Area` {
         """)
 
         assertEquals(2, area.width())
-        assertEquals(2, area.filledHeight())
+        assertEquals(2, area.height())
         assertTrue(area.covers(Field(1, 0)))
         assertTrue(area.covers(Field(2, 0)))
         assertTrue(area.covers(Field(1, 1)))
@@ -85,7 +85,7 @@ class `An Area` {
         """)
 
         assertEquals(2, area.width())
-        assertEquals(2, area.filledHeight())
+        assertEquals(2, area.height())
         assertTrue(area.covers(Field(0, 1)))
         assertTrue(area.covers(Field(1, 1)))
         assertTrue(area.covers(Field(0, 2)))
@@ -101,8 +101,8 @@ class `An Area` {
 
     @Test
     fun `has a height`() {
-        assertEquals(1, Area("#").filledHeight())
-        assertEquals(2, Area("#\n#").filledHeight())
+        assertEquals(1, Area("#").height())
+        assertEquals(2, Area("#\n#").height())
     }
 
     @Test

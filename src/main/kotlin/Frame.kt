@@ -10,7 +10,7 @@ class Frame(
             .toList()
 
     fun startingArea(structure: Structure): Area {
-        val top = 0 - structure.filledHeight()
+        val top = 0 - structure.height()
         val left = (width - structure.width()) / 2
         val vector = Field(left, top)
         return Area( // this is area.move

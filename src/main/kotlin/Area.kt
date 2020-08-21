@@ -16,61 +16,21 @@ open class Area(val fields: Set<Field>) {
     )
 
     fun down(): Area = Area(fields.map { it.down() }.toSet())
-
     fun left(): Area = Area(fields.map { it.left() }.toSet())
-
     fun right(): Area = Area(fields.map { it.right() }.toSet())
 
-    private fun size() = maxOf(width(), filledHeight())
+    private fun size() = maxOf(width(), height())
+    fun width(): Int = (rightSide() - leftSide()) + 1
+    fun height(): Int = (bottom() - top()) + 1
 
-    fun width(): Int {
-        return (rightSide() - leftSide()) + 1
-    }
+    private fun leftSide(): Int = fields.map { it.x }.minOrNull()!!
+    private fun rightSide(): Int = fields.map { it.x }.maxOrNull()!!
+    private fun top(): Int = fields.map { it.y }.minOrNull()!!
+    private fun bottom(): Int = fields.map { it.y }.maxOrNull()!!
 
-    fun filledHeight(): Int {
-        return (bottomOfFilled() - topOfFilled()) + 1
-    }
-
-    private fun top(): Int {
-        return fields.map { it.y }.minOrNull()!!
-    }
-
-    private fun topOfFilled(): Int {
-        return fields.filter { it.isFilled() }
-            .map { it.y }
-            .minOrNull()!!
-    }
-
-    fun bottomOfFilled(): Int {
-        return fields.filter { it.isFilled() }
-            .map { it.y }
-            .maxOrNull()!!
-    }
-
-    private fun leftSide(): Int {
-        return fields.map { it.x }.minOrNull()!!
-    }
-
-    fun leftSideOfFilled(): Int {
-        return fields.filter { it.isFilled() }
-            .map { it.x }.minOrNull()!!
-    }
-
-    fun rightSideOfFilled(): Int {
-        return fields.filter { it.isFilled() }
-            .map { it.x }
-            .maxOrNull()!!
-    }
-
-    private fun rightSide(): Int {
-        return fields.map { it.x }
-            .maxOrNull()!!
-    }
-
-    private fun bottom(): Int {
-        return fields.map { it.y }
-            .maxOrNull()!!
-    }
+    fun leftSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.minOrNull()!!
+    fun rightSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.maxOrNull()!!
+    fun bottomOfFilled(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull()!!
 
     private fun state(): List<List<String>> {
         return Frame(rightSide() + 1, bottom() + 1)
