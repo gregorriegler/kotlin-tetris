@@ -355,7 +355,7 @@ class `A Stone` {
         }
     }
 
-    private fun createFilledField(x: Int, y: Int) = Field(x, y).filled()
+    private fun createFilledField(x: Int, y: Int) = Field.filled(x, y)
 
     @Nested
     inner class `with a size 3and1` {

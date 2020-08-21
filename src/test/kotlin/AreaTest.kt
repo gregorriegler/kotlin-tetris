@@ -146,7 +146,7 @@ class `An Area` {
     @Test
     fun `moves left`() {
         assertThat(Area("_##").left()).isEqualTo(Area(
-            Field(-1, 0).empty(), Field(0, 0).filled(), Field(1, 0).filled()
+            Field.empty(-1, 0), Field.filled(0, 0), Field.filled(1, 0)
         ))
     }
 

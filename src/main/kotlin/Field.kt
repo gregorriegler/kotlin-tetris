@@ -1,7 +1,7 @@
 import Filling.EMPTY
 import Filling.FILLED
 
-open class Field(
+class Field(
     val x: Int,
     val y: Int,
     val filling: Filling
@@ -20,27 +20,26 @@ open class Field(
     constructor(x: Int, y: Int) : this(x, y, EMPTY)
 
     fun filled(): Field = filled(x, y)
-    fun empty(): Field = empty(x, y)
 
-    open fun below(): Field = Field(x, y + 1, filling)
+    fun below(): Field = Field(x, y + 1, filling)
 
-    open fun toTheLeft(): Field = Field(x - 1, y, filling)
+    fun toTheLeft(): Field = Field(x - 1, y, filling)
 
-    open fun toTheRight(): Field = Field(x + 1, y, filling)
+    fun toTheRight(): Field = Field(x + 1, y, filling)
 
-    open fun rotate(width: Int): Field {
+    fun rotate(width: Int): Field {
         return Field(width - y - 1, x, filling)
     }
 
-    open fun plus(field: Field): Field {
+    fun plus(field: Field): Field {
         return Field(x + field.x, y + field.y, filling)
     }
 
-    open fun minus(field: Field): Field {
+    fun minus(field: Field): Field {
         return Field(x - field.x, y - field.y, filling)
     }
 
-    open fun isFilled(): Boolean = filling == FILLED
+    fun isFilled(): Boolean = filling == FILLED
 
     override fun toString(): String = "($x,$y)"
 

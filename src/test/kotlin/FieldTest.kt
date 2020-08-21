@@ -6,27 +6,27 @@ class `A Field` {
 
     @Test
     fun `returns the field below`() {
-        assertEquals(Field(1, 2), Field(1,1).below())
+        assertThat(Field(1,1).below()).isEqualTo(Field(1, 2))
     }
 
     @Test
     fun `returns the field to the left`() {
-        assertEquals(Field(0, 1), Field(1,1).toTheLeft())
+        assertThat(Field(1,1).toTheLeft()).isEqualTo(Field(0, 1))
     }
 
     @Test
     fun `returns the field to the right`() {
-        assertEquals(Field(2, 1), Field(1,1).toTheRight())
+        assertThat(Field(1,1).toTheRight()).isEqualTo(Field(2, 1))
     }
 
     @Test
     fun `adds a field`() {
-        assertEquals(Field(2, 2), Field(1,1).plus(Field(1,1)))
+        assertThat(Field(1,1).plus(Field(1,1))).isEqualTo(Field(2, 2))
     }
 
     @Test
     fun `minus a field`() {
-        assertEquals(Field(0, 0), Field(1,1).minus(Field(1,1)))
+        assertThat(Field(1,1).minus(Field(1,1))).isEqualTo(Field(0, 0))
     }
 
     @Test

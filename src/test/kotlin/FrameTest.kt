@@ -17,7 +17,7 @@ class `A Frame` {
             Frame(3, 3).startingArea(Structure("###")))
     }
 
-    private fun filledField(x: Int, y: Int) = Field(x, y).filled()
+    private fun filledField(x: Int, y: Int) = Field.filled(x, y)
 
     @Test
     fun `returns the top center field`() {
@@ -29,7 +29,7 @@ class `A Frame` {
     fun `moves an area to the left`() {
         val frame = Frame(3, 3)
         assertEquals(
-            Area(Field(-1, 0).empty(), Field(0, 0).filled(), Field(1, 0).filled()),
+            Area(Field.empty(-1, 0), Field.filled(0, 0), Field.filled(1, 0)),
             frame.left(
                 Area("""
                 _##
@@ -83,19 +83,21 @@ class `A Frame` {
                 ##__
                 """)
 
+        val x = -1
+        val y = 0
         val expected = Area(
-            Field(-1, 0).empty(),
-            Field(0, 0).empty(),
-            Field(1, 0).empty(),
-            Field(2, 0).filled(),
-            Field(-1, 1).empty(),
-            Field(0, 1).empty(),
-            Field(1, 1).filled(),
-            Field(2, 1).filled(),
-            Field(-1, 2).empty(),
-            Field(0, 2).empty(),
-            Field(1, 2).empty(),
-            Field(2, 2).filled(),
+            Field.empty(x, y),
+            Field.empty(0, 0),
+            Field.empty(1, 0),
+            Field.filled(2, 0),
+            Field.empty(-1, 1),
+            Field.empty(0, 1),
+            Field.filled(1, 1),
+            Field.filled(2, 1),
+            Field.empty(-1, 2),
+            Field.empty(0, 2),
+            Field.empty(1, 2),
+            Field.filled(2, 2),
         )
         val actual = frame.left(area, debris)
         assertEquals(
@@ -220,11 +222,11 @@ class `A Frame` {
 
     @Test
     fun `knows an area is not at the bottom`() {
-        assertFalse(Frame(3, 3).isAtBottom(Area(Field(1, 1).filled())))
+        assertFalse(Frame(3, 3).isAtBottom(Area(Field.filled(1, 1))))
     }
 
     @Test
     fun `knows an area is at the bottom`() {
-        assertTrue(Frame(2, 2).isAtBottom(Area(Field(1, 1).filled())))
+        assertTrue(Frame(2, 2).isAtBottom(Area(Field.filled(1, 1))))
     }
 }
