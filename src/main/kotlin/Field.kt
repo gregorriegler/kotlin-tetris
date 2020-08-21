@@ -19,6 +19,8 @@ class Field(
 
     constructor(x: Int, y: Int) : this(x, y, EMPTY)
 
+    constructor(x: Int, y: Int, filling: String) : this(x, y, Filling.of(filling))
+
     fun filled(): Field = filled(x, y)
 
     fun below(): Field = Field(x, y + 1, filling)

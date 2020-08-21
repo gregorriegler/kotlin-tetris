@@ -10,12 +10,7 @@ open class Area(val fields: Set<Field>) {
                 row.chunked(1)
                     .withIndex()
                     .filter { field -> field.value != Filling.INDENT.toString() }
-                    .map { field ->
-                        if (field.value != Filling.EMPTY.toString()) {
-                            Field.filled(field.index, y)
-                        } else {
-                            Field.empty(field.index, y)
-                        }
+                    .map { field -> Field(field.index, y, field.value)
                     }
             }.toSet()
     )
