@@ -63,7 +63,7 @@ class `A Stone` {
 
             assertPosition(
                 stone,
-                FilledField(1, 2),
+                createFilledField(1, 2),
                 """
                 ___
                 ___
@@ -146,13 +146,15 @@ class `A Stone` {
 
         @Test
         fun `starts above the center`() {
+            val x = 1
+            val y = -2
             assertPositionArea(
                 stone,
                 Area(
-                    FilledField(1, -2),
-                    FilledField(2, -2),
-                    FilledField(1, -1),
-                    FilledField(2, -1)
+                    createFilledField(x, y),
+                    createFilledField(2, -2),
+                    createFilledField(1, -1),
+                    createFilledField(2, -1)
                 ),
                 """
                 ____
@@ -170,10 +172,10 @@ class `A Stone` {
             assertPositionArea(
                 stone,
                 Area(
-                    FilledField(1, -1),
-                    FilledField(2, -1),
-                    FilledField(1, -0),
-                    FilledField(2, -0)
+                    createFilledField(1, -1),
+                    createFilledField(2, -1),
+                    createFilledField(1, -0),
+                    createFilledField(2, -0)
                 ),
                 """
                 _##_
@@ -191,10 +193,10 @@ class `A Stone` {
             assertPositionArea(
                 stone,
                 Area(
-                    FilledField(1, 2),
-                    FilledField(2, 2),
-                    FilledField(1, 3),
-                    FilledField(2, 3)
+                    createFilledField(1, 2),
+                    createFilledField(2, 2),
+                    createFilledField(1, 3),
+                    createFilledField(2, 3)
                 ),
                 """
                 ____
@@ -352,6 +354,8 @@ class `A Stone` {
             assertFalse(stone.landed(Debris(Frame(4, 4))))
         }
     }
+
+    private fun createFilledField(x: Int, y: Int) = Field(x, y).filled()
 
     @Nested
     inner class `with a size 3and1` {

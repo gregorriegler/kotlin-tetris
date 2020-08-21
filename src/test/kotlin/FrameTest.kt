@@ -8,14 +8,16 @@ class `A Frame` {
     fun `returns the starting area for a structure`() {
         assertThat(
             Frame(3, 3).startingArea(Structure("#"))
-        ).isEqualTo(Area(FilledField(1, -1)))
-        assertEquals(Area(FilledField(1, -1)), Frame(4, 4).startingArea(Structure("#")))
-        assertEquals(Area(FilledField(1, -2), FilledField(1, -1)), Frame(3, 3).startingArea(Structure("#\n#")))
-        assertEquals(Area(FilledField(1, -1), FilledField(2, -1)), Frame(4, 4).startingArea(Structure("##")))
-        assertEquals(Area(FilledField(1, -1), FilledField(2, -1)), Frame(4, 4).startingArea(Structure("##")))
-        assertEquals(Area(FilledField(0, -1), FilledField(1, -1), FilledField(2, -1)),
+        ).isEqualTo(Area(filledField(1, -1)))
+        assertEquals(Area(filledField(1, -1)), Frame(4, 4).startingArea(Structure("#")))
+        assertEquals(Area(filledField(1, -2), filledField(1, -1)), Frame(3, 3).startingArea(Structure("#\n#")))
+        assertEquals(Area(filledField(1, -1), filledField(2, -1)), Frame(4, 4).startingArea(Structure("##")))
+        assertEquals(Area(filledField(1, -1), filledField(2, -1)), Frame(4, 4).startingArea(Structure("##")))
+        assertEquals(Area(filledField(0, -1), filledField(1, -1), filledField(2, -1)),
             Frame(3, 3).startingArea(Structure("###")))
     }
+
+    private fun filledField(x: Int, y: Int) = Field(x, y).filled()
 
     @Test
     fun `returns the top center field`() {
@@ -218,11 +220,11 @@ class `A Frame` {
 
     @Test
     fun `knows an area is not at the bottom`() {
-        assertFalse(Frame(3, 3).isAtBottom(Area(FilledField(1, 1))))
+        assertFalse(Frame(3, 3).isAtBottom(Area(Field(1, 1).filled())))
     }
 
     @Test
     fun `knows an area is at the bottom`() {
-        assertTrue(Frame(2, 2).isAtBottom(Area(FilledField(1, 1))))
+        assertTrue(Frame(2, 2).isAtBottom(Area(Field(1, 1).filled())))
     }
 }
