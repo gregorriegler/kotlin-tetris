@@ -1,5 +1,3 @@
-import java.util.*
-
 open class Area(val fields: Set<Field>) {
 
     constructor(vararg fields: Field) : this(fields.toSet())
@@ -32,42 +30,27 @@ open class Area(val fields: Set<Field>) {
     fun rightSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.maxOrNull()!!
     fun bottomOfFilled(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull()!!
 
-    private fun state(): List<List<Filling>> {
-        return Frame(rightSide() + 1, bottom() + 1)
-            .empty()
-            .mapIndexed { y, row ->
-                val mutableRow = row.toMutableList()
-
-                row.mapIndexed { x, _ ->
-                    if (has(Field.filled(x, y))) {
-                        mutableRow[x] = Filling.FILLED
-                    }
-                }
-
-                Collections.unmodifiableList(mutableRow)
+    private fun state(): List<List<Filling>> =
+        (0 until height()).map { y ->
+            (0 until width()).map { x ->
+                fillingOf(x, y)
             }
-    }
+        }.toList()
 
-    fun has(field: Field): Boolean {
-        return fields.contains(field)
-    }
+    fun fillingOf(x: Int, y: Int): Filling = fields.find { it.x == x && it.y == y }?.filling ?: Filling.EMPTY
 
-    fun rotate(): Area {
-        val distance = distance()
+    fun has(field: Field): Boolean = fields.contains(field)
 
-        return Area(fields
-            .map { field -> field.minus(distance) }
+    fun rotate(): Area = Area(
+        fields.map { field -> field.minus(distance()) }
             .map { field -> field.rotate(size()) }
-            .map { field -> field.plus(distance) }
+            .map { field -> field.plus(distance()) }
             .toSet()
-        )
-    }
+    )
 
     private fun distance() = Field(leftSide(), top())
 
-    override fun toString(): String {
-        return "\n" + Tetris.draw(state()) + "\n"
-    }
+    override fun toString(): String = "\n" + Tetris.draw(state()) + "\n"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

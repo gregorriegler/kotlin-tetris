@@ -1,12 +1,10 @@
-import java.util.Collections.unmodifiableList
-
 class Stone(
     structure: Structure,
-    private val frame: Frame
+    private val frame: Frame,
 ) {
     constructor(frame: Frame) : this(Structure("#"), frame)
 
-    private var area:Area = frame.startingArea(structure) //todo remove
+    private var area: Area = frame.startingArea(structure) //todo remove
 
     fun down() {
         area = frame.down(area)
@@ -29,19 +27,13 @@ class Stone(
         return area.has(field)
     }
 
-    fun state(): List<List<Filling>> {
-        return frame.empty().mapIndexed { y, row ->
-            val mutableRow = row.toMutableList()
-
-            row.mapIndexed { x, _ ->
-                if(area.has(Field.filled(x, y))) {
-                    mutableRow[x] = Filling.FILLED
-                }
+    fun state(): List<List<Filling>> =
+        (0 until frame.height).map { y ->
+            (0 until frame.width).map { x ->
+                area.fillingOf(x, y)
             }
+        }.toList()
 
-            unmodifiableList(mutableRow)
-        }
-    }
     fun landed(debris: Debris) = atBottom() || collisionWith(debris)
     private fun atBottom(): Boolean = frame.isAtBottom(area)
     private fun collisionWith(debris: Debris) = debris.isAt(area.down())
