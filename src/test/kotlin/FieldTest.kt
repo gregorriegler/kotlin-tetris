@@ -20,8 +20,13 @@ class `A Field` {
     }
 
     @Test
-    fun `adds fields`() {
+    fun `adds a field`() {
         assertEquals(Field(2, 2), Field(1,1).plus(Field(1,1)))
+    }
+
+    @Test
+    fun `minus a field`() {
+        assertEquals(Field(0, 0), Field(1,1).minus(Field(1,1)))
     }
 
     @Test

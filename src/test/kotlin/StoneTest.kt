@@ -356,7 +356,6 @@ class `A Stone` {
     @Nested
     inner class `with a size 3and1` {
 
-        @Disabled
         @Test
         fun rotates() {
             val stone = Stone(
@@ -370,12 +369,13 @@ class `A Stone` {
 
             stone.down()
             stone.down()
+            stone.down()
             stone.rotate()
 
             assertState(
                 """
-                ###_
-                _#__
+                _###
+                __#_
                 ____
                 ____
                 """,

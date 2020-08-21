@@ -156,7 +156,6 @@ class `An Area` {
         assertThat(Area("##_").right()).isEqualTo(Area(">##_"))
     }
 
-    @Disabled
     @Test
     fun rotates() {
         assertThat(Area("""
@@ -170,31 +169,27 @@ class `An Area` {
                 _#_
                 """))
 
-        assertThat(
-            Area("""
+        assertThat(Area("""
                 ___
                 ###
                 _#_
                 """).rotate())
-            .isEqualTo(
-                Area("""
+            .isEqualTo(Area("""
                 _#_
                 ##_
                 _#_
                 """))
 
-        assertThat(
-            Area("""
-                ___
-                ___
+        assertThat(Area("""
+                >>>
+                >>>
                 ##_
                 #__
                 #__
                 """).rotate())
-            .isEqualTo(
-                Area("""
-                ___
-                ___
+            .isEqualTo(Area("""
+                >>>
+                >>>
                 ###
                 __#
                 ___

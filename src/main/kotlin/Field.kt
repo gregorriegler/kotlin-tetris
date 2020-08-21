@@ -17,12 +17,16 @@ open class Field(
 
     open fun toTheRight(): Field = Field(x + 1, y)
 
-    fun rotate(width: Int): Field {
+    open fun rotate(width: Int): Field {
         return Field(width - y - 1, x)
     }
 
     open fun plus(field: Field): Field {
         return Field(x + field.x, y + field.y)
+    }
+
+    open fun minus(field: Field): Field {
+        return Field(x - field.x, y - field.y)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -42,6 +46,5 @@ open class Field(
         result = 31 * result + y
         return result
     }
-
     override fun toString(): String = "($x,$y)"
 }

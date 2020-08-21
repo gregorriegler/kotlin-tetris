@@ -16,5 +16,13 @@ class EmptyField(x: Int, y: Int) : Field(x, y) {
         return super.plus(field).empty()
     }
 
+    override fun minus(field: Field): Field {
+        return super.minus(field).empty()
+    }
+
+    override fun rotate(width: Int): Field {
+        return super.rotate(width).empty()
+    }
+
     override fun toString(): String = "EmptyField($x,$y)"
 }

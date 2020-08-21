@@ -30,6 +30,10 @@ open class Area(val fields: Set<Field>) {
 
     private fun size() = maxOf(filledWidth(), filledHeight())
 
+    fun top(): Int {
+        return fields.map { it.y }.minOrNull()!!
+    }
+
     fun topOfFilled(): Int {
         return fields.filter { it is FilledField }
             .map { it.y }
@@ -40,6 +44,10 @@ open class Area(val fields: Set<Field>) {
         return fields.filter { it is FilledField }
             .map { it.y }
             .maxOrNull()!!
+    }
+
+    fun leftSide(): Int {
+        return fields.map { it.x }.minOrNull()!!
     }
 
     fun leftSideOfFilled(): Int {
@@ -93,14 +101,14 @@ open class Area(val fields: Set<Field>) {
         val distance = distance()
 
         return Area(fields
-            .map { field -> Field(field.x + distance.x * -1, field.y + distance.y * -1) }
+            .map { field -> field.minus(distance) }
             .map { field -> field.rotate(size()) }
-            .map { field -> Field(field.x + distance.x, field.y + distance.y) }
+            .map { field -> field.plus(distance) }
             .toSet()
         )
     }
 
-    private fun distance() = Field(leftSideOfFilled(), topOfFilled())
+    private fun distance() = Field(leftSide(), top())
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
