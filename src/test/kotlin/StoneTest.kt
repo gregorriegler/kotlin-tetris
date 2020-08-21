@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -17,7 +16,7 @@ class `A Stone` {
         fun `starts above the center`() {
             assertPosition(
                 stone,
-                Field(1, -1),
+                Field.filled(1, -1),
                 """
                 ___
                 ___
@@ -32,7 +31,7 @@ class `A Stone` {
 
             assertPosition(
                 stone,
-                Field(1, 0),
+                Field.filled(1, 0),
                 """
                 _#_
                 ___
@@ -47,7 +46,7 @@ class `A Stone` {
 
             assertPosition(
                 stone,
-                Field(1, 2),
+                Field.filled(1, 2),
                 """
                 ___
                 ___
@@ -63,7 +62,7 @@ class `A Stone` {
 
             assertPosition(
                 stone,
-                createFilledField(1, 2),
+                Field.filled(1, 2),
                 """
                 ___
                 ___
@@ -80,7 +79,7 @@ class `A Stone` {
 
             assertPosition(
                 stone,
-                Field(0, 0),
+                Field.filled(0, 0),
                 """
                 #__
                 ___
@@ -97,7 +96,7 @@ class `A Stone` {
 
             assertPosition(
                 stone,
-                Field(0, 0),
+                Field.filled(0, 0),
                 """
                 #__
                 ___
@@ -113,7 +112,7 @@ class `A Stone` {
 
             assertPosition(
                 stone,
-                Field(2, 0),
+                Field.filled(2, 0),
                 """
                 __#
                 ___
@@ -130,7 +129,7 @@ class `A Stone` {
 
             assertPosition(
                 stone,
-                Field(2, 0),
+                Field.filled(2, 0),
                 """
                 __#
                 ___
@@ -151,10 +150,10 @@ class `A Stone` {
             assertPositionArea(
                 stone,
                 Area(
-                    createFilledField(x, y),
-                    createFilledField(2, -2),
-                    createFilledField(1, -1),
-                    createFilledField(2, -1)
+                    Field.filled(x, y),
+                    Field.filled(2, -2),
+                    Field.filled(1, -1),
+                    Field.filled(2, -1)
                 ),
                 """
                 ____
@@ -172,10 +171,10 @@ class `A Stone` {
             assertPositionArea(
                 stone,
                 Area(
-                    createFilledField(1, -1),
-                    createFilledField(2, -1),
-                    createFilledField(1, -0),
-                    createFilledField(2, -0)
+                    Field.filled(1, -1),
+                    Field.filled(2, -1),
+                    Field.filled(1, -0),
+                    Field.filled(2, -0)
                 ),
                 """
                 _##_
@@ -193,10 +192,10 @@ class `A Stone` {
             assertPositionArea(
                 stone,
                 Area(
-                    createFilledField(1, 2),
-                    createFilledField(2, 2),
-                    createFilledField(1, 3),
-                    createFilledField(2, 3)
+                    Field.filled(1, 2),
+                    Field.filled(2, 2),
+                    Field.filled(1, 3),
+                    Field.filled(2, 3)
                 ),
                 """
                 ____
@@ -268,10 +267,10 @@ class `A Stone` {
             assertPositionArea(
                 stone,
                 Area(
-                    Field(0, -1),
-                    Field(1, -1),
-                    Field(0, 0),
-                    Field(1, 0)
+                    Field.filled(0, -1),
+                    Field.filled(1, -1),
+                    Field.filled(0, 0),
+                    Field.filled(1, 0)
                 ),
                 """
                 ##__
@@ -292,10 +291,10 @@ class `A Stone` {
             assertPositionArea(
                 stone,
                 Area(
-                    Field(0, -1),
-                    Field(1, -1),
-                    Field(0, 0),
-                    Field(1, 0)
+                    Field.filled(0, -1),
+                    Field.filled(1, -1),
+                    Field.filled(0, 0),
+                    Field.filled(1, 0)
                 ),
                 """
                 ##__
@@ -315,10 +314,10 @@ class `A Stone` {
             assertPositionArea(
                 stone,
                 Area(
-                    Field(2, -1),
-                    Field(3, -1),
-                    Field(2, 0),
-                    Field(3, 0)
+                    Field.filled(2, -1),
+                    Field.filled(3, -1),
+                    Field.filled(2, 0),
+                    Field.filled(3, 0)
                 ),
                 """
                 __##
@@ -339,10 +338,10 @@ class `A Stone` {
             assertPositionArea(
                 stone,
                 Area(
-                    Field(2, -1),
-                    Field(3, -1),
-                    Field(2, 0),
-                    Field(3, 0)
+                    Field.filled(2, -1),
+                    Field.filled(3, -1),
+                    Field.filled(2, 0),
+                    Field.filled(3, 0)
                 ),
                 """
                 __##
@@ -354,8 +353,6 @@ class `A Stone` {
             assertFalse(stone.landed(Debris(Frame(4, 4))))
         }
     }
-
-    private fun createFilledField(x: Int, y: Int) = Field.filled(x, y)
 
     @Nested
     inner class `with a size 3and1` {
@@ -390,7 +387,7 @@ class `A Stone` {
 
     private fun assertPositionArea(stone: Stone, area: Area, state: String) {
         assertState(state, stone)
-        area.fields.forEach { field -> assertTrue(stone.isAt(field)) }
+        area.fields.forEach { field -> assertTrue(stone.has(field)) }
     }
 
     private fun assertPosition(stone: Stone, field: Field, state: String) {
@@ -399,7 +396,7 @@ class `A Stone` {
 
     private fun assertPosition(stone: Stone, fields: List<Field>, state: String) {
         assertState(state, stone)
-        fields.forEach { field -> assertTrue(stone.isAt(field)) }
+        fields.forEach { field -> assertTrue(stone.has(field)) }
     }
 
     private fun assertState(state: String, stone: Stone) {

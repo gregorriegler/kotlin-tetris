@@ -28,7 +28,7 @@ class Debris(
         debris = debris.mapIndexed { y, row ->
             val mutableRow = row.toMutableList()
             (0 until frame.width).forEach { x ->
-                if (stone.isAt(Field(x, y))) mutableRow[x] = Filling.FILLED.toString()
+                if (stone.has(Field.filled(x, y))) mutableRow[x] = Filling.FILLED.toString()
             }
             unmodifiableList(mutableRow)
         }

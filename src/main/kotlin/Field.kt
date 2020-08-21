@@ -21,8 +21,6 @@ class Field(
 
     constructor(x: Int, y: Int, filling: String) : this(x, y, Filling.of(filling))
 
-    fun filled(): Field = filled(x, y)
-
     fun down(): Field = Field(x, y + 1, filling)
 
     fun left(): Field = Field(x - 1, y, filling)

@@ -14,11 +14,11 @@ class `An Area` {
 
         assertEquals(2, area.width())
         assertEquals(2, area.height())
-        assertTrue(area.covers(Field(0, 0)))
-        assertTrue(area.covers(Field(1, 0)))
-        assertTrue(area.covers(Field(0, 1)))
-        assertTrue(area.covers(Field(1, 1)))
-        assertFalse(area.covers(Field(2, 1)))
+        assertTrue(area.has(Field.filled(0, 0)))
+        assertTrue(area.has(Field.filled(1, 0)))
+        assertTrue(area.has(Field.filled(0, 1)))
+        assertTrue(area.has(Field.filled(1, 1)))
+        assertFalse(area.has(Field.filled(2, 1)))
     }
 
     @Test
@@ -31,11 +31,11 @@ class `An Area` {
 
         assertEquals(2, area.width())
         assertEquals(2, area.height())
-        assertTrue(area.covers(Field(0, 0)))
-        assertFalse(area.covers(Field(1, 0)))
-        assertTrue(area.covers(Field(0, 1)))
-        assertTrue(area.covers(Field(1, 1)))
-        assertFalse(area.covers(Field(2, 1)))
+        assertTrue(area.has(Field.filled(0, 0)))
+        assertFalse(area.has(Field.filled(1, 0)))
+        assertTrue(area.has(Field.filled(0, 1)))
+        assertTrue(area.has(Field.filled(1, 1)))
+        assertFalse(area.has(Field.filled(2, 1)))
     }
 
     @Test
@@ -49,15 +49,15 @@ class `An Area` {
 
         assertEquals(3, area.width())
         assertEquals(3, area.height())
-        assertFalse(area.covers(Field(0, 0)))
-        assertFalse(area.covers(Field(1, 0)))
-        assertFalse(area.covers(Field(2, 0)))
-        assertFalse(area.covers(Field(0, 1)))
-        assertTrue(area.covers(Field(1, 1)))
-        assertFalse(area.covers(Field(2, 1)))
-        assertFalse(area.covers(Field(0, 2)))
-        assertFalse(area.covers(Field(1, 2)))
-        assertFalse(area.covers(Field(2, 2)))
+        assertFalse(area.has(Field.filled(0, 0)))
+        assertFalse(area.has(Field.filled(1, 0)))
+        assertFalse(area.has(Field.filled(2, 0)))
+        assertFalse(area.has(Field.filled(0, 1)))
+        assertTrue(area.has(Field.filled(1, 1)))
+        assertFalse(area.has(Field.filled(2, 1)))
+        assertFalse(area.has(Field.filled(0, 2)))
+        assertFalse(area.has(Field.filled(1, 2)))
+        assertFalse(area.has(Field.filled(2, 2)))
     }
 
     @Test
@@ -69,11 +69,11 @@ class `An Area` {
 
         assertEquals(2, area.width())
         assertEquals(2, area.height())
-        assertTrue(area.covers(Field(1, 0)))
-        assertTrue(area.covers(Field(2, 0)))
-        assertTrue(area.covers(Field(1, 1)))
-        assertTrue(area.covers(Field(2, 1)))
-        assertFalse(area.covers(Field(0, 1)))
+        assertTrue(area.has(Field.filled(1, 0)))
+        assertTrue(area.has(Field.filled(2, 0)))
+        assertTrue(area.has(Field.filled(1, 1)))
+        assertTrue(area.has(Field.filled(2, 1)))
+        assertFalse(area.has(Field.filled(0, 1)))
     }
 
     @Test
@@ -86,11 +86,11 @@ class `An Area` {
 
         assertEquals(2, area.width())
         assertEquals(2, area.height())
-        assertTrue(area.covers(Field(0, 1)))
-        assertTrue(area.covers(Field(1, 1)))
-        assertTrue(area.covers(Field(0, 2)))
-        assertTrue(area.covers(Field(1, 2)))
-        assertFalse(area.covers(Field(0, 0)))
+        assertTrue(area.has(Field.filled(0, 1)))
+        assertTrue(area.has(Field.filled(1, 1)))
+        assertTrue(area.has(Field.filled(0, 2)))
+        assertTrue(area.has(Field.filled(1, 2)))
+        assertFalse(area.has(Field.filled(0, 0)))
     }
 
     @Test
@@ -125,8 +125,8 @@ class `An Area` {
 
     @Test
     fun `covers a field`() {
-        assertTrue(Area("#").covers(Field(0, 0)))
-        assertFalse(Area("#").covers(Field(1, 1)))
+        assertTrue(Area("#").has(Field.filled(0, 0)))
+        assertFalse(Area("#").has(Field.filled(1, 1)))
     }
 
     @Test

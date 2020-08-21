@@ -25,8 +25,8 @@ class Stone(
         area = area.rotate()
     }
 
-    fun isAt(field: Field): Boolean {
-        return area.covers(field)
+    fun has(field: Field): Boolean {
+        return area.has(field)
     }
 
     fun state(): List<List<String>> {
@@ -34,7 +34,7 @@ class Stone(
             val mutableRow = row.toMutableList()
 
             row.mapIndexed { x, _ ->
-                if(area.covers(Field(x, y))) {
+                if(area.has(Field.filled(x, y))) {
                     mutableRow[x] = Filling.FILLED.toString()
                 }
             }

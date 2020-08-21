@@ -39,7 +39,7 @@ open class Area(val fields: Set<Field>) {
                 val mutableRow = row.toMutableList()
 
                 row.mapIndexed { x, _ ->
-                    if (covers(Field(x, y))) {
+                    if (has(Field.filled(x, y))) {
                         mutableRow[x] = Filling.FILLED.toString()
                     }
                 }
@@ -48,8 +48,8 @@ open class Area(val fields: Set<Field>) {
             }
     }
 
-    fun covers(field: Field): Boolean {
-        return fields.contains(field.filled())
+    fun has(field: Field): Boolean {
+        return fields.contains(field)
     }
 
     fun rotate(): Area {
