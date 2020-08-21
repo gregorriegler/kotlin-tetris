@@ -3,14 +3,7 @@ open class Field(
     val y: Int,
     val filling: Filling
 ) {
-
     constructor(x: Int, y: Int) : this(x, y, Filling.EMPTY)
-
-    companion object {
-        const val EMPTY = "_"
-        const val STONE = "#"
-        const val INDENT = ">"
-    }
 
     fun filled(): Field = Field(x, y, Filling.FILLED)
     fun empty(): Field = Field(x, y, Filling.EMPTY)

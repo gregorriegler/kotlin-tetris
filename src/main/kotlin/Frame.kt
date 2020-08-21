@@ -6,7 +6,7 @@ class Frame(
 ) {
     fun empty(): List<List<String>> =
         (0 until height)
-            .map { (0 until width).map { Field.EMPTY }.toList() }
+            .map { (0 until width).map { Filling.EMPTY.toString() }.toList() }
             .toList()
 
     fun startingArea(structure: Structure): Area {

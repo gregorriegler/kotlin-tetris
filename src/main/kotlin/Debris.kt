@@ -28,7 +28,7 @@ class Debris(
         debris = debris.mapIndexed { y, row ->
             val mutableRow = row.toMutableList()
             (0 until frame.width).forEach { x ->
-                if (stone.isAt(Field(x, y))) mutableRow[x] = Field.STONE
+                if (stone.isAt(Field(x, y))) mutableRow[x] = Filling.FILLED.toString()
             }
             unmodifiableList(mutableRow)
         }
@@ -43,7 +43,7 @@ class Debris(
     fun isAt(field: Field): Boolean = field.y >= 0 && field.x >= 0
             && field.y < debris.size
             && field.x < debris[field.y].size
-            && debris[field.y][field.x] != Field.EMPTY
+            && debris[field.y][field.x] != Filling.EMPTY.toString()
 
     fun dissolveFilledRows(): Int {
         val filledRows = filledRows()
@@ -68,7 +68,7 @@ class Debris(
 
     private fun emptyRow(): List<String> {
         return (0 until frame.width)
-            .map { Field.EMPTY }
+            .map { Filling.EMPTY.toString() }
             .toList()
     }
 
@@ -77,14 +77,14 @@ class Debris(
         return debris.mapIndexed { y, row ->
             row.mapIndexed { x, column ->
                 if (isFilled(column) || isFilled(stoneState[y][x]))
-                    Field.STONE
+                    Filling.FILLED.toString()
                 else
-                    Field.EMPTY
+                    Filling.EMPTY.toString()
             }
         }
     }
 
-    private fun isFilled(field: String) = field != Field.EMPTY
+    private fun isFilled(field: String) = field != Filling.EMPTY.toString()
 
     override fun toString(): String {
         return "\n" + Tetris.draw(debris) + "\n"

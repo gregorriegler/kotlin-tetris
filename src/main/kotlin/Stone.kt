@@ -1,7 +1,7 @@
 import java.util.Collections.unmodifiableList
 
 class Stone(
-    private val structure: Structure,
+    structure: Structure,
     private val frame: Frame
 ) {
     constructor(frame: Frame) : this(Structure("#"), frame)
@@ -35,7 +35,7 @@ class Stone(
 
             row.mapIndexed { x, _ ->
                 if(area.covers(Field(x, y))) {
-                    mutableRow[x] = Field.STONE
+                    mutableRow[x] = Filling.FILLED.toString()
                 }
             }
 

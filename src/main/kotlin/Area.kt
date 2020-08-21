@@ -9,9 +9,9 @@ open class Area(val fields: Set<Field>) {
             .flatMapIndexed { y, row ->
                 row.chunked(1)
                     .withIndex()
-                    .filter { field -> field.value != Field.INDENT }
+                    .filter { field -> field.value != Filling.INDENT.toString() }
                     .map { field ->
-                        if (field.value != Field.EMPTY) {
+                        if (field.value != Filling.EMPTY.toString()) {
                             Field(field.index, y).filled()
                         } else {
                             Field(field.index, y).empty()
@@ -85,7 +85,7 @@ open class Area(val fields: Set<Field>) {
 
                 row.mapIndexed { x, _ ->
                     if (covers(Field(x, y))) {
-                        mutableRow[x] = Field.STONE
+                        mutableRow[x] = Filling.FILLED.toString()
                     }
                 }
 
