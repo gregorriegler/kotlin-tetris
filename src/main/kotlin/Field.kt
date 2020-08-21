@@ -1,23 +1,27 @@
-class Field(
+open class Field(
     val x: Int,
     val y: Int,
 ) {
     companion object {
         const val EMPTY = "_"
         const val STONE = "#"
+        const val INDENT = ">"
     }
 
-    fun below(): Field = Field(x, y + 1)
+    fun filled(): FilledField = FilledField(x, y)
+    fun empty(): EmptyField = EmptyField(x, y)
 
-    fun toTheLeft(): Field = Field(x - 1, y)
+    open fun below(): Field = Field(x, y + 1)
 
-    fun toTheRight(): Field = Field(x + 1, y)
+    open fun toTheLeft(): Field = Field(x - 1, y)
+
+    open fun toTheRight(): Field = Field(x + 1, y)
 
     fun rotate(width: Int): Field {
         return Field(width - y - 1, x)
     }
 
-    fun plus(field: Field): Field {
+    open fun plus(field: Field): Field {
         return Field(x + field.x, y + field.y)
     }
 

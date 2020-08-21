@@ -10,9 +10,14 @@ class Frame(
             .toList()
 
     fun startingArea(structure: Structure): Area {
-        val top = 0 - structure.height()
-        val left = (width - structure.width()) / 2
-        return Area(structure.fields.map { field -> field.plus(Field(left, top)) }.toSet())
+        val top = 0 - structure.filledHeight()
+        val left = (width - structure.filledWidth()) / 2
+        val vector = Field(left, top)
+        return Area( // this is area.move
+            structure.fields
+                .map { field -> field.plus(vector) }
+                .toSet()
+        )
     }
 
     fun topCenter(): Field = Field(center(), 0)
@@ -30,7 +35,7 @@ class Frame(
             area.left()
 
     fun right(area: Area): Area =
-        if(area.rightSide() < width - 1)
+        if (area.rightSideOfFilled() < width - 1)
             area.right()
         else
             area
@@ -42,16 +47,16 @@ class Frame(
             area.right()
 
     fun down(area: Area): Area =
-        if (area.bottom() < height - 1)
-             area.down()
+        if (area.bottomOfFilled() < height - 1)
+            area.down()
         else
             area
 
-    private fun isAtLeftBorder(area: Area) = area.leftSide() <= 0
+    private fun isAtLeftBorder(area: Area) = area.leftSideOfFilled() <= 0
 
-    private fun isAtRightBorder(area: Area) = area.rightSide() >= width - 1
+    private fun isAtRightBorder(area: Area) = area.rightSideOfFilled() >= width - 1
 
-    fun isAtBottom(area: Area): Boolean = area.bottom() == height - 1
+    fun isAtBottom(area: Area): Boolean = area.bottomOfFilled() == height - 1
 
     private fun center() = width.toDouble().div(2).roundToInt() - 1
 

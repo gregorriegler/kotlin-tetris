@@ -1,3 +1,4 @@
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -5,12 +6,14 @@ class `A Frame` {
 
     @Test
     fun `returns the starting area for a structure`() {
-        assertEquals(Area(Field(1, -1)), Frame(3, 3).startingArea(Structure("#")))
-        assertEquals(Area(Field(1, -1)), Frame(4, 4).startingArea(Structure("#")))
-        assertEquals(Area(Field(1, -2), Field(1, -1)), Frame(3, 3).startingArea(Structure("#\n#")))
-        assertEquals(Area(Field(1, -1), Field(2, -1)), Frame(4, 4).startingArea(Structure("##")))
-        assertEquals(Area(Field(1, -1), Field(2, -1)), Frame(4, 4).startingArea(Structure("##")))
-        assertEquals(Area(Field(0, -1), Field(1, -1), Field(2, -1)),
+        assertThat(
+            Frame(3, 3).startingArea(Structure("#"))
+        ).isEqualTo(Area(FilledField(1, -1)))
+        assertEquals(Area(FilledField(1, -1)), Frame(4, 4).startingArea(Structure("#")))
+        assertEquals(Area(FilledField(1, -2), FilledField(1, -1)), Frame(3, 3).startingArea(Structure("#\n#")))
+        assertEquals(Area(FilledField(1, -1), FilledField(2, -1)), Frame(4, 4).startingArea(Structure("##")))
+        assertEquals(Area(FilledField(1, -1), FilledField(2, -1)), Frame(4, 4).startingArea(Structure("##")))
+        assertEquals(Area(FilledField(0, -1), FilledField(1, -1), FilledField(2, -1)),
             Frame(3, 3).startingArea(Structure("###")))
     }
 
@@ -24,9 +27,7 @@ class `A Frame` {
     fun `moves an area to the left`() {
         val frame = Frame(3, 3)
         assertEquals(
-            Area("""
-                ##_
-                """),
+            Area(EmptyField(-1, 0), FilledField(0, 0), FilledField(1, 0)),
             frame.left(
                 Area("""
                 _##
@@ -80,30 +81,33 @@ class `A Frame` {
                 ##__
                 """)
 
+        val expected = Area(
+            EmptyField(-1, 0),
+            EmptyField(0, 0),
+            EmptyField(1, 0),
+            FilledField(2, 0),
+            EmptyField(-1, 1),
+            EmptyField(0, 1),
+            FilledField(1, 1),
+            FilledField(2, 1),
+            EmptyField(-1, 2),
+            EmptyField(0, 2),
+            EmptyField(1, 2),
+            FilledField(2, 2),
+        )
+        val actual = frame.left(area, debris)
         assertEquals(
-            Area("""
-                __#_
-                _##_
-                __#_
-                """),
-            frame.left(area, debris)
+            expected,
+            actual
         )
     }
 
     @Test
     fun `moves an area to the right`() {
         val frame = Frame(3, 3)
-        assertEquals(
-            Area("""
-                _##
-                """),
-            frame.right(
-                Area("""
-                ##_
-                """),
-                Debris(frame)
-            )
-        )
+        assertThat(
+            frame.right(Area("##_"), Debris(frame))
+        ).isEqualTo(Area(">##_"))
     }
 
     @Test
@@ -165,9 +169,9 @@ class `A Frame` {
 
         assertEquals(
             Area("""
-                _#__
-                _##_
-                _#__
+                >#___
+                >##__
+                >#___
                 """),
             frame.right(area, debris)
         )
@@ -178,8 +182,9 @@ class `A Frame` {
         val frame = Frame(3, 3)
         assertEquals(
             Area("""
-                __
+                >>
                 ##
+                __
                 """
             ),
             frame.down(
@@ -213,11 +218,11 @@ class `A Frame` {
 
     @Test
     fun `knows an area is not at the bottom`() {
-        assertEquals(false, Frame(3, 3).isAtBottom(Area(Field(1, 1))))
+        assertFalse(Frame(3, 3).isAtBottom(Area(FilledField(1, 1))))
     }
 
     @Test
     fun `knows an area is at the bottom`() {
-        assertEquals(false, Frame(3, 3).isAtBottom(Area(Field(1, 1))))
+        assertTrue(Frame(2, 2).isAtBottom(Area(FilledField(1, 1))))
     }
 }

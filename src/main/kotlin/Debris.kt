@@ -37,9 +37,13 @@ class Debris(
     fun isAt(area: Area): Boolean =
         area.fields
             .filter { field -> field.y >= 0 }
+            .filter { it is FilledField }
             .any { isAt(it) }
 
-    fun isAt(field: Field): Boolean = debris[field.y][field.x] != Field.EMPTY
+    fun isAt(field: Field): Boolean = field.y >= 0 && field.x >= 0
+            && field.y < debris.size
+            && field.x < debris[field.y].size
+            && debris[field.y][field.x] != Field.EMPTY
 
     fun dissolveFilledRows(): Int {
         val filledRows = filledRows()

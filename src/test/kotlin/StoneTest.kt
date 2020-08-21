@@ -63,7 +63,7 @@ class `A Stone` {
 
             assertPosition(
                 stone,
-                Field(1, 2),
+                FilledField(1, 2),
                 """
                 ___
                 ___
@@ -149,10 +149,10 @@ class `A Stone` {
             assertPositionArea(
                 stone,
                 Area(
-                    Field(1, -2),
-                    Field(2, -2),
-                    Field(1, -1),
-                    Field(2, -1)
+                    FilledField(1, -2),
+                    FilledField(2, -2),
+                    FilledField(1, -1),
+                    FilledField(2, -1)
                 ),
                 """
                 ____
@@ -170,10 +170,10 @@ class `A Stone` {
             assertPositionArea(
                 stone,
                 Area(
-                    Field(1, -1),
-                    Field(2, -1),
-                    Field(1, -0),
-                    Field(2, -0)
+                    FilledField(1, -1),
+                    FilledField(2, -1),
+                    FilledField(1, -0),
+                    FilledField(2, -0)
                 ),
                 """
                 _##_
@@ -191,10 +191,10 @@ class `A Stone` {
             assertPositionArea(
                 stone,
                 Area(
-                    Field(1, 2),
-                    Field(2, 2),
-                    Field(1, 3),
-                    Field(2, 3)
+                    FilledField(1, 2),
+                    FilledField(2, 2),
+                    FilledField(1, 3),
+                    FilledField(2, 3)
                 ),
                 """
                 ____
@@ -213,10 +213,10 @@ class `A Stone` {
             assertPositionArea(
                 stone,
                 Area("""
-                    ___
-                    ___
-                    _##
-                    _##
+                    >>>
+                    >>>
+                    >##
+                    >##
                 """),
                 """
                 ____
@@ -235,9 +235,9 @@ class `A Stone` {
             assertPositionArea(
                 stone,
                 Area("""
-                ___
-                _##
-                _##
+                >>>
+                >##
+                >##
                 """),
                 """
                 ____
@@ -246,6 +246,7 @@ class `A Stone` {
                 ____
                 """
             )
+
 
             val debris = Debris("""
                 ____
