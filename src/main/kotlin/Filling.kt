@@ -1,3 +1,4 @@
-open class Filling {
-
+enum class Filling {
+    FILLED,
+    EMPTY
 }

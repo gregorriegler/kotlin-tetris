@@ -1,7 +1,6 @@
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.assertj.core.api.Assertions.*
 
 class `An Area` {
 
@@ -20,39 +19,6 @@ class `An Area` {
         assertTrue(area.covers(Field(0, 1)))
         assertTrue(area.covers(Field(1, 1)))
         assertFalse(area.covers(Field(2, 1)))
-    }
-
-    @Test
-    fun `can be indented on the x axis`() {
-        val area = Area("""
-            >##
-            >##
-        """)
-
-        assertEquals(2, area.filledWidth())
-        assertEquals(2, area.filledHeight())
-        assertTrue(area.covers(Field(1, 0)))
-        assertTrue(area.covers(Field(2, 0)))
-        assertTrue(area.covers(Field(1, 1)))
-        assertTrue(area.covers(Field(2, 1)))
-        assertFalse(area.covers(Field(0, 1)))
-    }
-
-    @Test
-    fun `can be indented on the y axis`() {
-        val area = Area("""
-            >>
-            ##
-            ##
-        """)
-
-        assertEquals(2, area.filledWidth())
-        assertEquals(2, area.filledHeight())
-        assertTrue(area.covers(Field(0, 1)))
-        assertTrue(area.covers(Field(1, 1)))
-        assertTrue(area.covers(Field(0, 2)))
-        assertTrue(area.covers(Field(1, 2)))
-        assertFalse(area.covers(Field(0, 0)))
     }
 
     @Test
@@ -92,6 +58,39 @@ class `An Area` {
         assertFalse(area.covers(Field(0, 2)))
         assertFalse(area.covers(Field(1, 2)))
         assertFalse(area.covers(Field(2, 2)))
+    }
+
+    @Test
+    fun `can be indented on the x axis`() {
+        val area = Area("""
+            >##
+            >##
+        """)
+
+        assertEquals(2, area.filledWidth())
+        assertEquals(2, area.filledHeight())
+        assertTrue(area.covers(Field(1, 0)))
+        assertTrue(area.covers(Field(2, 0)))
+        assertTrue(area.covers(Field(1, 1)))
+        assertTrue(area.covers(Field(2, 1)))
+        assertFalse(area.covers(Field(0, 1)))
+    }
+
+    @Test
+    fun `can be indented on the y axis`() {
+        val area = Area("""
+            >>
+            ##
+            ##
+        """)
+
+        assertEquals(2, area.filledWidth())
+        assertEquals(2, area.filledHeight())
+        assertTrue(area.covers(Field(0, 1)))
+        assertTrue(area.covers(Field(1, 1)))
+        assertTrue(area.covers(Field(0, 2)))
+        assertTrue(area.covers(Field(1, 2)))
+        assertFalse(area.covers(Field(0, 0)))
     }
 
     @Test
