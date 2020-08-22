@@ -5,7 +5,7 @@ class Debris(
     constructor(debris: String) : this(Area(debris))
 
     fun add(stone: Stone) {
-        debris = debris.combine(stone.area)
+        debris = debris.combine(stone.area).within(debris)
     }
 
     fun dissolveFilledRows(): Int {
