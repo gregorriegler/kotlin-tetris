@@ -4,21 +4,6 @@ class Frame(
     val width: Int,
     val height: Int,
 ) {
-    fun empty(): List<List<Filling>> =
-        (0 until height)
-            .map { (0 until width).map { Filling.EMPTY }.toList() }
-            .toList()
-
-    fun startingArea(structure: Structure): Area {
-        val top = 0 - structure.height()
-        val left = (width - structure.width()) / 2
-        val vector = Field(left, top)
-        return Area( // this is area.move
-            structure.fields
-                .map { field -> field.plus(vector) }
-                .toSet()
-        )
-    }
 
     fun topCenter(): Field = Field(center(), 0)
 

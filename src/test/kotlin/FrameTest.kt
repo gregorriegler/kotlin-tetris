@@ -5,21 +5,6 @@ import org.junit.jupiter.api.Test
 class `A Frame` {
 
     @Test
-    fun `returns the starting area for a structure`() {
-        assertThat(
-            Frame(3, 3).startingArea(Structure("#"))
-        ).isEqualTo(Area(filledField(1, -1)))
-        assertEquals(Area(filledField(1, -1)), Frame(4, 4).startingArea(Structure("#")))
-        assertEquals(Area(filledField(1, -2), filledField(1, -1)), Frame(3, 3).startingArea(Structure("#\n#")))
-        assertEquals(Area(filledField(1, -1), filledField(2, -1)), Frame(4, 4).startingArea(Structure("##")))
-        assertEquals(Area(filledField(1, -1), filledField(2, -1)), Frame(4, 4).startingArea(Structure("##")))
-        assertEquals(Area(filledField(0, -1), filledField(1, -1), filledField(2, -1)),
-            Frame(3, 3).startingArea(Structure("###")))
-    }
-
-    private fun filledField(x: Int, y: Int) = Field.filled(x, y)
-
-    @Test
     fun `returns the top center field`() {
         val frame = Frame(3, 3)
         assertEquals(Field(1, 0), frame.topCenter())

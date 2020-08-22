@@ -4,7 +4,7 @@ class Stone(
 ) {
     constructor(frame: Frame) : this(Structure("#"), frame)
 
-    var area: Area = frame.startingArea(structure)
+    var area: Area = structure.aboveCentered(Area(frame))
         private set
 
     fun down() {

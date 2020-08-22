@@ -26,7 +26,7 @@ open class Area(val fields: Set<Field>) {
 
     private fun size() = maxOf(width(), height())
     fun width(): Int = (rightSide() - leftSide()) + 1
-    fun height(): Int = if(fields.size == 0) 0 else (bottom() - top()) + 1
+    fun height(): Int = if (fields.size == 0) 0 else (bottom() - top()) + 1
 
     private fun leftSide(): Int = fields.map { it.x }.minOrNull() ?: 0
     private fun rightSide(): Int = fields.map { it.x }.maxOrNull() ?: 0
@@ -70,19 +70,19 @@ open class Area(val fields: Set<Field>) {
         return fields.any { area.has(it) }
     }
 
-    override fun toString(): String = "\n" + Tetris.draw(state()) + "\n"
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Area
-
-        if (fields != other.fields) return false
-
-        return true
+    fun aboveCentered(area: Area): Area {
+        val vector = Field(
+            (area.width() - width()) / 2,
+            area.top() - height()
+        )
+        val result = move(vector)
+        return result
     }
 
-    override fun hashCode(): Int = fields.hashCode()
+    private fun move(vector: Field): Area = Area(fields.map { field -> field.plus(vector) }.toSet())
+
+    //todo test this
+    fun within(frame: Frame): Area = Area(fields.filter { it.within(frame) }.toSet())
 
     fun removeFilledLines(): Pair<Area, Int> {
         val withoutFilledLines = Area(
@@ -104,8 +104,17 @@ open class Area(val fields: Set<Field>) {
         return Pair(emptyLinesToAdd.combine(down), removedLines)
     }
 
-    //todo test this
-    fun within(frame: Frame): Area = Area(fields.filter { it.within(frame) }.toSet())
+    override fun toString(): String = "\n" + Tetris.draw(state()) + "\n"
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
 
+        other as Area
 
+        if (fields != other.fields) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int = fields.hashCode()
 }

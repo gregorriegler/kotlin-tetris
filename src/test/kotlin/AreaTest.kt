@@ -256,5 +256,14 @@ class `An Area` {
                 ___
                 """))
     }
+
+    @Test
+    fun `returns the starting area for a structure`() {
+        assertEquals(Area(Field.filled(1, -1)), Structure("#").aboveCentered(Area(Frame(3, 3))))
+        assertEquals(Area(Field.filled(1, -1)), Structure("#").aboveCentered(Area(Frame(4, 4))))
+        assertEquals(Area(Field.filled(1, -2), Field.filled(1, -1)), Structure("#\n#").aboveCentered(Area(Frame(3, 3))))
+        assertEquals(Area(Field.filled(1, -1), Field.filled(2, -1)), Structure("##").aboveCentered(Area(Frame(4, 4))))
+    }
+
 }
 
