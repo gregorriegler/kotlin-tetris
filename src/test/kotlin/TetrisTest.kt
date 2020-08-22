@@ -21,9 +21,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                _
-                _
-                _
+                -
+                -
+                -
                 """,
                 0
             )
@@ -37,8 +37,8 @@ class `A Tetris` {
                 tetris,
                 """
                 #
-                _
-                _
+                -
+                -
                 """,
                 0
             )
@@ -51,9 +51,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                _
+                -
                 #
-                _
+                -
                 """,
                 0
             )
@@ -66,8 +66,8 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                _
-                _
+                -
+                -
                 #
                 """,
                 0
@@ -81,9 +81,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                _
-                _
-                _
+                -
+                -
+                -
                 """,
                 1
             )
@@ -97,8 +97,8 @@ class `A Tetris` {
                 tetris,
                 """
                 #
-                _
-                _
+                -
+                -
                 """,
                 1
             )
@@ -111,9 +111,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                _
-                _
-                _
+                -
+                -
+                -
                 """,
                 2
             )
@@ -129,9 +129,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                __
-                __
-                __
+                --
+                --
+                --
                 """,
                 0
             )
@@ -144,9 +144,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                __
-                __
-                #_
+                --
+                --
+                #-
                 """,
                 0
             )
@@ -159,9 +159,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                #_
-                __
-                #_
+                #-
+                --
+                #-
                 """,
                 0
             )
@@ -174,9 +174,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                __
-                #_
-                #_
+                --
+                #-
+                #-
                 """,
                 0
             )
@@ -189,9 +189,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                #_
-                #_
-                #_
+                #-
+                #-
+                #-
                 """,
                 0
             )
@@ -222,9 +222,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                ___
-                ___
-                ___
+                ---
+                ---
+                ---
                 """,
                 0
             )
@@ -237,9 +237,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                _#_
-                ___
-                ___
+                -#-
+                ---
+                ---
                 """,
                 0
             )
@@ -252,9 +252,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                _#_
-                ___
-                _#_
+                -#-
+                ---
+                -#-
                 """,
                 0
             )
@@ -268,9 +268,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                __#
-                ___
-                ___
+                --#
+                ---
+                ---
                 """,
                 0
             )
@@ -285,9 +285,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                ___
-                __#
-                ___
+                ---
+                --#
+                ---
                 """,
                 0
             )
@@ -301,9 +301,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                ___
-                ___
-                __#
+                ---
+                ---
+                --#
                 """,
                 0
             )
@@ -317,9 +317,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                #__
-                ___
-                ___
+                #--
+                ---
+                ---
                 """,
                 0
             )
@@ -334,9 +334,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                #__
-                ___
-                ___
+                #--
+                ---
+                ---
                 """,
                 0
             )
@@ -351,9 +351,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                __#
-                ___
-                ___
+                --#
+                ---
+                ---
                 """,
                 0
             )
@@ -372,9 +372,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                ___
-                ___
-                ___
+                ---
+                ---
+                ---
                 """,
                 1
             )
@@ -403,9 +403,9 @@ class `A Tetris` {
             assertDisplays(
                 tetris,
                 """
-                #_#
-                #_#
-                #_#
+                #-#
+                #-#
+                #-#
                 """,
                 0
             )

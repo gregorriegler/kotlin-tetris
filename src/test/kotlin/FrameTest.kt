@@ -17,7 +17,7 @@ class `A Frame` {
             Area(Field.empty(-1, 0), Field.filled(0, 0), Field.filled(1, 0)),
             frame.left(
                 Area("""
-                _##
+                -##
                 """),
                 Debris(Frame(3, 3))
             )
@@ -29,12 +29,12 @@ class `A Frame` {
         val frame = Frame(3, 3)
         assertEquals(
             Area("""
-                ##_
+                ##-
                 """
             ),
             frame.left(
                 Area("""
-                ##_
+                ##-
                 """
                 ),
                 Debris(Frame(3, 3))
@@ -46,10 +46,10 @@ class `A Frame` {
     fun `respects debris when moving left`() {
         val frame = Frame(3, 3)
         val area = Area("""
-                _##
+                -##
                 """)
         val debris = Debris("""
-                #__
+                #--
                 """)
         assertEquals(area, frame.left(area, debris))
     }
@@ -58,14 +58,14 @@ class `A Frame` {
     fun `moves inside debris when moving left`() {
         val frame = Frame(4, 3)
         val area = Area("""
-                ___#
-                __##
-                ___#
+                ---#
+                --##
+                ---#
                 """)
         val debris = Debris("""
-                ##__
-                #___
-                ##__
+                ##--
+                #---
+                ##--
                 """)
 
         val x = -1
@@ -95,8 +95,8 @@ class `A Frame` {
     fun `moves an area to the right`() {
         val frame = Frame(3, 3)
         assertThat(
-            frame.right(Area("##_"), Debris(frame))
-        ).isEqualTo(Area(">##_"))
+            frame.right(Area("##-"), Debris(frame))
+        ).isEqualTo(Area(">##-"))
     }
 
     @Test
@@ -104,14 +104,14 @@ class `A Frame` {
         val frame = Frame(2, 2)
         assertEquals(
             Area("""
-                _#
-                _#
+                -#
+                -#
                 """
             ),
             frame.right(
                 Area("""
-                _#
-                _#
+                -#
+                -#
                 """
                 ),
                 Debris(frame)
@@ -124,20 +124,20 @@ class `A Frame` {
         val frame = Frame(3, 3)
         assertEquals(
             Area("""
-                ___
-                ##_
+                ---
+                ##-
                 """
             ),
             frame.right(
                 Area("""
-                ___
-                ##_
+                ---
+                ##-
                 """
                 ),
                 Debris("""
-                __#
-                __#
-                __#
+                --#
+                --#
+                --#
                 """)
             ))
     }
@@ -146,21 +146,21 @@ class `A Frame` {
     fun `moves inside debris when moving right`() {
         val frame = Frame(4, 3)
         val area = Area("""
-                #___
-                ##__
-                #___
+                #---
+                ##--
+                #---
                 """)
         val debris = Debris("""
-                __##
-                ___#
-                __##
+                --##
+                ---#
+                --##
                 """)
 
         assertEquals(
             Area("""
-                >#___
-                >##__
-                >#___
+                >#---
+                >##--
+                >#---
                 """),
             frame.right(area, debris)
         )
@@ -173,13 +173,13 @@ class `A Frame` {
             Area("""
                 >>
                 ##
-                __
+                --
                 """
             ),
             frame.down(
                 Area("""
                     ##
-                    __
+                    --
                     """
                 )
             )
@@ -191,13 +191,13 @@ class `A Frame` {
         val frame = Frame(2, 2)
         assertEquals(
             Area("""
-                __
+                --
                 ##
                 """
             ),
             frame.down(
                 Area("""
-                __
+                --
                 ##
                 """
                 )

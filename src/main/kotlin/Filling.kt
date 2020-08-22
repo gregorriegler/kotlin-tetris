@@ -17,7 +17,7 @@ enum class Filling {
 
     companion object {
         const val FILLED_VALUE: String = "#"
-        const val EMPTY_VALUE: String = "_"
+        const val EMPTY_VALUE: String = "-"
         const val INDENT_VALUE: String = ">"
 
         fun of(string: String): Filling =

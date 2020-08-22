@@ -18,9 +18,9 @@ class `A Stone` {
                 stone,
                 Field.filled(1, -1),
                 """
-                ___
-                ___
-                ___
+                ---
+                ---
+                ---
                 """
             )
         }
@@ -33,9 +33,9 @@ class `A Stone` {
                 stone,
                 Field.filled(1, 0),
                 """
-                _#_
-                ___
-                ___
+                -#-
+                ---
+                ---
                 """
             )
         }
@@ -48,9 +48,9 @@ class `A Stone` {
                 stone,
                 Field.filled(1, 2),
                 """
-                ___
-                ___
-                _#_
+                ---
+                ---
+                -#-
                 """
             )
             assertTrue(stone.landed(debris3x3))
@@ -64,9 +64,9 @@ class `A Stone` {
                 stone,
                 Field.filled(1, 2),
                 """
-                ___
-                ___
-                _#_
+                ---
+                ---
+                -#-
                 """
             )
             assertTrue(stone.landed(Debris(frame)))
@@ -81,9 +81,9 @@ class `A Stone` {
                 stone,
                 Field.filled(0, 0),
                 """
-                #__
-                ___
-                ___
+                #--
+                ---
+                ---
                 """
             )
         }
@@ -98,9 +98,9 @@ class `A Stone` {
                 stone,
                 Field.filled(0, 0),
                 """
-                #__
-                ___
-                ___
+                #--
+                ---
+                ---
                 """
             )
         }
@@ -114,9 +114,9 @@ class `A Stone` {
                 stone,
                 Field.filled(2, 0),
                 """
-                __#
-                ___
-                ___
+                --#
+                ---
+                ---
                 """
             )
         }
@@ -131,9 +131,9 @@ class `A Stone` {
                 stone,
                 Field.filled(2, 0),
                 """
-                __#
-                ___
-                ___
+                --#
+                ---
+                ---
                 """
             )
         }
@@ -156,10 +156,10 @@ class `A Stone` {
                     Field.filled(2, -1)
                 ),
                 """
-                ____
-                ____
-                ____
-                ____
+                ----
+                ----
+                ----
+                ----
                 """
             )
         }
@@ -177,10 +177,10 @@ class `A Stone` {
                     Field.filled(2, -0)
                 ),
                 """
-                _##_
-                ____
-                ____
-                ____
+                -##-
+                ----
+                ----
+                ----
                 """
             )
         }
@@ -198,10 +198,10 @@ class `A Stone` {
                     Field.filled(2, 3)
                 ),
                 """
-                ____
-                ____
-                _##_
-                _##_
+                ----
+                ----
+                -##-
+                -##-
                 """
             )
             assertTrue(stone.landed(Debris(Frame(4, 4))))
@@ -220,10 +220,10 @@ class `A Stone` {
                     >##
                 """),
                 """
-                ____
-                ____
-                _##_
-                _##_
+                ----
+                ----
+                -##-
+                -##-
                 """
             )
             assertTrue(stone.landed(Debris(Frame(4, 4))))
@@ -241,18 +241,18 @@ class `A Stone` {
                 >##
                 """),
                 """
-                ____
-                _##_
-                _##_
-                ____
+                ----
+                -##-
+                -##-
+                ----
                 """
             )
 
 
             val debris = Debris("""
-                ____
-                ____
-                ____
+                ----
+                ----
+                ----
                 ####
             """
             )
@@ -273,10 +273,10 @@ class `A Stone` {
                     Field.filled(1, 0)
                 ),
                 """
-                ##__
-                ____
-                ____
-                ____
+                ##--
+                ----
+                ----
+                ----
                 """
             )
             assertFalse(stone.landed(Debris(Frame(4, 4))))
@@ -297,10 +297,10 @@ class `A Stone` {
                     Field.filled(1, 0)
                 ),
                 """
-                ##__
-                ____
-                ____
-                ____
+                ##--
+                ----
+                ----
+                ----
                 """
             )
             assertFalse(stone.landed(Debris(Frame(4, 4))))
@@ -320,10 +320,10 @@ class `A Stone` {
                     Field.filled(3, 0)
                 ),
                 """
-                __##
-                ____
-                ____
-                ____
+                --##
+                ----
+                ----
+                ----
                 """
             )
             assertFalse(stone.landed(Debris(Frame(4, 4))))
@@ -344,10 +344,10 @@ class `A Stone` {
                     Field.filled(3, 0)
                 ),
                 """
-                __##
-                ____
-                ____
-                ____
+                --##
+                ----
+                ----
+                ----
                 """
             )
             assertFalse(stone.landed(Debris(Frame(4, 4))))
@@ -361,9 +361,9 @@ class `A Stone` {
         fun rotates() {
             val stone = Stone(
                 Structure("""
-                #_
+                #-
                 ##
-                #_
+                #-
                 """),
                 Frame(4, 4)
             )
@@ -375,10 +375,10 @@ class `A Stone` {
 
             assertState(
                 """
-                _###
-                __#_
-                ____
-                ____
+                -###
+                --#-
+                ----
+                ----
                 """,
                 stone
             )

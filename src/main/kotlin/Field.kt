@@ -31,7 +31,7 @@ class Field(
     fun isFilled(): Boolean = filling == FILLED
     fun within(area: Area): Boolean = x >= 0 && x < area.width() && y >= 0 && y < area.height()
 
-    override fun toString(): String = "($x,$y)"
+    override fun toString(): String = "($x,$y,$filling)"
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

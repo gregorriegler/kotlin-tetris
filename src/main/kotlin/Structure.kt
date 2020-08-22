@@ -4,12 +4,13 @@ class Structure(string: String) : Area(string) {
             return Structure("#")
         }
 
-        fun create1by4(): Structure {
+        fun create1by5(): Structure {
             return Structure("""
-                #
-                #
-                #
-                #
+                --#--
+                --#--
+                --#--
+                --#--
+                --#--
             """.trimIndent())
         }
 
@@ -22,10 +23,26 @@ class Structure(string: String) : Area(string) {
 
         fun create3and1(): Structure {
             return Structure("""
-                #_
-                ##
-                #_
+                -#-
+                -##
+                -#-
             """)
+        }
+
+        fun createL(): Structure {
+            return Structure("""
+                #--
+                #--
+                ##-
+            """.trimIndent())
+        }
+
+        fun createMirrorL(): Structure {
+            return Structure("""
+                ##-
+                #--
+                #--
+            """.trimIndent())
         }
     }
 }

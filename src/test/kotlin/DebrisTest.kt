@@ -6,8 +6,8 @@ class `A Debris` {
     @Test
     fun `can be created from multi line string`() {
         val debris = Debris("""
-            ___
-            _#_
+            ---
+            -#-
             ###
         """)
 
@@ -28,8 +28,8 @@ class `A Debris` {
     @Test
     fun `dissolves a filled line at the bottom`() {
         val debris = Debris("""
-            ___
-            _#_
+            ---
+            -#-
             ###
         """)
 
@@ -38,9 +38,9 @@ class `A Debris` {
         assertEquals(1, howMany)
         assertEquals(
             Debris("""
-            ___
-            ___
-            _#_
+            ---
+            ---
+            -#-
             """),
             debris
         )
@@ -49,7 +49,7 @@ class `A Debris` {
     @Test
     fun `dissolves two filled lines at the bottom`() {
         val debris = Debris("""
-            _#_
+            -#-
             ###
             ###
         """)
@@ -59,9 +59,9 @@ class `A Debris` {
         assertEquals(2, howMany)
         assertEquals(
             Debris("""
-            ___
-            ___
-            _#_
+            ---
+            ---
+            -#-
             """),
             debris
         )
