@@ -6,11 +6,10 @@ class Structure(string: String) : Area(string) {
 
         fun create1by5(): Structure {
             return Structure("""
-                --#--
-                --#--
-                --#--
-                --#--
-                --#--
+                -#--
+                -#--
+                -#--
+                -#--
             """.trimIndent())
         }
 

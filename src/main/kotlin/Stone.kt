@@ -19,7 +19,6 @@ class Stone(
         area = frame.right(area, debris)
     }
 
-    // todo: rotation goes to the right everytime
     fun rotate() {
         area = area.rotate()
     }

@@ -1,6 +1,5 @@
 import kotlin.math.roundToInt
 
-// todo if this was a debris could do frames of various shapes
 class Frame(
     val width: Int,
     val height: Int,
