@@ -1,4 +1,4 @@
-class GameClock(
+class Timer(
     private val consumer: () -> Unit,
     private var tickEvery: Long = 250
 ) {

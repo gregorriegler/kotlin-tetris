@@ -7,7 +7,7 @@ class `A GameClock` {
     val consumerSpy = {
         called += 1
     }
-    val gameClock = GameClock(consumerSpy)
+    val gameClock = Timer(consumerSpy)
 
     @Test
     fun `does not tick too quickly`() {

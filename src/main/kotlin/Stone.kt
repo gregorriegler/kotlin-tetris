@@ -2,7 +2,6 @@ class Stone(
     structure: Structure,
     private val frame: Frame,
 ) {
-    constructor(frame: Frame) : this(Structure("#"), frame)
     constructor(structure: String, frame: Frame) : this(Structure(structure), frame)
 
     var area: Area = structure.aboveCentered(Area(frame))

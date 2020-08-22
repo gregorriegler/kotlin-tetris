@@ -1,6 +1,5 @@
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -12,49 +11,25 @@ class `A Stone` {
 
     @Nested
     inner class `with the size of a single field` {
-        val stone = Stone(frame)
+        val stone = Stone(Structure("#"), frame)
 
         @Test
         fun `starts above the center`() {
-            assertPosition(
-                stone,
-                Field.filled(1, -1),
-                """
-                ---
-                ---
-                ---
-                """
-            )
+            assertPosition(stone, Field.filled(1, -1))
         }
 
         @Test
         fun `can be moved down`() {
             stone.down()
 
-            assertPosition(
-                stone,
-                Field.filled(1, 0),
-                """
-                -#-
-                ---
-                ---
-                """
-            )
+            assertPosition(stone, Field.filled(1, 0))
         }
 
         @Test
         fun `can be moved to the bottom`() {
             repeat(3, { stone.down() })
 
-            assertPosition(
-                stone,
-                Field.filled(1, 2),
-                """
-                ---
-                ---
-                -#-
-                """
-            )
+            assertPosition(stone, Field.filled(1, 2))
             assertTrue(stone.landed(debris3x3))
         }
 
@@ -62,15 +37,7 @@ class `A Stone` {
         fun `can not be moved out of the frame at the bottom`() {
             repeat(4, { stone.down() })
 
-            assertPosition(
-                stone,
-                Field.filled(1, 2),
-                """
-                ---
-                ---
-                -#-
-                """
-            )
+            assertPosition(stone, Field.filled(1, 2))
             assertTrue(stone.landed(Debris(frame)))
         }
 
@@ -79,15 +46,7 @@ class `A Stone` {
             stone.down()
             stone.left(debris3x3)
 
-            assertPosition(
-                stone,
-                Field.filled(0, 0),
-                """
-                #--
-                ---
-                ---
-                """
-            )
+            assertPosition(stone, Field.filled(0, 0))
         }
 
         @Test
@@ -96,15 +55,7 @@ class `A Stone` {
             stone.left(debris3x3)
             stone.left(debris3x3)
 
-            assertPosition(
-                stone,
-                Field.filled(0, 0),
-                """
-                #--
-                ---
-                ---
-                """
-            )
+            assertPosition(stone, Field.filled(0, 0))
         }
 
         @Test
@@ -112,15 +63,7 @@ class `A Stone` {
             stone.down()
             stone.right(debris3x3)
 
-            assertPosition(
-                stone,
-                Field.filled(2, 0),
-                """
-                --#
-                ---
-                ---
-                """
-            )
+            assertPosition(stone, Field.filled(2, 0))
         }
 
         @Test
@@ -129,15 +72,7 @@ class `A Stone` {
             stone.right(debris3x3)
             stone.right(debris3x3)
 
-            assertPosition(
-                stone,
-                Field.filled(2, 0),
-                """
-                --#
-                ---
-                ---
-                """
-            )
+            assertPosition(stone, Field.filled(2, 0))
         }
     }
 
@@ -154,13 +89,7 @@ class `A Stone` {
                     Field.filled(2, -2),
                     Field.filled(1, -1),
                     Field.filled(2, -1)
-                ),
-                """
-                ----
-                ----
-                ----
-                ----
-                """
+                )
             )
         }
 
@@ -175,13 +104,7 @@ class `A Stone` {
                     Field.filled(2, -1),
                     Field.filled(1, -0),
                     Field.filled(2, -0)
-                ),
-                """
-                -##-
-                ----
-                ----
-                ----
-                """
+                )
             )
         }
 
@@ -196,13 +119,7 @@ class `A Stone` {
                     Field.filled(2, 2),
                     Field.filled(1, 3),
                     Field.filled(2, 3)
-                ),
-                """
-                ----
-                ----
-                -##-
-                -##-
-                """
+                )
             )
             assertTrue(stone.landed(Debris(Frame(4, 4))))
         }
@@ -218,13 +135,7 @@ class `A Stone` {
                     >>>
                     >##
                     >##
-                """),
-                """
-                ----
-                ----
-                -##-
-                -##-
-                """
+                """)
             )
             assertTrue(stone.landed(Debris(Frame(4, 4))))
         }
@@ -239,24 +150,16 @@ class `A Stone` {
                 >>>
                 >##
                 >##
-                """),
-                """
-                ----
-                -##-
-                -##-
-                ----
-                """
+                """)
             )
 
-
-            val debris = Debris("""
+            assertTrue(stone.landed(Debris("""
                 ----
                 ----
                 ----
                 ####
             """
-            )
-            assertTrue(stone.landed(debris))
+            )))
         }
 
         @Test
@@ -271,13 +174,7 @@ class `A Stone` {
                     Field.filled(1, -1),
                     Field.filled(0, 0),
                     Field.filled(1, 0)
-                ),
-                """
-                ##--
-                ----
-                ----
-                ----
-                """
+                )
             )
             assertFalse(stone.landed(Debris(Frame(4, 4))))
         }
@@ -295,13 +192,7 @@ class `A Stone` {
                     Field.filled(1, -1),
                     Field.filled(0, 0),
                     Field.filled(1, 0)
-                ),
-                """
-                ##--
-                ----
-                ----
-                ----
-                """
+                )
             )
             assertFalse(stone.landed(Debris(Frame(4, 4))))
         }
@@ -318,13 +209,7 @@ class `A Stone` {
                     Field.filled(3, -1),
                     Field.filled(2, 0),
                     Field.filled(3, 0)
-                ),
-                """
-                --##
-                ----
-                ----
-                ----
-                """
+                )
             )
             assertFalse(stone.landed(Debris(Frame(4, 4))))
         }
@@ -342,13 +227,7 @@ class `A Stone` {
                     Field.filled(3, -1),
                     Field.filled(2, 0),
                     Field.filled(3, 0)
-                ),
-                """
-                --##
-                ----
-                ----
-                ----
-                """
+                )
             )
             assertFalse(stone.landed(Debris(Frame(4, 4))))
         }
@@ -377,8 +256,6 @@ class `A Stone` {
                 """
                 -###
                 --#-
-                ----
-                ----
                 """,
                 stone
             )
@@ -460,6 +337,7 @@ class `A Stone` {
                 ---
                 ---
                 ###
+                ---
                 """,
                 stone
             )
@@ -523,10 +401,9 @@ class `A Stone` {
 
             assertState(
                 """
-                ----
-                ###-
-                ----
-                ----
+                ---
+                ###
+                ---
                 """,
                 stone
             )
@@ -561,12 +438,11 @@ class `A Stone` {
 
             assertState(
                 """
-                ------
-                ------
-                #####-
-                ------
-                ------
-                ------
+                -----
+                -----
+                #####
+                -----
+                -----
                 """,
                 stone
             )
@@ -575,7 +451,6 @@ class `A Stone` {
 
     @Test
     fun `rotation respects left debris and moves back in`() {
-        val frame = Frame(6, 6)
         val stone = Stone("""
                 --#--
                 --#--
@@ -583,7 +458,7 @@ class `A Stone` {
                 --#--
                 --#--
                 """,
-            frame
+            Frame(6, 6)
         )
         val debris = Debris("""
                 #-----
@@ -607,25 +482,23 @@ class `A Stone` {
                 -#####
                 ------
                 ------
-                ------
                 """,
             stone
         )
     }
 
-    private fun assertPosition(stone: Stone, field: Field, state: String) {
-        assertPositionByArea(stone, Area(field), state)
+    private fun assertPosition(stone: Stone, field: Field) {
+        assertPositionByArea(stone, Area(field))
     }
 
-    private fun assertPositionByArea(stone: Stone, area: Area, state: String) {
-        assertState(state, stone)
+    private fun assertPositionByArea(stone: Stone, area: Area) {
         assertThat(stone.area).isEqualTo(area)
     }
 
     private fun assertState(state: String, stone: Stone) {
         assertEquals(
             "\n" + state.trimIndent() + "\n",
-            "\n" + Area.draw(stone.state()) + "\n"
+            stone.toString()
         )
     }
 }

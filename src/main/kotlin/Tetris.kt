@@ -1,7 +1,7 @@
 class Tetris(width: Int, height: Int, private val stones: List<Structure>) {
     private val frame: Frame = Frame(width, height)
     private var stone: Stone = Stone(stones.random(), frame)
-    private val clock: GameClock = GameClock({ tick() })
+    private val clock: Timer = Timer({ tick() })
     private val debris: Debris = Debris(frame)
     var score: Int = 0
         private set
