@@ -3,6 +3,7 @@ class Stone(
     private val frame: Frame,
 ) {
     constructor(frame: Frame) : this(Structure("#"), frame)
+    constructor(structure: String, frame: Frame) : this(Structure(structure), frame)
 
     var area: Area = structure.aboveCentered(Area(frame))
         private set
@@ -19,12 +20,28 @@ class Stone(
         area = frame.right(area, debris)
     }
 
-    fun rotate() {
-        area = area.rotate()
-    }
+    fun rotate(debris: Debris) {
+        var rotate = area.rotate()
 
-    fun has(field: Field): Boolean {
-        return area.collides(field)
+        if(rotate.bottomOfFilled() > frame.height - 1 || debris.collidesWith(rotate)){
+            return
+        }
+
+        val howMuchOutsideRight = rotate.rightSideOfFilled() - (frame.width - 1)
+        if(howMuchOutsideRight > 0) { // we're outside right
+            if(rotate.filledWidth() <= frame.width) { // there is enough room to the left
+                rotate = rotate.left(howMuchOutsideRight)
+            }
+        }
+
+        val howMuchOutsideLeft = rotate.leftSideOfFilled() - 0
+        if(howMuchOutsideLeft < 0) { // we're outside left
+            if(rotate.filledWidth() <= frame.width) { // there is enough room to the right
+                rotate = rotate.right(howMuchOutsideLeft * -1)
+            }
+        }
+
+        area = rotate
     }
 
     fun state(): List<List<Filling>> =

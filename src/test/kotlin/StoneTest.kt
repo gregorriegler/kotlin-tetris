@@ -1,3 +1,4 @@
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -145,12 +146,10 @@ class `A Stone` {
 
         @Test
         fun `starts above the center`() {
-            val x = 1
-            val y = -2
-            assertPositionArea(
+            assertPositionByArea(
                 stone,
                 Area(
-                    Field.filled(x, y),
+                    Field.filled(1, -2),
                     Field.filled(2, -2),
                     Field.filled(1, -1),
                     Field.filled(2, -1)
@@ -168,7 +167,7 @@ class `A Stone` {
         fun `can be moved down`() {
             stone.down()
 
-            assertPositionArea(
+            assertPositionByArea(
                 stone,
                 Area(
                     Field.filled(1, -1),
@@ -189,7 +188,7 @@ class `A Stone` {
         fun `can be moved to the bottom`() {
             repeat(4, { stone.down() })
 
-            assertPositionArea(
+            assertPositionByArea(
                 stone,
                 Area(
                     Field.filled(1, 2),
@@ -211,7 +210,7 @@ class `A Stone` {
         fun `can not be moved out of the frame at the bottom`() {
             repeat(10, { stone.down() })
 
-            assertPositionArea(
+            assertPositionByArea(
                 stone,
                 Area("""
                     >>>
@@ -233,7 +232,7 @@ class `A Stone` {
         fun `lands on debris`() {
             repeat(3, { stone.down() })
 
-            assertPositionArea(
+            assertPositionByArea(
                 stone,
                 Area("""
                 >>>
@@ -264,7 +263,7 @@ class `A Stone` {
             stone.down()
             stone.left(debris4x4)
 
-            assertPositionArea(
+            assertPositionByArea(
                 stone,
                 Area(
                     Field.filled(0, -1),
@@ -288,7 +287,7 @@ class `A Stone` {
             stone.left(debris4x4)
             stone.left(debris4x4)
 
-            assertPositionArea(
+            assertPositionByArea(
                 stone,
                 Area(
                     Field.filled(0, -1),
@@ -311,7 +310,7 @@ class `A Stone` {
             stone.down()
             stone.right(debris4x4)
 
-            assertPositionArea(
+            assertPositionByArea(
                 stone,
                 Area(
                     Field.filled(2, -1),
@@ -335,7 +334,7 @@ class `A Stone` {
             stone.right(debris4x4)
             stone.right(debris4x4)
 
-            assertPositionArea(
+            assertPositionByArea(
                 stone,
                 Area(
                     Field.filled(2, -1),
@@ -359,19 +358,19 @@ class `A Stone` {
 
         @Test
         fun rotates() {
-            val stone = Stone(
-                Structure("""
+            val frame = Frame(4, 4)
+            val stone = Stone("""
                 #-
                 ##
                 #-
-                """),
-                Frame(4, 4)
+                """,
+                frame
             )
 
             stone.down()
             stone.down()
             stone.down()
-            stone.rotate()
+            stone.rotate(Debris(frame))
 
             assertState(
                 """
@@ -383,20 +382,129 @@ class `A Stone` {
                 stone
             )
         }
-    }
 
-    private fun assertPositionArea(stone: Stone, area: Area, state: String) {
-        assertState(state, stone)
-        area.fields.forEach { field -> assertTrue(stone.has(field)) }
+        @Test
+        fun `rotation respects right wall and moves back in`() {
+            val frame = Frame(3, 3)
+            val stone = Stone("""
+                -#-
+                -#-
+                -#-
+                """,
+                frame
+            )
+
+            stone.down()
+            stone.down()
+            stone.down()
+            stone.right(Debris(frame))
+            stone.rotate(Debris(frame))
+
+            assertState(
+                """
+                ---
+                ###
+                ---
+                """,
+                stone
+            )
+        }
+
+        @Test
+        fun `rotation respects left wall and moves back in`() {
+            val frame = Frame(3, 3)
+            val stone = Stone("""
+                -#-
+                -#-
+                -#-
+                """,
+                frame
+            )
+
+            stone.down()
+            stone.down()
+            stone.down()
+            stone.left(Debris(frame))
+            stone.rotate(Debris(frame))
+
+            assertState(
+                """
+                ---
+                ###
+                ---
+                """,
+                stone
+            )
+        }
+
+        @Test
+        fun `rotation respects bottom`() {
+            val frame = Frame(3, 3)
+            val stone = Stone("""
+                ---
+                ###
+                ---
+                """,
+                frame
+            )
+
+            stone.down()
+            stone.down()
+            stone.down()
+            stone.down()
+            stone.rotate(Debris(frame))
+
+            assertState(
+                """
+                ---
+                ---
+                ###
+                """,
+                stone
+            )
+        }
+
+        @Test
+        fun `rotation respects bottom debris`() {
+            val frame = Frame(3, 3)
+            val stone = Stone("""
+                ---
+                ###
+                ---
+                """,
+                frame
+            )
+            val debris = Debris("""
+                ---
+                ---
+                ###
+                """
+            )
+
+            stone.down()
+            stone.down()
+            stone.down()
+            stone.rotate(debris)
+
+            assertState(
+                """
+                ---
+                ###
+                ---
+                """,
+                stone
+            )
+        }
     }
 
     private fun assertPosition(stone: Stone, field: Field, state: String) {
-        assertPosition(stone, listOf(field), state)
+        assertState(state, stone)
+        assertThat(stone.area).isEqualTo(Area(field))
     }
 
-    private fun assertPosition(stone: Stone, fields: List<Field>, state: String) {
+    private fun assertPositionByArea(stone: Stone, area: Area, state: String) {
         assertState(state, stone)
-        fields.forEach { field -> assertTrue(stone.has(field)) }
+        assertThat(stone.area).isEqualTo(area)
     }
 
     private fun assertState(state: String, stone: Stone) {

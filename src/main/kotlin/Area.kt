@@ -24,8 +24,10 @@ open class Area(val fields: Set<Field>) {
 
     fun down(by: Int): Area = Area(fields.map { it.down(by) }.toSet())
     fun down(): Area = Area(fields.map { it.down() }.toSet())
-    fun left(): Area = Area(fields.map { it.left() }.toSet())
-    fun right(): Area = Area(fields.map { it.right() }.toSet())
+    fun left(): Area = left(1)
+    fun left(by: Int): Area = Area(fields.map { it.left(by) }.toSet())
+    fun right(): Area = right(1)
+    fun right(by: Int): Area = Area(fields.map { it.right(by) }.toSet())
 
     private fun size() = maxOf(width(), height())
     fun width(): Int = (rightSide() - leftSide()) + 1
@@ -39,6 +41,7 @@ open class Area(val fields: Set<Field>) {
     fun leftSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.minOrNull() ?: 0
     fun rightSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.maxOrNull() ?: 0
     fun bottomOfFilled(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull() ?: 0
+    fun filledWidth(): Int = (rightSideOfFilled() - leftSideOfFilled()) + 1
 
     fun state(): List<List<Filling>> =
         (0..bottom()).map { y ->
@@ -67,7 +70,6 @@ open class Area(val fields: Set<Field>) {
             }.toSet())
 
     fun collides(area: Area): Boolean = fields.any { area.collides(it) }
-
     fun collides(field: Field): Boolean = field.isFilled() && fields.contains(field)
 
     fun aboveCentered(area: Area): Area = move(Field(
@@ -114,6 +116,5 @@ open class Area(val fields: Set<Field>) {
 
         return true
     }
-
     override fun hashCode(): Int = fields.hashCode()
 }

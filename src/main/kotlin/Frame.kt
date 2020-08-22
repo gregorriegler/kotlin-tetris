@@ -49,6 +49,10 @@ class Frame(
 
     private fun center() = width.toDouble().div(2).roundToInt() - 1
 
+    fun isOutsideRight(area: Area): Boolean {
+        return area.leftSideOfFilled() >= 0 && area.rightSideOfFilled() < width
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

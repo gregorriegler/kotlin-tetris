@@ -8,7 +8,7 @@ class Tetris(width: Int, height: Int, private val stones: List<Structure>) {
 
     fun left() = stone.left(debris)
     fun right() = stone.right(debris)
-    fun rotate() = stone.rotate()
+    fun rotate() = stone.rotate(debris)
     fun speed() = clock.speed()
     fun normal() = clock.normal()
     fun time(time: Long) {

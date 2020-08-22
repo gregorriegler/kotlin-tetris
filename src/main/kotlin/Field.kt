@@ -22,8 +22,10 @@ class Field(
 
     fun down(): Field = Field(x, y + 1, filling)
     fun down(by: Int): Field = Field(x, y + by, filling)
-    fun left(): Field = Field(x - 1, y, filling)
-    fun right(): Field = Field(x + 1, y, filling)
+    fun left(): Field = left(1)
+    fun left(by: Int): Field = Field(x - by, y, filling)
+    fun right(): Field = right(1)
+    fun right(by: Int): Field = Field(x + by, y, filling)
     fun rotate(width: Int): Field = Field(width - y - 1, x, filling)
 
     fun plus(field: Field): Field = Field(x + field.x, y + field.y, filling)
