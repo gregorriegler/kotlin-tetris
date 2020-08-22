@@ -37,7 +37,7 @@ open class Area(val fields: Set<Field>) {
     fun rightSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.maxOrNull() ?: 0
     fun bottomOfFilled(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull() ?: 0
 
-    private fun state(): List<List<Filling>> =
+    fun state(): List<List<Filling>> =
         (0 until height()).map { y ->
             (0 until width()).map { x ->
                 fillingOf(x, y)
@@ -103,6 +103,9 @@ open class Area(val fields: Set<Field>) {
             .toSet())
         return Pair(emptyLinesToAdd.combine(down), removedLines)
     }
+
+    //todo test this
+    fun within(frame: Frame): Area = Area(fields.filter { it.within(frame) }.toSet())
 
 
 }

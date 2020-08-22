@@ -29,6 +29,8 @@ class Field(
     fun plus(field: Field): Field = Field(x + field.x, y + field.y, filling)
     fun minus(field: Field): Field = Field(x - field.x, y - field.y, filling)
     fun isFilled(): Boolean = filling == FILLED
+    //todo test this
+    fun within(frame: Frame): Boolean = x >= 0 && x < frame.width && y >= 0 && y < frame.height
 
     override fun toString(): String = "($x,$y)"
     override fun equals(other: Any?): Boolean {
@@ -43,6 +45,7 @@ class Field(
 
         return true
     }
+
     override fun hashCode(): Int {
         var result = x
         result = 31 * result + y
