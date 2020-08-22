@@ -6,7 +6,7 @@ class Structure(string: String) : Area(string) {
             return Structure("#")
         }
 
-        fun create1by5(): Structure {
+        fun create1by4(): Structure {
             return Structure("""
                 -#--
                 -#--
