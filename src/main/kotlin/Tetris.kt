@@ -11,9 +11,7 @@ class Tetris(width: Int, height: Int, private val stones: List<Structure>) {
     fun rotate() = stone.rotate(debris)
     fun speed() = clock.speed()
     fun normal() = clock.normal()
-    fun time(time: Long) {
-        clock.time(time)
-    }
+    fun time(time: Long) = clock.time(time)
 
     private fun tick() {
         if (gameOver()) {
@@ -32,14 +30,18 @@ class Tetris(width: Int, height: Int, private val stones: List<Structure>) {
 
     fun display(): String =
         if (gameOver()) {
-            """
-            ##
-            Game Over
-            ##
-            """.trimIndent()
+            gameOverString()
         } else {
-            Area.draw(debris.stateWithStone(stone))
+            debris.withStone(stone).toString()
         }
+
+    private fun gameOverString(): String {
+        return "\n" + """
+                ##
+                Game Over
+                ##
+                """.trimIndent() + "\n"
+    }
 
     private fun increaseScore(count: Int) {
         score += count

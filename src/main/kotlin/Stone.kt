@@ -53,4 +53,9 @@ class Stone(
     fun landed(debris: Debris) = atBottom() || collidesWith(debris)
     private fun atBottom(): Boolean = frame.isAtBottom(area)
     private fun collidesWith(debris: Debris) = debris.collidesWith(area.down())
+    override fun toString(): String {
+        return area.toString()
+    }
+
+
 }

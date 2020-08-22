@@ -125,6 +125,5 @@ open class Area(val fields: Set<Field>) {
 
         return true
     }
-
     override fun hashCode(): Int = fields.hashCode()
 }

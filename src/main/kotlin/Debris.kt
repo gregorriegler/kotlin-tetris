@@ -20,12 +20,11 @@ class Debris(
     fun collidesWith(area: Area): Boolean = debris.collides(area)
     fun collidesWith(field: Field): Boolean = debris.collides(field)
 
-    fun stateWithStone(stone: Stone): List<List<Filling>> =
+    fun withStone(stone: Stone): Area =
         debris.combine(stone.area)
             .within(debris)
-            .state()
 
-    override fun toString(): String = "\n" + Area.draw(debris.state()) + "\n"
+    override fun toString(): String = debris.toString()
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -36,6 +35,5 @@ class Debris(
 
         return true
     }
-
     override fun hashCode(): Int = debris.hashCode()
 }

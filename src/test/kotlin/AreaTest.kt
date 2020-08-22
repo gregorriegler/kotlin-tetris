@@ -114,11 +114,11 @@ class `An Area` {
             --
             ##
             ##
-        """, Area.draw(Area("""
+        """, Area("""
             >>
             ##
             ##
-        """).state()))
+        """).toString())
     }
 
     @Test
@@ -348,7 +348,7 @@ class `An Area` {
     }
 
     private fun assertEqualsMultilineString(expected: String, actual: String) {
-        assertEquals('\n' + expected.trimIndent() + '\n', '\n' + actual + '\n')
+        assertEquals('\n' + expected.trimIndent() + '\n', actual)
     }
 }
 
