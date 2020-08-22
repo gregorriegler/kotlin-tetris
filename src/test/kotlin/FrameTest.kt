@@ -208,10 +208,21 @@ class `A Frame` {
     @Test
     fun `knows an area is not at the bottom`() {
         assertFalse(Frame(3, 3).isAtBottom(Area(Field.filled(1, 1))))
+        assertFalse(Frame(4, 4).isAtBottom(Area("""
+            >>
+            ##
+            ##
+        """.trimIndent())))
     }
 
     @Test
     fun `knows an area is at the bottom`() {
         assertTrue(Frame(2, 2).isAtBottom(Area(Field.filled(1, 1))))
+        assertTrue(Frame(4, 4).isAtBottom(Area("""
+            >>
+            >>
+            ##
+            ##
+        """.trimIndent())))
     }
 }

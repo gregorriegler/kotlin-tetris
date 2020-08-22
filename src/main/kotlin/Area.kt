@@ -41,8 +41,8 @@ open class Area(val fields: Set<Field>) {
     fun bottomOfFilled(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull() ?: 0
 
     fun state(): List<List<Filling>> =
-        (0 until height()).map { y ->
-            (0 until width()).map { x ->
+        (0..bottom()).map { y ->
+            (0..rightSide()).map { x ->
                 fillingOf(x, y)
             }
         }.toList()
@@ -96,7 +96,7 @@ open class Area(val fields: Set<Field>) {
 
     private fun withoutFilledRows(): Area {
         return Area(
-            (top() until bottom() + 1)
+            (top()..bottom())
                 .filter { y -> (0 until width()).map { x -> fillingOf(x, y) }.any { it == Filling.EMPTY } }
                 .flatMapIndexed { newY, y -> (0 until width()).map { x -> Field(x, newY, fillingOf(x, y)) } }
                 .toSet()

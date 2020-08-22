@@ -94,6 +94,34 @@ class `An Area` {
     }
 
     @Test
+    fun `gets the state`() {
+        assertThat(Area("""
+            >>
+            ##
+            ##
+        """).state()).isEqualTo(
+            listOf(
+                listOf(Filling.EMPTY, Filling.EMPTY),
+                listOf(Filling.FILLED, Filling.FILLED),
+                listOf(Filling.FILLED, Filling.FILLED),
+            )
+        )
+    }
+
+    @Test
+    fun `draws itself`() {
+        assertEqualsMultilineString("""
+            --
+            ##
+            ##
+        """, Area.draw(Area("""
+            >>
+            ##
+            ##
+        """).state()))
+    }
+
+    @Test
     fun `has a width`() {
         assertEquals(1, Area("#").width())
         assertEquals(2, Area("##").width())
@@ -309,5 +337,8 @@ class `An Area` {
         assertEquals(Area(Field.filled(1, -1), Field.filled(2, -1)), Structure("##").aboveCentered(Area(Frame(4, 4))))
     }
 
+    private fun assertEqualsMultilineString(expected: String, actual: String) {
+        assertEquals('\n' + expected.trimIndent() + '\n', '\n' + actual + '\n')
+    }
 }
 
