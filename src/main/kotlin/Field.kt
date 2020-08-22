@@ -30,7 +30,7 @@ class Field(
     fun minus(field: Field): Field = Field(x - field.x, y - field.y, filling)
     fun isFilled(): Boolean = filling == FILLED
     //todo test this
-    fun within(frame: Frame): Boolean = x >= 0 && x < frame.width && y >= 0 && y < frame.height
+    fun within(area: Area): Boolean = x >= 0 && x < area.width() && y >= 0 && y < area.height()
 
     override fun toString(): String = "($x,$y)"
     override fun equals(other: Any?): Boolean {

@@ -7,7 +7,7 @@ class `A Frame` {
     @Test
     fun `returns the top center field`() {
         val frame = Frame(3, 3)
-        assertEquals(Field(1, 0), frame.topCenter())
+        assertEquals(Field.filled(1, 0), frame.topCenterFilled())
     }
 
     @Test

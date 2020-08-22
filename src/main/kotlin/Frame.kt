@@ -5,7 +5,7 @@ class Frame(
     val height: Int,
 ) {
 
-    fun topCenter(): Field = Field(center(), 0)
+    fun topCenterFilled(): Field = Field.filled(center(), 0)
 
     fun left(area: Area): Area =
         if (isAtLeftBorder(area))
@@ -14,7 +14,7 @@ class Frame(
             area.left()
 
     fun left(area: Area, debris: Debris): Area =
-        if (isAtLeftBorder(area) || debris.isAt(area.left()))
+        if (isAtLeftBorder(area) || debris.collidesWith(area.left()))
             area
         else
             area.left()
@@ -26,7 +26,7 @@ class Frame(
             area
 
     fun right(area: Area, debris: Debris): Area =
-        if (isAtRightBorder(area) || debris.isAt(area.right()))
+        if (isAtRightBorder(area) || debris.collidesWith(area.right()))
             area
         else
             area.right()

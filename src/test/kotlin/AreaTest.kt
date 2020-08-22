@@ -142,13 +142,13 @@ class `An Area` {
     }
 
     @Test
-    fun overlaps() {
-        assertThat(Area("#_").overlaps(Area("#_"))).isTrue
+    fun collides() {
+        assertThat(Area("#_").collides(Area("#_"))).isTrue
     }
 
     @Test
-    fun `does not overlap`() {
-        assertThat(Area("#_").overlaps(Area("_#"))).isFalse
+    fun `does not collide`() {
+        assertThat(Area("#_").collides(Area("_#"))).isFalse
     }
 
     @Test

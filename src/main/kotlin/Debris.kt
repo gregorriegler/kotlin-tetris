@@ -19,12 +19,12 @@ class Debris(
     fun width(): Int = debris.width()
     fun height(): Int = debris.height()
 
-    fun isAt(area: Area): Boolean = debris.overlaps(area)
-    fun isAt(field: Field): Boolean = debris.has(Field.filled(field.x, field.y))
+    fun collidesWith(area: Area): Boolean = debris.collides(area)
+    fun collidesWith(field: Field): Boolean = debris.has(field)
 
     fun stateWithStone(stone: Stone): List<List<Filling>> =
         debris.combine(stone.area)
-            .within(Frame(debris.width(), debris.height()))
+            .within(debris)
             .state()
 
     override fun toString(): String = "\n" + Tetris.draw(debris.state()) + "\n"
@@ -39,9 +39,5 @@ class Debris(
         return true
     }
 
-    override fun hashCode(): Int {
-        return debris.hashCode()
-    }
-
-
+    override fun hashCode(): Int = debris.hashCode()
 }

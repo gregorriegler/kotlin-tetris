@@ -66,7 +66,7 @@ open class Area(val fields: Set<Field>) {
             }.toSet())
     }
 
-    fun overlaps(area: Area): Boolean {
+    fun collides(area: Area): Boolean {
         return fields.any { area.has(it) }
     }
 
@@ -82,7 +82,7 @@ open class Area(val fields: Set<Field>) {
     private fun move(vector: Field): Area = Area(fields.map { field -> field.plus(vector) }.toSet())
 
     //todo test this
-    fun within(frame: Frame): Area = Area(fields.filter { it.within(frame) }.toSet())
+    fun within(area: Area): Area = Area(fields.filter { it.within(area) }.toSet())
 
     fun removeFilledLines(): Pair<Area, Int> {
         val withoutFilledLines = Area(

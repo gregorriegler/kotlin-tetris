@@ -45,7 +45,7 @@ class Tetris(width: Int, height: Int, private val stones: List<Structure>) {
     }
 
     private fun gameOver(): Boolean {
-        return debris.isAt(frame.topCenter())
+        return debris.collidesWith(frame.topCenterFilled())
     }
 
     private fun increaseScore(count: Int) {
