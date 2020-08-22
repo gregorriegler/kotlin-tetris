@@ -21,27 +21,26 @@ class Stone(
     }
 
     fun rotate(debris: Debris) {
-        var rotate = area.rotate()
+        val rotate = area.rotate()
 
-        if(rotate.bottomOfFilled() > frame.height - 1 || debris.collidesWith(rotate)){
+        if (!outOfGame(rotate, debris)) {
+            area = rotate
             return
         }
 
-        val howMuchOutsideRight = rotate.rightSideOfFilled() - (frame.width - 1)
-        if(howMuchOutsideRight > 0) { // we're outside right
-            if(rotate.filledWidth() <= frame.width) { // there is enough room to the left
-                rotate = rotate.left(howMuchOutsideRight)
+        for(it in (1..rotate.filledWidth() / 2)) {
+            if (!outOfGame(rotate.left(it), debris)) {
+                area = rotate.left(it)
+                break
+            } else if (!outOfGame(rotate.right(it), debris)) {
+                area = rotate.right(it)
+                break
             }
         }
+    }
 
-        val howMuchOutsideLeft = rotate.leftSideOfFilled() - 0
-        if(howMuchOutsideLeft < 0) { // we're outside left
-            if(rotate.filledWidth() <= frame.width) { // there is enough room to the right
-                rotate = rotate.right(howMuchOutsideLeft * -1)
-            }
-        }
-
-        area = rotate
+    fun outOfGame(area: Area, debris: Debris): Boolean {
+        return debris.collidesWith(area) || area.outsideOf(frame)
     }
 
     fun state(): List<List<Filling>> =

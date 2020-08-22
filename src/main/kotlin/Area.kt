@@ -34,14 +34,19 @@ open class Area(val fields: Set<Field>) {
     fun height(): Int = if (fields.isEmpty()) 0 else (bottom() - top()) + 1
 
     private fun leftSide(): Int = fields.map { it.x }.minOrNull() ?: 0
-    private fun rightSide(): Int = fields.map { it.x }.maxOrNull() ?: 0
+    fun rightSide(): Int = fields.map { it.x }.maxOrNull() ?: 0
     private fun top(): Int = fields.map { it.y }.minOrNull() ?: 0
-    private fun bottom(): Int = fields.map { it.y }.maxOrNull() ?: 0
+    fun bottom(): Int = fields.map { it.y }.maxOrNull() ?: 0
 
     fun leftSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.minOrNull() ?: 0
     fun rightSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.maxOrNull() ?: 0
     fun bottomOfFilled(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull() ?: 0
     fun filledWidth(): Int = (rightSideOfFilled() - leftSideOfFilled()) + 1
+
+    fun outsideOf(frame: Frame): Boolean =
+        rightSideOfFilled() > frame.width - 1
+                || leftSideOfFilled() < 0
+                || bottomOfFilled() > frame.height - 1
 
     fun state(): List<List<Filling>> =
         (0..bottom()).map { y ->
@@ -116,5 +121,6 @@ open class Area(val fields: Set<Field>) {
 
         return true
     }
+
     override fun hashCode(): Int = fields.hashCode()
 }

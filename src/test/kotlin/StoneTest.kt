@@ -1,5 +1,6 @@
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -495,7 +496,123 @@ class `A Stone` {
                 stone
             )
         }
+
+        @Test
+        fun `rotation respects right debris and moves back in`() {
+            val frame = Frame(4, 4)
+            val stone = Stone("""
+                -#-
+                -#-
+                -#-
+                """,
+                frame
+            )
+            val debris = Debris("""
+                ---#
+                ---#
+                ---#
+                ---#
+                """
+            )
+
+            stone.down()
+            stone.down()
+            stone.down()
+            stone.right(debris)
+            stone.rotate(debris)
+
+            assertState(
+                """
+                ----
+                ###-
+                ----
+                ----
+                """,
+                stone
+            )
+        }
+
+        @Test
+        fun `rotation respects right debris and moves back in further`() {
+            val frame = Frame(6, 6)
+            val stone = Stone("""
+                --#--
+                --#--
+                --#--
+                --#--
+                --#--
+                """,
+                frame
+            )
+            val debris = Debris("""
+                -----#
+                -----#
+                -----#
+                -----#
+                -----#
+                -----#
+                """
+            )
+
+            repeat(5, {stone.down()})
+            stone.right(debris)
+            stone.right(debris)
+            stone.rotate(debris)
+
+            assertState(
+                """
+                ------
+                ------
+                #####-
+                ------
+                ------
+                ------
+                """,
+                stone
+            )
+        }
     }
+
+    @Test
+    fun `rotation respects left debris and moves back in`() {
+        val frame = Frame(6, 6)
+        val stone = Stone("""
+                --#--
+                --#--
+                --#--
+                --#--
+                --#--
+                """,
+            frame
+        )
+        val debris = Debris("""
+                #-----
+                #-----
+                #-----
+                #-----
+                #-----
+                #-----
+                """
+        )
+
+        repeat(5, {stone.down()})
+        stone.left(debris)
+        stone.left(debris)
+        stone.rotate(debris)
+
+        assertState(
+            """
+                ------
+                ------
+                -#####
+                ------
+                ------
+                ------
+                """,
+            stone
+        )
+    }
+
 
     private fun assertPosition(stone: Stone, field: Field, state: String) {
         assertState(state, stone)
