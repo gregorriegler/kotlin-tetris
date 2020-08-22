@@ -25,12 +25,12 @@ class Stone(
     }
 
     fun has(field: Field): Boolean {
-        return area.has(field)
+        return area.collides(field)
     }
 
     fun state(): List<List<Filling>> =
-        (0 until frame.height).map { y ->
-            (0 until frame.width).map { x ->
+        frame.rows().map { y ->
+            frame.columns().map { x ->
                 area.fillingOf(x, y)
             }
         }.toList()

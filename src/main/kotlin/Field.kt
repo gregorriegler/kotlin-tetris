@@ -29,7 +29,6 @@ class Field(
     fun plus(field: Field): Field = Field(x + field.x, y + field.y, filling)
     fun minus(field: Field): Field = Field(x - field.x, y - field.y, filling)
     fun isFilled(): Boolean = filling == FILLED
-    //todo test this
     fun within(area: Area): Boolean = x >= 0 && x < area.width() && y >= 0 && y < area.height()
 
     override fun toString(): String = "($x,$y)"

@@ -2,16 +2,14 @@ class Debris(
     private var debris: Area,
 ) {
     constructor(frame: Frame) : this(Area(frame))
-    constructor(debris: String) : this(
-        Area(debris)
-    )
+    constructor(debris: String) : this(Area(debris))
 
     fun add(stone: Stone) {
         debris = debris.combine(stone.area)
     }
 
     fun dissolveFilledRows(): Int {
-        val removed = debris.removeFilledLines()
+        val removed = debris.dissolveFilledRows()
         debris = removed.first
         return removed.second
     }
@@ -20,7 +18,7 @@ class Debris(
     fun height(): Int = debris.height()
 
     fun collidesWith(area: Area): Boolean = debris.collides(area)
-    fun collidesWith(field: Field): Boolean = debris.has(field)
+    fun collidesWith(field: Field): Boolean = debris.collides(field)
 
     fun stateWithStone(stone: Stone): List<List<Filling>> =
         debris.combine(stone.area)

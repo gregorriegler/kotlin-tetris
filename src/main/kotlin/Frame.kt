@@ -1,11 +1,16 @@
 import kotlin.math.roundToInt
 
+// todo if this was a debris could do frames of various shapes
 class Frame(
     val width: Int,
     val height: Int,
 ) {
 
     fun topCenterFilled(): Field = Field.filled(center(), 0)
+
+    fun rows() = (0 until height)
+
+    fun columns() = (0 until width)
 
     fun left(area: Area): Area =
         if (isAtLeftBorder(area))
