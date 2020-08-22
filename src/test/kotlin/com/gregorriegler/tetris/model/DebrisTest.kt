@@ -1,3 +1,7 @@
+package com.gregorriegler.tetris.model
+
+import com.gregorriegler.tetris.model.Debris
+import com.gregorriegler.tetris.model.Field
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

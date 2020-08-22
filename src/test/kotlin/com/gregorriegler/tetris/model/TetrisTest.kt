@@ -1,3 +1,5 @@
+package com.gregorriegler.tetris.model
+
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

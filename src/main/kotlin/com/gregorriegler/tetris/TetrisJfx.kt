@@ -1,3 +1,7 @@
+package com.gregorriegler.tetris
+
+import com.gregorriegler.tetris.model.Structure
+import com.gregorriegler.tetris.model.Tetris
 import javafx.animation.AnimationTimer
 import javafx.application.Application
 import javafx.application.Application.launch

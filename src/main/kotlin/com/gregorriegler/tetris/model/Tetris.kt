@@ -1,3 +1,5 @@
+package com.gregorriegler.tetris.model
+
 class Tetris(width: Int, height: Int, private val stones: List<Structure>) {
     private val frame: Frame = Frame(width, height)
     private var stone: Stone = Stone(stones.random(), frame)

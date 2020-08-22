@@ -1,3 +1,5 @@
+package com.gregorriegler.tetris.model
+
 class Debris(
     private var debris: Area,
 ) {

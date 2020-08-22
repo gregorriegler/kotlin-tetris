@@ -1,3 +1,5 @@
+package com.gregorriegler.tetris.model
+
 import kotlin.math.roundToInt
 
 class Frame(

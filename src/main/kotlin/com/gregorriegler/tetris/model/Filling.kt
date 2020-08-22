@@ -1,3 +1,5 @@
+package com.gregorriegler.tetris.model
+
 enum class Filling {
 
     FILLED {

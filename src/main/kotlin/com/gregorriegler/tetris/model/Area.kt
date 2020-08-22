@@ -1,4 +1,4 @@
-
+package com.gregorriegler.tetris.model
 open class Area(val fields: Set<Field>) {
 
     companion object {

@@ -1,3 +1,5 @@
+package com.gregorriegler.tetris.model
+
 class Structure(string: String) : Area(string) {
     companion object {
         fun create1by1(): Structure {

@@ -1,3 +1,6 @@
+package com.gregorriegler.tetris.model
+
+import com.gregorriegler.tetris.model.Field
 import org.junit.jupiter.api.Test
 import org.assertj.core.api.Assertions.*
 

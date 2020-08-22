@@ -1,3 +1,6 @@
+package com.gregorriegler.tetris.model
+
+import com.gregorriegler.tetris.model.Timer
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

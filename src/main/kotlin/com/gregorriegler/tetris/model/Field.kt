@@ -1,5 +1,7 @@
-import Filling.EMPTY
-import Filling.FILLED
+package com.gregorriegler.tetris.model
+
+import com.gregorriegler.tetris.model.Filling.EMPTY
+import com.gregorriegler.tetris.model.Filling.FILLED
 
 class Field(
     val x: Int,

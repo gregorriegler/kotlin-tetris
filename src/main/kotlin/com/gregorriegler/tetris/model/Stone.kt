@@ -1,3 +1,5 @@
+package com.gregorriegler.tetris.model
+
 class Stone(
     structure: Structure,
     private val frame: Frame,
