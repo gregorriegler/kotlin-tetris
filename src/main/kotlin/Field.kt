@@ -45,8 +45,8 @@ class Field(
         return true
     }
     override fun hashCode(): Int {
-        var result = x
-        result = 31 * result + y
+        var result = x + 100
+        result = 31 * result + y + 100
         result = 31 * result + filling.hashCode()
         return result
     }

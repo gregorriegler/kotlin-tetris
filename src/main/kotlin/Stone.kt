@@ -35,7 +35,7 @@ class Stone(
             }
         }.toList()
 
-    fun landed(debris: Debris) = atBottom() || collisionWith(debris)
+    fun landed(debris: Debris) = atBottom() || collidesWith(debris)
     private fun atBottom(): Boolean = frame.isAtBottom(area)
-    private fun collisionWith(debris: Debris) = debris.collidesWith(area.down())
+    private fun collidesWith(debris: Debris) = debris.collidesWith(area.down())
 }

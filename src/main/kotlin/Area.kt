@@ -49,8 +49,6 @@ open class Area(val fields: Set<Field>) {
 
     fun fillingOf(x: Int, y: Int): Filling = fields.find { it.x == x && it.y == y }?.filling ?: Filling.EMPTY
 
-    fun collides(field: Field): Boolean = fields.contains(field)
-
     fun rotate(): Area = Area(
         fields.map { field -> field.minus(distance()) }
             .map { field -> field.rotate(size()) }
@@ -69,6 +67,8 @@ open class Area(val fields: Set<Field>) {
             }.toSet())
 
     fun collides(area: Area): Boolean = fields.any { area.collides(it) }
+
+    fun collides(field: Field): Boolean = field.isFilled() && fields.contains(field)
 
     fun aboveCentered(area: Area): Area = move(Field(
         (area.width() - width()) / 2,

@@ -152,9 +152,19 @@ class `An Area` {
     }
 
     @Test
-    fun `covers a field`() {
+    fun `collides with a field`() {
         assertTrue(Area("#").collides(Field.filled(0, 0)))
+        assertTrue(Area("-#").collides(Field.filled(1, 0)))
+        assertTrue(Area(">#").collides(Field.filled(1, 0)))
+    }
+
+    @Test
+    fun `does not collide with a field`() {
         assertFalse(Area("#").collides(Field.filled(1, 1)))
+        assertFalse(Area("#").collides(Field.empty(0,0)))
+        assertFalse(Area("-#").collides(Field.filled(0, 0)))
+        assertFalse(Area("-#").collides(Field.empty(0, 0)))
+        assertFalse(Area(">#").collides(Field.filled(0, 0)))
     }
 
     @Test
