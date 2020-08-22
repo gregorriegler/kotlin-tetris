@@ -5,7 +5,7 @@ class Debris(
     private var debris: List<List<Filling>>,
     private var debrisNew: Area,
 ) {
-    constructor(frame: Frame) : this(frame, frame.empty(), Area())
+    constructor(frame: Frame) : this(frame, frame.empty(), Area(frame))
     constructor(debris: String) : this(
         Frame(
             debris.trimIndent().substringBefore('\n').length,
@@ -53,19 +53,17 @@ class Debris(
             && debris[field.y][field.x] != Filling.EMPTY
 
     fun dissolveFilledRows(): Int {
-//        dissolveFilledRowsNew()
+        val count =  dissolveFilledRowsNew()
         val filledRows = filledRows()
         debris = makeEmptyRowsFor(filledRows) + removeRows(filledRows)
-        return filledRows.size
+        return count
     }
 
-//    fun dissolveFilledRowsNew(): Int {
-//        (0 until height()).flatMap { y ->
-//            (0 until width()).map { x ->
-////                debrisNew.
-//            }
-//        }
-//    }
+    fun dissolveFilledRowsNew(): Int {
+        val afterRemoval = debrisNew.removeFilledLines()
+        debrisNew = afterRemoval.first
+        return afterRemoval.second
+    }
 
     private fun removeRows(rows: List<Int>) =
         debris.filterIndexed { index, _ -> !rows.contains(index) }.toList()

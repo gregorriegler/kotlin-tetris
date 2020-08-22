@@ -136,6 +136,12 @@ class `An Area` {
     }
 
     @Test
+    fun `combines empty rows`() {
+        assertThat(Area(">\n_").combine(Area("_")))
+            .isEqualTo(Area("_\n_"))
+    }
+
+    @Test
     fun overlaps() {
         assertThat(Area("#_").overlaps(Area("#_"))).isTrue
     }
@@ -148,14 +154,41 @@ class `An Area` {
     @Test
     fun `removes filled lines`() {
         assertThat(Area("""
+            >
+            #
+        """).removeFilledLines()).isEqualTo(
+            Pair(Area("""
+                >
+                _
+            """.trimIndent()), 1))
+
+        assertThat(Area("""
+            #
+        """).removeFilledLines()).isEqualTo(
+            Pair(Area("""
+            _
+        """), 1))
+
+        assertThat(Area("""
+            _
+            #
+        """).removeFilledLines()).isEqualTo(
+            Pair(Area("""
+            _
+            _
+        """), 1))
+
+        assertThat(Area("""
             #_
             ##
             #_
             ##
-        """).removeFilledLines()).isEqualTo(Area("""
+        """).removeFilledLines()).isEqualTo(Pair(Area("""
+            __
+            __
             #_
             #_
-        """))
+        """), 2))
     }
 
     @Test

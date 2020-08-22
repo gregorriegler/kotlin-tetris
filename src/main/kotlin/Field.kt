@@ -18,31 +18,19 @@ class Field(
     }
 
     constructor(x: Int, y: Int) : this(x, y, EMPTY)
-
     constructor(x: Int, y: Int, filling: String) : this(x, y, Filling.of(filling))
 
     fun down(): Field = Field(x, y + 1, filling)
-
+    fun down(by: Int): Field = Field(x, y + by, filling)
     fun left(): Field = Field(x - 1, y, filling)
-
     fun right(): Field = Field(x + 1, y, filling)
+    fun rotate(width: Int): Field = Field(width - y - 1, x, filling)
 
-    fun rotate(width: Int): Field {
-        return Field(width - y - 1, x, filling)
-    }
-
-    fun plus(field: Field): Field {
-        return Field(x + field.x, y + field.y, filling)
-    }
-
-    fun minus(field: Field): Field {
-        return Field(x - field.x, y - field.y, filling)
-    }
-
+    fun plus(field: Field): Field = Field(x + field.x, y + field.y, filling)
+    fun minus(field: Field): Field = Field(x - field.x, y - field.y, filling)
     fun isFilled(): Boolean = filling == FILLED
 
     override fun toString(): String = "($x,$y)"
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -55,7 +43,6 @@ class Field(
 
         return true
     }
-
     override fun hashCode(): Int {
         var result = x
         result = 31 * result + y
