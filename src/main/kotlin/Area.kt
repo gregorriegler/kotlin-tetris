@@ -11,6 +11,9 @@ open class Area(val fields: Set<Field>) {
                         .map { Field(it.index, y, it.value) }
                 }.toSet()
         }
+
+        fun draw(combined: List<List<Filling>>) =
+            combined.joinToString(separator = "\n") { it -> it.joinToString(separator = "") { it.toString() } }
     }
 
     constructor(vararg fields: Field) : this(fields.toSet())
@@ -100,7 +103,7 @@ open class Area(val fields: Set<Field>) {
         )
     }
 
-    override fun toString(): String = "\n" + Tetris.draw(state()) + "\n"
+    override fun toString(): String = "\n" + draw(state()) + "\n"
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

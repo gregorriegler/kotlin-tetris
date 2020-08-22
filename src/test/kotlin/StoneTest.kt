@@ -402,7 +402,7 @@ class `A Stone` {
     private fun assertState(state: String, stone: Stone) {
         assertEquals(
             "\n" + state.trimIndent() + "\n",
-            "\n" + Tetris.draw(stone.state()) + "\n"
+            "\n" + Area.draw(stone.state()) + "\n"
         )
     }
 }

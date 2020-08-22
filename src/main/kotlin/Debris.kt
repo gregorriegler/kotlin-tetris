@@ -25,7 +25,7 @@ class Debris(
             .within(debris)
             .state()
 
-    override fun toString(): String = "\n" + Tetris.draw(debris.state()) + "\n"
+    override fun toString(): String = "\n" + Area.draw(debris.state()) + "\n"
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
