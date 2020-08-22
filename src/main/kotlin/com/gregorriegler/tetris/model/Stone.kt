@@ -44,19 +44,10 @@ class Stone(
         return debris.collidesWith(area) || area.outsideOf(frame)
     }
 
-    fun state(): List<List<Filling>> =
-        frame.rows().map { y ->
-            frame.columns().map { x ->
-                area.fillingOf(x, y)
-            }
-        }.toList()
-
     fun landed(debris: Debris) = atBottom() || collidesWith(debris)
     private fun atBottom(): Boolean = frame.isAtBottom(area)
     private fun collidesWith(debris: Debris) = debris.collidesWith(area.down())
     override fun toString(): String {
         return area.toString()
     }
-
-
 }

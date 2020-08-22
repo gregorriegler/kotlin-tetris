@@ -13,23 +13,11 @@ class Frame(
 
     fun columns() = (0 until width)
 
-    fun left(area: Area): Area =
-        if (isAtLeftBorder(area))
-            area
-        else
-            area.left()
-
     fun left(area: Area, debris: Debris): Area =
         if (isAtLeftBorder(area) || debris.collidesWith(area.left()))
             area
         else
             area.left()
-
-    fun right(area: Area): Area =
-        if (area.rightSideOfFilled() < width - 1)
-            area.right()
-        else
-            area
 
     fun right(area: Area, debris: Debris): Area =
         if (isAtRightBorder(area) || debris.collidesWith(area.right()))
@@ -50,10 +38,6 @@ class Frame(
     fun isAtBottom(area: Area): Boolean = area.bottomOfFilled() == height - 1
 
     private fun center() = width.toDouble().div(2).roundToInt() - 1
-
-    fun isOutsideRight(area: Area): Boolean {
-        return area.leftSideOfFilled() >= 0 && area.rightSideOfFilled() < width
-    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
