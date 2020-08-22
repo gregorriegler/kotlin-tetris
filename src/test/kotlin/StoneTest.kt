@@ -613,10 +613,8 @@ class `A Stone` {
         )
     }
 
-
     private fun assertPosition(stone: Stone, field: Field, state: String) {
-        assertState(state, stone)
-        assertThat(stone.area).isEqualTo(Area(field))
+        assertPositionByArea(stone, Area(field), state)
     }
 
     private fun assertPositionByArea(stone: Stone, area: Area, state: String) {

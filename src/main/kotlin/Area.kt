@@ -1,3 +1,4 @@
+
 open class Area(val fields: Set<Field>) {
 
     companion object {
@@ -22,6 +23,9 @@ open class Area(val fields: Set<Field>) {
         frame.rows().flatMap { y -> frame.columns().map { x -> Field.empty(x, y) } }.toSet()
     )
 
+    private val fieldMap: Map<Int, Map<Int, Field>> =
+        fields.groupBy { it.y }.mapValues { (_, field) -> field.associate { it.x to it } }
+
     fun down(by: Int): Area = Area(fields.map { it.down(by) }.toSet())
     fun down(): Area = Area(fields.map { it.down() }.toSet())
     fun left(): Area = left(1)
@@ -29,19 +33,19 @@ open class Area(val fields: Set<Field>) {
     fun right(): Area = right(1)
     fun right(by: Int): Area = Area(fields.map { it.right(by) }.toSet())
 
-    private fun size() = maxOf(width(), height())
+    private fun leftSide(): Int = fields.map { it.x }.minOrNull() ?: 0
+    private fun rightSide(): Int = fields.map { it.x }.maxOrNull() ?: 0
+    private fun top(): Int = fields.map { it.y }.minOrNull() ?: 0
+    private fun bottom(): Int = fields.map { it.y }.maxOrNull() ?: 0
+
     fun width(): Int = (rightSide() - leftSide()) + 1
     fun height(): Int = if (fields.isEmpty()) 0 else (bottom() - top()) + 1
+    private fun size() = maxOf(width(), height())
 
-    private fun leftSide(): Int = fields.map { it.x }.minOrNull() ?: 0
-    fun rightSide(): Int = fields.map { it.x }.maxOrNull() ?: 0
-    private fun top(): Int = fields.map { it.y }.minOrNull() ?: 0
-    fun bottom(): Int = fields.map { it.y }.maxOrNull() ?: 0
-
+    fun filledWidth(): Int = (rightSideOfFilled() - leftSideOfFilled()) + 1
     fun leftSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.minOrNull() ?: 0
     fun rightSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.maxOrNull() ?: 0
     fun bottomOfFilled(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull() ?: 0
-    fun filledWidth(): Int = (rightSideOfFilled() - leftSideOfFilled()) + 1
 
     fun outsideOf(frame: Frame): Boolean =
         rightSideOfFilled() > frame.width - 1
@@ -55,7 +59,9 @@ open class Area(val fields: Set<Field>) {
             }
         }.toList()
 
-    fun fillingOf(x: Int, y: Int): Filling = fields.find { it.x == x && it.y == y }?.filling ?: Filling.EMPTY
+    fun fillingOf(x: Int, y: Int): Filling = fieldMap[y]?.get(x)?.filling ?: Filling.EMPTY
+
+    private fun distance() = Field(leftSide(), top())
 
     fun rotate(): Area = Area(
         fields.map { field -> field.minus(distance()) }
@@ -63,8 +69,6 @@ open class Area(val fields: Set<Field>) {
             .map { field -> field.plus(distance()) }
             .toSet()
     )
-
-    private fun distance() = Field(leftSide(), top())
 
     fun combine(area: Area): Area =
         Area(fields.map { it.y }.plus(area.fields.map { it.y })
