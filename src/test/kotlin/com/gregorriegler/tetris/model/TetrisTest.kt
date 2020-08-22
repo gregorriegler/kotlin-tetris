@@ -1,5 +1,6 @@
 package com.gregorriegler.tetris.model
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -197,21 +198,14 @@ class `A Tetris` {
                 """,
                 0
             )
+            assertThat(tetris.gameOver).isEqualTo("")
         }
 
         @Test
         fun `report game over`() {
             tickTimes(tetris, 9)
 
-            assertDisplays(
-                tetris,
-                """
-                ##
-                Game Over
-                ##
-                """,
-                0
-            )
+            assertThat(tetris.gameOver).isEqualTo("Game Over")
         }
     }
 
@@ -417,7 +411,7 @@ class `A Tetris` {
     private fun assertDisplays(tetris: Tetris, output: String, score: Int) {
         assertEquals(
             "\n" + output.trimIndent() + "\n",
-            tetris.display()
+            tetris.gameDisplay()
         )
         assertEquals(
             score,

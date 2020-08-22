@@ -5,7 +5,12 @@ class Tetris(width: Int, height: Int, private val stones: List<Structure>) {
     private var stone: Stone = Stone(stones.random(), frame)
     private val clock: Timer = Timer({ tick() })
     private val debris: Debris = Debris(frame)
+
+    var nextStone: Structure = stones.random()
+        private set
     var score: Int = 0
+        private set
+    var gameOver: String = ""
         private set
 
     fun left() = stone.left(debris)
@@ -16,38 +21,29 @@ class Tetris(width: Int, height: Int, private val stones: List<Structure>) {
     fun time(time: Long) = clock.time(time)
 
     private fun tick() {
-        if (gameOver()) {
+        if (gameIsOver()) {
             return
         }
 
         if (stone.landed(debris)) {
             debris.add(stone)
             increaseScore(debris.dissolveFilledRows())
-            stone = Stone(stones.random(), frame)
+            stone = Stone(nextStone, frame)
+            nextStone = stones.random()
+            if(gameIsOver()) {
+                gameOver = "Game Over"
+            }
             return
         } else {
             stone.down()
         }
     }
 
-    fun display(): String =
-        if (gameOver()) {
-            gameOverString()
-        } else {
-            debris.withStone(stone).toString()
-        }
-
-    private fun gameOverString(): String {
-        return "\n" + """
-                ##
-                Game Over
-                ##
-                """.trimIndent() + "\n"
-    }
+    fun gameDisplay(): String = debris.withStone(stone).toString()
 
     private fun increaseScore(count: Int) {
         score += count
     }
 
-    private fun gameOver(): Boolean = debris.collidesWith(frame.topCenterFilled())
+    private fun gameIsOver(): Boolean = debris.collidesWith(frame.topCenterFilled())
 }

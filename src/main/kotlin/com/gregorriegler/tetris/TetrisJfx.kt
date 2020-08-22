@@ -5,8 +5,10 @@ import com.gregorriegler.tetris.model.Tetris
 import javafx.animation.AnimationTimer
 import javafx.application.Application
 import javafx.application.Application.launch
+import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.input.KeyCode
+import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.scene.text.Font
 import javafx.scene.text.Text
@@ -21,18 +23,22 @@ fun main() {
 class JavaFXExample : Application() {
     private val tetris: Tetris = Tetris(10, 14, listOf(
         Structure.create2by2(),
-        Structure.create1by5(),
+        Structure.create1by4(),
         Structure.create3and1(),
         Structure.createL(),
         Structure.createMirrorL(),
     ))
-    private val game: Text = Text(10.0, 50.0, "test")
-    private var gameLoop: GameLoop = GameLoop(tetris) { game.text = it }
+    private val game: Text = Text(10.0, 50.0, "")
+    private val score: Text = Text(50.0, 50.0, "")
+    private var gameLoop: GameLoop = GameLoop(tetris, { game.text = it }, {score.text = it})
 
     override fun start(stage: Stage) {
-
-        val layout = VBox().apply {
+        val layout = HBox().apply {
+            spacing = 20.0
+            padding = Insets(20.0, 20.0, 20.0, 20.0)
             children.add(game)
+            children.add(score)
+            score.font = Font("FreeMono", 20.0)
             game.font = Font("FreeMono", 20.0)
             game.isFocusTraversable = true
             game.requestFocus()
@@ -67,6 +73,9 @@ class JavaFXExample : Application() {
         stage.run {
             scene = Scene(layout)
             show()
+            stage.isResizable = false
+            scene.window.width = 320.0
+            scene.window.height = 400.0
         }
 
         gameLoop.start()
@@ -75,11 +84,13 @@ class JavaFXExample : Application() {
 
 class GameLoop(
     private val tetris: Tetris,
-    private val display: Consumer<String>
+    private val displayGame: Consumer<String>,
+    private val displayScore: Consumer<String>
 ) : AnimationTimer() {
 
     override fun handle(arg0: Long) {
         tetris.time(System.currentTimeMillis())
-        display.accept(tetris.display() + "\n\nScore: " + tetris.score)
+        displayGame.accept(tetris.gameDisplay())
+        displayScore.accept("\nScore: " + tetris.score + "\n\nNext Stone:\n" + tetris.nextStone.toString() + "\n" + tetris.gameOver)
     }
 }
