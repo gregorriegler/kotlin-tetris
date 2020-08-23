@@ -1,24 +1,44 @@
 package com.gregorriegler.tetris.model
 
-import com.gregorriegler.tetris.model.Field
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.assertj.core.api.Assertions.*
 
 class `A Field` {
 
     @Test
-    fun `returns the field below`() {
+    fun `has a filling`() {
+        assertThat(Field(1,1).filling).isEqualTo(Filling.EMPTY)
+        assertThat(Field(1,1, Filling.FILLED).filling).isEqualTo(Filling.FILLED)
+    }
+
+    @Test
+    fun `moves down`() {
         assertThat(Field(1,1).down()).isEqualTo(Field(1, 2))
     }
 
     @Test
-    fun `returns the field to the left`() {
+    fun `moves down by 3`() {
+        assertThat(Field(1,1).down(3)).isEqualTo(Field(1, 4))
+    }
+
+    @Test
+    fun `moves to the left`() {
         assertThat(Field(1,1).left()).isEqualTo(Field(0, 1))
     }
 
     @Test
-    fun `returns the field to the right`() {
+    fun `moves to the left by 3`() {
+        assertThat(Field(1,1).left(3)).isEqualTo(Field(-2, 1))
+    }
+
+    @Test
+    fun `moves to the right`() {
         assertThat(Field(1,1).right()).isEqualTo(Field(2, 1))
+    }
+
+    @Test
+    fun `moves to the right by 3`() {
+        assertThat(Field(1,1).right(3)).isEqualTo(Field(4, 1))
     }
 
     @Test
@@ -27,7 +47,7 @@ class `A Field` {
     }
 
     @Test
-    fun `minus a field`() {
+    fun `substracts a field`() {
         assertThat(Field(1,1).minus(Field(1,1))).isEqualTo(Field(0, 0))
     }
 
