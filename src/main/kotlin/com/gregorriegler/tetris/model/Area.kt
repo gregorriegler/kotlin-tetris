@@ -132,16 +132,43 @@ open class Area(val fields: Set<Field>) {
     }
 
     fun fall(): Area {
-        val result = fields.map { field ->
-            if (field.isFilled() && field.y != height()-1 && get(field.x, field.y + 1).filling == Filling.EMPTY)
-                field.down()
-            else if (!field.isFilled() && get(field.x, field.y - 1).filling == Filling.FILLED)
-                field.up()
-            else
-                field
+        val canFall = fields.filter { field ->
+            field.isFilled()
+                    && !isAtBottom(field)
+                    && belowIsEmpty(field)
+                    && !hasAnchorToTheRight(rightOf(field))
+                    && !hasAnchorToTheLeft(leftOf(field))
+        }
+        val below = canFall.map { Field.empty(it.x, it.y + 1) }
+
+        val result = fields.map {
+            when {
+                canFall.contains(it) -> it.down()
+                below.contains(it) -> it.up()
+                else -> it
+            }
         }
         return Area(result)
     }
+
+    private fun hasAnchorToTheRight(field: Field): Boolean =
+        field.isFilled() && (isAnchor(field) || hasAnchorToTheRight(below(field)) || hasAnchorToTheRight(rightOf(field)))
+
+    private fun hasAnchorToTheLeft(field: Field): Boolean =
+        field.isFilled() && (isAnchor(field) || hasAnchorToTheLeft(below(field)) || hasAnchorToTheLeft(leftOf(field)))
+
+    private fun isAnchor(field: Field) = field.isFilled() && isAtBottom(field)
+
+    private fun rightOf(field: Field) = get(field.x + 1, field.y)
+
+    private fun leftOf(field: Field) = get(field.x - 1, field.y)
+
+    private fun below(field: Field) = get(field.x, field.y + 1)
+
+    private fun belowIsEmpty(field: Field) =
+        get(field.x, field.y + 1).filling == Filling.EMPTY
+
+    private fun isAtBottom(field: Field) = field.y == height() - 1
 
     private fun addEmptyLinesOnTop(removedRowsCount: Int): Area {
         return Area(

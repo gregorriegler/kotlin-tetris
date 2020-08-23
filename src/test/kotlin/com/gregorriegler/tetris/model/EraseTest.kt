@@ -53,7 +53,7 @@ class `Erasing debris` {
             ###
         """)
 
-        val howMany:Int = debris.eraseFilledRows()
+        val howMany: Int = debris.eraseFilledRows()
 
         Assertions.assertEquals(3, howMany)
         Assertions.assertEquals(
@@ -74,7 +74,7 @@ class `Erasing debris` {
             ###
         """)
 
-        val howMany:Int = debris.eraseFilledRows()
+        val howMany: Int = debris.eraseFilledRows()
 
         Assertions.assertEquals(6, howMany)
         Assertions.assertEquals(
@@ -89,7 +89,6 @@ class `Erasing debris` {
 
     @Test
     fun `area falls to bottom`() {
-
         assertThat(Area("""
             #
             -
@@ -115,6 +114,30 @@ class `Erasing debris` {
     @Test
     fun `area on bottom does not fall any further`() {
         assertThat(Area("#").fall()).isEqualTo(Area("#"))
+    }
+
+    @Test
+    fun `fields that have an anchor don't fall`() {
+        assertThat(Area("""
+            ##
+            #-
+        """).fall()).isEqualTo(Area("""
+            ##
+            #-
+            """
+        ))
+    }
+
+    @Test
+    fun `whole lines fall`() {
+        assertThat(Area("""
+            ##
+            --
+        """).fall()).isEqualTo(Area("""
+            --
+            ##
+            """
+        ))
     }
 
     //    @Test
