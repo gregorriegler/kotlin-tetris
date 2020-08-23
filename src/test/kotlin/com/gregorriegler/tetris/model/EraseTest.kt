@@ -140,18 +140,18 @@ class `Erasing debris` {
         ))
     }
 
-    //    @Test
-//    fun `debris falls`() {
-//        val debris = Debris("""
-//            #
-//            -
-//        """)
-//
-//        debris.fall()
-//
-//        assertThat(debris).isEqualTo(Debris("""
-//            -
-//            #
-//        """))
+    @Test
+    fun `debris falls together`() {
+        assertThat(Area("""
+            #
+            #
+            -
+        """).fall()).isEqualTo(Area("""
+            -
+            #
+            #
+            """
+        ))
+    }
 
 }

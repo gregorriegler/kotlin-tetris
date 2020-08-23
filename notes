@@ -1,2 +1,5 @@
 - if frame was a debris, frames could be of various shapes
-- rotation does not respect debris
+- hanging stones fall (and do it together)
+- falling stones stick on anchors
+- need a field state (loose) that prevents overall sticking (for e.g. explosion)
+

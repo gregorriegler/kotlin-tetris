@@ -132,23 +132,41 @@ open class Area(val fields: Set<Field>) {
     }
 
     fun fall(): Area {
-        val canFall = fields.filter { field ->
+        val canFall: List<List<Field>> = fields.filter { field ->
             field.isFilled()
-                    && !isAtBottom(field)
                     && belowIsEmpty(field)
+                    && !isAnchor(field)
                     && !hasAnchorToTheRight(rightOf(field))
                     && !hasAnchorToTheLeft(leftOf(field))
-        }
-        val below = canFall.map { Field.empty(it.x, it.y + 1) }
+        }.map { withConnectedFieldsAbove(it) }
+            .toList()
 
-        val result = fields.map {
-            when {
-                canFall.contains(it) -> it.down()
-                below.contains(it) -> it.up()
-                else -> it
+        val below = canFall.map { Field.empty(it[0].x, it[0].y + 1) }
+        val belowBy = canFall.associateBy({ Field.empty(it[0].x, it[0].y + 1) }, { it.size })
+        val result = fields
+            .map {
+                when {
+                    canFall.flatten().contains(it) -> it.down()
+                    below.contains(it) -> it.up(belowBy[it] ?: 1)
+                    else -> it
+                }
             }
-        }
         return Area(result)
+    }
+
+    fun withConnectedFieldsAbove(field: Field): List<Field> {
+        var result: MutableList<Field> = mutableListOf(field)
+        var y = field.y - 1
+        val top = top()
+        while (y >= top) {
+            val nextAbove = get(field.x, y)
+            if (!nextAbove.isFilled()) {
+                break
+            }
+            result.add(nextAbove)
+            y--
+        }
+        return result
     }
 
     private fun hasAnchorToTheRight(field: Field): Boolean =
@@ -164,6 +182,7 @@ open class Area(val fields: Set<Field>) {
     private fun leftOf(field: Field) = get(field.x - 1, field.y)
 
     private fun below(field: Field) = get(field.x, field.y + 1)
+    private fun above(field: Field) = get(field.x, field.y - 1)
 
     private fun belowIsEmpty(field: Field) =
         get(field.x, field.y + 1).filling == Filling.EMPTY
