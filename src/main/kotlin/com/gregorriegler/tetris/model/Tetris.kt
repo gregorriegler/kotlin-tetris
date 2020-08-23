@@ -1,10 +1,9 @@
 package com.gregorriegler.tetris.model
 
-class Tetris(width: Int, height: Int, private val stones: List<Structure>) {
-    private val frame: Frame = Frame(width, height)
-    private var stone: Stone = Stone(stones.random(), frame)
+class Tetris(private val frame: Frame, private val stones: List<Structure>) {
+    private var stone: Stone = Stone(stones.random(), this.frame)
     private val clock: Timer = Timer({ tick() })
-    private val debris: Debris = Debris(frame)
+    private val debris: Debris = Debris(this.frame)
 
     var nextStone: Structure = stones.random()
         private set

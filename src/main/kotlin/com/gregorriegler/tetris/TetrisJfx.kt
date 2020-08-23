@@ -1,5 +1,6 @@
 package com.gregorriegler.tetris
 
+import com.gregorriegler.tetris.model.Frame
 import com.gregorriegler.tetris.model.Structure
 import com.gregorriegler.tetris.model.Tetris
 import javafx.animation.AnimationTimer
@@ -9,7 +10,6 @@ import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.HBox
-import javafx.scene.layout.VBox
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import javafx.stage.Stage
@@ -21,7 +21,7 @@ fun main() {
 }
 
 class JavaFXExample : Application() {
-    private val tetris: Tetris = Tetris(10, 14, listOf(
+    private val tetris: Tetris = Tetris(Frame(10, 14), listOf(
         Structure.create2by2(),
         Structure.create1by4(),
         Structure.create3and1(),
