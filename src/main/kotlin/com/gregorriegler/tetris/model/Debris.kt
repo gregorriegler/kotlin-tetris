@@ -10,22 +10,25 @@ class Debris(
         debris = debris.combine(stone.area).within(debris)
     }
 
+    fun dissolve(area: Area) {
+        debris = debris.erase(area)
+    }
+
     fun dissolveFilledRows(): Int {
         val removed = debris.dissolveFilledRows()
         debris = removed.first
         return removed.second
     }
-
     fun width(): Int = debris.width()
-    fun height(): Int = debris.height()
 
+    fun height(): Int = debris.height()
     fun collidesWith(area: Area): Boolean = debris.collides(area)
+
     fun collidesWith(field: Field): Boolean = debris.collides(field)
 
     fun withStone(stone: Stone): Area =
         debris.combine(stone.area)
             .within(debris)
-
     override fun toString(): String = debris.toString()
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

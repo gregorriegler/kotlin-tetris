@@ -39,7 +39,7 @@ open class Area(val fields: Set<Field>) {
     )
 
     private val fieldMap: Map<Int, Map<Int, Field>> =
-        fields.groupBy { it.y }.mapValues { (_, field) -> field.associate { it.x to it } }
+        fields.groupBy { it.y }.mapValues { (_, field) -> field.associateBy { it.x } }
 
     fun down(by: Int): Area = Area(fields.map { it.down(by) }.toSet())
     fun down(): Area = Area(fields.map { it.down() }.toSet())
@@ -105,6 +105,8 @@ open class Area(val fields: Set<Field>) {
 
     fun within(area: Area): Area = Area(fields.filter { it.within(area) }.toSet())
 
+    fun erase(area: Area): Area = Area(fields.filterNot { area.collides(it) }.toSet())
+
     fun dissolveFilledRows(): Pair<Area, Int> {
         val withoutFilledRows = withoutFilledRows()
         val count = height() - withoutFilledRows.height()
@@ -128,8 +130,8 @@ open class Area(val fields: Set<Field>) {
                 .toSet()
         )
     }
-
     override fun toString(): String = "\n" + draw(state()) + "\n"
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -140,6 +142,5 @@ open class Area(val fields: Set<Field>) {
 
         return true
     }
-
     override fun hashCode(): Int = fields.hashCode()
 }
