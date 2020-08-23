@@ -154,24 +154,23 @@ open class Area(val fields: Set<Field>) {
         return Area(result)
     }
 
-    fun withConnectedFieldsAbove(field: Field): List<Field> {
-        var result: MutableList<Field> = mutableListOf(field)
-        var y = field.y - 1
-        val top = top()
-        while (y >= top) {
-            val nextAbove = get(field.x, y)
-            if (!nextAbove.isFilled()) {
+    private fun withConnectedFieldsAbove(field: Field): List<Field> {
+        val result: MutableList<Field> = mutableListOf(field)
+        for (y in field.y - 1..top()) {
+            if (get(field.x, y).isFilled()) {
+                result.add(get(field.x, y))
+            } else {
                 break
             }
-            result.add(nextAbove)
-            y--
         }
         return result
     }
 
+    // todo: can duplicate chack many fields (need to remember fields that have already been checked)
     private fun hasAnchorToTheRight(field: Field): Boolean =
         field.isFilled() && (isAnchor(field) || hasAnchorToTheRight(below(field)) || hasAnchorToTheRight(rightOf(field)))
 
+    // todo: can duplicate chack many fields (need to remember fields that have already been checked)
     private fun hasAnchorToTheLeft(field: Field): Boolean =
         field.isFilled() && (isAnchor(field) || hasAnchorToTheLeft(below(field)) || hasAnchorToTheLeft(leftOf(field)))
 
