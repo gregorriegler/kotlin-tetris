@@ -22,11 +22,11 @@ fun main() {
 
 class JavaFXExample : Application() {
     private val tetris: Tetris = Tetris(Frame(10, 14), listOf(
-        Structure.create2by2(),
-        Structure.create1by4(),
-        Structure.create3and1(),
+        Structure.createDot(),
+        Structure.createI(),
+        Structure.createT(),
         Structure.createL(),
-        Structure.createMirrorL(),
+        Structure.createJ(),
     ))
     private val game: Text = Text(10.0, 50.0, "")
     private val score: Text = Text(50.0, 50.0, "")

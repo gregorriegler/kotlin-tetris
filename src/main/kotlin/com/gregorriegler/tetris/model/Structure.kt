@@ -6,7 +6,7 @@ class Structure(string: String) : Area(string) {
             return Structure("#")
         }
 
-        fun create1by4(): Structure {
+        fun createI(): Structure {
             return Structure("""
                 -#--
                 -#--
@@ -15,14 +15,14 @@ class Structure(string: String) : Area(string) {
             """.trimIndent())
         }
 
-        fun create2by2(): Structure {
+        fun createDot(): Structure {
             return Structure("""
                 ##
                 ##
             """)
         }
 
-        fun create3and1(): Structure {
+        fun createT(): Structure {
             return Structure("""
                 -#-
                 -##
@@ -38,7 +38,7 @@ class Structure(string: String) : Area(string) {
             """.trimIndent())
         }
 
-        fun createMirrorL(): Structure {
+        fun createJ(): Structure {
             return Structure("""
                 ##-
                 #--

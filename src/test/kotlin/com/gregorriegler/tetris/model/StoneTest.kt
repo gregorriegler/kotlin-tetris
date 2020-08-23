@@ -80,7 +80,7 @@ class `A Stone` {
 
     @Nested
     inner class `with a size 2x2` {
-        val stone = Stone(Structure.create2by2(), Frame(4, 4))
+        val stone = Stone(Structure.createDot(), Frame(4, 4))
 
         @Test
         fun `starts above the center`() {
