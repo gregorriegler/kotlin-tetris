@@ -1,7 +1,21 @@
 package com.gregorriegler.tetris.model
+
 open class Area(val fields: Set<Field>) {
 
     companion object {
+        fun circle(center: Field, radius: Int): Area {
+            return Area(
+                (center.y - radius until center.y + radius + 1)
+                    .flatMap { y ->
+                        (center.x - radius until center.x + radius + 1)
+                            .filter { x ->
+                                val dx = x - center.x
+                                val dy = y - center.y
+                                (dx * dx + dy * dy <= radius * radius)
+                            }.map { x -> Field.filled(x, y) }
+                    }.toSet())
+        }
+
         fun parseFields(string: String): Set<Field> {
             return string.trimIndent()
                 .split("\n")
@@ -43,7 +57,7 @@ open class Area(val fields: Set<Field>) {
     fun height(): Int = if (fields.isEmpty()) 0 else (bottom() - top()) + 1
     private fun size() = maxOf(width(), height())
 
-    fun filledWidth(): Int = (rightSideNonEmpty() - leftSideNonEmpty()) + 1
+    fun widthNonEmpty(): Int = (rightSideNonEmpty() - leftSideNonEmpty()) + 1
     fun leftSideNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.x }.minOrNull() ?: 0
     fun rightSideNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.x }.maxOrNull() ?: 0
     fun bottomNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull() ?: 0
@@ -126,5 +140,6 @@ open class Area(val fields: Set<Field>) {
 
         return true
     }
+
     override fun hashCode(): Int = fields.hashCode()
 }

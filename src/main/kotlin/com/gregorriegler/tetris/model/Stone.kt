@@ -29,7 +29,7 @@ class Stone(
             return
         }
 
-        for(it in (1..rotate.filledWidth() / 2)) {
+        for(it in (1..rotate.widthNonEmpty() / 2)) {
             if (!outOfGame(rotate.left(it), debris)) {
                 area = rotate.left(it)
                 break
