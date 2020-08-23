@@ -10,8 +10,9 @@ class Debris(
         debris = debris.combine(stone.area).within(debris)
     }
 
-    fun erase(area: Area) {
+    fun erase(area: Area): Int {
         debris = debris.erase(area)
+        return area.size()
     }
 
     fun eraseFilledRows(): Int {

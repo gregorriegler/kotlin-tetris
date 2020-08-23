@@ -1,6 +1,6 @@
 package com.gregorriegler.tetris.model
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class `Erasing debris` {
@@ -21,7 +21,7 @@ class `Erasing debris` {
             >>>
             #>#
         """)
-        Assertions.assertThat(erased).isEqualTo(expected)
+        assertThat(erased).isEqualTo(expected)
     }
 
     @Test
@@ -31,12 +31,13 @@ class `Erasing debris` {
             ###
             ###
         """)
-        debris.erase(Area("""
+        assertThat(debris.erase(Area("""
             >#>
             ###
             >#>
-        """))
-        Assertions.assertThat(debris).isEqualTo(Debris("""
+        """))).isEqualTo(5) // amount of fields removed
+
+        assertThat(debris).isEqualTo(Debris("""
             #>#
             >>>
             #>#
