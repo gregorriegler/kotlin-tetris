@@ -356,7 +356,7 @@ class `A Tetris` {
         }
 
         @Test
-        fun `dissolve filled line`() {
+        fun `erases filled line`() {
             tetris.left()
             tickTimes(tetris, 4)
 
@@ -372,7 +372,7 @@ class `A Tetris` {
                 ---
                 ---
                 """,
-                1
+                3
             )
         }
 

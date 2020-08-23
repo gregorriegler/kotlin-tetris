@@ -28,7 +28,7 @@ class `A Debris` {
     }
 
     @Test
-    fun `dissolves a filled line at the bottom`() {
+    fun `erases a filled line at the bottom`() {
         val debris = Debris("""
             ---
             -#-
@@ -37,7 +37,7 @@ class `A Debris` {
 
         val howMany:Int = debris.eraseFilledRows()
 
-        assertEquals(1, howMany)
+        assertEquals(3, howMany)
         assertEquals(
             Debris("""
             ---
@@ -49,7 +49,7 @@ class `A Debris` {
     }
 
     @Test
-    fun `dissolves two filled lines at the bottom`() {
+    fun `erases two filled lines at the bottom`() {
         val debris = Debris("""
             -#-
             ###
@@ -58,7 +58,7 @@ class `A Debris` {
 
         val howMany:Int = debris.eraseFilledRows()
 
-        assertEquals(2, howMany)
+        assertEquals(6, howMany)
         assertEquals(
             Debris("""
             ---

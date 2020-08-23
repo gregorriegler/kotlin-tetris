@@ -18,7 +18,7 @@ class Debris(
     fun eraseFilledRows(): Int {
         val removed = debris.eraseFilledRows()
         debris = removed.first
-        return removed.second
+        return width() * removed.second
     }
 
     fun width(): Int = debris.width()
