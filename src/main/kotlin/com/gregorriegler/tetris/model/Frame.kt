@@ -26,16 +26,16 @@ class Frame(
             area.right()
 
     fun down(area: Area): Area =
-        if (area.bottomOfFilled() < height - 1)
+        if (area.bottomNonEmpty() < height - 1)
             area.down()
         else
             area
 
-    private fun isAtLeftBorder(area: Area) = area.leftSideOfFilled() <= 0
+    private fun isAtLeftBorder(area: Area) = area.leftSideNonEmpty() <= 0
 
-    private fun isAtRightBorder(area: Area) = area.rightSideOfFilled() >= width - 1
+    private fun isAtRightBorder(area: Area) = area.rightSideNonEmpty() >= width - 1
 
-    fun isAtBottom(area: Area): Boolean = area.bottomOfFilled() == height - 1
+    fun isAtBottom(area: Area): Boolean = area.bottomNonEmpty() == height - 1
 
     private fun center() = width.toDouble().div(2).roundToInt() - 1
 

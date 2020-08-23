@@ -6,10 +6,11 @@ open class Area(val fields: Set<Field>) {
             return string.trimIndent()
                 .split("\n")
                 .flatMapIndexed { y, row ->
-                    row.chunked(1)
+                    val pulls = row.filter { it == Filling.PULL_VALUE }.count() * 2
+                    row.toCharArray()
                         .withIndex()
-                        .filterNot { it.value == Filling.INDENT_VALUE }
-                        .map { Field(it.index, y, it.value) }
+                        .filterNot { it.value == Filling.INDENT_VALUE || it.value == Filling.PULL_VALUE }
+                        .map { Field(it.index - pulls, y, it.value) }
                 }.toSet()
         }
 
@@ -42,15 +43,15 @@ open class Area(val fields: Set<Field>) {
     fun height(): Int = if (fields.isEmpty()) 0 else (bottom() - top()) + 1
     private fun size() = maxOf(width(), height())
 
-    fun filledWidth(): Int = (rightSideOfFilled() - leftSideOfFilled()) + 1
-    fun leftSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.minOrNull() ?: 0
-    fun rightSideOfFilled(): Int = fields.filter { it.isFilled() }.map { it.x }.maxOrNull() ?: 0
-    fun bottomOfFilled(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull() ?: 0
+    fun filledWidth(): Int = (rightSideNonEmpty() - leftSideNonEmpty()) + 1
+    fun leftSideNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.x }.minOrNull() ?: 0
+    fun rightSideNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.x }.maxOrNull() ?: 0
+    fun bottomNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull() ?: 0
 
     fun outsideOf(frame: Frame): Boolean =
-        rightSideOfFilled() > frame.width - 1
-                || leftSideOfFilled() < 0
-                || bottomOfFilled() > frame.height - 1
+        rightSideNonEmpty() > frame.width - 1
+                || leftSideNonEmpty() < 0
+                || bottomNonEmpty() > frame.height - 1
 
     fun state(): List<List<Filling>> =
         (0..bottom()).map { y ->

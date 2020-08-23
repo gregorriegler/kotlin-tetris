@@ -112,11 +112,11 @@ class `An Area` {
 
     @Test
     fun `draws itself`() {
-        assertEqualsMultilineString("""
+        assertEquals('\n' + """
             --
             ##
             ##
-        """, Area("""
+        """.trimIndent() + '\n', Area("""
             >>
             ##
             ##
@@ -137,20 +137,21 @@ class `An Area` {
 
     @Test
     fun `has a bottom`() {
-        assertEquals(0, Area("#").bottomOfFilled())
-        assertEquals(1, Area("#\n#").bottomOfFilled())
+        assertEquals(0, Area("#").bottomNonEmpty())
+        assertEquals(1, Area("#\n#").bottomNonEmpty())
     }
 
     @Test
-    fun `has a left side`() {
-        assertEquals(0, Area("#").leftSideOfFilled())
-        assertEquals(1, Area("-##").leftSideOfFilled())
+    fun `has a left side of non-empty`() {
+        assertEquals(0, Area("#").leftSideNonEmpty())
+        assertEquals(1, Area("-##").leftSideNonEmpty())
     }
 
     @Test
     fun `has a right side`() {
-        assertEquals(0, Area("#").rightSideOfFilled())
-        assertEquals(1, Area("##").rightSideOfFilled())
+        assertEquals(0, Area("#").rightSideNonEmpty())
+        assertEquals(1, Area("##").rightSideNonEmpty())
+        assertEquals(1, Area("##-").rightSideNonEmpty())
     }
 
     @Test
@@ -161,9 +162,19 @@ class `An Area` {
     }
 
     @Test
+    fun `collides with an area`() {
+        assertThat(Area("#-").collides(Area("#-"))).isTrue
+    }
+
+    @Test
+    fun `does not collide with an area`() {
+        assertThat(Area("#-").collides(Area("-#"))).isFalse
+    }
+
+    @Test
     fun `does not collide with a field`() {
         assertFalse(Area("#").collides(Field.filled(1, 1)))
-        assertFalse(Area("#").collides(Field.empty(0,0)))
+        assertFalse(Area("#").collides(Field.empty(0, 0)))
         assertFalse(Area("-#").collides(Field.filled(0, 0)))
         assertFalse(Area("-#").collides(Field.empty(0, 0)))
         assertFalse(Area(">#").collides(Field.filled(0, 0)))
@@ -182,32 +193,17 @@ class `An Area` {
     }
 
     @Test
-    fun collides() {
-        assertThat(Area("#-").collides(Area("#-"))).isTrue
-    }
+    fun `dissolves filled rows`() {
+        assertThat(Area("#").dissolveFilledRows()).isEqualTo(Pair(Area("-"), 1))
 
-    @Test
-    fun `does not collide`() {
-        assertThat(Area("#-").collides(Area("-#"))).isFalse
-    }
-
-    @Test
-    fun `removes filled lines`() {
         assertThat(Area("""
             >
             #
         """).dissolveFilledRows()).isEqualTo(
             Pair(Area("""
-                >
-                -
-            """.trimIndent()), 1))
-
-        assertThat(Area("""
-            #
-        """).dissolveFilledRows()).isEqualTo(
-            Pair(Area("""
+            >
             -
-        """), 1))
+            """.trimIndent()), 1))
 
         assertThat(Area("""
             -
@@ -233,23 +229,19 @@ class `An Area` {
 
     @Test
     fun `moves down`() {
-        assertThat(
-            Area("""
+        assertThat(Area("""
                 -##
             """).down()
-        ).isEqualTo(
-            Area("""
+        ).isEqualTo(Area("""
                 >>>
                 -##
-            """)
-        )
+            """))
     }
 
     @Test
     fun `moves left`() {
-        assertThat(Area("-##").left()).isEqualTo(Area(
-            Field.empty(-1, 0), Field.filled(0, 0), Field.filled(1, 0)
-        ))
+        assertThat(Area("-##").left()).isEqualTo(Area("<-##"))
+        assertThat(Area("--#").left(2)).isEqualTo(Area("<<--#"))
     }
 
     @Test
@@ -347,10 +339,6 @@ class `An Area` {
         assertEquals(Area(Field.filled(1, -1)), Structure("#").aboveCentered(Area(Frame(4, 4))))
         assertEquals(Area(Field.filled(1, -2), Field.filled(1, -1)), Structure("#\n#").aboveCentered(Area(Frame(3, 3))))
         assertEquals(Area(Field.filled(1, -1), Field.filled(2, -1)), Structure("##").aboveCentered(Area(Frame(4, 4))))
-    }
-
-    private fun assertEqualsMultilineString(expected: String, actual: String) {
-        assertEquals('\n' + expected.trimIndent() + '\n', actual)
     }
 }
 

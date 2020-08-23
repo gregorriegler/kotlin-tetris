@@ -20,7 +20,7 @@ class Field(
     }
 
     constructor(x: Int, y: Int) : this(x, y, EMPTY)
-    constructor(x: Int, y: Int, filling: String) : this(x, y, Filling.of(filling))
+    constructor(x: Int, y: Int, filling: Char) : this(x, y, Filling.of(filling))
 
     fun down(): Field = Field(x, y + 1, filling)
     fun down(by: Int): Field = Field(x, y + by, filling)
