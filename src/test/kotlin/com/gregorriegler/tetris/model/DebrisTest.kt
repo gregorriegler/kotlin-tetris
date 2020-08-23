@@ -1,7 +1,5 @@
 package com.gregorriegler.tetris.model
 
-import com.gregorriegler.tetris.model.Debris
-import com.gregorriegler.tetris.model.Field
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -37,7 +35,7 @@ class `A Debris` {
             ###
         """)
 
-        val howMany:Int = debris.dissolveFilledRows()
+        val howMany:Int = debris.eraseFilledRows()
 
         assertEquals(1, howMany)
         assertEquals(
@@ -58,7 +56,7 @@ class `A Debris` {
             ###
         """)
 
-        val howMany:Int = debris.dissolveFilledRows()
+        val howMany:Int = debris.eraseFilledRows()
 
         assertEquals(2, howMany)
         assertEquals(

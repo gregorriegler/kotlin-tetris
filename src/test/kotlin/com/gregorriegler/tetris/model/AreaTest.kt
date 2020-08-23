@@ -16,11 +16,11 @@ class `An Area` {
 
         assertEquals(2, area.width())
         assertEquals(2, area.height())
-        assertTrue(area.collides(Field.filled(0, 0)))
-        assertTrue(area.collides(Field.filled(1, 0)))
-        assertTrue(area.collides(Field.filled(0, 1)))
-        assertTrue(area.collides(Field.filled(1, 1)))
-        assertFalse(area.collides(Field.filled(2, 1)))
+        assertTrue(area.collidesWith(Field.filled(0, 0)))
+        assertTrue(area.collidesWith(Field.filled(1, 0)))
+        assertTrue(area.collidesWith(Field.filled(0, 1)))
+        assertTrue(area.collidesWith(Field.filled(1, 1)))
+        assertFalse(area.collidesWith(Field.filled(2, 1)))
     }
 
     @Test
@@ -33,11 +33,11 @@ class `An Area` {
 
         assertEquals(2, area.width())
         assertEquals(2, area.height())
-        assertTrue(area.collides(Field.filled(0, 0)))
-        assertFalse(area.collides(Field.filled(1, 0)))
-        assertTrue(area.collides(Field.filled(0, 1)))
-        assertTrue(area.collides(Field.filled(1, 1)))
-        assertFalse(area.collides(Field.filled(2, 1)))
+        assertTrue(area.collidesWith(Field.filled(0, 0)))
+        assertFalse(area.collidesWith(Field.filled(1, 0)))
+        assertTrue(area.collidesWith(Field.filled(0, 1)))
+        assertTrue(area.collidesWith(Field.filled(1, 1)))
+        assertFalse(area.collidesWith(Field.filled(2, 1)))
     }
 
     @Test
@@ -51,15 +51,15 @@ class `An Area` {
 
         assertEquals(3, area.width())
         assertEquals(3, area.height())
-        assertFalse(area.collides(Field.filled(0, 0)))
-        assertFalse(area.collides(Field.filled(1, 0)))
-        assertFalse(area.collides(Field.filled(2, 0)))
-        assertFalse(area.collides(Field.filled(0, 1)))
-        assertTrue(area.collides(Field.filled(1, 1)))
-        assertFalse(area.collides(Field.filled(2, 1)))
-        assertFalse(area.collides(Field.filled(0, 2)))
-        assertFalse(area.collides(Field.filled(1, 2)))
-        assertFalse(area.collides(Field.filled(2, 2)))
+        assertFalse(area.collidesWith(Field.filled(0, 0)))
+        assertFalse(area.collidesWith(Field.filled(1, 0)))
+        assertFalse(area.collidesWith(Field.filled(2, 0)))
+        assertFalse(area.collidesWith(Field.filled(0, 1)))
+        assertTrue(area.collidesWith(Field.filled(1, 1)))
+        assertFalse(area.collidesWith(Field.filled(2, 1)))
+        assertFalse(area.collidesWith(Field.filled(0, 2)))
+        assertFalse(area.collidesWith(Field.filled(1, 2)))
+        assertFalse(area.collidesWith(Field.filled(2, 2)))
     }
 
     @Test
@@ -71,11 +71,11 @@ class `An Area` {
 
         assertEquals(2, area.width())
         assertEquals(2, area.height())
-        assertTrue(area.collides(Field.filled(1, 0)))
-        assertTrue(area.collides(Field.filled(2, 0)))
-        assertTrue(area.collides(Field.filled(1, 1)))
-        assertTrue(area.collides(Field.filled(2, 1)))
-        assertFalse(area.collides(Field.filled(0, 1)))
+        assertTrue(area.collidesWith(Field.filled(1, 0)))
+        assertTrue(area.collidesWith(Field.filled(2, 0)))
+        assertTrue(area.collidesWith(Field.filled(1, 1)))
+        assertTrue(area.collidesWith(Field.filled(2, 1)))
+        assertFalse(area.collidesWith(Field.filled(0, 1)))
     }
 
     @Test
@@ -88,11 +88,11 @@ class `An Area` {
 
         assertEquals(2, area.width())
         assertEquals(2, area.height())
-        assertTrue(area.collides(Field.filled(0, 1)))
-        assertTrue(area.collides(Field.filled(1, 1)))
-        assertTrue(area.collides(Field.filled(0, 2)))
-        assertTrue(area.collides(Field.filled(1, 2)))
-        assertFalse(area.collides(Field.filled(0, 0)))
+        assertTrue(area.collidesWith(Field.filled(0, 1)))
+        assertTrue(area.collidesWith(Field.filled(1, 1)))
+        assertTrue(area.collidesWith(Field.filled(0, 2)))
+        assertTrue(area.collidesWith(Field.filled(1, 2)))
+        assertFalse(area.collidesWith(Field.filled(0, 0)))
     }
 
     @Test
@@ -156,28 +156,28 @@ class `An Area` {
 
     @Test
     fun `collides with a field`() {
-        assertTrue(Area("#").collides(Field.filled(0, 0)))
-        assertTrue(Area("-#").collides(Field.filled(1, 0)))
-        assertTrue(Area(">#").collides(Field.filled(1, 0)))
+        assertTrue(Area("#").collidesWith(Field.filled(0, 0)))
+        assertTrue(Area("-#").collidesWith(Field.filled(1, 0)))
+        assertTrue(Area(">#").collidesWith(Field.filled(1, 0)))
     }
 
     @Test
     fun `collides with an area`() {
-        assertThat(Area("#-").collides(Area("#-"))).isTrue
+        assertThat(Area("#-").collidesWith(Area("#-"))).isTrue
     }
 
     @Test
     fun `does not collide with an area`() {
-        assertThat(Area("#-").collides(Area("-#"))).isFalse
+        assertThat(Area("#-").collidesWith(Area("-#"))).isFalse
     }
 
     @Test
     fun `does not collide with a field`() {
-        assertFalse(Area("#").collides(Field.filled(1, 1)))
-        assertFalse(Area("#").collides(Field.empty(0, 0)))
-        assertFalse(Area("-#").collides(Field.filled(0, 0)))
-        assertFalse(Area("-#").collides(Field.empty(0, 0)))
-        assertFalse(Area(">#").collides(Field.filled(0, 0)))
+        assertFalse(Area("#").collidesWith(Field.filled(1, 1)))
+        assertFalse(Area("#").collidesWith(Field.empty(0, 0)))
+        assertFalse(Area("-#").collidesWith(Field.filled(0, 0)))
+        assertFalse(Area("-#").collidesWith(Field.empty(0, 0)))
+        assertFalse(Area(">#").collidesWith(Field.filled(0, 0)))
     }
 
     @Test
@@ -194,12 +194,12 @@ class `An Area` {
 
     @Test
     fun `dissolves filled rows`() {
-        assertThat(Area("#").dissolveFilledRows()).isEqualTo(Pair(Area("-"), 1))
+        assertThat(Area("#").eraseFilledRows()).isEqualTo(Pair(Area("-"), 1))
 
         assertThat(Area("""
             >
             #
-        """).dissolveFilledRows()).isEqualTo(
+        """).eraseFilledRows()).isEqualTo(
             Pair(Area("""
             >
             -
@@ -208,7 +208,7 @@ class `An Area` {
         assertThat(Area("""
             -
             #
-        """).dissolveFilledRows()).isEqualTo(
+        """).eraseFilledRows()).isEqualTo(
             Pair(Area("""
             -
             -
@@ -219,7 +219,7 @@ class `An Area` {
             ##
             #-
             ##
-        """).dissolveFilledRows()).isEqualTo(Pair(Area("""
+        """).eraseFilledRows()).isEqualTo(Pair(Area("""
             --
             --
             #-

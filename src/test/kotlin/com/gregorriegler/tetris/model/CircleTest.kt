@@ -31,42 +31,4 @@ class `A circle` {
             >>>>>>#
             """))
     }
-
-    @Test
-    fun `can erase area by area`() {
-        val erased = Area("""
-            ###
-            ###
-            ###
-        """).erase(Area("""
-            >#>
-            ###
-            >#>
-        """))
-        val expected = Area("""
-            #>#
-            >>>
-            #>#
-        """)
-        assertThat(erased).isEqualTo(expected)
-    }
-
-    @Test
-    fun `can dissolve debris by area`() {
-        val debris = Debris("""
-            ###
-            ###
-            ###
-        """)
-        debris.dissolve(Area("""
-            >#>
-            ###
-            >#>
-        """))
-        assertThat(debris).isEqualTo(Debris("""
-            #>#
-            >>>
-            #>#
-        """))
-    }
 }

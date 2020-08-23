@@ -93,8 +93,8 @@ open class Area(val fields: Set<Field>) {
                 }
             }.toSet())
 
-    fun collides(area: Area): Boolean = fields.any { area.collides(it) }
-    fun collides(field: Field): Boolean = field.isFilled() && fields.contains(field)
+    fun collidesWith(area: Area): Boolean = fields.any { area.collidesWith(it) }
+    fun collidesWith(field: Field): Boolean = field.isFilled() && fields.contains(field)
 
     fun aboveCentered(area: Area): Area = move(Field(
         (area.width() - width()) / 2,
@@ -105,9 +105,9 @@ open class Area(val fields: Set<Field>) {
 
     fun within(area: Area): Area = Area(fields.filter { it.within(area) }.toSet())
 
-    fun erase(area: Area): Area = Area(fields.filterNot { area.collides(it) }.toSet())
+    fun erase(area: Area): Area = Area(fields.filterNot { area.collidesWith(it) }.toSet())
 
-    fun dissolveFilledRows(): Pair<Area, Int> {
+    fun eraseFilledRows(): Pair<Area, Int> {
         val withoutFilledRows = withoutFilledRows()
         val count = height() - withoutFilledRows.height()
         val down = withoutFilledRows.down(count)
