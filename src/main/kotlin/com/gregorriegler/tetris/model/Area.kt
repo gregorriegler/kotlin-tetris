@@ -55,8 +55,7 @@ open class Area(val fields: Set<Field>) {
 
     fun width(): Int = (rightSide() - leftSide()) + 1
     fun height(): Int = if (fields.isEmpty()) 0 else (bottom() - top()) + 1
-    private fun size() = maxOf(width(), height())
-    fun countFilled(): Int = fields.filter { it.isFilled() }.count()
+    fun size(): Int = fields.filter { it.isFilled() }.count()
 
     fun widthNonEmpty(): Int = (rightSideNonEmpty() - leftSideNonEmpty()) + 1
     fun leftSideNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.x }.minOrNull() ?: 0
@@ -82,7 +81,7 @@ open class Area(val fields: Set<Field>) {
 
     fun rotate(): Area = Area(
         fields.map { field -> field.minus(distance()) }
-            .map { field -> field.rotate(size()) }
+            .map { field -> field.rotate(width()) }
             .map { field -> field.plus(distance()) }
             .toSet()
     )

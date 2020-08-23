@@ -236,7 +236,7 @@ class `A Stone` {
     }
 
     @Nested
-    inner class `with a size 3and1` {
+    inner class `of shape T` {
 
         @Test
         fun rotates() {
@@ -256,8 +256,8 @@ class `A Stone` {
 
             assertState(
                 """
-                -###
-                --#-
+                ###
+                -#-
                 """,
                 stone
             )
