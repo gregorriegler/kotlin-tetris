@@ -34,6 +34,7 @@ class Tetris(private val frame: Frame, private val stones: List<Structure>) {
             }
             return
         } else {
+            debris.fall()
             stone.down()
         }
     }

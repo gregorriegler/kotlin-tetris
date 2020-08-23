@@ -37,10 +37,12 @@ open class Area(val fields: Set<Field>) {
     constructor(frame: Frame) : this(
         frame.rows().flatMap { y -> frame.columns().map { x -> Field.empty(x, y) } }
     )
+
     constructor(fields: List<Field>) : this(fields.toSet())
 
     private val fieldMap: Map<Int, Map<Int, Field>> =
         fields.groupBy { it.y }.mapValues { (_, field) -> field.associateBy { it.x } }
+
     fun down(by: Int): Area = Area(fields.map { it.down(by) })
     fun down(): Area = Area(fields.map { it.down() })
     fun left(): Area = left(1)
@@ -59,9 +61,7 @@ open class Area(val fields: Set<Field>) {
     fun size(): Int = fields.filter { it.isFilled() }.count()
     fun widthNonEmpty(): Int = (rightSideNonEmpty() - leftSideNonEmpty()) + 1
     fun leftSideNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.x }.minOrNull() ?: 0
-
     fun rightSideNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.x }.maxOrNull() ?: 0
-
     fun bottomNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull() ?: 0
 
     fun outsideOf(frame: Frame): Boolean =
@@ -78,7 +78,7 @@ open class Area(val fields: Set<Field>) {
 
     private fun fillingOf(x: Int, y: Int): Filling = get(x, y).filling
 
-    private fun get(x: Int, y: Int) = fieldMap[y]?.get(x)?:Field.empty(x, y)
+    private fun get(x: Int, y: Int) = fieldMap[y]?.get(x) ?: Field.empty(x, y)
 
     private fun distance() = Field(leftSide(), top())
 
@@ -87,6 +87,7 @@ open class Area(val fields: Set<Field>) {
             .map { field -> field.rotate(width()) }
             .map { field -> field.plus(distance()) }
     )
+
     fun combine(area: Area): Area =
         Area(fields.map { it.y }.plus(area.fields.map { it.y })
             .flatMap { y ->
@@ -108,7 +109,13 @@ open class Area(val fields: Set<Field>) {
 
     fun within(area: Area): Area = Area(fields.filter { it.within(area) })
 
-    fun erase(area: Area): Area = Area(fields.filterNot { area.collidesWith(it) })
+    fun erase(area: Area): Area = Area(fields.map {
+        if (area.collidesWith(it)) {
+            it.erase()
+        } else {
+            it
+        }
+    })
 
     fun eraseFilledRows(): Pair<Area, Int> {
         val withoutFilledRows = withoutFilledRows()
@@ -117,6 +124,25 @@ open class Area(val fields: Set<Field>) {
         val emptyLinesToAdd = addEmptyLinesOnTop(count)
         return Pair(emptyLinesToAdd.combine(down), count)
     }
+
+    fun eraseFilledRowsNew(): Pair<Area, Int> {
+        val filledRows = filledRows()
+        val remaining = erase(filledRows)
+        return Pair(remaining, filledRows.size())
+    }
+
+    fun fall(): Area {
+        val result = fields.map { field ->
+            if (field.isFilled() && field.y != height()-1 && get(field.x, field.y + 1).filling == Filling.EMPTY)
+                field.down()
+            else if (!field.isFilled() && get(field.x, field.y - 1).filling == Filling.FILLED)
+                field.up()
+            else
+                field
+        }
+        return Area(result)
+    }
+
     private fun addEmptyLinesOnTop(removedRowsCount: Int): Area {
         return Area(
             (top() until top() + removedRowsCount)
@@ -131,6 +157,14 @@ open class Area(val fields: Set<Field>) {
         )
     }
 
+    fun filledRows(): Area {
+        return Area(
+            (top()..bottom())
+                .filter { y -> (0 until width()).map { x -> get(x, y) }.all { it.isFilled() } }
+                .flatMap { y -> (0 until width()).map { x -> Field(x, y, get(x, y).filling) } }
+        )
+    }
+
     override fun toString(): String = "\n" + draw(state()) + "\n"
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -142,5 +176,6 @@ open class Area(val fields: Set<Field>) {
 
         return true
     }
+
     override fun hashCode(): Int = fields.hashCode()
 }

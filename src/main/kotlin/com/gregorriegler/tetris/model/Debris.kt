@@ -16,21 +16,23 @@ class Debris(
     }
 
     fun eraseFilledRows(): Int {
-        val removed = debris.eraseFilledRows()
+        val removed = debris.eraseFilledRowsNew()
         debris = removed.first
-        return width() * removed.second
+        return removed.second
+    }
+
+    fun fall() {
+        debris = debris.fall()
     }
 
     fun width(): Int = debris.width()
     fun height(): Int = debris.height()
-
     fun collidesWith(area: Area): Boolean = debris.collidesWith(area)
     fun collidesWith(field: Field): Boolean = debris.collidesWith(field)
 
     fun withStone(stone: Stone): Area =
         debris.combine(stone.area)
             .within(debris)
-
     override fun toString(): String = debris.toString()
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

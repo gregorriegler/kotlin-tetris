@@ -26,46 +26,4 @@ class `A Debris` {
         assertTrue(debris.collidesWith(Field.filled(1, 2)))
         assertTrue(debris.collidesWith(Field.filled(2, 2)))
     }
-
-    @Test
-    fun `erases a filled line at the bottom`() {
-        val debris = Debris("""
-            ---
-            -#-
-            ###
-        """)
-
-        val howMany:Int = debris.eraseFilledRows()
-
-        assertEquals(3, howMany)
-        assertEquals(
-            Debris("""
-            ---
-            ---
-            -#-
-            """),
-            debris
-        )
-    }
-
-    @Test
-    fun `erases two filled lines at the bottom`() {
-        val debris = Debris("""
-            -#-
-            ###
-            ###
-        """)
-
-        val howMany:Int = debris.eraseFilledRows()
-
-        assertEquals(6, howMany)
-        assertEquals(
-            Debris("""
-            ---
-            ---
-            -#-
-            """),
-            debris
-        )
-    }
 }

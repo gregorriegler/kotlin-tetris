@@ -196,6 +196,11 @@ class `An Area` {
     }
 
     @Test
+    fun `retrieves filled rows`() {
+        assertThat(Area("#").filledRows()).isEqualTo(Area("#"))
+    }
+
+    @Test
     fun `dissolves filled rows`() {
         assertThat(Area("#").eraseFilledRows()).isEqualTo(Pair(Area("-"), 1))
 

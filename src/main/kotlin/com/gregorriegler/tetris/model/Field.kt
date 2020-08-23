@@ -22,20 +22,23 @@ class Field(
     constructor(x: Int, y: Int) : this(x, y, EMPTY)
     constructor(x: Int, y: Int, filling: Char) : this(x, y, Filling.of(filling))
 
+    fun up(): Field = Field(x, y - 1, filling)
     fun down(): Field = Field(x, y + 1, filling)
     fun down(by: Int): Field = Field(x, y + by, filling)
     fun left(): Field = left(1)
     fun left(by: Int): Field = Field(x - by, y, filling)
     fun right(): Field = right(1)
     fun right(by: Int): Field = Field(x + by, y, filling)
-    fun rotate(width: Int): Field = Field(width - y - 1, x, filling)
 
+    fun rotate(width: Int): Field = Field(width - y - 1, x, filling)
     fun plus(field: Field): Field = Field(x + field.x, y + field.y, filling)
     fun minus(field: Field): Field = Field(x - field.x, y - field.y, filling)
     fun isFilled(): Boolean = filling == FILLED
     fun within(area: Area): Boolean = x >= 0 && x < area.width() && y >= 0 && y < area.height()
 
+    fun erase(): Field = empty(x, y)
     override fun toString(): String = "($x,$y,$filling)"
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -48,6 +51,7 @@ class Field(
 
         return true
     }
+
     override fun hashCode(): Int {
         var result = x + 100
         result = 31 * result + y + 100

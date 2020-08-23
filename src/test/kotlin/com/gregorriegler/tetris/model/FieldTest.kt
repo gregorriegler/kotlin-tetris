@@ -66,4 +66,10 @@ class `A Field` {
         assertThat(Field(1,2).rotate(3)).isEqualTo(Field(0, 1))
         assertThat(Field(2,2).rotate(3)).isEqualTo(Field(0, 2))
     }
+
+    @Test
+    fun erases() {
+        assertThat(Field.filled(0, 0).erase()).isEqualTo(Field.empty(0, 0))
+        assertThat(Field.empty(0, 0).erase()).isEqualTo(Field.empty(0, 0))
+    }
 }
