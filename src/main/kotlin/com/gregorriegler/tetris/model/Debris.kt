@@ -19,11 +19,11 @@ class Debris(
         debris = removed.first
         return removed.second
     }
+
     fun width(): Int = debris.width()
-
     fun height(): Int = debris.height()
-    fun collidesWith(area: Area): Boolean = debris.collidesWith(area)
 
+    fun collidesWith(area: Area): Boolean = debris.collidesWith(area)
     fun collidesWith(field: Field): Boolean = debris.collidesWith(field)
 
     fun withStone(stone: Stone): Area =

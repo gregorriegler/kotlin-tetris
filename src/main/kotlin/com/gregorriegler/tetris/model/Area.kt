@@ -56,10 +56,12 @@ open class Area(val fields: Set<Field>) {
     fun width(): Int = (rightSide() - leftSide()) + 1
     fun height(): Int = if (fields.isEmpty()) 0 else (bottom() - top()) + 1
     private fun size() = maxOf(width(), height())
+    fun countFilled(): Int = fields.filter { it.isFilled() }.count()
 
     fun widthNonEmpty(): Int = (rightSideNonEmpty() - leftSideNonEmpty()) + 1
     fun leftSideNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.x }.minOrNull() ?: 0
     fun rightSideNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.x }.maxOrNull() ?: 0
+
     fun bottomNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull() ?: 0
 
     fun outsideOf(frame: Frame): Boolean =
@@ -92,8 +94,8 @@ open class Area(val fields: Set<Field>) {
                     Field(x, y, fillingOf(x, y).or(area.fillingOf(x, y)))
                 }
             }.toSet())
-
     fun collidesWith(area: Area): Boolean = fields.any { area.collidesWith(it) }
+
     fun collidesWith(field: Field): Boolean = field.isFilled() && fields.contains(field)
 
     fun aboveCentered(area: Area): Area = move(Field(
@@ -121,7 +123,6 @@ open class Area(val fields: Set<Field>) {
                 .flatMap { y -> (0 until width()).map { x -> Field.empty(x, y) } }
                 .toSet())
     }
-
     private fun withoutFilledRows(): Area {
         return Area(
             (top()..bottom())
@@ -130,8 +131,8 @@ open class Area(val fields: Set<Field>) {
                 .toSet()
         )
     }
-    override fun toString(): String = "\n" + draw(state()) + "\n"
 
+    override fun toString(): String = "\n" + draw(state()) + "\n"
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
