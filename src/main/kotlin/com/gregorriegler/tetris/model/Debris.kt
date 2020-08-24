@@ -33,6 +33,11 @@ class Debris(
     fun withStone(stone: Stone): Area =
         debris.combine(stone.area)
             .within(debris)
+
+    fun specials() {
+        debris = debris.specials()
+    }
+
     override fun toString(): String = debris.toString()
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

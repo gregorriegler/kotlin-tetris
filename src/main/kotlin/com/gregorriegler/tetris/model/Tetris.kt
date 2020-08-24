@@ -26,6 +26,7 @@ class Tetris(private val frame: Frame, private val stones: List<Structure>) {
 
         if (stone.landed(debris)) {
             debris.add(stone)
+            debris.specials()
             increaseScore(debris.eraseFilledRows())
             stone = Stone(nextStone, frame)
             nextStone = stones.random()
