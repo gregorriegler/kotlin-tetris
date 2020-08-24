@@ -12,7 +12,7 @@ class Structure(string: String) : Area(string) {
                 -#--
                 -#--
                 -#--
-            """.trimIndent())
+            """)
         }
 
         fun createDot(): Structure {
@@ -35,7 +35,7 @@ class Structure(string: String) : Area(string) {
                 #--
                 #--
                 ##-
-            """.trimIndent())
+            """)
         }
 
         fun createJ(): Structure {
@@ -43,7 +43,11 @@ class Structure(string: String) : Area(string) {
                 ##-
                 #--
                 #--
-            """.trimIndent())
+            """)
+        }
+
+        fun createBomb(): Structure {
+            return Structure("""X""")
         }
     }
 }

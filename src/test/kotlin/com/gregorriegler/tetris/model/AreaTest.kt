@@ -66,6 +66,22 @@ class `An Area` {
     }
 
     @Test
+    fun `can be created from a string with bomb`() {
+        val area = Area("""
+            X
+        """
+        )
+
+        assertEquals(1, area.width())
+        assertEquals(1, area.height())
+        assertTrue(area.collidesWith(Field.filled(0, 0)))
+        assertFalse(area.collidesWith(Field.filled(1, 0)))
+        assertFalse(area.collidesWith(Field.filled(2, 0)))
+        assertFalse(area.collidesWith(Field.filled(0, 1)))
+        assertThat(area.size()).isEqualTo(1)
+    }
+
+    @Test
     fun `can be indented on the x axis`() {
         val area = Area("""
             >##

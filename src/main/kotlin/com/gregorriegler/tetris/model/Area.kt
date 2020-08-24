@@ -98,7 +98,7 @@ open class Area(val fields: Set<Field>) {
 
     fun collidesWith(area: Area): Boolean = fields.any { area.collidesWith(it) }
 
-    fun collidesWith(field: Field): Boolean = field.isFilled() && fields.contains(field)
+    fun collidesWith(field: Field): Boolean = field.isFilled() && get(field.x, field.y).isFilled()
 
     fun aboveCentered(area: Area): Area = move(Field(
         (area.width() - width()) / 2,

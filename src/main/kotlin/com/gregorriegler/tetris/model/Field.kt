@@ -1,7 +1,6 @@
 package com.gregorriegler.tetris.model
 
-import com.gregorriegler.tetris.model.Filling.EMPTY
-import com.gregorriegler.tetris.model.Filling.FILLED
+import com.gregorriegler.tetris.model.Filling.*
 
 class Field(
     val x: Int,
@@ -12,6 +11,10 @@ class Field(
     companion object {
         fun filled(x: Int, y: Int): Field {
             return Field(x, y, FILLED)
+        }
+
+        fun bomb(x: Int, y: Int): Field {
+            return Field(x, y, BOMB)
         }
 
         fun empty(x: Int, y: Int): Field {
@@ -33,7 +36,7 @@ class Field(
     fun rotate(width: Int): Field = Field(width - y - 1, x, filling)
     fun plus(field: Field): Field = Field(x + field.x, y + field.y, filling)
     fun minus(field: Field): Field = Field(x - field.x, y - field.y, filling)
-    fun isFilled(): Boolean = filling == FILLED
+    fun isFilled(): Boolean = filling.isFilled()
     fun within(area: Area): Boolean = x >= 0 && x < area.width() && y >= 0 && y < area.height()
 
     fun erase(): Field = empty(x, y)

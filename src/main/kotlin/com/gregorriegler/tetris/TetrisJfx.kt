@@ -27,6 +27,7 @@ class JavaFXExample : Application() {
         Structure.createT(),
         Structure.createL(),
         Structure.createJ(),
+        Structure.createBomb()
     ))
     private val game: Text = Text(10.0, 50.0, "")
     private val score: Text = Text(50.0, 50.0, "")

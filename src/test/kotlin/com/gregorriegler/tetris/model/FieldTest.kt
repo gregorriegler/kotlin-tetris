@@ -6,6 +6,14 @@ import org.junit.jupiter.api.Test
 class `A Field` {
 
     @Test
+    fun `can create bomb`() {
+        val bomb = Field.bomb(0, 3)
+        assertThat(bomb.filling).isEqualTo(Filling.BOMB)
+        assertThat(bomb.x).isEqualTo(0)
+        assertThat(bomb.y).isEqualTo(3)
+    }
+
+    @Test
     fun `has a filling`() {
         assertThat(Field(1,1).filling).isEqualTo(Filling.EMPTY)
         assertThat(Field(1,1, Filling.FILLED).filling).isEqualTo(Filling.FILLED)
