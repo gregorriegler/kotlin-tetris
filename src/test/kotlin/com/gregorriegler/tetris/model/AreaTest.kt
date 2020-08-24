@@ -202,12 +202,12 @@ class `An Area` {
 
     @Test
     fun `dissolves filled rows`() {
-        assertThat(Area("#").eraseFilledRows()).isEqualTo(Pair(Area("-"), 1))
+        assertThat(Area("#").eraseFilledRowsNew()).isEqualTo(Pair(Area("-"), 1))
 
         assertThat(Area("""
             >
             #
-        """).eraseFilledRows()).isEqualTo(
+        """).eraseFilledRowsNew()).isEqualTo(
             Pair(Area("""
             >
             -
@@ -216,7 +216,7 @@ class `An Area` {
         assertThat(Area("""
             -
             #
-        """).eraseFilledRows()).isEqualTo(
+        """).eraseFilledRowsNew()).isEqualTo(
             Pair(Area("""
             -
             -
@@ -227,12 +227,12 @@ class `An Area` {
             ##
             #-
             ##
-        """).eraseFilledRows()).isEqualTo(Pair(Area("""
-            --
+        """).eraseFilledRowsNew()).isEqualTo(Pair(Area("""
+            #-
             --
             #-
-            #-
-        """), 2))
+            --
+        """), 4))
     }
 
     @Test

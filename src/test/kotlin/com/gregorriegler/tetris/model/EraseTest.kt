@@ -152,6 +152,17 @@ class `Erasing debris` {
             #
             """
         ))
+
+        assertThat(Area("""
+            ###
+            ###
+            ---
+        """).fall()).isEqualTo(Area("""
+            ---
+            ###
+            ###
+            """
+        ))
     }
 
 }

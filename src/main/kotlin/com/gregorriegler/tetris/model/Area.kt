@@ -117,14 +117,6 @@ open class Area(val fields: Set<Field>) {
         }
     })
 
-    fun eraseFilledRows(): Pair<Area, Int> {
-        val withoutFilledRows = withoutFilledRows()
-        val count = height() - withoutFilledRows.height()
-        val down = withoutFilledRows.down(count)
-        val emptyLinesToAdd = addEmptyLinesOnTop(count)
-        return Pair(emptyLinesToAdd.combine(down), count)
-    }
-
     fun eraseFilledRowsNew(): Pair<Area, Int> {
         val filledRows = filledRows()
         val remaining = erase(filledRows)
@@ -132,7 +124,7 @@ open class Area(val fields: Set<Field>) {
     }
 
     fun fall(): Area {
-        val canFall: List<List<Field>> = fields.filter { field ->
+        val willFall: List<List<Field>> = fields.filter { field ->
             field.isFilled()
                     && belowIsEmpty(field)
                     && !isAnchor(field)
@@ -141,13 +133,13 @@ open class Area(val fields: Set<Field>) {
         }.map { withConnectedFieldsAbove(it) }
             .toList()
 
-        val below = canFall.map { Field.empty(it[0].x, it[0].y + 1) }
-        val belowBy = canFall.associateBy({ Field.empty(it[0].x, it[0].y + 1) }, { it.size })
+        willFall.map { Field.empty(it[0].x, it[0].y + 1) }
+        val below = willFall.associateBy({ Field.empty(it[0].x, it[0].y + 1) }, { it.size })
         val result = fields
             .map {
                 when {
-                    canFall.flatten().contains(it) -> it.down()
-                    below.contains(it) -> it.up(belowBy[it] ?: 1)
+                    willFall.flatten().contains(it) -> it.down()
+                    below.keys.contains(it) -> it.up(below[it] ?: 1)
                     else -> it
                 }
             }
@@ -156,7 +148,7 @@ open class Area(val fields: Set<Field>) {
 
     private fun withConnectedFieldsAbove(field: Field): List<Field> {
         val result: MutableList<Field> = mutableListOf(field)
-        for (y in field.y - 1..top()) {
+        for (y in field.y - 1 downTo top()) {
             if (get(field.x, y).isFilled()) {
                 result.add(get(field.x, y))
             } else {
@@ -187,20 +179,6 @@ open class Area(val fields: Set<Field>) {
         get(field.x, field.y + 1).filling == Filling.EMPTY
 
     private fun isAtBottom(field: Field) = field.y == height() - 1
-
-    private fun addEmptyLinesOnTop(removedRowsCount: Int): Area {
-        return Area(
-            (top() until top() + removedRowsCount)
-                .flatMap { y -> (0 until width()).map { x -> Field.empty(x, y) } })
-    }
-
-    private fun withoutFilledRows(): Area {
-        return Area(
-            (top()..bottom())
-                .filter { y -> (0 until width()).map { x -> fillingOf(x, y) }.any { it == Filling.EMPTY } }
-                .flatMapIndexed { newY, y -> (0 until width()).map { x -> Field(x, newY, fillingOf(x, y)) } }
-        )
-    }
 
     fun filledRows(): Area {
         return Area(
