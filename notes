@@ -1,8 +1,6 @@
-- soil needs to be removable by filling lines OR line is filled when there are at least one filled, and only filled and soil
-- soil is not recognized as anchor
+- had an occasion where a line was all soil but one filled, and it didnt dissapear (bug)
 - speed boost should not make soil come sooner.
 - whenever there is less than 3 filled soil lines at should add another soil line
-
 
 - if frame was a debris, frames could be of various shapes
 - hanging stones fall (and do it together)

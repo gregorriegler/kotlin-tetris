@@ -2,6 +2,7 @@ package com.gregorriegler.tetris.model
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class `Erasing debris` {
@@ -55,8 +56,8 @@ class `Erasing debris` {
 
         val howMany: Int = debris.eraseFilledRows()
 
-        Assertions.assertEquals(3, howMany)
-        Assertions.assertEquals(
+        assertEquals(3, howMany)
+        assertEquals(
             Debris("""
             ---
             -#-
@@ -76,12 +77,31 @@ class `Erasing debris` {
 
         val howMany: Int = debris.eraseFilledRows()
 
-        Assertions.assertEquals(6, howMany)
-        Assertions.assertEquals(
+        assertEquals(6, howMany)
+        assertEquals(
             Debris("""
             -#-
             ---
             ---
+            """),
+            debris
+        )
+    }
+
+    @Test
+    fun `erases two lines besides soil`() {
+        val debris = Debris("""
+            -#-
+            ##■
+        """)
+
+        val howMany: Int = debris.eraseFilledRows()
+
+        assertEquals(2, howMany)
+        assertEquals(
+            Debris("""
+            -#-
+            --■
             """),
             debris
         )
