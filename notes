@@ -1,5 +1,12 @@
+- soil needs to be removable by filling lines OR line is filled when there are at least one filled, and only filled and soil
+- soil is not recognized as anchor
+- speed boost should not make soil come sooner.
+- whenever there is less than 3 filled soil lines at should add another soil line
+
+
 - if frame was a debris, frames could be of various shapes
 - hanging stones fall (and do it together)
 - falling stones stick on anchors
 - need a field state (loose) that prevents overall sticking (for e.g. explosion)
+
 

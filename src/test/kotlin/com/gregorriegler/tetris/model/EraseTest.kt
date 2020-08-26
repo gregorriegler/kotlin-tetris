@@ -92,9 +92,22 @@ class `Erasing debris` {
         assertThat(Area("""
             #
             -
-        """).fall()).isEqualTo(Area("""
+        """).fall().fall()).isEqualTo(Area("""
             -
             #
+        """))
+    }
+
+    @Test
+    fun `area falls on soil`() {
+        assertThat(Area("""
+            #
+            -
+            ■
+        """).fall().fall()).isEqualTo(Area("""
+            -
+            #
+            ■
         """))
     }
 
@@ -124,6 +137,20 @@ class `Erasing debris` {
         """).fall()).isEqualTo(Area("""
             ##
             #-
+            """
+        ))
+    }
+
+    @Test
+    fun `soil counts as anchor`() {
+        assertThat(Area("""
+            ##
+            #-
+            ■-
+        """).fall()).isEqualTo(Area("""
+            ##
+            #-
+            ■-
             """
         ))
     }

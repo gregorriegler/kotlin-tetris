@@ -21,7 +21,7 @@ fun main() {
 }
 
 class JavaFXExample : Application() {
-    private val tetris: Tetris = Tetris(Frame(10, 14), listOf(
+    private val tetris: Tetris = Tetris(Frame(12, 24), listOf(
         Structure.createDot(),
         Structure.createI(),
         Structure.createT(),
@@ -76,7 +76,7 @@ class JavaFXExample : Application() {
             show()
             stage.isResizable = false
             scene.window.width = 320.0
-            scene.window.height = 400.0
+            scene.window.height = 600.0
         }
 
         gameLoop.start()

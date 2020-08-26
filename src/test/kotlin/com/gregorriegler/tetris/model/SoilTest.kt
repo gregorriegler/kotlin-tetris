@@ -3,7 +3,7 @@ package com.gregorriegler.tetris.model
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class Digging {
+class SoilTest {
 
     @Test
     fun `can create soil`() {

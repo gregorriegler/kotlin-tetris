@@ -29,7 +29,6 @@ class Tetris(private val frame: Frame, private val stones: List<Structure>) {
             debris.dig(1)
         }
 
-
         if (stone.landed(debris)) {
             debris.add(stone)
             debris.specials()

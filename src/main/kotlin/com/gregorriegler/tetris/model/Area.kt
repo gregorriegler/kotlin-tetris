@@ -181,7 +181,7 @@ open class Area(val fields: Set<Field>) {
     private fun hasAnchorToTheLeft(field: Field): Boolean =
         field.isFilled() && (isAnchor(field) || hasAnchorToTheLeft(below(field)) || hasAnchorToTheLeft(leftOf(field)))
 
-    private fun isAnchor(field: Field) = field.isFilled() && isAtBottom(field)
+    private fun isAnchor(field: Field) = below(field).filling == Filling.SOIL || (field.isFilled() && isAtBottom(field))
     private fun rightOf(field: Field) = get(field.x + 1, field.y)
     private fun leftOf(field: Field) = get(field.x - 1, field.y)
     private fun below(field: Field) = get(field.x, field.y + 1)
