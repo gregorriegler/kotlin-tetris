@@ -125,7 +125,7 @@ open class Area(val fields: Set<Field>) {
 
     fun specials(): Area {
         val bombs = fields.filter { it.filling == Filling.BOMB }.toList()
-        var result:Area = this
+        var result: Area = this
 
         for (bomb in bombs) {
             result = explode(bomb)
@@ -134,7 +134,7 @@ open class Area(val fields: Set<Field>) {
         return result
     }
 
-    private fun explode(it: Field):Area {
+    private fun explode(it: Field): Area {
         return erase(circle(it, 4))
     }
 
@@ -182,13 +182,9 @@ open class Area(val fields: Set<Field>) {
         field.isFilled() && (isAnchor(field) || hasAnchorToTheLeft(below(field)) || hasAnchorToTheLeft(leftOf(field)))
 
     private fun isAnchor(field: Field) = field.isFilled() && isAtBottom(field)
-
     private fun rightOf(field: Field) = get(field.x + 1, field.y)
-
     private fun leftOf(field: Field) = get(field.x - 1, field.y)
-
     private fun below(field: Field) = get(field.x, field.y + 1)
-
     private fun belowIsEmpty(field: Field) =
         get(field.x, field.y + 1).filling == Filling.EMPTY
 
@@ -201,8 +197,20 @@ open class Area(val fields: Set<Field>) {
                 .flatMap { y -> (0 until width()).map { x -> Field(x, y, get(x, y).filling) } }
         )
     }
-    override fun toString(): String = "\n" + draw(state()) + "\n"
 
+    fun dig(amount: Int): Area {
+        val cutUpperLines = fields.filter { it.y > amount - 1 }
+            .map { it.up(amount) }
+        val filledLinesForBottom = (height() - amount until height()).flatMap { y ->
+            (0 until width()).map { x ->
+                Field.filled(x, y)
+            }
+        }
+        return Area(
+            cutUpperLines + filledLinesForBottom)
+    }
+
+    override fun toString(): String = "\n" + draw(state()) + "\n"
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -213,5 +221,6 @@ open class Area(val fields: Set<Field>) {
 
         return true
     }
+
     override fun hashCode(): Int = fields.hashCode()
 }

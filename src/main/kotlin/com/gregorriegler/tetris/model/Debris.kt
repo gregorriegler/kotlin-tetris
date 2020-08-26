@@ -38,6 +38,10 @@ class Debris(
         debris = debris.specials()
     }
 
+    fun dig(amount: Int) {
+        debris = debris.dig(amount)
+    }
+
     override fun toString(): String = debris.toString()
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -49,5 +53,6 @@ class Debris(
 
         return true
     }
+
     override fun hashCode(): Int = debris.hashCode()
 }
