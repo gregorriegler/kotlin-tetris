@@ -176,12 +176,11 @@ open class Area(val fields: Set<Field>) {
     // todo: can duplicate check many fields (need to remember fields that have already been checked)
     private fun hasAnchorToTheRight(field: Field): Boolean =
         field.isFilled() && (isAnchor(field) || hasAnchorToTheRight(below(field)) || hasAnchorToTheRight(rightOf(field)))
-
     // todo: can duplicate check many fields (need to remember fields that have already been checked)
     private fun hasAnchorToTheLeft(field: Field): Boolean =
         field.isFilled() && (isAnchor(field) || hasAnchorToTheLeft(below(field)) || hasAnchorToTheLeft(leftOf(field)))
-
-    private fun isAnchor(field: Field) = below(field).filling == Filling.SOIL || (field.isFilled() && isAtBottom(field))
+    private fun isAnchor(field: Field) = standsOnSoil(field) || (field.isFilled() && isAtBottom(field))
+    private fun standsOnSoil(field: Field) = below(field).filling == Filling.SOIL
     private fun rightOf(field: Field) = get(field.x + 1, field.y)
     private fun leftOf(field: Field) = get(field.x - 1, field.y)
     private fun below(field: Field) = get(field.x, field.y + 1)
