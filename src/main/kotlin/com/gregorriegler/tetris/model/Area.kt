@@ -92,13 +92,13 @@ open class Area(val fields: Set<Field>) {
         Area(fields.map { it.y }.plus(area.fields.map { it.y })
             .flatMap { y ->
                 fields.map { it.x }.plus(area.fields.map { it.x }).map { x ->
-                    Field(x, y, fillingOf(x, y).or(area.fillingOf(x, y)))
+                    Field(x, y, Filling.higher(fillingOf(x, y), area.fillingOf(x, y)))
                 }
             })
 
     fun collidesWith(area: Area): Boolean = fields.any { area.collidesWith(it) }
 
-    fun collidesWith(field: Field): Boolean = field.isFilled() && get(field.x, field.y).isFilled()
+    fun collidesWith(field: Field): Boolean = field.collides() && get(field.x, field.y).collides()
 
     fun aboveCentered(area: Area): Area = move(Field(
         (area.width() - width()) / 2,
@@ -117,7 +117,7 @@ open class Area(val fields: Set<Field>) {
         }
     })
 
-    fun eraseFilledRowsNew(): Pair<Area, Int> {
+    fun eraseFilledRows(): Pair<Area, Int> {
         val filledRows = filledRows()
         val remaining = erase(filledRows)
         return Pair(remaining, filledRows.size())
@@ -203,7 +203,7 @@ open class Area(val fields: Set<Field>) {
             .map { it.up(amount) }
         val filledLinesForBottom = (height() - amount until height()).flatMap { y ->
             (0 until width()).map { x ->
-                Field.filled(x, y)
+                Field.soil(x, y)
             }
         }
         return Area(

@@ -17,6 +17,10 @@ class Field(
             return Field(x, y, BOMB)
         }
 
+        fun soil(x: Int, y: Int): Field {
+            return Field(x, y, SOIL)
+        }
+
         fun empty(x: Int, y: Int): Field {
             return Field(x, y, EMPTY)
         }
@@ -37,9 +41,11 @@ class Field(
     fun plus(field: Field): Field = Field(x + field.x, y + field.y, filling)
     fun minus(field: Field): Field = Field(x - field.x, y - field.y, filling)
     fun isFilled(): Boolean = filling.isFilled()
-    fun within(area: Area): Boolean = x >= 0 && x < area.width() && y >= 0 && y < area.height()
+    fun collides(): Boolean = filling.collides()
 
+    fun within(area: Area): Boolean = x >= 0 && x < area.width() && y >= 0 && y < area.height()
     fun erase(): Field = empty(x, y)
+
     override fun toString(): String = "($x,$y,$filling)"
 
     override fun equals(other: Any?): Boolean {

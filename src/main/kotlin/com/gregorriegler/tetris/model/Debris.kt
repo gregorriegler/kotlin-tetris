@@ -16,7 +16,7 @@ class Debris(
     }
 
     fun eraseFilledRows(): Int {
-        val removed = debris.eraseFilledRowsNew()
+        val removed = debris.eraseFilledRows()
         debris = removed.first
         return removed.second
     }

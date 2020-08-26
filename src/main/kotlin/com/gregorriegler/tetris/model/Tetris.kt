@@ -11,6 +11,7 @@ class Tetris(private val frame: Frame, private val stones: List<Structure>) {
         private set
     var gameOver: String = ""
         private set
+    var tick: Int = 1
 
     fun left() = stone.left(debris)
     fun right() = stone.right(debris)
@@ -24,13 +25,18 @@ class Tetris(private val frame: Frame, private val stones: List<Structure>) {
             return
         }
 
+        if (tick % 64 == 0) {
+            debris.dig(1)
+        }
+
+
         if (stone.landed(debris)) {
             debris.add(stone)
             debris.specials()
             increaseScore(debris.eraseFilledRows())
             stone = Stone(nextStone, frame)
             nextStone = stones.random()
-            if(gameIsOver()) {
+            if (gameIsOver()) {
                 gameOver = "Game Over"
             }
             return
@@ -38,6 +44,8 @@ class Tetris(private val frame: Frame, private val stones: List<Structure>) {
             debris.fall()
             stone.down()
         }
+
+        tick++
     }
 
     fun gameDisplay(): String = debris.withStone(stone).toString()

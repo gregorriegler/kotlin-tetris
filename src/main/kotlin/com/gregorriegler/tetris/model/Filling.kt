@@ -2,33 +2,44 @@ package com.gregorriegler.tetris.model
 
 enum class Filling {
 
-    FILLED {
-        override fun or(filling: Filling): Filling = FILLED
-        override fun isFilled(): Boolean = true
-        override fun toString(): String = FILLED_VALUE.toString()
-    },
     BOMB {
-        override fun or(filling: Filling): Filling = BOMB
+        override fun combine(filling: Filling): Filling = BOMB
         override fun isFilled(): Boolean = true
+        override fun collides(): Boolean = true
         override fun toString(): String = BOMB_VALUE.toString()
     },
-    EMPTY {
-        override fun or(filling: Filling): Filling = filling
+    SOIL {
+        override fun combine(filling: Filling): Filling = SOIL
         override fun isFilled(): Boolean = false
+        override fun collides(): Boolean = true
+        override fun toString(): String = SOIL_VALUE.toString()
+    },
+    FILLED {
+        override fun combine(filling: Filling): Filling = FILLED
+        override fun isFilled(): Boolean = true
+        override fun collides(): Boolean = true
+        override fun toString(): String = FILLED_VALUE.toString()
+    },
+    EMPTY {
+        override fun combine(filling: Filling): Filling = filling
+        override fun isFilled(): Boolean = false
+        override fun collides(): Boolean = false
         override fun toString(): String = EMPTY_VALUE.toString()
     },
     INDENT {
-        override fun or(filling: Filling): Filling = filling
+        override fun combine(filling: Filling): Filling = filling
         override fun isFilled(): Boolean = false
-
+        override fun collides(): Boolean = false
         override fun toString(): String = INDENT_VALUE.toString()
     };
 
-    abstract fun or(filling: Filling): Filling
+    abstract fun combine(filling: Filling): Filling
     abstract fun isFilled(): Boolean
+    abstract fun collides(): Boolean
 
     companion object {
         const val FILLED_VALUE: Char = '#'
+        const val SOIL_VALUE: Char = '■'
         const val EMPTY_VALUE: Char = '-'
         const val BOMB_VALUE: Char = 'X'
         const val INDENT_VALUE: Char = '>'
@@ -37,10 +48,15 @@ enum class Filling {
         fun of(char: Char): Filling =
             when (char) {
                 FILLED_VALUE -> FILLED
+                SOIL_VALUE -> SOIL
                 EMPTY_VALUE -> EMPTY
                 INDENT_VALUE -> INDENT
                 BOMB_VALUE -> BOMB
                 else -> EMPTY
             }
+
+        fun higher(filling1: Filling, filling2: Filling): Filling {
+            return if (filling1.ordinal < filling2.ordinal) filling1 else filling2
+        }
     }
 }
