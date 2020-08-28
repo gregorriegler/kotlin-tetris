@@ -31,7 +31,6 @@ open class Area(val fields: Set<Field>) {
     constructor(frame: Frame) : this(
         frame.rows().flatMap { y -> frame.columns().map { x -> Field.empty(x, y) } }
     )
-
     constructor(fields: List<Field>) : this(fields.toSet())
 
     private val fieldMap: Map<Int, Map<Int, Field>> =
@@ -46,9 +45,9 @@ open class Area(val fields: Set<Field>) {
     fun right(by: Int): Area = Area(fields.map { it.right(by) })
     private fun leftSide(): Int = fields.map { it.x }.minOrNull() ?: 0
     private fun rightSide(): Int = fields.map { it.x }.maxOrNull() ?: 0
-    private fun top(): Int = fields.map { it.y }.minOrNull() ?: 0
+    fun top(): Int = fields.map { it.y }.minOrNull() ?: 0
 
-    private fun bottom(): Int = fields.map { it.y }.maxOrNull() ?: 0
+    fun bottom(): Int = fields.map { it.y }.maxOrNull() ?: 0
     fun width(): Int = (rightSide() - leftSide()) + 1
     fun height(): Int = if (fields.isEmpty()) 0 else (bottom() - top()) + 1
 
@@ -71,9 +70,8 @@ open class Area(val fields: Set<Field>) {
         }.toList()
 
     private fun fillingOf(x: Int, y: Int): Filling = get(x, y).filling
-
+    fun row(y: Int): List<Field> = (0 until width()).map { x -> get(x, y) }
     private fun get(x: Int, y: Int) = fieldMap[y]?.get(x) ?: Field.empty(x, y)
-
     private fun distance() = Field(leftSide(), top())
 
     fun rotate(): Area = Area(
@@ -101,20 +99,6 @@ open class Area(val fields: Set<Field>) {
     private fun move(vector: Field): Area = Area(fields.map { field -> field.plus(vector) })
 
     fun within(area: Area): Area = Area(fields.filter { it.within(area) })
-
-    fun erase(area: Area): Area = Area(fields.map {
-        if (area.collidesWith(it)) {
-            it.erase()
-        } else {
-            it
-        }
-    })
-
-    fun eraseFilledRows(): Pair<Area, Int> {
-        val filledRows = filledRows()
-        val remainingArea = erase(filledRows)
-        return Pair(remainingArea, filledRows.size())
-    }
 
     fun specials(): Area {
         val bombs = fields.filter { it.filling == Filling.BOMB }.toList()
@@ -170,26 +154,16 @@ open class Area(val fields: Set<Field>) {
     private fun isAnchor(field: Field) = standsOnSoil(field) || standsOnBottom(field)
     private fun hasAnchorToTheRight(field: Field): Boolean =
         field.falls() && (isAnchor(field) || hasAnchorToTheRight(below(field)) || hasAnchorToTheRight(rightOf(field)))
+
     private fun hasAnchorToTheLeft(field: Field): Boolean =
         field.falls() && (isAnchor(field) || hasAnchorToTheLeft(below(field)) || hasAnchorToTheLeft(leftOf(field)))
+
     private fun standsOnSoil(field: Field) = below(field).isSoil()
     private fun standsOnBottom(field: Field) = field.y == height() - 1
     private fun rightOf(field: Field) = get(field.x + 1, field.y)
     private fun leftOf(field: Field) = get(field.x - 1, field.y)
     private fun below(field: Field) = get(field.x, field.y + 1)
     private fun belowIsEmpty(field: Field) = below(field).filling == Filling.EMPTY
-
-    fun filledRows(): Area {
-        return Area(
-            (top()..bottom())
-                .filter { y -> row(y).all { it.isFilled() || it.isSoil() } }
-                .filterNot { y -> row(y).all { it.isSoil() } }
-                .flatMap { y ->
-                    row(y).filterNot { it.isSoil() }
-                        .map { field -> Field(field.x, field.y, field.filling) }
-                }
-        )
-    }
 
     fun dig(rowsOfSoil: Int): Area {
         val needToDig = (height() - rowsOfSoil until height())
@@ -214,11 +188,8 @@ open class Area(val fields: Set<Field>) {
         return Area(cutUpperMostLines + newSoil)
     }
 
-    private fun row(y: Int): List<Field> = (0 until width()).map { x -> get(x, y) }
-
     override fun toString(): String =
         "\n" + state().joinToString(separator = "\n") { it -> it.joinToString(separator = "") { it.toString() } } + "\n"
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -229,6 +200,5 @@ open class Area(val fields: Set<Field>) {
 
         return true
     }
-
     override fun hashCode(): Int = fields.hashCode()
 }

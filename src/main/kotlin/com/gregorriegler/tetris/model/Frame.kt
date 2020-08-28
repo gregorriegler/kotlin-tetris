@@ -8,9 +8,7 @@ class Frame(
 ) {
 
     fun topCenterFilled(): Field = Field.filled(center(), 0)
-
     fun rows() = (0 until height)
-
     fun columns() = (0 until width)
 
     fun left(area: Area, debris: Debris): Area =
@@ -32,11 +30,8 @@ class Frame(
             area
 
     private fun isAtLeftBorder(area: Area) = area.leftSideNonEmpty() <= 0
-
     private fun isAtRightBorder(area: Area) = area.rightSideNonEmpty() >= width - 1
-
     fun isAtBottom(area: Area): Boolean = area.bottomNonEmpty() == height - 1
-
     private fun center() = width.toDouble().div(2).roundToInt() - 1
 
     override fun equals(other: Any?): Boolean {
@@ -50,7 +45,6 @@ class Frame(
 
         return true
     }
-
     override fun hashCode(): Int {
         var result = width
         result = 31 * result + height
