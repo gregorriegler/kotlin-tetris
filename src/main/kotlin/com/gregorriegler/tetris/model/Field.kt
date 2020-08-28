@@ -43,6 +43,7 @@ class Field(
     fun isFilled(): Boolean = filling.isFilled()
     fun collides(): Boolean = filling.collides()
     fun isSoil() = filling == SOIL
+    fun falls(): Boolean = filling.isFilled()
 
     fun within(area: Area): Boolean = x >= 0 && x < area.width() && y >= 0 && y < area.height()
     fun erase(): Field = empty(x, y)

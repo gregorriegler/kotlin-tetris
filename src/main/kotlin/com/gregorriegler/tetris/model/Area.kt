@@ -3,33 +3,27 @@ package com.gregorriegler.tetris.model
 open class Area(val fields: Set<Field>) {
 
     companion object {
-        fun circle(center: Field, radius: Int): Area {
-            return Area(
-                (center.y - radius .. center.y + radius)
-                    .flatMap { y ->
-                        (center.x - radius .. center.x + radius)
-                            .filter { x ->
-                                val dx = x - center.x
-                                val dy = y - center.y
-                                (dx * dx + dy * dy <= radius * radius)
-                            }.map { x -> Field.filled(x, y) }
-                    })
-        }
+        fun circle(center: Field, radius: Int): Area = Area(
+            (center.y - radius..center.y + radius)
+                .flatMap { y ->
+                    (center.x - radius..center.x + radius)
+                        .filter { x ->
+                            val dx = x - center.x
+                            val dy = y - center.y
+                            (dx * dx + dy * dy <= radius * radius)
+                        }.map { x -> Field.filled(x, y) }
+                })
 
-        fun parseFields(string: String): List<Field> {
-            return string.trimIndent()
-                .split("\n")
-                .flatMapIndexed { y, row ->
-                    val pulls = row.filter { it == Filling.PULL_VALUE }.count() * 2
-                    row.toCharArray()
-                        .withIndex()
-                        .filterNot { it.value == Filling.INDENT_VALUE || it.value == Filling.PULL_VALUE }
-                        .map { Field(it.index - pulls, y, it.value) }
-                }
-        }
+        fun parseFields(string: String): List<Field> = string.trimIndent()
+            .split("\n")
+            .flatMapIndexed { y, row ->
+                val pulls = row.filter { it == Filling.PULL_VALUE }.count() * 2
+                row.toCharArray()
+                    .withIndex()
+                    .filterNot { it.value == Filling.INDENT_VALUE || it.value == Filling.PULL_VALUE }
+                    .map { Field(it.index - pulls, y, it.value) }
+            }
 
-        fun draw(combined: List<List<Filling>>) =
-            combined.joinToString(separator = "\n") { it -> it.joinToString(separator = "") { it.toString() } }
     }
 
     constructor(vararg fields: Field) : this(fields.toSet())
@@ -97,7 +91,6 @@ open class Area(val fields: Set<Field>) {
             })
 
     fun collidesWith(area: Area): Boolean = fields.any { area.collidesWith(it) }
-
     fun collidesWith(field: Field): Boolean = field.collides() && get(field.x, field.y).collides()
 
     fun aboveCentered(area: Area): Area = move(Field(
@@ -119,8 +112,8 @@ open class Area(val fields: Set<Field>) {
 
     fun eraseFilledRows(): Pair<Area, Int> {
         val filledRows = filledRows()
-        val remaining = erase(filledRows)
-        return Pair(remaining, filledRows.size())
+        val remainingArea = erase(filledRows)
+        return Pair(remainingArea, filledRows.size())
     }
 
     fun specials(): Area {
@@ -134,31 +127,26 @@ open class Area(val fields: Set<Field>) {
         return result
     }
 
-    private fun explode(it: Field): Area {
-        return erase(circle(it, 4))
+    private fun explode(field: Field): Area {
+        return erase(circle(field, 4))
     }
 
     fun fall(): Area {
         val willFall: List<List<Field>> = fields.filter { field ->
-            field.isFilled()
-                    && belowIsEmpty(field)
-                    && !isAnchor(field)
-                    && !hasAnchorToTheRight(rightOf(field))
-                    && !hasAnchorToTheLeft(leftOf(field))
+            field.falls() && belowIsEmpty(field) && !hasAnchor(field)
         }.map { withConnectedFieldsAbove(it) }
             .toList()
 
         willFall.map { Field.empty(it[0].x, it[0].y + 1) }
         val below = willFall.associateBy({ Field.empty(it[0].x, it[0].y + 1) }, { it.size })
-        val result = fields
+        return Area(fields
             .map {
                 when {
                     willFall.flatten().contains(it) -> it.down()
                     below.keys.contains(it) -> it.up(below[it] ?: 1)
                     else -> it
                 }
-            }
-        return Area(result)
+            })
     }
 
     private fun withConnectedFieldsAbove(field: Field): List<Field> {
@@ -173,23 +161,23 @@ open class Area(val fields: Set<Field>) {
         return result
     }
 
-    // todo: can duplicate check many fields (need to remember fields that have already been checked)
+    fun hasAnchor(field: Field): Boolean {
+        return isAnchor(field)
+                || hasAnchorToTheRight(rightOf(field))
+                || hasAnchorToTheLeft(leftOf(field))
+    }
+
+    private fun isAnchor(field: Field) = standsOnSoil(field) || standsOnBottom(field)
     private fun hasAnchorToTheRight(field: Field): Boolean =
-        field.isFilled() && (isAnchor(field) || hasAnchorToTheRight(below(field)) || hasAnchorToTheRight(rightOf(field)))
-
-    // todo: can duplicate check many fields (need to remember fields that have already been checked)
+        field.falls() && (isAnchor(field) || hasAnchorToTheRight(below(field)) || hasAnchorToTheRight(rightOf(field)))
     private fun hasAnchorToTheLeft(field: Field): Boolean =
-        field.isFilled() && (isAnchor(field) || hasAnchorToTheLeft(below(field)) || hasAnchorToTheLeft(leftOf(field)))
-
-    private fun isAnchor(field: Field) = standsOnSoil(field) || (field.isFilled() && isAtBottom(field))
+        field.falls() && (isAnchor(field) || hasAnchorToTheLeft(below(field)) || hasAnchorToTheLeft(leftOf(field)))
     private fun standsOnSoil(field: Field) = below(field).isSoil()
+    private fun standsOnBottom(field: Field) = field.y == height() - 1
     private fun rightOf(field: Field) = get(field.x + 1, field.y)
     private fun leftOf(field: Field) = get(field.x - 1, field.y)
     private fun below(field: Field) = get(field.x, field.y + 1)
-    private fun belowIsEmpty(field: Field) =
-        get(field.x, field.y + 1).filling == Filling.EMPTY
-
-    private fun isAtBottom(field: Field) = field.y == height() - 1
+    private fun belowIsEmpty(field: Field) = below(field).filling == Filling.EMPTY
 
     fun filledRows(): Area {
         return Area(
@@ -206,7 +194,7 @@ open class Area(val fields: Set<Field>) {
     fun dig(rowsOfSoil: Int): Area {
         val needToDig = (height() - rowsOfSoil until height())
             .map { y -> row(y) }
-            .filterNot { it.all { it.isSoil() } }
+            .filterNot { row -> row.all { it.isSoil() } }
             .any()
 
         return if (needToDig) {
@@ -217,17 +205,19 @@ open class Area(val fields: Set<Field>) {
     }
 
     private fun addRowsOfSoil(amount: Int): Area {
-        val cutUpperLines = fields.filter { it.y > amount - 1 }
+        val cutUpperMostLines = fields.filter { it.y > amount - 1 }
             .map { it.up(amount) }
-        val filledLinesForBottom = (height() - amount until height()).flatMap { y ->
-            (0 until width()).map { x -> Field.soil(x, y) }
-        }
-        return Area(cutUpperLines + filledLinesForBottom)
+        val newSoil = (height() - amount until height())
+            .flatMap { y ->
+                (0 until width()).map { x -> Field.soil(x, y) }
+            }
+        return Area(cutUpperMostLines + newSoil)
     }
 
     private fun row(y: Int): List<Field> = (0 until width()).map { x -> get(x, y) }
 
-    override fun toString(): String = "\n" + draw(state()) + "\n"
+    override fun toString(): String =
+        "\n" + state().joinToString(separator = "\n") { it -> it.joinToString(separator = "") { it.toString() } } + "\n"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
