@@ -5,9 +5,9 @@ open class Area(val fields: Set<Field>) {
     companion object {
         fun circle(center: Field, radius: Int): Area {
             return Area(
-                (center.y - radius until center.y + radius + 1)
+                (center.y - radius .. center.y + radius)
                     .flatMap { y ->
-                        (center.x - radius until center.x + radius + 1)
+                        (center.x - radius .. center.x + radius)
                             .filter { x ->
                                 val dx = x - center.x
                                 val dy = y - center.y
@@ -194,12 +194,11 @@ open class Area(val fields: Set<Field>) {
     fun filledRows(): Area {
         return Area(
             (top()..bottom())
-                .filter { y -> (0 until width()).map { x -> get(x, y) }.all { it.isFilled() || it.isSoil() } }
-                .filterNot { y -> (0 until width()).map { x -> get(x, y) }.all { it.isSoil() } }
+                .filter { y -> row(y).all { it.isFilled() || it.isSoil() } }
+                .filterNot { y -> row(y).all { it.isSoil() } }
                 .flatMap { y ->
-                    (0 until width())
-                        .filterNot { x -> get(x, y).isSoil() }
-                        .map { x -> Field(x, y, get(x, y).filling) }
+                    row(y).filterNot { it.isSoil() }
+                        .map { field -> Field(field.x, field.y, field.filling) }
                 }
         )
     }
@@ -210,10 +209,10 @@ open class Area(val fields: Set<Field>) {
             .filterNot { it.all { it.isSoil() } }
             .any()
 
-        if(needToDig) {
-            return addRowsOfSoil(1)
+        return if (needToDig) {
+            addRowsOfSoil(1)
         } else {
-            return this
+            this
         }
     }
 
@@ -221,9 +220,7 @@ open class Area(val fields: Set<Field>) {
         val cutUpperLines = fields.filter { it.y > amount - 1 }
             .map { it.up(amount) }
         val filledLinesForBottom = (height() - amount until height()).flatMap { y ->
-            (0 until width()).map { x ->
-                Field.soil(x, y)
-            }
+            (0 until width()).map { x -> Field.soil(x, y) }
         }
         return Area(cutUpperLines + filledLinesForBottom)
     }
