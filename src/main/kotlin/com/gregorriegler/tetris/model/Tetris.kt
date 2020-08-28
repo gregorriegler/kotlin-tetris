@@ -1,6 +1,10 @@
 package com.gregorriegler.tetris.model
 
-class Tetris(private val frame: Frame, private val stones: List<Structure>) {
+class Tetris(
+    private val frame: Frame,
+    private val stones: List<Structure>,
+    private val digAmount: Int,
+) {
     private var stone: Stone = Stone(stones.random(), this.frame)
     private val clock: Timer = Timer({ tick() })
     private val debris: Debris = Debris(this.frame)
@@ -25,10 +29,6 @@ class Tetris(private val frame: Frame, private val stones: List<Structure>) {
             return
         }
 
-        if (tick % 64 == 0) {
-            debris.dig(1)
-        }
-
         if (stone.landed(debris)) {
             debris.add(stone)
             debris.specials()
@@ -41,6 +41,7 @@ class Tetris(private val frame: Frame, private val stones: List<Structure>) {
             return
         } else {
             debris.fall()
+            debris.dig(digAmount)
             stone.down()
         }
 

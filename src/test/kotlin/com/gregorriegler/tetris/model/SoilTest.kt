@@ -14,31 +14,74 @@ class SoilTest {
     }
 
     @Test
-    fun can_dig_a_debris() {
-        val debris = Debris("""
+    fun can_dig_an_area() {
+        assertThat(Area("""
             ---
-            -#-
-            ###
-        """)
+            ---
+            ---
+        """).digForRowsOfSoil(1)).isEqualTo(Area("""
+            ---
+            ---
+            ■■■
+        """))
 
-        debris.dig(1)
-
-        assertThat(debris).isEqualTo(Debris("""
-            -#-
-            ###
+        assertThat(Area("""
+            ---
+            ---
+            ---
+        """).digForRowsOfSoil(2)).isEqualTo(Area("""
+            ---
+            ■■■
             ■■■
         """))
     }
 
     @Test
-    fun can_dig_an_area() {
+    fun can_dig_partly_filled_area() {
         assertThat(Area("""
             ---
-            -#-
-            ###
-        """).dig(1)).isEqualTo(Area("""
-            -#-
-            ###
+            ---
+            ■--
+        """).digForRowsOfSoil(1)).isEqualTo(Area("""
+            ---
+            ■--
+            ■■■
+        """))
+
+        assertThat(Area("""
+            ---
+            ---
+            ■--
+        """).digForRowsOfSoil(2)).isEqualTo(Area("""
+            ■--
+            ■■■
+            ■■■
+        """))
+
+        assertThat(Area("""
+            ---
+            ---
+            #--
+        """).digForRowsOfSoil(1)).isEqualTo(Area("""
+            ---
+            #--
+            ■■■
+        """))
+    }
+
+    @Test
+    fun can_dig_a_debris() {
+        val debris = Debris("""
+            ---
+            ■#-
+            ■■■
+        """)
+
+        debris.dig(2)
+
+        assertThat(debris).isEqualTo(Debris("""
+            ■#-
+            ■■■
             ■■■
         """))
     }

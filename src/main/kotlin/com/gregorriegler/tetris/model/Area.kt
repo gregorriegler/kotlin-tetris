@@ -204,7 +204,16 @@ open class Area(val fields: Set<Field>) {
         )
     }
 
-    fun dig(amount: Int): Area {
+    fun digForRowsOfSoil(rowsOfSoil: Int): Area {
+        val needToDig = (height() - rowsOfSoil until height())
+            .map { y -> row(y) }
+            .filterNot { it.all { it.isSoil() } }
+            .count()
+
+        return digRows(needToDig)
+    }
+
+    private fun digRows(amount: Int): Area {
         val cutUpperLines = fields.filter { it.y > amount - 1 }
             .map { it.up(amount) }
         val filledLinesForBottom = (height() - amount until height()).flatMap { y ->
@@ -212,11 +221,13 @@ open class Area(val fields: Set<Field>) {
                 Field.soil(x, y)
             }
         }
-        return Area(
-            cutUpperLines + filledLinesForBottom)
+        return Area(cutUpperLines + filledLinesForBottom)
     }
 
+    private fun row(y: Int): List<Field> = (0 until width()).map { x -> get(x, y) }
+
     override fun toString(): String = "\n" + draw(state()) + "\n"
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
