@@ -50,4 +50,9 @@ class Structure(string: String) : Area(string) {
             return Structure("""X""")
         }
     }
+
+    fun startingPosition(area: Area): Area = move(Field(
+        (area.width() - width()) / 2,
+        area.top() - height()
+    ))
 }

@@ -23,7 +23,6 @@ open class Area(val fields: Set<Field>) {
                     .filterNot { it.value == Filling.INDENT_VALUE || it.value == Filling.PULL_VALUE }
                     .map { Field(it.index - pulls, y, it.value) }
             }
-
     }
 
     constructor(vararg fields: Field) : this(fields.toSet())
@@ -31,6 +30,7 @@ open class Area(val fields: Set<Field>) {
     constructor(frame: Frame) : this(
         frame.rows().flatMap { y -> frame.columns().map { x -> Field.empty(x, y) } }
     )
+
     constructor(fields: List<Field>) : this(fields.toSet())
 
     private val fieldMap: Map<Int, Map<Int, Field>> =
@@ -43,11 +43,11 @@ open class Area(val fields: Set<Field>) {
     fun right(): Area = right(1)
 
     fun right(by: Int): Area = Area(fields.map { it.right(by) })
-    private fun leftSide(): Int = fields.map { it.x }.minOrNull() ?: 0
-    private fun rightSide(): Int = fields.map { it.x }.maxOrNull() ?: 0
-    fun top(): Int = fields.map { it.y }.minOrNull() ?: 0
+    private fun leftSide(): Int = allX().minOrNull() ?: 0
+    private fun rightSide(): Int = allX().maxOrNull() ?: 0
+    fun top(): Int = allY().minOrNull() ?: 0
 
-    fun bottom(): Int = fields.map { it.y }.maxOrNull() ?: 0
+    fun bottom(): Int = allY().maxOrNull() ?: 0
     fun width(): Int = (rightSide() - leftSide()) + 1
     fun height(): Int = if (fields.isEmpty()) 0 else (bottom() - top()) + 1
 
@@ -72,6 +72,8 @@ open class Area(val fields: Set<Field>) {
     private fun fillingOf(x: Int, y: Int): Filling = get(x, y).filling
     fun row(y: Int): List<Field> = (0 until width()).map { x -> get(x, y) }
     private fun get(x: Int, y: Int) = fieldMap[y]?.get(x) ?: Field.empty(x, y)
+    private fun allY() = fields.map { it.y }
+    private fun allX() = fields.map { it.x }
     private fun distance() = Field(leftSide(), top())
 
     fun rotate(): Area = Area(
@@ -81,22 +83,18 @@ open class Area(val fields: Set<Field>) {
     )
 
     fun combine(area: Area): Area =
-        Area(fields.map { it.y }.plus(area.fields.map { it.y })
-            .flatMap { y ->
-                fields.map { it.x }.plus(area.fields.map { it.x }).map { x ->
-                    Field(x, y, Filling.higher(fillingOf(x, y), area.fillingOf(x, y)))
+        Area(
+            allY().plus(area.allY())
+                .flatMap { y ->
+                    allX().plus(area.allX())
+                        .map { x -> Field(x, y, Filling.higher(fillingOf(x, y), area.fillingOf(x, y))) }
                 }
-            })
+        )
 
     fun collidesWith(area: Area): Boolean = fields.any { area.collidesWith(it) }
     fun collidesWith(field: Field): Boolean = field.collides() && get(field.x, field.y).collides()
 
-    fun aboveCentered(area: Area): Area = move(Field(
-        (area.width() - width()) / 2,
-        area.top() - height()
-    ))
-
-    private fun move(vector: Field): Area = Area(fields.map { field -> field.plus(vector) })
+    fun move(vector: Field): Area = Area(fields.map { field -> field.plus(vector) })
 
     fun within(area: Area): Area = Area(fields.filter { it.within(area) })
 
@@ -190,6 +188,7 @@ open class Area(val fields: Set<Field>) {
 
     override fun toString(): String =
         "\n" + state().joinToString(separator = "\n") { it -> it.joinToString(separator = "") { it.toString() } } + "\n"
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -200,5 +199,6 @@ open class Area(val fields: Set<Field>) {
 
         return true
     }
+
     override fun hashCode(): Int = fields.hashCode()
 }
