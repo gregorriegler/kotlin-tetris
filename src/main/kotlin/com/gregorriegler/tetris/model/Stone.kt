@@ -41,7 +41,7 @@ class Stone(
     }
 
     fun outOfGame(area: Area, debris: Debris): Boolean {
-        return debris.collidesWith(area) || area.outsideOf(frame)
+        return debris.collidesWith(area) || frame.isOutside(area)
     }
 
     fun landed(debris: Debris) = atBottom() || collidesWith(debris)

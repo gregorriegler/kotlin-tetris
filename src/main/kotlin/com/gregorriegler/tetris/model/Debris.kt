@@ -12,7 +12,7 @@ class Debris(
 
     fun erase(area: Area): Int {
         debris = debris.erase(area)
-        return area.size()
+        return area.sizeNonEmpty()
     }
 
     fun eraseFilledRows(): Int {

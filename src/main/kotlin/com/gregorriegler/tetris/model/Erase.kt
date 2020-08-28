@@ -11,7 +11,7 @@ fun Area.erase(area: Area): Area = Area(fields.map {
 fun Area.eraseFilledRows(): Pair<Area, Int> {
     val filledRows = filledRows()
     val remainingArea = erase(filledRows)
-    return Pair(remainingArea, filledRows.size())
+    return Pair(remainingArea, filledRows.sizeNonEmpty())
 }
 
 fun Area.filledRows(): Area {

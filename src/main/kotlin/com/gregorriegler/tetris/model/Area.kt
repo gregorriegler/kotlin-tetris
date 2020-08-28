@@ -27,10 +27,7 @@ open class Area(val fields: Set<Field>) {
 
     constructor(vararg fields: Field) : this(fields.toSet())
     constructor(string: String) : this(parseFields(string))
-    constructor(frame: Frame) : this(
-        frame.rows().flatMap { y -> frame.columns().map { x -> Field.empty(x, y) } }
-    )
-
+    constructor(frame: Frame) : this(frame.rows().flatMap { y -> frame.columns().map { x -> Field.empty(x, y) } })
     constructor(fields: List<Field>) : this(fields.toSet())
 
     private val fieldMap: Map<Int, Map<Int, Field>> =
@@ -51,16 +48,13 @@ open class Area(val fields: Set<Field>) {
     fun width(): Int = (rightSide() - leftSide()) + 1
     fun height(): Int = if (fields.isEmpty()) 0 else (bottom() - top()) + 1
 
-    fun size(): Int = fields.filter { it.isFilled() }.count()
+    fun sizeNonEmpty(): Int = nonEmptyFields().count()
     fun widthNonEmpty(): Int = (rightSideNonEmpty() - leftSideNonEmpty()) + 1
-    fun leftSideNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.x }.minOrNull() ?: 0
-    fun rightSideNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.x }.maxOrNull() ?: 0
-    fun bottomNonEmpty(): Int = fields.filter { it.isFilled() }.map { it.y }.maxOrNull() ?: 0
+    fun leftSideNonEmpty(): Int = nonEmptyFields().map { it.x }.minOrNull() ?: 0
+    fun rightSideNonEmpty(): Int = nonEmptyFields().map { it.x }.maxOrNull() ?: 0
+    fun bottomNonEmpty(): Int = nonEmptyFields().map { it.y }.maxOrNull() ?: 0
 
-    fun outsideOf(frame: Frame): Boolean =
-        rightSideNonEmpty() > frame.width - 1
-                || leftSideNonEmpty() < 0
-                || bottomNonEmpty() > frame.height - 1
+    private fun nonEmptyFields() = fields.filter { it.isFilled() }
 
     fun state(): List<List<Filling>> =
         (0..bottom()).map { y ->
@@ -84,9 +78,11 @@ open class Area(val fields: Set<Field>) {
 
     fun combine(area: Area): Area =
         Area(
-            allY().plus(area.allY())
+            allY()
+                .plus(area.allY())
                 .flatMap { y ->
-                    allX().plus(area.allX())
+                    allX()
+                        .plus(area.allX())
                         .map { x -> Field(x, y, Filling.higher(fillingOf(x, y), area.fillingOf(x, y))) }
                 }
         )
@@ -95,7 +91,6 @@ open class Area(val fields: Set<Field>) {
     fun collidesWith(field: Field): Boolean = field.collides() && get(field.x, field.y).collides()
 
     fun move(vector: Field): Area = Area(fields.map { field -> field.plus(vector) })
-
     fun within(area: Area): Area = Area(fields.filter { it.within(area) })
 
     fun specials(): Area {

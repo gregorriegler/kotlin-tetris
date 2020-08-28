@@ -21,7 +21,7 @@ class `An Area` {
         assertTrue(area.collidesWith(Field.filled(0, 1)))
         assertTrue(area.collidesWith(Field.filled(1, 1)))
         assertFalse(area.collidesWith(Field.filled(2, 1)))
-        assertThat(area.size()).isEqualTo(4)
+        assertThat(area.sizeNonEmpty()).isEqualTo(4)
     }
 
     @Test
@@ -39,7 +39,7 @@ class `An Area` {
         assertTrue(area.collidesWith(Field.filled(0, 1)))
         assertTrue(area.collidesWith(Field.filled(1, 1)))
         assertFalse(area.collidesWith(Field.filled(2, 1)))
-        assertThat(area.size()).isEqualTo(3)
+        assertThat(area.sizeNonEmpty()).isEqualTo(3)
     }
 
     @Test
@@ -62,7 +62,7 @@ class `An Area` {
         assertFalse(area.collidesWith(Field.filled(0, 2)))
         assertFalse(area.collidesWith(Field.filled(1, 2)))
         assertFalse(area.collidesWith(Field.filled(2, 2)))
-        assertThat(area.size()).isEqualTo(1)
+        assertThat(area.sizeNonEmpty()).isEqualTo(1)
     }
 
     @Test
@@ -78,7 +78,7 @@ class `An Area` {
         assertFalse(area.collidesWith(Field.filled(1, 0)))
         assertFalse(area.collidesWith(Field.filled(2, 0)))
         assertFalse(area.collidesWith(Field.filled(0, 1)))
-        assertThat(area.size()).isEqualTo(1)
+        assertThat(area.sizeNonEmpty()).isEqualTo(1)
     }
 
     @Test

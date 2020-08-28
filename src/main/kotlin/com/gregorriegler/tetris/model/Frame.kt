@@ -33,6 +33,10 @@ class Frame(
     private fun isAtRightBorder(area: Area) = area.rightSideNonEmpty() >= width - 1
     fun isAtBottom(area: Area): Boolean = area.bottomNonEmpty() == height - 1
     private fun center() = width.toDouble().div(2).roundToInt() - 1
+    fun isOutside(area: Area): Boolean =
+        area.rightSideNonEmpty() > width - 1
+                || area.leftSideNonEmpty() < 0
+                || area.bottomNonEmpty() > height - 1
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
