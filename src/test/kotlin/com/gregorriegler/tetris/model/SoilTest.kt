@@ -19,7 +19,18 @@ class SoilTest {
             ---
             ---
             ---
-        """).digForRowsOfSoil(1)).isEqualTo(Area("""
+        """).dig(1)).isEqualTo(Area("""
+            ---
+            ---
+            ■■■
+        """))
+
+        // only dig one row at a time
+        assertThat(Area("""
+            ---
+            ---
+            ---
+        """).dig(2)).isEqualTo(Area("""
             ---
             ---
             ■■■
@@ -29,7 +40,7 @@ class SoilTest {
             ---
             ---
             ---
-        """).digForRowsOfSoil(2)).isEqualTo(Area("""
+        """).dig(2).dig(2)).isEqualTo(Area("""
             ---
             ■■■
             ■■■
@@ -42,7 +53,7 @@ class SoilTest {
             ---
             ---
             ■--
-        """).digForRowsOfSoil(1)).isEqualTo(Area("""
+        """).dig(1)).isEqualTo(Area("""
             ---
             ■--
             ■■■
@@ -52,7 +63,7 @@ class SoilTest {
             ---
             ---
             ■--
-        """).digForRowsOfSoil(2)).isEqualTo(Area("""
+        """).dig(2).dig(2)).isEqualTo(Area("""
             ■--
             ■■■
             ■■■
@@ -62,7 +73,7 @@ class SoilTest {
             ---
             ---
             #--
-        """).digForRowsOfSoil(1)).isEqualTo(Area("""
+        """).dig(1)).isEqualTo(Area("""
             ---
             #--
             ■■■
@@ -77,6 +88,7 @@ class SoilTest {
             ■■■
         """)
 
+        debris.dig(2)
         debris.dig(2)
 
         assertThat(debris).isEqualTo(Debris("""

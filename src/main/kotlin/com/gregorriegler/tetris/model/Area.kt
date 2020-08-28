@@ -204,16 +204,20 @@ open class Area(val fields: Set<Field>) {
         )
     }
 
-    fun digForRowsOfSoil(rowsOfSoil: Int): Area {
+    fun dig(rowsOfSoil: Int): Area {
         val needToDig = (height() - rowsOfSoil until height())
             .map { y -> row(y) }
             .filterNot { it.all { it.isSoil() } }
-            .count()
+            .any()
 
-        return digRows(needToDig)
+        if(needToDig) {
+            return addRowsOfSoil(1)
+        } else {
+            return this
+        }
     }
 
-    private fun digRows(amount: Int): Area {
+    private fun addRowsOfSoil(amount: Int): Area {
         val cutUpperLines = fields.filter { it.y > amount - 1 }
             .map { it.up(amount) }
         val filledLinesForBottom = (height() - amount until height()).flatMap { y ->

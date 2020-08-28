@@ -39,7 +39,7 @@ class Debris(
     }
 
     fun dig(amount: Int) {
-        debris = debris.digForRowsOfSoil(amount)
+        debris = debris.dig(amount)
     }
 
     override fun toString(): String = debris.toString()

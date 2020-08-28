@@ -1,3 +1,7 @@
+- I falls into single fillable field within 2 soils, erases first field, but not the followings
+- soil debris soil debris does not count as filled
+- soil anchors not always working, weird behaviour
+
 - had an occasion where a line was all soil but one filled, and it didnt dissapear (bug)
 - speed boost should not make soil come sooner.
 - whenever there is less than 3 filled soil lines at should add another soil line

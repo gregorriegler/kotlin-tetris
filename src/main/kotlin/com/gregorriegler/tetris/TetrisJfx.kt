@@ -28,7 +28,7 @@ class JavaFXExample : Application() {
         Structure.createL(),
         Structure.createJ(),
         Structure.createBomb()
-    ), 3)
+    ), 4)
     private val game: Text = Text(10.0, 50.0, "")
     private val score: Text = Text(50.0, 50.0, "")
     private var gameLoop: GameLoop = GameLoop(tetris, { game.text = it }, {score.text = it})
