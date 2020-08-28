@@ -1,7 +1,7 @@
 package com.gregorriegler.tetris.model
 
 fun Area.erase(area: Area): Area = Area(fields.map {
-    if (area.collidesWith(it)) {
+    if (area.collidesWith(it) || (it.isSoil() && area.collidesWith(above(it)))) {
         it.erase()
     } else {
         it

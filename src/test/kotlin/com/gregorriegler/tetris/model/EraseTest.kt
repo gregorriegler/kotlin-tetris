@@ -89,6 +89,28 @@ class `Erasing debris` {
     }
 
     @Test
+    fun `erases soil below as well`() {
+        val debris = Debris("""
+            -#-
+            ###
+            ■■■
+        """)
+
+        val howMany: Int = debris.eraseFilledRows()
+
+        assertEquals(3, howMany)
+        assertEquals(
+            Debris("""
+            -#-
+            ---
+            ---
+            """),
+            debris
+        )
+    }
+
+
+    @Test
     fun `erases two lines besides soil`() {
         val debris = Debris("""
             -#-

@@ -140,6 +140,7 @@ open class Area(val fields: Set<Field>) {
     private fun rightOf(field: Field) = get(field.x + 1, field.y)
     private fun leftOf(field: Field) = get(field.x - 1, field.y)
     private fun below(field: Field) = get(field.x, field.y + 1)
+    fun above(field: Field) = get(field.x, field.y - 1)
     private fun belowIsEmpty(field: Field) = below(field).filling == Filling.EMPTY
 
     fun dig(rowsOfSoil: Int): Area {
