@@ -93,20 +93,7 @@ open class Area(val fields: Set<Field>) {
     fun move(vector: Field): Area = Area(fields.map { field -> field.plus(vector) })
     fun within(area: Area): Area = Area(fields.filter { it.within(area) })
 
-    fun specials(): Area {
-        val bombs = fields.filter { it.filling == Filling.BOMB }.toList()
-        var result: Area = this
-
-        for (bomb in bombs) {
-            result = explode(bomb)
-        }
-
-        return result
-    }
-
-    private fun explode(field: Field): Area {
-        return erase(circle(field, 4))
-    }
+    fun specials(): Area = fields.fold(this) { area, field -> field.special(field, area) }
 
     fun fall(): Area {
         val willFall: List<List<Field>> = fields.filter { field ->
@@ -138,11 +125,8 @@ open class Area(val fields: Set<Field>) {
         return result
     }
 
-    fun hasAnchor(field: Field): Boolean {
-        return isAnchor(field)
-                || hasAnchorToTheRight(rightOf(field))
-                || hasAnchorToTheLeft(leftOf(field))
-    }
+    private fun hasAnchor(field: Field): Boolean =
+        isAnchor(field) || hasAnchorToTheRight(rightOf(field)) || hasAnchorToTheLeft(leftOf(field))
 
     private fun isAnchor(field: Field) = standsOnSoil(field) || standsOnBottom(field)
     private fun hasAnchorToTheRight(field: Field): Boolean =

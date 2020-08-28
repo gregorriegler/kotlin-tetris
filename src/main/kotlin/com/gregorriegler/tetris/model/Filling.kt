@@ -6,7 +6,12 @@ enum class Filling {
         override fun combine(filling: Filling): Filling = BOMB
         override fun isFilled(): Boolean = true
         override fun collides(): Boolean = true
+        override fun special(field: Field, area: Area): Area = explode(field, area)
         override fun toString(): String = BOMB_VALUE.toString()
+
+        private fun explode(field: Field, area: Area): Area {
+            return area.erase(Area.circle(field, 4))
+        }
     },
     SOIL {
         override fun combine(filling: Filling): Filling = SOIL
@@ -36,6 +41,7 @@ enum class Filling {
     abstract fun combine(filling: Filling): Filling
     abstract fun isFilled(): Boolean
     abstract fun collides(): Boolean
+    open fun special(field: Field, area: Area): Area = area
 
     companion object {
         const val FILLED_VALUE: Char = '#'

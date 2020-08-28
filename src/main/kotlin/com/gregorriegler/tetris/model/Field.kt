@@ -5,7 +5,7 @@ import com.gregorriegler.tetris.model.Filling.*
 class Field(
     val x: Int,
     val y: Int,
-    val filling: Filling
+    val filling: Filling,
 ) {
 
     companion object {
@@ -44,12 +44,12 @@ class Field(
     fun collides(): Boolean = filling.collides()
     fun isSoil() = filling == SOIL
     fun falls(): Boolean = filling.isFilled()
+    fun special(field: Field, area: Area): Area = filling.special(field, area)
 
     fun within(area: Area): Boolean = x >= 0 && x < area.width() && y >= 0 && y < area.height()
     fun erase(): Field = empty(x, y)
 
     override fun toString(): String = "($x,$y,$filling)"
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
