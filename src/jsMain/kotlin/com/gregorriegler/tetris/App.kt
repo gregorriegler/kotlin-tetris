@@ -1,9 +1,6 @@
 package com.gregorriegler.tetris
 
-import com.gregorriegler.tetris.model.Area
-import com.gregorriegler.tetris.model.Field
-import com.gregorriegler.tetris.model.Filling
-import com.gregorriegler.tetris.model.Tetris
+import com.gregorriegler.tetris.model.*
 import kotlinx.browser.document
 import kotlinx.browser.window
 import org.w3c.dom.CanvasRenderingContext2D
@@ -18,7 +15,18 @@ fun main() {
 class TetrisJs {
     private val canvas: HTMLCanvasElement = document.createElement("canvas") as HTMLCanvasElement
     private val context: CanvasRenderingContext2D
-    private val tetris: Tetris = Tetris()
+    private val tetris: Tetris = Tetris(
+        Frame(10, 20),
+        listOf(
+            Structure.createDot(),
+            Structure.createI(),
+            Structure.createT(),
+            Structure.createL(),
+            Structure.createJ(),
+            Structure.createBomb()
+        ),
+        4
+    )
 
     init {
         context = canvas.getContext("2d") as CanvasRenderingContext2D
@@ -49,12 +57,14 @@ class TetrisJs {
 
     private fun draw(area: Area) {
         context.clearRect(0.0, 0.0, context.canvas.width.toDouble(), context.canvas.height.toDouble())
+        val frame = CanvasFrame(20, 20, 280, 550)
+        val stoneWidth = frame.width() / area.width()
+        val stoneHeight = frame.height() / area.height()
         area.fields.forEach { field ->
-            val frame = Frame(20, 20, 400, 820)
             when (field.filling) {
                 Filling.EMPTY -> Unit
                 else -> drawFilled(
-                    Rectangle.fromArea(frame, area, field),
+                    Rectangle.fromArea(frame, stoneWidth, stoneHeight, field),
                     color(field.filling)
                 )
             }
@@ -86,9 +96,7 @@ class Rectangle(
     val height: Double
 ) {
     companion object {
-        fun fromArea(frame: Frame, area: Area, field: Field): Rectangle {
-            val stoneWidth = (frame.width() / area.width()) - 10
-            val stoneHeight = (frame.height() / area.height()) - 10
+        fun fromArea(frame: CanvasFrame, stoneWidth: Int, stoneHeight: Int, field: Field): Rectangle {
             val squareLeft = frame.left + field.x * stoneWidth + 4
             val squareTop = frame.top + field.y * stoneHeight + 4
 
@@ -102,7 +110,7 @@ class Rectangle(
     }
 }
 
-class Frame(
+class CanvasFrame(
     val left: Int,
     val top: Int,
     val right: Int,
