@@ -1,11 +1,8 @@
 package com.gregorriegler.tetris
 
-import com.gregorriegler.tetris.model.Frame
-import com.gregorriegler.tetris.model.Structure
 import com.gregorriegler.tetris.model.Tetris
 import javafx.animation.AnimationTimer
 import javafx.application.Application
-import javafx.application.Application.launch
 import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.input.KeyCode
@@ -16,22 +13,19 @@ import javafx.stage.Stage
 import java.util.function.Consumer
 
 
-fun main() {
-    launch(JavaFXExample::class.java)
-}
+class TetrisJfx : Application() {
 
-class JavaFXExample : Application() {
-    private val tetris: Tetris = Tetris(Frame(12, 24), listOf(
-        Structure.createDot(),
-        Structure.createI(),
-        Structure.createT(),
-        Structure.createL(),
-        Structure.createJ(),
-        Structure.createBomb()
-    ), 4)
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            launch(TetrisJfx::class.java)
+        }
+    }
+
+    private val tetris: Tetris = Tetris()
     private val game: Text = Text(10.0, 50.0, "")
     private val score: Text = Text(50.0, 50.0, "")
-    private var gameLoop: GameLoop = GameLoop(tetris, { game.text = it }, {score.text = it})
+    private var gameLoop: GameLoop = GameLoop(tetris, { game.text = it }, { score.text = it })
 
     override fun start(stage: Stage) {
         val layout = HBox().apply {
@@ -91,7 +85,7 @@ class GameLoop(
 
     override fun handle(arg0: Long) {
         tetris.time(System.currentTimeMillis())
-        displayGame.accept(tetris.gameDisplay())
+        displayGame.accept(tetris.gameDisplayString())
         displayScore.accept("\nScore: " + tetris.score + "\n\nNext Stone:\n" + tetris.nextStone.toString() + "\n" + tetris.gameOver)
     }
 }

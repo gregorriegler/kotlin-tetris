@@ -9,6 +9,19 @@ class Tetris(
     private val clock: Timer = Timer({ tick() })
     private val debris: Debris = Debris(this.frame)
 
+    constructor() : this(
+        Frame(12, 24),
+        listOf(
+            Structure.createDot(),
+            Structure.createI(),
+            Structure.createT(),
+            Structure.createL(),
+            Structure.createJ(),
+            Structure.createBomb()
+        ),
+        4
+    )
+
     var nextStone: Structure = stones.random()
         private set
     var score: Int = 0
@@ -48,7 +61,8 @@ class Tetris(
         tick++
     }
 
-    fun gameDisplay(): String = debris.withStone(stone).toString()
+    fun gameDisplayString(): String = debris.withStone(stone).toString()
+    fun gameDisplay(): Area = debris.withStone(stone)
 
     private fun increaseScore(count: Int) {
         score += count
