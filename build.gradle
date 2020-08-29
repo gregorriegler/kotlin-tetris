@@ -1,8 +1,45 @@
 plugins {
     id 'application'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.0'
-    id "de.dplatz.clear" version "0.3"
-    id "org.openjfx.javafxplugin" version "0.0.9"
+    id 'org.jetbrains.kotlin.multiplatform' version '1.4.0'
+    id 'de.dplatz.clear' version '0.3'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+}
+
+group = 'com.gregorriegler'
+version = '1.0-SNAPSHOT'
+
+kotlin {
+    jvm {
+        compilations.all {
+            kotlinOptions.jvmTarget = '1.8'
+        }
+        withJava()
+    }
+//    js {
+//        browser {
+//        }
+//        binaries.executable()
+//    }
+    sourceSets {
+        commonMain {
+            dependencies {
+            }
+        }
+        commonTest {
+            dependencies {
+            }
+        }
+        jvmMain {}
+        jvmTest {
+            dependencies {
+                def junitVersion = '5.6.2'
+                implementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+                implementation "org.junit.jupiter:junit-jupiter-params:${junitVersion}"
+                runtimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+                implementation 'org.assertj:assertj-core:3.16.1'
+            }
+        }
+    }
 }
 
 javafx {
@@ -10,7 +47,7 @@ javafx {
     modules = ['javafx.controls', 'javafx.fxml']
 }
 
-test {
+jvmTest {
     useJUnitPlatform()
     testLogging {
         events = ["skipped", "failed"]
@@ -18,25 +55,16 @@ test {
     }
 }
 
-sourceCompatibility = '1.8'
-targetCompatibility = sourceCompatibility
-
-compileKotlin {
-    kotlinOptions.jvmTarget = sourceCompatibility
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = sourceCompatibility
-}
-
 repositories {
     mavenCentral()
-}
-
-dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.0'
-    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.4.0'
-    implementation 'org.openjfx:javafx:14.0.2.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
-    testImplementation 'org.assertj:assertj-core:3.16.1'
+    jcenter()
+//    maven {
+//        url 'https://dl.bintray.com/kotlin/ktor'
+//    }
+//    maven {
+//        url 'https://dl.bintray.com/kotlin/kotlinx'
+//    }
+//    maven {
+//        url 'https://dl.bintray.com/kotlin/kotlin-js-wrappers'
+//    }
 }

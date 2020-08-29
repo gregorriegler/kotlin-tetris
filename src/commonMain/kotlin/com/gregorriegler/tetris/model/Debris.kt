@@ -43,9 +43,11 @@ class Debris(
     }
 
     override fun toString(): String = debris.toString()
+
+    override fun hashCode(): Int = debris.hashCode()
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (other == null || this::class != other::class) return false
 
         other as Debris
 
@@ -53,5 +55,4 @@ class Debris(
 
         return true
     }
-    override fun hashCode(): Int = debris.hashCode()
 }
