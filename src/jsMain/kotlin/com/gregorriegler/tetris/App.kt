@@ -9,31 +9,23 @@ import org.w3c.dom.events.KeyboardEvent
 import kotlin.js.Date
 
 fun main() {
-    val tetrisJs: TetrisJs = TetrisJs()
+    val tetrisJs = TetrisJs()
+    tetrisJs.start()
 }
 
 class TetrisJs {
     private val canvas: HTMLCanvasElement = document.createElement("canvas") as HTMLCanvasElement
     private val context: CanvasRenderingContext2D
-    private val tetris: Tetris = Tetris(
-        Frame(10, 20),
-        listOf(
-            Structure.createDot(),
-            Structure.createI(),
-            Structure.createT(),
-            Structure.createL(),
-            Structure.createJ(),
-            Structure.createBomb()
-        ),
-        4
-    )
+    private val tetris: Tetris = Tetris()
 
     init {
         context = canvas.getContext("2d") as CanvasRenderingContext2D
         context.canvas.width = window.innerWidth
         context.canvas.height = window.innerHeight
         document.body!!.appendChild(canvas)
+    }
 
+    fun start() {
         window.setInterval({
             tetris.time(Date.now().toLong())
             draw(tetris.gameDisplay())

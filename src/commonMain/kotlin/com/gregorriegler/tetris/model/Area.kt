@@ -1,6 +1,6 @@
 package com.gregorriegler.tetris.model
 
-open class Area(val fields: Set<Field>) {
+open class Area(val fields: List<Field>) {
 
     companion object {
         fun circle(center: Field, radius: Int): Area = Area(
@@ -25,10 +25,9 @@ open class Area(val fields: Set<Field>) {
             }
     }
 
-    constructor(vararg fields: Field) : this(fields.toSet())
+    constructor(vararg fields: Field) : this(fields.toList())
     constructor(string: String) : this(parseFields(string))
     constructor(frame: Frame) : this(frame.rows().flatMap { y -> frame.columns().map { x -> Field.empty(x, y) } })
-    constructor(fields: List<Field>) : this(fields.toSet())
 
     private val fieldMap: Map<Int, Map<Int, Field>> =
         fields.groupBy { it.y }.mapValues { (_, field) -> field.associateBy { it.x } }
@@ -38,12 +37,10 @@ open class Area(val fields: Set<Field>) {
     fun left(): Area = left(1)
     fun left(by: Int): Area = Area(fields.map { it.left(by) })
     fun right(): Area = right(1)
-
     fun right(by: Int): Area = Area(fields.map { it.right(by) })
     private fun leftSide(): Int = allX().minOrNull() ?: 0
     private fun rightSide(): Int = allX().maxOrNull() ?: 0
     fun top(): Int = allY().minOrNull() ?: 0
-
     fun bottom(): Int = allY().maxOrNull() ?: 0
     fun width(): Int = (rightSide() - leftSide()) + 1
     fun height(): Int = if (fields.isEmpty()) 0 else (bottom() - top()) + 1
@@ -53,21 +50,17 @@ open class Area(val fields: Set<Field>) {
     fun leftSideNonEmpty(): Int = nonEmptyFields().map { it.x }.minOrNull() ?: 0
     fun rightSideNonEmpty(): Int = nonEmptyFields().map { it.x }.maxOrNull() ?: 0
     fun bottomNonEmpty(): Int = nonEmptyFields().map { it.y }.maxOrNull() ?: 0
-
     private fun nonEmptyFields() = fields.filter { it.isFilled() }
-
     fun state(): List<List<Filling>> =
         (0..bottom()).map { y ->
             (0..rightSide()).map { x ->
-                fillingOf(x, y)
+                get(x, y).filling
             }
         }.toList()
-
-    private fun fillingOf(x: Int, y: Int): Filling = get(x, y).filling
     fun row(y: Int): List<Field> = (0 until width()).map { x -> get(x, y) }
     private fun get(x: Int, y: Int) = fieldMap[y]?.get(x) ?: Field.empty(x, y)
-    private fun allY() = fields.map { it.y }
-    private fun allX() = fields.map { it.x }
+    private fun allY() = fields.map { it.y }.distinct()
+    private fun allX() = fields.map { it.x }.distinct()
     private fun distance() = Field(leftSide(), top())
 
     fun rotate(): Area = Area(
@@ -78,12 +71,10 @@ open class Area(val fields: Set<Field>) {
 
     fun combine(area: Area): Area =
         Area(
-            allY()
-                .plus(area.allY())
+            allY().plus(area.allY()).distinct()
                 .flatMap { y ->
-                    allX()
-                        .plus(area.allX())
-                        .map { x -> Field(x, y, Filling.higher(fillingOf(x, y), area.fillingOf(x, y))) }
+                    allX().plus(area.allX()).distinct()
+                        .map { x -> Field(x, y, Filling.higher(get(x, y).filling, area.get(x, y).filling)) }
                 }
         )
 
@@ -175,10 +166,10 @@ open class Area(val fields: Set<Field>) {
 
         other as Area
 
-        if (fields != other.fields) return false
+        if (fields.toSet() != other.fields.toSet()) return false
 
         return true
     }
 
-    override fun hashCode(): Int = fields.hashCode()
+    override fun hashCode(): Int = fields.toSet().hashCode()
 }
