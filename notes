@@ -17,3 +17,23 @@
 - need a field state (loose) that prevents overall sticking (for e.g. explosion)
 
 
+- why it is so slow in js: (need to try arraylist)
+kotlin-stdlib-js-1.4.0.jar!/kotlin.js
+Line 49210
+AbstractMap.prototype.implFindEntry_8k1i24$_0 = function (key) {
+      var $receiver = this.entries;
+      var firstOrNull$result;
+      firstOrNull$break: do {
+        var tmp$;
+        tmp$ = $receiver.iterator();
+        while (tmp$.hasNext()) {
+          var element = tmp$.next();
+          if (equals(element.key, key)) {
+            firstOrNull$result = element;
+            break firstOrNull$break;
+          }}
+        firstOrNull$result = null;
+      }
+       while (false);
+      return firstOrNull$result;
+    };
