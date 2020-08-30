@@ -29,7 +29,7 @@ class TetrisJs {
         window.setInterval({
             tetris.time(Date.now().toLong())
             draw(tetris.gameDisplay())
-        }, 20)
+        }, 10)
         window.addEventListener("keydown", {
             when ((it as KeyboardEvent).key) {
                 "ArrowLeft" -> tetris.left()

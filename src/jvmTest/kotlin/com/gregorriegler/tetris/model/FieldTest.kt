@@ -80,4 +80,13 @@ class `A Field` {
         assertThat(Field.filled(0, 0).erase()).isEqualTo(Field.empty(0, 0))
         assertThat(Field.empty(0, 0).erase()).isEqualTo(Field.empty(0, 0))
     }
+
+    @Test
+    fun compares() {
+        assertThat(Field.filled(0, 0).compareTo(Field.filled(0, 0))).isEqualTo(0)
+        assertThat(Field.filled(1, 0).compareTo(Field.filled(0, 0))).isGreaterThan(0)
+        assertThat(Field.filled(0, 1).compareTo(Field.filled(0, 0))).isGreaterThan(0)
+        assertThat(Field.filled(0, 0).compareTo(Field.filled(1, 0))).isLessThan(0)
+        assertThat(Field.filled(0, 0).compareTo(Field.filled(0, 1))).isLessThan(0)
+    }
 }

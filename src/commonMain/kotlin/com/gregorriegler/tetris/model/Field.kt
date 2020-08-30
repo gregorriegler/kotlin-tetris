@@ -2,11 +2,11 @@ package com.gregorriegler.tetris.model
 
 import com.gregorriegler.tetris.model.Filling.*
 
-class Field(
+class Field (
     val x: Int,
     val y: Int,
     val filling: Filling,
-) {
+) : Comparable<Field> {
 
     companion object {
         fun filled(x: Int, y: Int): Field {
@@ -68,5 +68,13 @@ class Field(
         result = 31 * result + y + 100
         result = 31 * result + filling.hashCode()
         return result
+    }
+
+    override fun compareTo(other: Field): Int {
+        return if(this.y != other.y) {
+            this.y - other.y
+        } else if(this.x != other.x) {
+            this.x - other.x
+        } else 0
     }
 }
