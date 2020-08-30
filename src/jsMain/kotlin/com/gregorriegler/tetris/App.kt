@@ -76,9 +76,6 @@ class TetrisJs {
             else -> "#cccccc"
         }
     }
-
-    private fun width() = canvas.width.toDouble()
-    private fun height() = canvas.height.toDouble()
 }
 
 class Rectangle(
