@@ -50,8 +50,8 @@ class TetrisJs {
     private fun draw(area: Area) {
         context.clearRect(0.0, 0.0, context.canvas.width.toDouble(), context.canvas.height.toDouble())
         val frame = CanvasFrame(20, 20, 280, 550)
-        val stoneWidth = frame.width() / area.width()
-        val stoneHeight = frame.height() / area.height()
+        val stoneWidth = frame.width() / area.width
+        val stoneHeight = frame.height() / area.height
         area.fields.forEach { field ->
             when (field.filling) {
                 Filling.EMPTY -> Unit

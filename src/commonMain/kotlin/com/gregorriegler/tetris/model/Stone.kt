@@ -41,12 +41,11 @@ class Stone(
     }
 
     fun outOfGame(area: Area, debris: Debris): Boolean {
-        return debris.collidesWith(area) || frame.isOutside(area)
+        return area.collidesWith(debris.area) || frame.isOutside(area)
     }
 
-    fun landed(debris: Debris) = atBottom() || collidesWith(debris)
+    fun landed(debris: Debris) = atBottom() || area.down().collidesWith(debris.area)
     private fun atBottom(): Boolean = frame.isAtBottom(area)
-    private fun collidesWith(debris: Debris) = debris.collidesWith(area.down())
     override fun toString(): String {
         return area.toString()
     }

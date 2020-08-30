@@ -12,13 +12,13 @@ class Frame(
     fun columns() = (0 until width)
 
     fun left(area: Area, debris: Debris): Area =
-        if (isAtLeftBorder(area) || debris.collidesWith(area.left()))
+        if (isAtLeftBorder(area) || area.left().collidesWith(debris.area))
             area
         else
             area.left()
 
     fun right(area: Area, debris: Debris): Area =
-        if (isAtRightBorder(area) || debris.collidesWith(area.right()))
+        if (isAtRightBorder(area) || area.right().collidesWith(debris.area))
             area
         else
             area.right()

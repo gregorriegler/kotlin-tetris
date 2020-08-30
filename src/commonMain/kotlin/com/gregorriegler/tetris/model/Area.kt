@@ -1,6 +1,6 @@
 package com.gregorriegler.tetris.model
 
-open class Area(val fields: List<Field>) {
+open class Area {
 
     companion object {
         fun circle(center: Field, radius: Int): Area = Area(
@@ -28,9 +28,27 @@ open class Area(val fields: List<Field>) {
     constructor(vararg fields: Field) : this(fields.toList())
     constructor(string: String) : this(parseFields(string))
     constructor(frame: Frame) : this(frame.rows().flatMap { y -> frame.columns().map { x -> Field.empty(x, y) } })
+    constructor(fields: List<Field>) {
+        this.fields = fields.sorted()
+        this.minX = this.fields.minOfOrNull { it.x } ?: 0
+        this.maxX = this.fields.maxOfOrNull { it.x } ?: 0
+        this.minY = (this.fields.firstOrNull() ?: Field.empty(0, 0)).y
+        this.maxY = (this.fields.lastOrNull() ?: Field.empty(0, 0)).y
+        this.width = maxX - minX + 1
+        this.height = maxY - minY + 1
+        this.size = width * height
+        this.fieldMap = fields.groupBy { it.y }.mapValues { (_, field) -> field.associateBy { it.x } }
+    }
 
-    private val fieldMap: Map<Int, Map<Int, Field>> =
-        fields.groupBy { it.y }.mapValues { (_, field) -> field.associateBy { it.x } }
+    val minX: Int
+    val maxX: Int
+    val minY: Int
+    val maxY: Int
+    val width: Int
+    val height: Int
+    val size: Int
+    val fields: List<Field>
+    val fieldMap: Map<Int, Map<Int, Field>>
 
     fun down(by: Int): Area = Area(fields.map { it.down(by) })
     fun down(): Area = Area(fields.map { it.down() })
@@ -42,8 +60,6 @@ open class Area(val fields: List<Field>) {
     private fun rightSide(): Int = allX().maxOrNull() ?: 0
     fun top(): Int = allY().minOrNull() ?: 0
     fun bottom(): Int = allY().maxOrNull() ?: 0
-    fun width(): Int = (rightSide() - leftSide()) + 1
-    fun height(): Int = if (fields.isEmpty()) 0 else (bottom() - top()) + 1
 
     fun sizeNonEmpty(): Int = nonEmptyFields().count()
     fun widthNonEmpty(): Int = (rightSideNonEmpty() - leftSideNonEmpty()) + 1
@@ -57,15 +73,25 @@ open class Area(val fields: List<Field>) {
                 get(x, y).filling
             }
         }.toList()
-    fun row(y: Int): List<Field> = (0 until width()).map { x -> get(x, y) }
+
+    fun row(y: Int): List<Field> = (0 until width).map { x -> get(x, y) }
+
     private fun get(x: Int, y: Int) = fieldMap[y]?.get(x) ?: Field.empty(x, y)
+//    todo does not yet work well
+//    private fun get(x: Int, y: Int): Field {
+//        if (x < minX || y < minY) return Field.empty(x, y)
+//        val index = (x - minX) + ((y - minY) * width)
+//        val orNull = fields.getOrNull(index)
+//        return orNull ?: Field.empty(x, y)
+//    }
+
     private fun allY() = fields.map { it.y }.distinct()
     private fun allX() = fields.map { it.x }.distinct()
     private fun distance() = Field(leftSide(), top())
 
     fun rotate(): Area = Area(
         fields.map { field -> field.minus(distance()) }
-            .map { field -> field.rotate(width()) }
+            .map { field -> field.rotate(width) }
             .map { field -> field.plus(distance()) }
     )
 
@@ -127,7 +153,7 @@ open class Area(val fields: List<Field>) {
         field.falls() && (isAnchor(field) || hasAnchorToTheLeft(below(field)) || hasAnchorToTheLeft(leftOf(field)))
 
     private fun standsOnSoil(field: Field) = below(field).isSoil()
-    private fun standsOnBottom(field: Field) = field.y == height() - 1
+    private fun standsOnBottom(field: Field) = field.y == height - 1
     private fun rightOf(field: Field) = get(field.x + 1, field.y)
     private fun leftOf(field: Field) = get(field.x - 1, field.y)
     private fun below(field: Field) = get(field.x, field.y + 1)
@@ -135,7 +161,7 @@ open class Area(val fields: List<Field>) {
     private fun belowIsEmpty(field: Field) = below(field).filling == Filling.EMPTY
 
     fun dig(rowsOfSoil: Int): Area {
-        val needToDig = (height() - rowsOfSoil until height())
+        val needToDig = (height - rowsOfSoil until height)
             .map { y -> row(y) }
             .filterNot { row -> row.all { it.isSoil() } }
             .any()
@@ -150,9 +176,9 @@ open class Area(val fields: List<Field>) {
     private fun addRowsOfSoil(amount: Int): Area {
         val cutUpperMostLines = fields.filter { it.y > amount - 1 }
             .map { it.up(amount) }
-        val newSoil = (height() - amount until height())
+        val newSoil = (height - amount until height)
             .flatMap { y ->
-                (0 until width()).map { x -> Field.soil(x, y) }
+                (0 until width).map { x -> Field.soil(x, y) }
             }
         return Area(cutUpperMostLines + newSoil)
     }

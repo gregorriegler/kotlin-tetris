@@ -1,57 +1,55 @@
 package com.gregorriegler.tetris.model
 
 class Debris(
-    private var debris: Area,
+    var area: Area,
 ) {
     constructor(frame: Frame) : this(Area(frame))
     constructor(debris: String) : this(Area(debris))
 
     fun add(stone: Stone) {
-        debris = debris.combine(stone.area).within(debris)
+        area = area.combine(stone.area).within(area)
     }
 
     fun erase(area: Area): Int {
-        debris = debris.erase(area)
+        this.area = this.area.erase(area)
         return area.sizeNonEmpty()
     }
 
     fun eraseFilledRows(): Int {
-        val removed = debris.eraseFilledRows()
-        debris = removed.first
+        val removed = area.eraseFilledRows()
+        area = removed.first
         return removed.second
     }
 
     fun fall() {
-        debris = debris.fall()
+        area = area.fall()
     }
 
-    fun width(): Int = debris.width()
-    fun height(): Int = debris.height()
-    fun collidesWith(area: Area): Boolean = debris.collidesWith(area)
-    fun collidesWith(field: Field): Boolean = debris.collidesWith(field)
+    fun width(): Int = area.width
+    fun height(): Int = area.height
 
     fun withStone(stone: Stone): Area =
-        debris.combine(stone.area)
-            .within(debris)
+        area.combine(stone.area)
+            .within(area)
 
     fun specials() {
-        debris = debris.specials()
+        area = area.specials()
     }
 
     fun dig(amount: Int) {
-        debris = debris.dig(amount)
+        area = area.dig(amount)
     }
 
-    override fun toString(): String = debris.toString()
+    override fun toString(): String = area.toString()
 
-    override fun hashCode(): Int = debris.hashCode()
+    override fun hashCode(): Int = area.hashCode()
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
 
         other as Debris
 
-        if (debris != other.debris) return false
+        if (area != other.area) return false
 
         return true
     }

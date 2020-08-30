@@ -52,7 +52,7 @@ class Structure(string: String) : Area(string) {
     }
 
     fun startingPosition(area: Area): Area = move(Field(
-        (area.width() - width()) / 2,
-        area.top() - height()
+        (area.width - width) / 2,
+        area.top() - height
     ))
 }

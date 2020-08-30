@@ -68,5 +68,5 @@ class Tetris(
         score += count
     }
 
-    private fun gameIsOver(): Boolean = debris.collidesWith(frame.topCenterFilled())
+    private fun gameIsOver(): Boolean = frame.topCenterFilled().collidesWith(debris.area)
 }

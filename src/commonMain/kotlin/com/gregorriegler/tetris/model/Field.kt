@@ -46,10 +46,14 @@ class Field (
     fun falls(): Boolean = filling.isFilled()
     fun special(field: Field, area: Area): Area = filling.special(field, area)
 
-    fun within(area: Area): Boolean = x >= 0 && x < area.width() && y >= 0 && y < area.height()
-    fun erase(): Field = empty(x, y)
+    fun collidesWith(area: Area): Boolean =  collidesWith(area.fields)
+    fun collidesWith(fields: List<Field>): Boolean = collides() && fields.any {it.collides() && it.x == x && it.y == y}
 
+    fun within(area: Area): Boolean = x >= 0 && x < area.width && y >= 0 && y < area.height
+
+    fun erase(): Field = empty(x, y)
     override fun toString(): String = "($x,$y,$filling)"
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
