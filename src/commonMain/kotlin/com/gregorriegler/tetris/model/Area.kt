@@ -1,6 +1,6 @@
 package com.gregorriegler.tetris.model
 
-open class Area {
+open class Area(fields: List<Field>) {
 
     companion object {
         fun circle(center: Field, radius: Int): Area = Area(
@@ -28,25 +28,14 @@ open class Area {
     constructor(vararg fields: Field) : this(fields.toList())
     constructor(string: String) : this(parseFields(string))
     constructor(frame: Frame) : this(frame.rows().flatMap { y -> frame.columns().map { x -> Field.empty(x, y) } })
-    constructor(fields: List<Field>) {
-        this.fields = fields.sorted()
-        this.leftSide = this.fields.minOfOrNull { it.x } ?: 0
-        this.rightSide = this.fields.maxOfOrNull { it.x } ?: 0
-        this.top = (this.fields.firstOrNull() ?: Field.empty(0, 0)).y
-        this.bottom = (this.fields.lastOrNull() ?: Field.empty(0, 0)).y
-        this.width = rightSide - leftSide + 1
-        this.height = bottom - top + 1
-        this.size = width * height
-    }
 
-    val top: Int
-    val bottom: Int
-    private val leftSide: Int
-    private val rightSide: Int
-    val width: Int
-    val height: Int
-    private val size: Int
-    val fields: List<Field>
+    val fields: List<Field> = fields.sorted()
+    val top: Int = (this.fields.firstOrNull() ?: Field.empty(0, 0)).y
+    val bottom: Int = (this.fields.lastOrNull() ?: Field.empty(0, 0)).y
+    private val leftSide: Int = this.fields.minOfOrNull { it.x } ?: 0
+    private val rightSide: Int = this.fields.maxOfOrNull { it.x } ?: 0
+    val width: Int = rightSide - leftSide + 1
+    val height: Int = bottom - top + 1
 
     fun down(by: Int): Area = Area(fields.map { it.down(by) })
     fun down(): Area = Area(fields.map { it.down() })
