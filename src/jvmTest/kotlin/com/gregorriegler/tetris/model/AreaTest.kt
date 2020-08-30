@@ -130,6 +130,21 @@ class `An Area` {
     }
 
     @Test
+    fun `gets fields`() {
+        val area = Area(
+            """
+            >>>
+            >##
+            >##
+        """
+        )
+        assertThat(area.get(0, 0)).isEqualTo(Field.empty(0, 0))
+        assertThat(area.get(1, 1)).isEqualTo(Field.filled(1, 1))
+        assertThat(area.get(2, 1)).isEqualTo(Field.filled(2, 1))
+        assertThat(area.get(3, 1)).isEqualTo(Field.empty(3, 1))
+    }
+
+    @Test
     fun `draws itself`() {
         assertEquals('\n' + """
             --

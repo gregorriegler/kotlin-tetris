@@ -30,25 +30,23 @@ open class Area {
     constructor(frame: Frame) : this(frame.rows().flatMap { y -> frame.columns().map { x -> Field.empty(x, y) } })
     constructor(fields: List<Field>) {
         this.fields = fields.sorted()
-        this.minX = this.fields.minOfOrNull { it.x } ?: 0
-        this.maxX = this.fields.maxOfOrNull { it.x } ?: 0
-        this.minY = (this.fields.firstOrNull() ?: Field.empty(0, 0)).y
-        this.maxY = (this.fields.lastOrNull() ?: Field.empty(0, 0)).y
-        this.width = maxX - minX + 1
-        this.height = maxY - minY + 1
+        this.leftSide = this.fields.minOfOrNull { it.x } ?: 0
+        this.rightSide = this.fields.maxOfOrNull { it.x } ?: 0
+        this.top = (this.fields.firstOrNull() ?: Field.empty(0, 0)).y
+        this.bottom = (this.fields.lastOrNull() ?: Field.empty(0, 0)).y
+        this.width = rightSide - leftSide + 1
+        this.height = bottom - top + 1
         this.size = width * height
-        this.fieldMap = fields.groupBy { it.y }.mapValues { (_, field) -> field.associateBy { it.x } }
     }
 
-    val minX: Int
-    val maxX: Int
-    val minY: Int
-    val maxY: Int
+    val top: Int
+    val bottom: Int
+    private val leftSide: Int
+    private val rightSide: Int
     val width: Int
     val height: Int
-    val size: Int
+    private val size: Int
     val fields: List<Field>
-    val fieldMap: Map<Int, Map<Int, Field>>
 
     fun down(by: Int): Area = Area(fields.map { it.down(by) })
     fun down(): Area = Area(fields.map { it.down() })
@@ -56,10 +54,6 @@ open class Area {
     fun left(by: Int): Area = Area(fields.map { it.left(by) })
     fun right(): Area = right(1)
     fun right(by: Int): Area = Area(fields.map { it.right(by) })
-    private fun leftSide(): Int = allX().minOrNull() ?: 0
-    private fun rightSide(): Int = allX().maxOrNull() ?: 0
-    fun top(): Int = allY().minOrNull() ?: 0
-    fun bottom(): Int = allY().maxOrNull() ?: 0
 
     fun sizeNonEmpty(): Int = nonEmptyFields().count()
     fun widthNonEmpty(): Int = (rightSideNonEmpty() - leftSideNonEmpty()) + 1
@@ -68,26 +62,22 @@ open class Area {
     fun bottomNonEmpty(): Int = nonEmptyFields().map { it.y }.maxOrNull() ?: 0
     private fun nonEmptyFields() = fields.filter { it.isFilled() }
     fun state(): List<List<Filling>> =
-        (0..bottom()).map { y ->
-            (0..rightSide()).map { x ->
+        (0..bottom).map { y ->
+            (0..rightSide).map { x ->
                 get(x, y).filling
             }
         }.toList()
 
     fun row(y: Int): List<Field> = (0 until width).map { x -> get(x, y) }
 
-    private fun get(x: Int, y: Int) = fieldMap[y]?.get(x) ?: Field.empty(x, y)
-//    todo does not yet work well
-//    private fun get(x: Int, y: Int): Field {
-//        if (x < minX || y < minY) return Field.empty(x, y)
-//        val index = (x - minX) + ((y - minY) * width)
-//        val orNull = fields.getOrNull(index)
-//        return orNull ?: Field.empty(x, y)
-//    }
+    fun get(x: Int, y: Int): Field {
+        if (x < leftSide || y < top || x > rightSide || y > bottom) return Field.empty(x, y)
+        return fields.getOrNull((x - leftSide) + ((y - top) * width)) ?: Field.empty(x, y)
+    }
 
     private fun allY() = fields.map { it.y }.distinct()
     private fun allX() = fields.map { it.x }.distinct()
-    private fun distance() = Field(leftSide(), top())
+    private fun distance() = Field(leftSide, top)
 
     fun rotate(): Area = Area(
         fields.map { field -> field.minus(distance()) }
@@ -120,8 +110,8 @@ open class Area {
 
         willFall.map { Field.empty(it[0].x, it[0].y + 1) }
         val below = willFall.associateBy({ Field.empty(it[0].x, it[0].y + 1) }, { it.size })
-        return Area(fields
-            .map {
+        return Area(
+            fields.map {
                 when {
                     willFall.flatten().contains(it) -> it.down()
                     below.keys.contains(it) -> it.up(below[it] ?: 1)
@@ -132,7 +122,7 @@ open class Area {
 
     private fun withConnectedFieldsAbove(field: Field): List<Field> {
         val result: MutableList<Field> = mutableListOf(field)
-        for (y in field.y - 1 downTo top()) {
+        for (y in field.y - 1 downTo top) {
             if (get(field.x, y).isFilled()) {
                 result.add(get(field.x, y))
             } else {

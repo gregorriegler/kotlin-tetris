@@ -17,7 +17,7 @@ fun Area.eraseFilledRows(): Pair<Area, Int> {
 }
 
 fun Area.filledRows(): List<Field> {
-    return (top()..bottom())
+    return (top..bottom)
             .filter { y -> row(y).all { it.isFilled() || it.isSoil() } }
             .filterNot { y -> row(y).all { it.isSoil() } }
             .flatMap { y ->
