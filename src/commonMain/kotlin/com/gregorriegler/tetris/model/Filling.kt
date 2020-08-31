@@ -1,5 +1,7 @@
 package com.gregorriegler.tetris.model
 
+import com.gregorriegler.tetris.view.Color
+
 enum class Filling {
 
     BOMB {
@@ -60,6 +62,15 @@ enum class Filling {
                 BOMB_VALUE -> BOMB
                 else -> EMPTY
             }
+
+        fun color(filling: Filling): Color {
+            return when (filling) {
+                BOMB -> Color.black
+                FILLED -> Color.green
+                SOIL -> Color.orange
+                else -> Color.grey
+            }
+        }
 
         fun higher(filling1: Filling, filling2: Filling): Filling {
             return if (filling1.ordinal < filling2.ordinal) filling1 else filling2
