@@ -8,27 +8,27 @@ class `A Frame` {
 
     @Test
     fun `returns the top center field`() {
-        val frame = Frame(3, 3)
+        val frame = TetrisFrame(3, 3)
         assertEquals(Field.filled(1, 0), frame.topCenterFilled())
     }
 
     @Test
     fun `moves an area to the left`() {
-        val frame = Frame(3, 3)
+        val frame = TetrisFrame(3, 3)
         assertEquals(
             Area(Field.empty(-1, 0), Field.filled(0, 0), Field.filled(1, 0)),
             frame.left(
                 Area("""
                 -##
                 """),
-                Debris(Frame(3, 3))
+                Debris(TetrisFrame(3, 3))
             )
         )
     }
 
     @Test
     fun `respects the left wall when moving left`() {
-        val frame = Frame(3, 3)
+        val frame = TetrisFrame(3, 3)
         assertEquals(
             Area("""
                 ##-
@@ -39,14 +39,14 @@ class `A Frame` {
                 ##-
                 """
                 ),
-                Debris(Frame(3, 3))
+                Debris(TetrisFrame(3, 3))
             )
         )
     }
 
     @Test
     fun `respects debris when moving left`() {
-        val frame = Frame(3, 3)
+        val frame = TetrisFrame(3, 3)
         val area = Area("""
                 -##
                 """)
@@ -58,7 +58,7 @@ class `A Frame` {
 
     @Test
     fun `moves inside debris when moving left`() {
-        val frame = Frame(4, 3)
+        val frame = TetrisFrame(4, 3)
         val area = Area("""
                 ---#
                 --##
@@ -95,7 +95,7 @@ class `A Frame` {
 
     @Test
     fun `moves an area to the right`() {
-        val frame = Frame(3, 3)
+        val frame = TetrisFrame(3, 3)
         assertThat(
             frame.right(Area("##-"), Debris(frame))
         ).isEqualTo(Area(">##-"))
@@ -103,7 +103,7 @@ class `A Frame` {
 
     @Test
     fun `respects the right wall when moving right`() {
-        val frame = Frame(2, 2)
+        val frame = TetrisFrame(2, 2)
         assertEquals(
             Area("""
                 -#
@@ -123,7 +123,7 @@ class `A Frame` {
 
     @Test
     fun `respects debris when moving right`() {
-        val frame = Frame(3, 3)
+        val frame = TetrisFrame(3, 3)
         assertEquals(
             Area("""
                 ---
@@ -146,7 +146,7 @@ class `A Frame` {
 
     @Test
     fun `moves inside debris when moving right`() {
-        val frame = Frame(4, 3)
+        val frame = TetrisFrame(4, 3)
         val area = Area("""
                 #---
                 ##--
@@ -170,7 +170,7 @@ class `A Frame` {
 
     @Test
     fun `moves an area down`() {
-        val frame = Frame(3, 3)
+        val frame = TetrisFrame(3, 3)
         assertEquals(
             Area("""
                 >>
@@ -190,7 +190,7 @@ class `A Frame` {
 
     @Test
     fun `does not move an area below the bottom`() {
-        val frame = Frame(2, 2)
+        val frame = TetrisFrame(2, 2)
         assertEquals(
             Area("""
                 --
@@ -209,8 +209,8 @@ class `A Frame` {
 
     @Test
     fun `knows an area is not at the bottom`() {
-        assertFalse(Frame(3, 3).isAtBottom(Area(Field.filled(1, 1))))
-        assertFalse(Frame(4, 4).isAtBottom(Area("""
+        assertFalse(TetrisFrame(3, 3).isAtBottom(Area(Field.filled(1, 1))))
+        assertFalse(TetrisFrame(4, 4).isAtBottom(Area("""
             >>
             ##
             ##
@@ -219,8 +219,8 @@ class `A Frame` {
 
     @Test
     fun `knows an area is at the bottom`() {
-        assertTrue(Frame(2, 2).isAtBottom(Area(Field.filled(1, 1))))
-        assertTrue(Frame(4, 4).isAtBottom(Area("""
+        assertTrue(TetrisFrame(2, 2).isAtBottom(Area(Field.filled(1, 1))))
+        assertTrue(TetrisFrame(4, 4).isAtBottom(Area("""
             >>
             >>
             ##

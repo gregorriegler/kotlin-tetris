@@ -3,7 +3,7 @@ package com.gregorriegler.tetris.model
 class Debris(
     var area: Area,
 ) {
-    constructor(frame: Frame) : this(Area(frame))
+    constructor(frame: TetrisFrame) : this(Area(frame))
     constructor(debris: String) : this(Area(debris))
 
     fun add(stone: Stone) {

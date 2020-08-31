@@ -27,7 +27,7 @@ open class Area(fields: List<Field>) {
 
     constructor(vararg fields: Field) : this(fields.toList())
     constructor(string: String) : this(parseFields(string))
-    constructor(frame: Frame) : this(frame.rows().flatMap { y -> frame.columns().map { x -> Field.empty(x, y) } })
+    constructor(frame: TetrisFrame) : this(frame.rows().flatMap { y -> frame.columns().map { x -> Field.empty(x, y) } })
 
     val fields: List<Field> = fields.sorted()
     val top: Int = (this.fields.firstOrNull() ?: Field.empty(0, 0)).y

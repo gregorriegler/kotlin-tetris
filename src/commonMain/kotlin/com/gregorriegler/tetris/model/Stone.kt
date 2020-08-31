@@ -2,9 +2,9 @@ package com.gregorriegler.tetris.model
 
 class Stone(
     structure: Structure,
-    private val frame: Frame,
+    private val frame: TetrisFrame,
 ) {
-    constructor(structure: String, frame: Frame) : this(Structure(structure), frame)
+    constructor(structure: String, frame: TetrisFrame) : this(Structure(structure), frame)
 
     var area: Area = structure.startingPosition(Area(frame))
         private set

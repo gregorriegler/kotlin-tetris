@@ -2,6 +2,7 @@ package com.gregorriegler.tetris
 
 import com.gregorriegler.tetris.model.*
 import com.gregorriegler.tetris.view.Color
+import com.gregorriegler.tetris.view.ViewFrame
 import kotlinx.browser.document
 import kotlinx.browser.window
 import org.w3c.dom.CanvasRenderingContext2D
@@ -25,7 +26,7 @@ class TetrisJs {
         context.canvas.width = window.innerWidth
         context.canvas.height = window.innerHeight
         document.body!!.appendChild(canvas)
-        gameFrame = ViewFrame(0, 0, window.innerWidth, window.innerHeight)
+        gameFrame = ViewFrame.max(tetris, SimpleFrame(window.innerWidth, window.innerHeight))
     }
 
     fun start() {
@@ -110,14 +111,3 @@ class Rectangle(
     }
 }
 
-class ViewFrame(
-    val left: Int,
-    val top: Int,
-    val right: Int,
-    val bottom: Int
-) {
-    val width: Int
-        get() = right - left
-    val height: Int
-        get() = bottom - top
-}

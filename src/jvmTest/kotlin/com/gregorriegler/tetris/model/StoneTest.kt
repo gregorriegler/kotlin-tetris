@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test
 
 class `A Stone` {
 
-    val frame = Frame(3, 3)
+    val frame = TetrisFrame(3, 3)
     val debris3x3 = Debris(frame)
-    val debris4x4 = Debris(Frame(4, 4))
+    val debris4x4 = Debris(TetrisFrame(4, 4))
 
     @Nested
     inner class `with the size of a single field` {
@@ -80,7 +80,7 @@ class `A Stone` {
 
     @Nested
     inner class `with a size 2x2` {
-        val stone = Stone(Structure.createDot(), Frame(4, 4))
+        val stone = Stone(Structure.createDot(), TetrisFrame(4, 4))
 
         @Test
         fun `starts above the center`() {
@@ -123,7 +123,7 @@ class `A Stone` {
                     Field.filled(2, 3)
                 )
             )
-            assertTrue(stone.landed(Debris(Frame(4, 4))))
+            assertTrue(stone.landed(Debris(TetrisFrame(4, 4))))
         }
 
         @Test
@@ -139,7 +139,7 @@ class `A Stone` {
                     >##
                 """)
             )
-            assertTrue(stone.landed(Debris(Frame(4, 4))))
+            assertTrue(stone.landed(Debris(TetrisFrame(4, 4))))
         }
 
         @Test
@@ -178,7 +178,7 @@ class `A Stone` {
                     Field.filled(1, 0)
                 )
             )
-            assertFalse(stone.landed(Debris(Frame(4, 4))))
+            assertFalse(stone.landed(Debris(TetrisFrame(4, 4))))
         }
 
         @Test
@@ -196,7 +196,7 @@ class `A Stone` {
                     Field.filled(1, 0)
                 )
             )
-            assertFalse(stone.landed(Debris(Frame(4, 4))))
+            assertFalse(stone.landed(Debris(TetrisFrame(4, 4))))
         }
 
         @Test
@@ -213,7 +213,7 @@ class `A Stone` {
                     Field.filled(3, 0)
                 )
             )
-            assertFalse(stone.landed(Debris(Frame(4, 4))))
+            assertFalse(stone.landed(Debris(TetrisFrame(4, 4))))
         }
 
         @Test
@@ -231,7 +231,7 @@ class `A Stone` {
                     Field.filled(3, 0)
                 )
             )
-            assertFalse(stone.landed(Debris(Frame(4, 4))))
+            assertFalse(stone.landed(Debris(TetrisFrame(4, 4))))
         }
     }
 
@@ -240,7 +240,7 @@ class `A Stone` {
 
         @Test
         fun rotates() {
-            val frame = Frame(4, 4)
+            val frame = TetrisFrame(4, 4)
             val stone = Stone("""
                 #-
                 ##
@@ -265,7 +265,7 @@ class `A Stone` {
 
         @Test
         fun `rotation respects right wall and moves back in`() {
-            val frame = Frame(3, 3)
+            val frame = TetrisFrame(3, 3)
             val stone = Stone("""
                 -#-
                 -#-
@@ -292,7 +292,7 @@ class `A Stone` {
 
         @Test
         fun `rotation respects left wall and moves back in`() {
-            val frame = Frame(3, 3)
+            val frame = TetrisFrame(3, 3)
             val stone = Stone("""
                 -#-
                 -#-
@@ -319,7 +319,7 @@ class `A Stone` {
 
         @Test
         fun `rotation respects bottom`() {
-            val frame = Frame(3, 3)
+            val frame = TetrisFrame(3, 3)
             val stone = Stone("""
                 ---
                 ###
@@ -347,7 +347,7 @@ class `A Stone` {
 
         @Test
         fun `rotation respects bottom debris`() {
-            val frame = Frame(3, 3)
+            val frame = TetrisFrame(3, 3)
             val stone = Stone("""
                 ---
                 ###
@@ -379,7 +379,7 @@ class `A Stone` {
 
         @Test
         fun `rotation respects right debris and moves back in`() {
-            val frame = Frame(4, 4)
+            val frame = TetrisFrame(4, 4)
             val stone = Stone("""
                 -#-
                 -#-
@@ -413,7 +413,7 @@ class `A Stone` {
 
         @Test
         fun `rotation respects right debris and moves back in further`() {
-            val frame = Frame(6, 6)
+            val frame = TetrisFrame(6, 6)
             val stone = Stone("""
                 --#--
                 --#--
@@ -460,7 +460,7 @@ class `A Stone` {
                 --#--
                 --#--
                 """,
-            Frame(6, 6)
+            TetrisFrame(6, 6)
         )
         val debris = Debris("""
                 #-----

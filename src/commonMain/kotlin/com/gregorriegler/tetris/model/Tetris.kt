@@ -1,16 +1,19 @@
 package com.gregorriegler.tetris.model
 
 class Tetris(
-    private val frame: Frame,
+    private val frame: TetrisFrame,
     private val stones: List<Structure>,
     private val digAmount: Int,
-) {
+) : Frame {
     private var stone: Stone = Stone(stones.random(), this.frame)
     private val clock: Timer = Timer({ tick() })
     private val debris: Debris = Debris(this.frame)
 
+    override val width get() = frame.width
+    override val height get() = frame.height
+
     constructor() : this(
-        Frame(12, 24),
+        TetrisFrame(12, 24),
         listOf(
             Structure.createDot(),
             Structure.createI(),
