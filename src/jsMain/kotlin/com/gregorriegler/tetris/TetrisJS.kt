@@ -18,13 +18,14 @@ class TetrisJs {
     private val canvas: HTMLCanvasElement = document.createElement("canvas") as HTMLCanvasElement
     private val context: CanvasRenderingContext2D
     private val tetris: Tetris = Tetris()
-    private val gameFrame = ViewFrame(20, 20, 280, 550)
+    private val gameFrame: ViewFrame
 
     init {
         context = canvas.getContext("2d") as CanvasRenderingContext2D
         context.canvas.width = window.innerWidth
         context.canvas.height = window.innerHeight
         document.body!!.appendChild(canvas)
+        gameFrame = ViewFrame(0, 0, window.innerWidth, window.innerHeight)
     }
 
     fun start() {
