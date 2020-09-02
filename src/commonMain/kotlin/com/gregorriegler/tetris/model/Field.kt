@@ -3,7 +3,7 @@ package com.gregorriegler.tetris.model
 import com.gregorriegler.tetris.model.Filling.*
 
 class Field (
-    position: Position,
+    val position: SimplePosition,
     val filling: Filling,
 ) : Position, Comparable<Field> {
 
@@ -34,20 +34,19 @@ class Field (
 
     constructor(x: Int, y: Int) : this(SimplePosition(x, y), EMPTY)
     constructor(x: Int, y: Int, filling: Filling) : this(SimplePosition(x, y), filling)
-    constructor(position: Position) : this(position, EMPTY)
-    constructor(position: Position, filling: Char) : this(position, Filling.of(filling))
+    constructor(position: SimplePosition) : this(position, EMPTY)
+    constructor(position: SimplePosition, filling: Char) : this(position, Filling.of(filling))
 
-    fun up(by: Int): Field = Field(SimplePosition(this.x, this.y - by), filling)
-    fun down(): Field = Field(SimplePosition(this.x, this.y + 1), filling)
-    fun down(by: Int): Field = Field(SimplePosition(this.x, this.y + by), filling)
+    fun up(by: Int): Field = Field(this.position.up(by), filling)
+    fun down(): Field = Field(this.position.down(), filling)
+    fun down(by: Int): Field = Field(this.position.down(by), filling)
     fun left(): Field = left(1)
-    fun left(by: Int): Field = Field(SimplePosition(this.x - by, this.y), filling)
+    fun left(by: Int): Field = Field(this.position.left(by), filling)
     fun right(): Field = right(1)
-    fun right(by: Int): Field = Field(SimplePosition(this.x + by, this.y), filling)
-
-    fun rotate(width: Int): Field = Field(SimplePosition(width - this.y - 1, this.x), filling)
-    fun plus(position: Position): Field = Field(SimplePosition(this.x + position.x, this.y + position.y), filling)
-    fun minus(position: Position): Field = Field(SimplePosition(this.x - position.x, this.y - position.y), filling)
+    fun right(by: Int): Field = Field(this.position.right(by), filling)
+    fun rotate(width: Int): Field = Field(this.position.rotate(width), filling)
+    fun plus(position: Position): Field = Field(this.position.plus(position), filling)
+    fun minus(position: Position): Field = Field(this.position.minus(position), filling)
     fun isFilled(): Boolean = filling.isFilled()
     fun collides(): Boolean = filling.collides()
     fun isSoil() = filling == SOIL
