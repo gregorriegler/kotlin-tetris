@@ -3,10 +3,10 @@ package com.gregorriegler.tetris.model
 import com.gregorriegler.tetris.model.Filling.*
 
 class Field (
-    val x: Int,
-    val y: Int,
+    override val x: Int,
+    override val y: Int,
     val filling: Filling,
-) : Comparable<Field> {
+) : Position, Comparable<Field> {
 
     companion object {
         fun filled(x: Int, y: Int): Field {
@@ -29,30 +29,30 @@ class Field (
     constructor(x: Int, y: Int) : this(x, y, EMPTY)
     constructor(x: Int, y: Int, filling: Char) : this(x, y, Filling.of(filling))
 
-    fun up(by: Int): Field = Field(x, y - by, filling)
-    fun down(): Field = Field(x, y + 1, filling)
-    fun down(by: Int): Field = Field(x, y + by, filling)
+    fun up(by: Int): Field = Field(this.x, this.y - by, filling)
+    fun down(): Field = Field(this.x, this.y + 1, filling)
+    fun down(by: Int): Field = Field(this.x, this.y + by, filling)
     fun left(): Field = left(1)
-    fun left(by: Int): Field = Field(x - by, y, filling)
+    fun left(by: Int): Field = Field(this.x - by, this.y, filling)
     fun right(): Field = right(1)
-    fun right(by: Int): Field = Field(x + by, y, filling)
+    fun right(by: Int): Field = Field(this.x + by, this.y, filling)
 
-    fun rotate(width: Int): Field = Field(width - y - 1, x, filling)
-    fun plus(field: Field): Field = Field(x + field.x, y + field.y, filling)
-    fun minus(field: Field): Field = Field(x - field.x, y - field.y, filling)
+    fun rotate(width: Int): Field = Field(width - this.y - 1, this.x, filling)
+    fun plus(position: Position): Field = Field(this.x + position.x, this.y + position.y, filling)
+    fun minus(position: Position): Field = Field(this.x - position.x, this.y - position.y, filling)
     fun isFilled(): Boolean = filling.isFilled()
     fun collides(): Boolean = filling.collides()
     fun isSoil() = filling == SOIL
     fun falls(): Boolean = filling.isFilled()
-    fun special(field: Field, area: Area): Area = filling.special(field, area)
+    fun special(area: Area): Area = filling.special(this, area)
 
     fun collidesWith(area: Area): Boolean =  collidesWith(area.fields)
-    fun collidesWith(fields: List<Field>): Boolean = collides() && fields.any {it.collides() && it.x == x && it.y == y}
+    fun collidesWith(fields: List<Field>): Boolean = collides() && fields.any {it.collides() && it.x == this.x && it.y == this.y }
 
-    fun within(area: Area): Boolean = x >= 0 && x < area.width && y >= 0 && y < area.height
+    fun within(area: Area): Boolean = this.x >= 0 && this.x < area.width && this.y >= 0 && this.y < area.height
 
-    fun erase(): Field = empty(x, y)
-    override fun toString(): String = "($x,$y,$filling)"
+    fun erase(): Field = empty(this.x, this.y)
+    override fun toString(): String = "(${this.x},${this.y},$filling)"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -60,16 +60,16 @@ class Field (
 
         other as Field
 
-        if (x != other.x) return false
-        if (y != other.y) return false
+        if (this.x != other.x) return false
+        if (this.y != other.y) return false
         if (filling != other.filling) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = x + 100
-        result = 31 * result + y + 100
+        var result = this.x + 100
+        result = 31 * result + this.y + 100
         result = 31 * result + filling.hashCode()
         return result
     }

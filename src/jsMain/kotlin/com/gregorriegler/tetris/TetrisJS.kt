@@ -2,8 +2,7 @@ package com.gregorriegler.tetris
 
 import com.gregorriegler.tetris.model.*
 import com.gregorriegler.tetris.view.Color
-import com.gregorriegler.tetris.view.Rectangle
-import com.gregorriegler.tetris.view.PositionedFrame
+import com.gregorriegler.tetris.model.SimplePositionedFrame
 import kotlinx.browser.document
 import kotlinx.browser.window
 import org.w3c.dom.CanvasRenderingContext2D
@@ -27,7 +26,7 @@ class TetrisJs {
         context.canvas.width = window.innerWidth
         context.canvas.height = window.innerHeight
         document.body!!.appendChild(canvas)
-        gameFrame = PositionedFrame.max(tetris, SimpleFrame(window.innerWidth, window.innerHeight))
+        gameFrame = SimplePositionedFrame.max(tetris, SimpleFrame(window.innerWidth, window.innerHeight))
     }
 
     fun start() {
@@ -53,40 +52,44 @@ class TetrisJs {
     }
 
     private fun draw(area: Area) {
-        context.clearRect(0.0, 0.0, context.canvas.width.toDouble(), context.canvas.height.toDouble())
+        clearScreen()
         area.fields.forEach { field ->
             when (field.filling) {
                 Filling.EMPTY -> Unit
                 else -> drawFilled(
-                    Rectangle.fromArea(gameFrame, area, field),
+                    SimplePositionedFrame.tetrisStone(gameFrame, area, field),
                     Filling.color(field.filling)
                 )
             }
         }
     }
 
-    private fun drawFilled(rectangle: Rectangle, color: Color) {
+    private fun clearScreen() {
+        context.clearRect(0.0, 0.0, context.canvas.width.toDouble(), context.canvas.height.toDouble())
+    }
+
+    private fun drawFilled(frame: PositionedFrame, color: Color) {
         context.fillStyle = color.asCss()
         context.fillRect(
-            rectangle.left.toDouble(),
-            rectangle.top.toDouble(),
-            rectangle.width.toDouble(),
-            rectangle.height.toDouble()
+            frame.x.toDouble(),
+            frame.y.toDouble(),
+            frame.width.toDouble(),
+            frame.height.toDouble()
         )
         context.strokeStyle = color.enlightenBy(100).asCss()
 
         val bevelSize = 1
         context.beginPath()
-        context.moveTo(rectangle.left.toDouble() + bevelSize,rectangle.top.toDouble() + bevelSize)
-        context.lineTo(rectangle.right.toDouble() - bevelSize, rectangle.top.toDouble() + bevelSize)
-        context.lineTo(rectangle.right.toDouble() - bevelSize, rectangle.bottom.toDouble() - bevelSize)
+        context.moveTo(frame.x.toDouble() + bevelSize,frame.y.toDouble() + bevelSize)
+        context.lineTo(frame.rightSide.toDouble() - bevelSize, frame.y.toDouble() + bevelSize)
+        context.lineTo(frame.rightSide.toDouble() - bevelSize, frame.bottom.toDouble() - bevelSize)
         context.stroke()
 
         context.strokeStyle = color.darkenBy(100).asCss()
         context.beginPath()
-        context.moveTo(rectangle.left.toDouble() + bevelSize,rectangle.top.toDouble() + bevelSize)
-        context.lineTo(rectangle.left.toDouble() + bevelSize, rectangle.bottom.toDouble() - bevelSize)
-        context.lineTo(rectangle.right.toDouble() - bevelSize, rectangle.bottom.toDouble() - bevelSize)
+        context.moveTo(frame.x.toDouble() + bevelSize,frame.y.toDouble() + bevelSize)
+        context.lineTo(frame.x.toDouble() + bevelSize, frame.bottom.toDouble() - bevelSize)
+        context.lineTo(frame.rightSide.toDouble() - bevelSize, frame.bottom.toDouble() - bevelSize)
         context.stroke()
     }
 }

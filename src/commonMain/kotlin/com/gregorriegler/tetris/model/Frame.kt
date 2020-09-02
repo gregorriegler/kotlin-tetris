@@ -5,7 +5,3 @@ interface Frame {
     val height: Int
 }
 
-class SimpleFrame (
-    override val width: Int,
-    override val height: Int
-) : Frame

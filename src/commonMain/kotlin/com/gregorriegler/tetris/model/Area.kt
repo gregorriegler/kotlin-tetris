@@ -1,9 +1,9 @@
 package com.gregorriegler.tetris.model
 
-open class Area(fields: List<Field>) {
+open class Area(fields: List<Field>) : PositionedFrame {
 
     companion object {
-        fun circle(center: Field, radius: Int): Area = Area(
+        fun circle(center: Position, radius: Int): Area = Area(
             (center.y - radius..center.y + radius)
                 .flatMap { y ->
                     (center.x - radius..center.x + radius)
@@ -30,12 +30,12 @@ open class Area(fields: List<Field>) {
     constructor(frame: TetrisFrame) : this(frame.rows().flatMap { y -> frame.columns().map { x -> Field.empty(x, y) } })
 
     val fields: List<Field> = fields.sorted()
-    val top: Int = (this.fields.firstOrNull() ?: Field.empty(0, 0)).y
-    val bottom: Int = (this.fields.lastOrNull() ?: Field.empty(0, 0)).y
-    private val leftSide: Int = this.fields.minOfOrNull { it.x } ?: 0
-    private val rightSide: Int = this.fields.maxOfOrNull { it.x } ?: 0
-    val width: Int = rightSide - leftSide + 1
-    val height: Int = bottom - top + 1
+    final override val x: Int = this.fields.minOfOrNull { it.x } ?: 0
+    final override val y: Int = (this.fields.firstOrNull() ?: Field.empty(0, 0)).y
+    final override val rightSide: Int = this.fields.maxOfOrNull { it.x } ?: 0
+    final override val bottom: Int = (this.fields.lastOrNull() ?: Field.empty(0, 0)).y
+    override val width: Int = rightSide - x + 1
+    override val height: Int = bottom - y + 1
 
     fun down(by: Int): Area = Area(fields.map { it.down(by) })
     fun down(): Area = Area(fields.map { it.down() })
@@ -60,13 +60,13 @@ open class Area(fields: List<Field>) {
     fun row(y: Int): List<Field> = (0 until width).map { x -> get(x, y) }
 
     fun get(x: Int, y: Int): Field {
-        if (x < leftSide || y < top || x > rightSide || y > bottom) return Field.empty(x, y)
-        return fields.getOrNull((x - leftSide) + ((y - top) * width)) ?: Field.empty(x, y)
+        if (x < this.x || y < this.y || x > rightSide || y > bottom) return Field.empty(x, y)
+        return fields.getOrNull((x - this.x) + ((y - this.y) * width)) ?: Field.empty(x, y)
     }
 
     private fun allY() = fields.map { it.y }.distinct()
     private fun allX() = fields.map { it.x }.distinct()
-    private fun distance() = Field(leftSide, top)
+    private fun distance() = Field(x, y)
 
     fun rotate(): Area = Area(
         fields.map { field -> field.minus(distance()) }
@@ -89,7 +89,7 @@ open class Area(fields: List<Field>) {
     fun move(vector: Field): Area = Area(fields.map { field -> field.plus(vector) })
     fun within(area: Area): Area = Area(fields.filter { it.within(area) })
 
-    fun specials(): Area = fields.fold(this) { area, field -> field.special(field, area) }
+    fun specials(): Area = fields.fold(this) { area, field -> field.special(area) }
 
     fun fall(): Area {
         val willFall: List<List<Field>> = fields.filter { field ->
@@ -111,7 +111,7 @@ open class Area(fields: List<Field>) {
 
     private fun withConnectedFieldsAbove(field: Field): List<Field> {
         val result: MutableList<Field> = mutableListOf(field)
-        for (y in field.y - 1 downTo top) {
+        for (y in field.y - 1 downTo y) {
             if (get(field.x, y).isFilled()) {
                 result.add(get(field.x, y))
             } else {
