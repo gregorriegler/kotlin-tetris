@@ -50,13 +50,13 @@ class `A Field` {
     }
 
     @Test
-    fun `adds a field`() {
-        assertThat(Field(1,1).plus(Field(1,1))).isEqualTo(Field(2, 2))
+    fun `adds a position`() {
+        assertThat(Field(1,1).plus(SimplePosition(1,1))).isEqualTo(Field(2, 2))
     }
 
     @Test
-    fun `substracts a field`() {
-        assertThat(Field(1,1).minus(Field(1,1))).isEqualTo(Field(0, 0))
+    fun `substracts a position`() {
+        assertThat(Field(1,1).minus(SimplePosition(1,1))).isEqualTo(Field(0, 0))
     }
 
     @Test

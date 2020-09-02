@@ -7,43 +7,53 @@ class Structure(string: String) : Area(string) {
         }
 
         fun createI(): Structure {
-            return Structure("""
+            return Structure(
+                """
                 -#--
                 -#--
                 -#--
                 -#--
-            """)
+            """
+            )
         }
 
         fun createDot(): Structure {
-            return Structure("""
+            return Structure(
+                """
                 ##
                 ##
-            """)
+            """
+            )
         }
 
         fun createT(): Structure {
-            return Structure("""
+            return Structure(
+                """
                 -#-
                 -##
                 -#-
-            """)
+            """
+            )
         }
 
         fun createL(): Structure {
-            return Structure("""
+            return Structure(
+                """
                 #--
                 #--
                 ##-
-            """)
+            """
+            )
         }
 
         fun createJ(): Structure {
-            return Structure("""
+            return Structure(
+                """
                 ##-
                 #--
                 #--
-            """)
+            """
+            )
         }
 
         fun createBomb(): Structure {
@@ -51,8 +61,5 @@ class Structure(string: String) : Area(string) {
         }
     }
 
-    fun startingPosition(area: Area): Area = move(Field(
-        SimplePosition((area.width - width) / 2,
-        area.y - height
-    )))
+    fun startingPosition(area: Area): Area = move(SimplePosition((area.width - width) / 2, area.y - height))
 }

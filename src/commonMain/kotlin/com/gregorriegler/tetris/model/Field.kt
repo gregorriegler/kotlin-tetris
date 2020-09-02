@@ -3,7 +3,7 @@ package com.gregorriegler.tetris.model
 import com.gregorriegler.tetris.model.Filling.*
 
 class Field (
-    val position: SimplePosition,
+    private val position: SimplePosition,
     val filling: Filling,
 ) : Position, Comparable<Field> {
 
@@ -12,23 +12,19 @@ class Field (
 
     companion object {
         fun filled(x: Int, y: Int): Field {
-            val position = SimplePosition(x, y)
-            return Field(position, FILLED)
+            return Field(SimplePosition(x, y), FILLED)
         }
 
         fun bomb(x: Int, y: Int): Field {
-            val position = SimplePosition(x, y)
-            return Field(position, BOMB)
+            return Field(SimplePosition(x, y), BOMB)
         }
 
         fun soil(x: Int, y: Int): Field {
-            val position = SimplePosition(x, y)
-            return Field(position, SOIL)
+            return Field(SimplePosition(x, y), SOIL)
         }
 
         fun empty(x: Int, y: Int): Field {
-            val position = SimplePosition(x, y)
-            return Field(position, EMPTY)
+            return Field(SimplePosition(x, y), EMPTY)
         }
     }
 

@@ -70,7 +70,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
 
     private fun allY() = fields.map { it.y }.distinct()
     private fun allX() = fields.map { it.x }.distinct()
-    private fun distance() = Field(SimplePosition(x, y))
+    private fun distance() = SimplePosition(x, y)
 
     fun rotate(): Area = Area(
         fields.map { field -> field.minus(distance()) }
@@ -90,7 +90,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
     fun collidesWith(area: Area): Boolean = fields.any { area.collidesWith(it) }
     fun collidesWith(field: Field): Boolean = field.collides() && get(field.x, field.y).collides()
 
-    fun move(vector: Field): Area = Area(fields.map { field -> field.plus(vector) })
+    fun move(vector: Position): Area = Area(fields.map { field -> field.plus(vector) })
     fun within(area: Area): Area = Area(fields.filter { it.within(area) })
 
     fun specials(): Area = fields.fold(this) { area, field -> field.special(area) }
