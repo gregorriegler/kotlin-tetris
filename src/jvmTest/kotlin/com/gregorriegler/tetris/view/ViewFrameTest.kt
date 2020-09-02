@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class ViewFrameTest {
     @Test
     fun `creates max that fits within height`() {
-        val max = ViewFrame.max(SimpleFrame(20, 100), SimpleFrame(200, 200))
-        assertThat(max).isEqualTo(ViewFrame(80,0,40, 200))
+        val max = PositionedFrame.max(SimpleFrame(20, 100), SimpleFrame(200, 200))
+        assertThat(max).isEqualTo(PositionedFrame(80,0,40, 200))
     }
 }

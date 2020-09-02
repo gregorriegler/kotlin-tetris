@@ -2,29 +2,27 @@ package com.gregorriegler.tetris.view
 
 import com.gregorriegler.tetris.model.Frame
 
-class ViewFrame(
+class PositionedFrame(
     val left: Int,
     val top: Int,
     override val width: Int,
     override val height: Int,
 ) : Frame {
 
+    val right: Int = left + width
+    val bottom: Int = top + height
+
     companion object {
-        fun max(tetris: Frame, available: Frame): ViewFrame {
-            val width = (available.height / tetris.height) * tetris.width
-            return ViewFrame(
-                available.width / 2 - width / 2,
+        fun max(subject: Frame, availableSpace: Frame): PositionedFrame {
+            val width = (availableSpace.height / subject.height) * subject.width
+            return PositionedFrame(
+                availableSpace.width / 2 - width / 2,
                 0,
                 width,
-                available.height
+                availableSpace.height
             )
         }
     }
-
-    val right: Int
-        get() = left + width
-    val bottom: Int
-        get() = top + height
 
     override fun toString(): String {
         return "ViewFrame(left=$left, top=$top, right=$right, bottom=$bottom)"
@@ -34,7 +32,7 @@ class ViewFrame(
         if (this === other) return true
         if (other == null || this::class != other::class) return false
 
-        other as ViewFrame
+        other as PositionedFrame
 
         if (left != other.left) return false
         if (top != other.top) return false
