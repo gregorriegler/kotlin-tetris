@@ -27,26 +27,6 @@ class `Erasing debris` {
     }
 
     @Test
-    fun `can erase debris by area`() {
-        val debris = Debris("""
-            ###
-            ###
-            ###
-        """)
-        assertThat(debris.erase(Area("""
-            -#-
-            ###
-            -#-
-        """))).isEqualTo(5) // amount of fields removed
-
-        assertThat(debris).isEqualTo(Debris("""
-            #-#
-            ---
-            #-#
-        """))
-    }
-
-    @Test
     fun `erases a filled line at the bottom`() {
         val debris = Debris("""
             ---

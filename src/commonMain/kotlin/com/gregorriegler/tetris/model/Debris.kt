@@ -10,11 +10,6 @@ class Debris(
         area = area.combine(stone.area).within(area)
     }
 
-    fun erase(area: Area): Int {
-        this.area = this.area.erase(area)
-        return area.sizeNonEmpty()
-    }
-
     fun eraseFilledRows(): Int {
         val removed = area.eraseFilledRows()
         area = removed.first
