@@ -21,7 +21,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
                 row.toCharArray()
                     .withIndex()
                     .filterNot { it.value == Filling.INDENT_VALUE || it.value == Filling.PULL_VALUE }
-                    .map { Field(SimplePosition(it.index - pulls, y), it.value) } //todo this is move left field
+                    .map { Field(Position(it.index - pulls, y), it.value) }
             }
     }
 
@@ -60,7 +60,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
     private fun row(y: Int): List<Field> = (0 until width).map { x -> get(x, y) }
 
     fun get(x: Int, y: Int): Field {
-        val position = SimplePosition(x, y)
+        val position = Position(x, y)
         if (outside(position)) return Field.empty(x, y)
         return fields.getOrNull((x - this.x) + ((y - this.y) * width)) ?: Field.empty(x, y)
     }
@@ -70,7 +70,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
 
     private fun allY() = fields.map { it.y }.distinct()
     private fun allX() = fields.map { it.x }.distinct()
-    private fun distance() = SimplePosition(x, y)
+    private fun distance() = Position(x, y)
 
     fun rotate(): Area = Area(
         fields.map { field -> field.minus(distance()) }
@@ -83,7 +83,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
             allY().plus(area.allY()).distinct()
                 .flatMap { y ->
                     allX().plus(area.allX()).distinct()
-                        .map { x -> Field(SimplePosition(x, y), Filling.higher(get(x, y).filling, area.get(x, y).filling)) }
+                        .map { x -> Field(Position(x, y), Filling.higher(get(x, y).filling, area.get(x, y).filling)) }
                 }
         )
 
@@ -188,7 +188,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
             .filterNot { y -> row(y).all { it.isSoil() } }
             .flatMap { y ->
                 row(y).filterNot { it.isSoil() }
-                    .map { field -> Field(SimplePosition(field.x, field.y), field.filling) }
+                    .map { field -> Field(Position(field.x, field.y), field.filling) }
             }
     }
 

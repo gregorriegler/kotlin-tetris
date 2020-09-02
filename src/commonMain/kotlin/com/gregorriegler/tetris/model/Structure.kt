@@ -61,5 +61,5 @@ class Structure(string: String) : Area(string) {
         }
     }
 
-    fun startingPosition(area: Area): Area = move(SimplePosition((area.width - width) / 2, area.y - height))
+    fun startingPosition(area: Area): Area = move(Position((area.width - width) / 2, area.y - height))
 }

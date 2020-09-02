@@ -57,7 +57,7 @@ class TetrisJs {
             when (field.filling) {
                 Filling.EMPTY -> Unit
                 else -> drawFilled(
-                    SimplePositionedFrame.tetrisStone(gameFrame, area, field),
+                    SimplePositionedFrame.tetrisStone(gameFrame, area, field.position),
                     Filling.color(field.filling)
                 )
             }

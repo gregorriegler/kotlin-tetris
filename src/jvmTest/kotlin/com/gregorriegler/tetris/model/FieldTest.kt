@@ -51,12 +51,12 @@ class `A Field` {
 
     @Test
     fun `adds a position`() {
-        assertThat(Field(1,1).plus(SimplePosition(1,1))).isEqualTo(Field(2, 2))
+        assertThat(Field(1,1).plus(Position(1,1))).isEqualTo(Field(2, 2))
     }
 
     @Test
     fun `substracts a position`() {
-        assertThat(Field(1,1).minus(SimplePosition(1,1))).isEqualTo(Field(0, 0))
+        assertThat(Field(1,1).minus(Position(1,1))).isEqualTo(Field(0, 0))
     }
 
     @Test
