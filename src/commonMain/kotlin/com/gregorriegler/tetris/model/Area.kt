@@ -57,7 +57,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
             }
         }.toList()
 
-    fun row(y: Int): List<Field> = (0 until width).map { x -> get(x, y) }
+    private fun row(y: Int): List<Field> = (0 until width).map { x -> get(x, y) }
 
     fun get(x: Int, y: Int): Field {
         if (x < this.x || y < this.y || x > rightSide || y > bottom) return Field.empty(x, y)
@@ -160,6 +160,33 @@ open class Area(fields: List<Field>) : PositionedFrame {
                 (0 until width).map { x -> Field.soil(x, y) }
             }
         return Area(cutUpperMostLines + newSoil)
+    }
+
+
+    fun erase(area: Area): Area = erase(area.fields)
+
+    private fun erase(fields: List<Field>): Area = Area(this.fields.map {
+        if (it.collidesWith(fields) || (it.isSoil() && above(it).collidesWith(fields))) {
+            it.erase()
+        } else {
+            it
+        }
+    })
+
+    fun eraseFilledRows(): Pair<Area, Int> {
+        val filledRows = filledRows()
+        val remainingArea = erase(filledRows)
+        return Pair(remainingArea, filledRows.size)
+    }
+
+    private fun filledRows(): List<Field> {
+        return (y..bottom)
+            .filter { y -> row(y).all { it.isFilled() || it.isSoil() } }
+            .filterNot { y -> row(y).all { it.isSoil() } }
+            .flatMap { y ->
+                row(y).filterNot { it.isSoil() }
+                    .map { field -> Field(field.x, field.y, field.filling) }
+            }
     }
 
     override fun toString(): String =
