@@ -26,7 +26,7 @@ class `A Field` {
 
     @Test
     fun `moves down by 3`() {
-        assertThat(Field(1,1).down(3)).isEqualTo(Field(1, 4))
+        assertThat(Field(1,1).downBy(3)).isEqualTo(Field(1, 4))
     }
 
     @Test
@@ -36,7 +36,7 @@ class `A Field` {
 
     @Test
     fun `moves to the left by 3`() {
-        assertThat(Field(1,1).left(3)).isEqualTo(Field(-2, 1))
+        assertThat(Field(1,1).leftBy(3)).isEqualTo(Field(-2, 1))
     }
 
     @Test
@@ -46,7 +46,7 @@ class `A Field` {
 
     @Test
     fun `moves to the right by 3`() {
-        assertThat(Field(1,1).right(3)).isEqualTo(Field(4, 1))
+        assertThat(Field(1,1).rightBy(3)).isEqualTo(Field(4, 1))
     }
 
     @Test

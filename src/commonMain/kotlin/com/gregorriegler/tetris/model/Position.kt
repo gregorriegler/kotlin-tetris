@@ -4,11 +4,11 @@ class Position(
     val x: Int,
     val y: Int
 ) : Comparable<Position> {
-    fun up(by: Int): Position = Position(this.x, this.y - by)
+    fun upBy(amount: Int): Position = Position(this.x, this.y - amount)
     fun down(): Position = Position(this.x, this.y + 1)
-    fun down(by: Int): Position = Position(this.x, this.y + by)
-    fun left(): Position = left(1)
-    fun left(by: Int): Position = Position(this.x - by, this.y)
+    fun downBy(amount: Int): Position = Position(this.x, this.y + amount)
+    fun left(): Position = leftBy(1)
+    fun leftBy(amount: Int): Position = Position(this.x - amount, this.y)
     fun right(): Position = right(1)
     fun right(by: Int): Position = Position(this.x + by, this.y)
     fun rotate(width: Int): Position = Position(width - this.y - 1, this.x)

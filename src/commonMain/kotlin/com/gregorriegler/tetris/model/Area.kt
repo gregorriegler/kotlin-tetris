@@ -37,12 +37,12 @@ open class Area(fields: List<Field>) : PositionedFrame {
     override val width: Int = rightSide - x + 1
     override val height: Int = bottom - y + 1
 
-    fun down(by: Int): Area = Area(fields.map { it.down(by) })
+    fun down(by: Int): Area = Area(fields.map { it.downBy(by) })
     fun down(): Area = Area(fields.map { it.down() })
     fun left(): Area = left(1)
-    fun left(by: Int): Area = Area(fields.map { it.left(by) })
+    fun left(by: Int): Area = Area(fields.map { it.leftBy(by) })
     fun right(): Area = right(1)
-    fun right(by: Int): Area = Area(fields.map { it.right(by) })
+    fun right(by: Int): Area = Area(fields.map { it.rightBy(by) })
 
     fun sizeNonEmpty(): Int = nonEmptyFields().count()
     fun widthNonEmpty(): Int = (rightSideNonEmpty() - leftSideNonEmpty()) + 1
@@ -71,6 +71,10 @@ open class Area(fields: List<Field>) : PositionedFrame {
     private fun allY() = fields.map { it.y }.distinct()
     private fun allX() = fields.map { it.x }.distinct()
     private fun distance() = Position(x, y)
+
+    fun plus(other: Area): Area {
+        return Area(fields + other.fields)
+    }
 
     fun rotate(): Area = Area(
         fields.map { field -> field.minus(distance()) }
@@ -101,13 +105,12 @@ open class Area(fields: List<Field>) : PositionedFrame {
         }.map { withConnectedFieldsAbove(it) }
             .toList()
 
-        willFall.map { Field.empty(it[0].x, it[0].y + 1) }
         val below = willFall.associateBy({ Field.empty(it[0].x, it[0].y + 1) }, { it.size })
         return Area(
             fields.map {
                 when {
                     willFall.flatten().contains(it) -> it.down()
-                    below.keys.contains(it) -> it.up(below[it] ?: 1)
+                    below.keys.contains(it) -> it.upBy(below[it] ?: 1)
                     else -> it
                 }
             })
@@ -144,24 +147,25 @@ open class Area(fields: List<Field>) : PositionedFrame {
     private fun belowIsEmpty(field: Field) = below(field).filling == Filling.EMPTY
 
     fun dig(amount: Int): Area {
-        val needToDig = !(height - amount until height).all { rowOfSoil(it) }
-
-        return if (needToDig) {
+        return if ((height - amount until height).any { !isRowOfSoil(it) }) {
             addRowsOfSoil(1)
         } else {
             this
         }
     }
 
-    private fun rowOfSoil(y: Int) = row(y).all { it.isSoil() }
+    private fun isRowOfSoil(y: Int): Boolean = row(y).all { it.isSoil() }
 
     private fun addRowsOfSoil(amount: Int): Area {
-        val cutUpperMostLines = fields.filter { it.y > amount - 1 }.map { it.up(amount) }
-        val newSoil = (height - amount until height).flatMap { y ->
-            (0 until width).map { x -> Field.soil(x, y) }
-        }
-        return Area(cutUpperMostLines + newSoil)
+        return Area(
+            allRowsExceptTop(amount).map { it.upBy(amount) }
+                    + (height - amount until height).flatMap(this::createRowOfSoil)
+        )
     }
+
+    private fun createRowOfSoil(y: Int): List<Field> = createRow(y, Field.Companion::soil)
+    private fun createRow(y: Int, field: (Int, Int) -> Field): List<Field> = (0 until width).map { x -> field(x, y) }
+    private fun allRowsExceptTop(amount: Int) = fields.filter { it.y >= amount }
 
     fun eraseFilledRows(): Pair<Area, Int> {
         val filledRows = filledRows()
@@ -182,7 +186,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
     private fun filledRows(): List<Field> {
         return (y..bottom)
             .filter { y -> row(y).all { it.isFilled() || it.isSoil() } }
-            .filterNot { y -> rowOfSoil(y) }
+            .filterNot { y -> isRowOfSoil(y) }
             .flatMap { y ->
                 row(y).filterNot { it.isSoil() }
                     .map { field -> Field(Position(field.x, field.y), field.filling) }
