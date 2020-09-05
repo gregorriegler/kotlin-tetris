@@ -100,33 +100,22 @@ open class Area(fields: List<Field>) : PositionedFrame {
     fun specials(): Area = fields.fold(this) { area, field -> field.special(area) }
 
     fun fall(): Area {
-        val willFall: List<List<Field>> = fields.filter { field ->
-            field.falls() && belowIsEmpty(field) && !hasAnchor(field)
-        }.map { withConnectedFieldsAbove(it) }
+        val fallingStacks: List<List<Field>> = fields.filter(this::willFall)
+            .map(this::verticalStack)
             .toList()
-
-        val below = willFall.associateBy({ Field.empty(it[0].x, it[0].y + 1) }, { it.size })
+        val roomToFall = fallingStacks.associateBy({ Field.empty(it[0].x, it[0].y + 1) }, { it.size })
         return Area(
             fields.map {
                 when {
-                    willFall.flatten().contains(it) -> it.down()
-                    below.keys.contains(it) -> it.upBy(below[it] ?: 1)
+                    fallingStacks.any { stack -> stack.contains(it) } -> it.down()
+                    roomToFall.keys.contains(it) -> it.upBy(roomToFall[it] ?: 1)
                     else -> it
                 }
             })
     }
 
-    private fun withConnectedFieldsAbove(field: Field): List<Field> {
-        val result: MutableList<Field> = mutableListOf(field)
-        for (y in field.y - 1 downTo y) {
-            if (get(field.x, y).isFilled()) {
-                result.add(get(field.x, y))
-            } else {
-                break
-            }
-        }
-        return result
-    }
+    private fun willFall(field: Field): Boolean = field.falls() && belowIsEmpty(field) && !hasAnchor(field)
+    private fun verticalStack(it: Field) = VerticalStackIterator(this, it).asSequence().toList()
 
     private fun hasAnchor(field: Field): Boolean =
         isAnchor(field) || hasAnchorToTheRight(rightOf(field)) || hasAnchorToTheLeft(leftOf(field))
@@ -143,25 +132,23 @@ open class Area(fields: List<Field>) : PositionedFrame {
     private fun rightOf(field: Field) = get(field.x + 1, field.y)
     private fun leftOf(field: Field) = get(field.x - 1, field.y)
     private fun below(field: Field) = get(field.x, field.y + 1)
-    private fun above(field: Field) = get(field.x, field.y - 1)
+    fun above(field: Field) = get(field.x, field.y - 1)
     private fun belowIsEmpty(field: Field) = below(field).filling == Filling.EMPTY
 
-    fun dig(amount: Int): Area {
-        return if ((height - amount until height).any { !isRowOfSoil(it) }) {
+    fun dig(amount: Int): Area =
+        if ((height - amount until height).any { !isRowOfSoil(it) }) {
             addRowsOfSoil(1)
         } else {
             this
         }
-    }
 
     private fun isRowOfSoil(y: Int): Boolean = row(y).all { it.isSoil() }
 
-    private fun addRowsOfSoil(amount: Int): Area {
-        return Area(
+    private fun addRowsOfSoil(amount: Int): Area =
+        Area(
             allRowsExceptTop(amount).map { it.upBy(amount) }
                     + (height - amount until height).flatMap(this::createRowOfSoil)
         )
-    }
 
     private fun createRowOfSoil(y: Int): List<Field> = createRow(y, Field.Companion::soil)
     private fun createRow(y: Int, field: (Int, Int) -> Field): List<Field> = (0 until width).map { x -> field(x, y) }
