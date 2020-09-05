@@ -143,11 +143,8 @@ open class Area(fields: List<Field>) : PositionedFrame {
     private fun above(field: Field) = get(field.x, field.y - 1)
     private fun belowIsEmpty(field: Field) = below(field).filling == Filling.EMPTY
 
-    fun dig(rowsOfSoil: Int): Area {
-        val needToDig = (height - rowsOfSoil until height)
-            .map { y -> row(y) }
-            .filterNot { row -> row.all { it.isSoil() } }
-            .any()
+    fun dig(amount: Int): Area {
+        val needToDig = !(height - amount until height).all { rowOfSoil(it) }
 
         return if (needToDig) {
             addRowsOfSoil(1)
@@ -156,13 +153,13 @@ open class Area(fields: List<Field>) : PositionedFrame {
         }
     }
 
+    private fun rowOfSoil(y: Int) = row(y).all { it.isSoil() }
+
     private fun addRowsOfSoil(amount: Int): Area {
-        val cutUpperMostLines = fields.filter { it.y > amount - 1 }
-            .map { it.up(amount) }
-        val newSoil = (height - amount until height)
-            .flatMap { y ->
-                (0 until width).map { x -> Field.soil(x, y) }
-            }
+        val cutUpperMostLines = fields.filter { it.y > amount - 1 }.map { it.up(amount) }
+        val newSoil = (height - amount until height).flatMap { y ->
+            (0 until width).map { x -> Field.soil(x, y) }
+        }
         return Area(cutUpperMostLines + newSoil)
     }
 
@@ -185,7 +182,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
     private fun filledRows(): List<Field> {
         return (y..bottom)
             .filter { y -> row(y).all { it.isFilled() || it.isSoil() } }
-            .filterNot { y -> row(y).all { it.isSoil() } }
+            .filterNot { y -> rowOfSoil(y) }
             .flatMap { y ->
                 row(y).filterNot { it.isSoil() }
                     .map { field -> Field(Position(field.x, field.y), field.filling) }

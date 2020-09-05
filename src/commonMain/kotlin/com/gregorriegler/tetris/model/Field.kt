@@ -34,15 +34,15 @@ class Field(
     constructor(position: Position, filling: Char) : this(position, Filling.of(filling))
 
     fun up(by: Int): Field = Field(this.position.up(by), filling)
-    fun down(): Field = Field(this.position.down(), filling)
+    fun down(): Field = down(1)
     fun down(by: Int): Field = Field(this.position.down(by), filling)
     fun left(): Field = left(1)
     fun left(by: Int): Field = Field(this.position.left(by), filling)
     fun right(): Field = right(1)
     fun right(by: Int): Field = Field(this.position.right(by), filling)
-    fun rotate(width: Int): Field = Field(this.position.rotate(width), filling)
     fun plus(position: Position): Field = Field(this.position.plus(position), filling)
     fun minus(position: Position): Field = Field(this.position.minus(position), filling)
+    fun rotate(width: Int): Field = Field(this.position.rotate(width), filling)
     fun isFilled(): Boolean = filling.isFilled()
     fun collides(): Boolean = filling.collides()
     fun isSoil() = filling == SOIL
