@@ -44,6 +44,7 @@ class Field(
     fun minus(position: Position): Field = Field(this.position.minus(position), filling)
     fun rotate(width: Int): Field = Field(this.position.rotate(width), filling)
     fun isFilled(): Boolean = filling.isFilled()
+    fun isEmpty(): Boolean = filling.isEmpty()
     fun collides(): Boolean = filling.collides()
     fun isSoil() = filling == SOIL
     fun falls(): Boolean = filling.isFilled()

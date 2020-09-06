@@ -53,6 +53,11 @@ open class Area(fields: List<Field>) : PositionedFrame {
     fun right(): Area = right(1)
     fun right(by: Int): Area = Area(fields.map { it.rightBy(by) })
 
+    fun leftOf(position: Position) = get(position.left())
+    fun rightOf(position: Position) = get(position.right())
+    fun below(position: Position) = get(position.down())
+    fun above(position: Position) = get(position.up())
+
     fun sizeNonEmpty(): Int = nonEmptyFields().count()
     fun widthNonEmpty(): Int = (rightSideNonEmpty() - leftSideNonEmpty()) + 1
     fun leftSideNonEmpty(): Int = nonEmptyFields().map { it.x }.minOrNull() ?: 0
@@ -68,10 +73,12 @@ open class Area(fields: List<Field>) : PositionedFrame {
 
     private fun row(y: Int): List<Field> = (0 until width).map { x -> get(Position(x, y)) }
 
-    fun get(position: Position): Field {
-        if (isOutside(position)) return Field.empty(position)
-        return fields.getOrNull(indexOf(position)) ?: Field.empty(position)
-    }
+    fun get(position: Position): Field =
+        if (isOutside(position)) {
+            Field.empty(position)
+        } else {
+            fields.getOrNull(indexOf(position)) ?: Field.empty(position)
+        }
 
     private fun indexOf(position: Position) = (position.x - this.x) + ((position.y - this.y) * width)
 
@@ -131,26 +138,10 @@ open class Area(fields: List<Field>) : PositionedFrame {
             })
     }
 
-    private fun willFall(field: Field): Boolean = field.falls() && belowIsEmpty(field) && !hasAnchor(field)
+    private fun willFall(field: Field): Boolean = field.falls() && below(field.position).isEmpty()
+            && !AnchorFinder(this).hasAnchor(field.position)
+
     private fun verticalStack(it: Field) = VerticalStackIterator(this, it).asSequence().toList()
-
-    private fun hasAnchor(field: Field): Boolean =
-        isAnchor(field) || hasAnchorToTheRight(rightOf(field)) || hasAnchorToTheLeft(leftOf(field))
-
-    private fun isAnchor(field: Field) = standsOnSoil(field) || standsOnBottom(field)
-    private fun hasAnchorToTheRight(field: Field): Boolean =
-        field.falls() && (isAnchor(field) || hasAnchorToTheRight(below(field)) || hasAnchorToTheRight(rightOf(field)))
-
-    private fun hasAnchorToTheLeft(field: Field): Boolean =
-        field.falls() && (isAnchor(field) || hasAnchorToTheLeft(below(field)) || hasAnchorToTheLeft(leftOf(field)))
-
-    private fun standsOnSoil(field: Field) = below(field).isSoil()
-    private fun standsOnBottom(field: Field) = field.y == height - 1
-    private fun rightOf(field: Field) = get(field.position.right())
-    private fun leftOf(field: Field) = get(field.position.left())
-    private fun below(field: Field) = get(field.position.down())
-    fun above(field: Field) = get(field.position.up())
-    private fun belowIsEmpty(field: Field) = below(field).filling == Filling.EMPTY
 
     fun dig(amount: Int): Area =
         if ((height - amount until height).any { !isRowOfSoil(it) }) {
@@ -182,7 +173,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
     fun erase(area: Area): Area = erase(area.fields)
 
     private fun erase(fields: List<Field>): Area = Area(this.fields.map { field ->
-        if (field.collidesWith(fields) || (field.isSoil() && above(field).collidesWith(fields))) {
+        if (field.collidesWith(fields) || (field.isSoil() && above(field.position).collidesWith(fields))) {
             field.erase()
         } else {
             field
