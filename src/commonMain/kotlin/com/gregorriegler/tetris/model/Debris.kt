@@ -6,6 +6,9 @@ class Debris(
     constructor(frame: TetrisFrame) : this(Area(frame))
     constructor(debris: String) : this(Area(debris))
 
+    var depth: Int = 0
+        private set
+
     fun add(stone: Stone) {
         area = area.combine(stone.area).within(area)
     }
@@ -32,6 +35,7 @@ class Debris(
     }
 
     fun dig(amount: Int) {
+        depth += amount
         area = area.dig(amount)
     }
 

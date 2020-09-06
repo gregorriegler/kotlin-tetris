@@ -28,14 +28,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
     constructor(vararg fields: Field) : this(fields.toList())
     constructor(string: String) : this(parseFields(string))
     constructor(frame: TetrisFrame) : this(frame.rows().flatMap { y ->
-        frame.columns().map { x ->
-            Field.empty(
-                Position(
-                    x,
-                    y
-                )
-            )
-        }
+        frame.columns().map { x -> Field.empty(Position(x, y)) }
     })
 
     val fields: List<Field> = fields.sorted()
@@ -52,9 +45,6 @@ open class Area(fields: List<Field>) : PositionedFrame {
     fun left(by: Int): Area = Area(fields.map { it.leftBy(by) })
     fun right(): Area = right(1)
     fun right(by: Int): Area = Area(fields.map { it.rightBy(by) })
-
-    fun leftOf(position: Position) = get(position.left())
-    fun rightOf(position: Position) = get(position.right())
     fun below(position: Position) = get(position.down())
     fun above(position: Position) = get(position.up())
 

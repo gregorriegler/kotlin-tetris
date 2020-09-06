@@ -2,7 +2,7 @@ package com.gregorriegler.tetris.model
 
 class AnchorFinder(val area: Area) {
 
-    val checked: HashSet<Position> = HashSet()
+    private val checked: HashSet<Position> = HashSet()
 
     fun hasAnchor(position: Position): Boolean {
         if (checked.contains(position)) return false

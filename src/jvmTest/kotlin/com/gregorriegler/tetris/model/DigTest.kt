@@ -3,7 +3,7 @@ package com.gregorriegler.tetris.model
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class DiggingTest {
+class DigTest {
 
     @Test
     fun `can create soil`() {
@@ -14,7 +14,7 @@ class DiggingTest {
     }
 
     @Test
-    fun can_dig_an_area() {
+    fun `can dig an area`() {
         assertThat(Area("""
             ---
             ---
@@ -48,7 +48,7 @@ class DiggingTest {
     }
 
     @Test
-    fun can_dig_partly_filled_area() {
+    fun `can dig partly filled area`() {
         assertThat(Area("""
             ---
             ---
@@ -81,7 +81,7 @@ class DiggingTest {
     }
 
     @Test
-    fun can_dig_a_debris() {
+    fun `can dig a debris`() {
         val debris = Debris("""
             ---
             ■#-
@@ -96,5 +96,33 @@ class DiggingTest {
             ■■■
             ■■■
         """))
+    }
+
+    @Test
+    fun `debris starts with 0 depth`() {
+        val debris = Debris(
+            """
+            ---
+            ---
+            ■--
+        """
+        )
+
+        assertThat(debris.depth).isEqualTo(0)
+    }
+
+    @Test
+    fun `digging increases the depth`() {
+        val debris = Debris(
+            """
+            ---
+            ---
+            ■--
+        """
+        )
+
+        debris.dig(4)
+
+        assertThat(debris.depth).isEqualTo(4)
     }
 }
