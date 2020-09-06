@@ -2,12 +2,12 @@ package com.gregorriegler.tetris.model
 
 class Debris(
     var area: Area,
+    var depth: Int = 0
 ) {
     constructor(frame: TetrisFrame) : this(Area(frame))
     constructor(debris: String) : this(Area(debris))
 
-    var depth: Int = 0
-        private set
+    val fields: List<Field> get() = area.fields
 
     fun add(stone: Stone) {
         area = area.combine(stone.area).within(area)
@@ -26,17 +26,21 @@ class Debris(
     fun width(): Int = area.width
     fun height(): Int = area.height
 
-    fun withStone(stone: Stone): Area =
-        area.combine(stone.area)
-            .within(area)
+    fun withStone(stone: Stone): Debris =
+        Debris(
+            area.combine(stone.area)
+                .within(area),
+            depth
+        )
 
     fun specials() {
         area = area.specials()
     }
 
     fun dig(amount: Int) {
-        depth += amount
-        area = area.dig(amount)
+        val dig = area.dig(amount)
+        area = dig.first
+        depth += dig.second
     }
 
     override fun toString(): String = area.toString()

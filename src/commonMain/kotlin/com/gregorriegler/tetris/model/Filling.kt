@@ -70,11 +70,11 @@ enum class Filling {
                 else -> EMPTY
             }
 
-        fun color(filling: Filling): Color {
+        fun color(filling: Filling, depth: Int): Color {
             return when (filling) {
                 BOMB -> Color.black
-                FILLED -> Color.green
-                SOIL -> Color.orange
+                FILLED -> Color.orange
+                SOIL -> Color.green.darkenBy(depth*4)
                 else -> Color.grey
             }
         }

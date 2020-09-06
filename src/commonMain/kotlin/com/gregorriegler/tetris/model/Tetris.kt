@@ -65,7 +65,7 @@ class Tetris(
     }
 
     fun gameDisplayString(): String = debris.withStone(stone).toString()
-    fun gameDisplay(): Area = debris.withStone(stone)
+    fun gameDisplay(): Debris = debris.withStone(stone)
 
     private fun increaseScore(count: Int) {
         score += count

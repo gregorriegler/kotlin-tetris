@@ -9,8 +9,8 @@ class Color(
 
     companion object {
         val black: Color = Color(0f, 0f, 0f, 1f)
-        val green: Color = Color(240f, 150f, 50f, 1f)
-        val orange: Color = Color(34f, 70f, 6f, 1f)
+        val orange: Color = Color(240f, 150f, 50f, 1f)
+        val green: Color = Color(124f, 200f, 50f, 1f)
         val grey: Color = Color(11f, 11f, 11f, 1f)
     }
 

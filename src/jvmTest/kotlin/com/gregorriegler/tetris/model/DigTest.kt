@@ -19,7 +19,7 @@ class DigTest {
             ---
             ---
             ---
-        """).dig(1)).isEqualTo(Area("""
+        """).dig(1).first).isEqualTo(Area("""
             ---
             ---
             ■■■
@@ -30,7 +30,7 @@ class DigTest {
             ---
             ---
             ---
-        """).dig(2)).isEqualTo(Area("""
+        """).dig(2).first).isEqualTo(Area("""
             ---
             ---
             ■■■
@@ -40,7 +40,7 @@ class DigTest {
             ---
             ---
             ---
-        """).dig(2).dig(2)).isEqualTo(Area("""
+        """).dig(2).first.dig(2).first).isEqualTo(Area("""
             ---
             ■■■
             ■■■
@@ -53,7 +53,7 @@ class DigTest {
             ---
             ---
             ■--
-        """).dig(1)).isEqualTo(Area("""
+        """).dig(1).first).isEqualTo(Area("""
             ---
             ■--
             ■■■
@@ -63,7 +63,7 @@ class DigTest {
             ---
             ---
             ■--
-        """).dig(2).dig(2)).isEqualTo(Area("""
+        """).dig(2).first.dig(2).first).isEqualTo(Area("""
             ■--
             ■■■
             ■■■
@@ -73,7 +73,7 @@ class DigTest {
             ---
             ---
             #--
-        """).dig(1)).isEqualTo(Area("""
+        """).dig(1).first).isEqualTo(Area("""
             ---
             #--
             ■■■
@@ -123,6 +123,23 @@ class DigTest {
 
         debris.dig(4)
 
-        assertThat(debris.depth).isEqualTo(4)
+        assertThat(debris.depth).isEqualTo(1)
+    }
+
+    @Test
+    fun `digging increases the depth further and further`() {
+        val debris = Debris(
+            """
+            ---
+            ---
+            ■--
+        """
+        )
+
+        debris.dig(4)
+        debris.dig(4)
+        debris.dig(4)
+
+        assertThat(debris.depth).isEqualTo(3)
     }
 }

@@ -51,15 +51,18 @@ class TetrisJs {
         })
     }
 
-    private fun draw(area: Area) {
+    private fun draw(debris: Debris) {
         clearScreen()
-        area.fields.forEach { field ->
+        debris.fields.forEach { field ->
             when (field.filling) {
                 Filling.EMPTY -> Unit
-                else -> drawFilled(
-                    SimplePositionedFrame.tetrisStone(gameFrame, area, field.position),
-                    Filling.color(field.filling)
-                )
+                else -> {
+                    val depth = field.position.y + debris.depth
+                    drawFilled(
+                        SimplePositionedFrame.tetrisStone(gameFrame, debris.area, field.position),
+                        Filling.color(field.filling, depth)
+                    )
+                }
             }
         }
     }
