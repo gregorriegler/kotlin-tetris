@@ -4,8 +4,9 @@ class Position(
     val x: Int,
     val y: Int
 ) : Comparable<Position> {
+    fun up(): Position = upBy(1)
     fun upBy(amount: Int): Position = Position(this.x, this.y - amount)
-    fun down(): Position = Position(this.x, this.y + 1)
+    fun down(): Position = downBy(1)
     fun downBy(amount: Int): Position = Position(this.x, this.y + amount)
     fun left(): Position = leftBy(1)
     fun leftBy(amount: Int): Position = Position(this.x - amount, this.y)

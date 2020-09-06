@@ -7,7 +7,7 @@ class DiggingTest {
 
     @Test
     fun `can create soil`() {
-        val soil = Field.soil(0, 3)
+        val soil = Field.soil(Position(0, 3))
         assertThat(soil.filling).isEqualTo(Filling.SOIL)
         assertThat(soil.x).isEqualTo(0)
         assertThat(soil.y).isEqualTo(3)

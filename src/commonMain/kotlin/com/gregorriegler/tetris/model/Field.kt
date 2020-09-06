@@ -11,20 +11,20 @@ class Field(
     val y: Int get() = position.y
 
     companion object {
-        fun filled(x: Int, y: Int): Field {
-            return Field(Position(x, y), FILLED)
+        fun filled(position: Position): Field {
+            return Field(position, FILLED)
         }
 
-        fun bomb(x: Int, y: Int): Field {
-            return Field(Position(x, y), BOMB)
+        fun bomb(position: Position): Field {
+            return Field(position, BOMB)
         }
 
-        fun soil(x: Int, y: Int): Field {
-            return Field(Position(x, y), SOIL)
+        fun soil(position: Position): Field {
+            return Field(position, SOIL)
         }
 
-        fun empty(x: Int, y: Int): Field {
-            return Field(Position(x, y), EMPTY)
+        fun empty(position: Position): Field {
+            return Field(position, EMPTY)
         }
     }
 
@@ -54,7 +54,7 @@ class Field(
 
     fun within(frame: Frame): Boolean = this.position.within(frame)
 
-    fun erase(): Field = empty(position.x, position.y)
+    fun erase(): Field = empty(Position(position.x, position.y))
 
     override fun toString(): String = "(${this.position},$filling)"
     override fun equals(other: Any?): Boolean {
