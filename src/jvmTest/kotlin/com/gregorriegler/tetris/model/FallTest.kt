@@ -112,7 +112,6 @@ class FallTest {
         )
     }
 
-    @Disabled
     @Test
     fun `anchor found on zig zags`() {
         assertThat(
@@ -131,6 +130,27 @@ class FallTest {
                 -#
                 ##
                 #-
+                """
+            )
+        )
+    }
+
+    @Test
+    fun `above anchor found`() {
+        assertThat(
+            Area(
+                """
+                ###
+                #-#
+                --#
+                """
+            ).fall()
+        ).isEqualTo(
+            Area(
+                """
+                ###
+                #-#
+                --#
                 """
             )
         )
