@@ -1,12 +1,14 @@
 package com.gregorriegler.tetris.model
 
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class FallTest {
     @Test
     fun `area falls to bottom`() {
-        Assertions.assertThat(
+        assertThat(
             Area(
                 """
                 #
@@ -25,7 +27,7 @@ class FallTest {
 
     @Test
     fun `area falls on soil`() {
-        Assertions.assertThat(
+        assertThat(
             Area(
                 """
                 #
@@ -46,7 +48,7 @@ class FallTest {
 
     @Test
     fun `area falls by just one field`() {
-        Assertions.assertThat(
+        assertThat(
             Area(
                 """
                 #
@@ -67,12 +69,12 @@ class FallTest {
 
     @Test
     fun `area on bottom does not fall any further`() {
-        Assertions.assertThat(Area("#").fall()).isEqualTo(Area("#"))
+        assertThat(Area("#").fall()).isEqualTo(Area("#"))
     }
 
     @Test
     fun `fields that have an anchor don't fall`() {
-        Assertions.assertThat(
+        assertThat(
             Area(
                 """
                 ##
@@ -91,7 +93,7 @@ class FallTest {
 
     @Test
     fun `soil counts as anchor`() {
-        Assertions.assertThat(
+        assertThat(
             Area(
                 """
                 ##
@@ -110,9 +112,33 @@ class FallTest {
         )
     }
 
+    @Disabled
+    @Test
+    fun `anchor found on zig zags`() {
+        assertThat(
+            Area(
+                """
+                ##
+                -#
+                ##
+                #-
+                """
+            ).fall()
+        ).isEqualTo(
+            Area(
+                """
+                ##
+                -#
+                ##
+                #-
+                """
+            )
+        )
+    }
+
     @Test
     fun `whole lines fall`() {
-        Assertions.assertThat(
+        assertThat(
             Area(
                 """
                 ##
@@ -131,7 +157,7 @@ class FallTest {
 
     @Test
     fun `debris falls together`() {
-        Assertions.assertThat(
+        assertThat(
             Area(
                 """
                 #
@@ -149,7 +175,7 @@ class FallTest {
             )
         )
 
-        Assertions.assertThat(
+        assertThat(
             Area(
                 """
                 ###
