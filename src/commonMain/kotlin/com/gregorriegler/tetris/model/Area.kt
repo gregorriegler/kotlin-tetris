@@ -106,7 +106,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
         )
 
     fun collidesWith(area: Area): Boolean = fields.any { area.collidesWith(it) }
-    fun collidesWith(field: Field): Boolean = field.collides() && get(Position(field.x, field.y)).collides()
+    fun collidesWith(field: Field): Boolean = field.collides() && get(field.position).collides()
 
     fun move(vector: Position): Area = Area(fields.map { field -> field.plus(vector) })
     fun within(area: Area): Area = Area(fields.filter { it.within(area) })
@@ -174,10 +174,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
         return (y..bottom)
             .filter { y -> row(y).all { it.isFilled() || it.isSoil() } }
             .filterNot { y -> isRowOfSoil(y) }
-            .flatMap { y ->
-                row(y).filterNot { it.isSoil() }
-                    .map { field -> Field(Position(field.x, field.y), field.filling) }
-            }
+            .flatMap { y -> row(y).filterNot { it.isSoil() } }
     }
 
     override fun toString(): String =
