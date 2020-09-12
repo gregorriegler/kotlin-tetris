@@ -4,25 +4,37 @@ import com.gregorriegler.tetris.view.Color
 
 class Debris(
     var area: Area,
-    var depth: Int = 0
+    var depth: Int,
+    val soilColors: List<Color>
 ) {
+    constructor(area: Area, depth: Int = 0) : this(
+        area, depth, listOf(
+            Color.random(),
+            Color.random(),
+            Color.random(),
+            Color.random(),
+            Color.random(),
+            Color.random(),
+            Color.random(),
+            Color.random(),
+            Color.random(),
+        )
+    )
+
     constructor(frame: TetrisFrame) : this(Area(frame))
     constructor(debris: String) : this(Area(debris))
 
     val fields: List<Field> get() = area.fields
-    val soilColors: List<Color> = listOf(
-        Color.random(),
-        Color.random(),
-        Color.random(),
-        Color.random(),
-        Color.random(),
-        Color.random(),
-        Color.random(),
-        Color.random(),
-        Color.random(),
-        Color.random(),
-        Color.random(),
-    )
+
+    fun asStones(gameFrame: PositionedFrame): List<ColoredPositionedFrame> {
+        return fields
+            .filterNot { it.isEmpty() }
+            .map { field ->
+                ColoredPositionedFrame.tetrisStone(
+                    gameFrame, area, field.position, color(field.filling, field.position.y + depth)
+                )
+            }
+    }
 
     fun add(stone: Stone) {
         area = area.combine(stone.area).within(area)
@@ -45,7 +57,8 @@ class Debris(
         Debris(
             area.combine(stone.area)
                 .within(area),
-            depth
+            depth,
+            soilColors
         )
 
     fun specials() {
@@ -74,6 +87,5 @@ class Debris(
 
     fun color(filling: Filling, depth: Int): Color {
         return Filling.color(filling, depth, soilColors)
-        TODO("Not yet implemented")
     }
 }

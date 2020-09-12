@@ -1,7 +1,6 @@
 package com.gregorriegler.tetris
 
 import com.gregorriegler.tetris.model.*
-import com.gregorriegler.tetris.view.Color
 import com.gregorriegler.tetris.model.SimplePositionedFrame
 import kotlinx.browser.document
 import kotlinx.browser.window
@@ -53,17 +52,7 @@ class TetrisJs {
 
     private fun draw(debris: Debris) {
         clearScreen()
-        debris.fields.forEach { field ->
-            when (field.filling) {
-                Filling.EMPTY -> Unit
-                else -> {
-                    val depth = field.position.y + debris.depth
-                    drawFilled(
-                        ColoredPositionedFrame.tetrisStone(gameFrame, debris.area, field.position, debris.color(field.filling, depth)),
-                    )
-                }
-            }
-        }
+        debris.asStones(gameFrame).forEach { drawFilled(it) }
     }
 
     private fun clearScreen() {
@@ -82,14 +71,14 @@ class TetrisJs {
 
         val bevelSize = 1
         context.beginPath()
-        context.moveTo(stone.x.toDouble() + bevelSize,stone.y.toDouble() + bevelSize)
+        context.moveTo(stone.x.toDouble() + bevelSize, stone.y.toDouble() + bevelSize)
         context.lineTo(stone.rightSide.toDouble() - bevelSize, stone.y.toDouble() + bevelSize)
         context.lineTo(stone.rightSide.toDouble() - bevelSize, stone.bottom.toDouble() - bevelSize)
         context.stroke()
 
         context.strokeStyle = stone.color.darkenBy(100).asCss()
         context.beginPath()
-        context.moveTo(stone.x.toDouble() + bevelSize,stone.y.toDouble() + bevelSize)
+        context.moveTo(stone.x.toDouble() + bevelSize, stone.y.toDouble() + bevelSize)
         context.lineTo(stone.x.toDouble() + bevelSize, stone.bottom.toDouble() - bevelSize)
         context.lineTo(stone.rightSide.toDouble() - bevelSize, stone.bottom.toDouble() - bevelSize)
         context.stroke()
