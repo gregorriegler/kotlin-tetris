@@ -1,6 +1,8 @@
 package com.gregorriegler.tetris.model
 
-class SimplePositionedFrame(
+import com.gregorriegler.tetris.view.Color
+
+open class SimplePositionedFrame(
     override val x: Int,
     override val y: Int,
     override val width: Int,
@@ -18,20 +20,6 @@ class SimplePositionedFrame(
                 0,
                 width,
                 availableSpace.height
-            )
-        }
-
-        fun tetrisStone(display: PositionedFrame, gameSize: Frame, stone: Position): PositionedFrame {
-            val stoneWidth = display.width / gameSize.width
-            val stoneHeight = display.height / gameSize.height
-            val squareLeft = display.x + stone.x * stoneWidth + 4
-            val squareTop = display.y + stone.y * stoneHeight + 4
-
-            return SimplePositionedFrame(
-                squareLeft,
-                squareTop,
-                stoneWidth,
-                stoneHeight
             )
         }
     }

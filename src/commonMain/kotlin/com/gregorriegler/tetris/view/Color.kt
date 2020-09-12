@@ -1,7 +1,5 @@
 package com.gregorriegler.tetris.view
 
-import com.gregorriegler.tetris.view.Color.Companion.black
-import kotlin.math.floor
 import kotlin.random.Random
 
 class Color(
@@ -19,17 +17,23 @@ class Color(
         val green: Color = Color(124f, 200f, 50f)
         val grey: Color = Color(11f, 11f, 11f)
 
+        fun random(): Color {
+            return Color(randomColorPart(), randomColorPart(), randomColorPart())
+        }
+
         private fun randomColorPart() = Random.nextInt(10, 240).toFloat()
 
         fun byDepth(colors: List<Color>, depth: Int): Color {
-            val i: Int = depth / 100
-            return black
+            val fromIndex: Int = depth / 100
+            val toIndex: Int = (fromIndex + 1) % colors.size
+            val gradient: Int = depth % 100
+            return gradient(colors[fromIndex], colors[toIndex], gradient)
         }
 
-        fun gradient(from: Color, to: Color, gradient: Int): Color = Color(
-        (to.red - from.red) / 100 * gradient,
-        (to.green - from.green) / 100 * gradient,
-        (to.blue - from.blue) / 100 * gradient
+        private fun gradient(from: Color, to: Color, gradient: Int): Color = Color(
+        from.red + (to.red - from.red) / 100 * gradient,
+        from.green + (to.green - from.green) / 100 * gradient,
+        from.blue + (to.blue - from.blue) / 100 * gradient
         )
     }
 

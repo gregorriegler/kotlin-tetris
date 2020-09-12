@@ -1,5 +1,7 @@
 package com.gregorriegler.tetris.model
 
+import com.gregorriegler.tetris.view.Color
+
 class Tetris(
     private val frame: TetrisFrame,
     private val stones: List<Structure>,

@@ -1,5 +1,7 @@
 package com.gregorriegler.tetris.model
 
+import com.gregorriegler.tetris.view.Color
+
 class Debris(
     var area: Area,
     var depth: Int = 0
@@ -8,6 +10,19 @@ class Debris(
     constructor(debris: String) : this(Area(debris))
 
     val fields: List<Field> get() = area.fields
+    val soilColors: List<Color> = listOf(
+        Color.random(),
+        Color.random(),
+        Color.random(),
+        Color.random(),
+        Color.random(),
+        Color.random(),
+        Color.random(),
+        Color.random(),
+        Color.random(),
+        Color.random(),
+        Color.random(),
+    )
 
     fun add(stone: Stone) {
         area = area.combine(stone.area).within(area)
@@ -55,5 +70,10 @@ class Debris(
         if (area != other.area) return false
 
         return true
+    }
+
+    fun color(filling: Filling, depth: Int): Color {
+        return Filling.color(filling, depth, soilColors)
+        TODO("Not yet implemented")
     }
 }

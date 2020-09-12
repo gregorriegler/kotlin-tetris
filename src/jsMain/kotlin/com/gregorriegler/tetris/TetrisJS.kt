@@ -59,8 +59,7 @@ class TetrisJs {
                 else -> {
                     val depth = field.position.y + debris.depth
                     drawFilled(
-                        SimplePositionedFrame.tetrisStone(gameFrame, debris.area, field.position),
-                        Filling.color(field.filling, depth)
+                        ColoredPositionedFrame.tetrisStone(gameFrame, debris.area, field.position, debris.color(field.filling, depth)),
                     )
                 }
             }
@@ -71,28 +70,28 @@ class TetrisJs {
         context.clearRect(0.0, 0.0, context.canvas.width.toDouble(), context.canvas.height.toDouble())
     }
 
-    private fun drawFilled(frame: PositionedFrame, color: Color) {
-        context.fillStyle = color.asCss()
+    private fun drawFilled(stone: ColoredPositionedFrame) {
+        context.fillStyle = stone.color.asCss()
         context.fillRect(
-            frame.x.toDouble(),
-            frame.y.toDouble(),
-            frame.width.toDouble(),
-            frame.height.toDouble()
+            stone.x.toDouble(),
+            stone.y.toDouble(),
+            stone.width.toDouble(),
+            stone.height.toDouble()
         )
-        context.strokeStyle = color.enlightenBy(100).asCss()
+        context.strokeStyle = stone.color.enlightenBy(100).asCss()
 
         val bevelSize = 1
         context.beginPath()
-        context.moveTo(frame.x.toDouble() + bevelSize,frame.y.toDouble() + bevelSize)
-        context.lineTo(frame.rightSide.toDouble() - bevelSize, frame.y.toDouble() + bevelSize)
-        context.lineTo(frame.rightSide.toDouble() - bevelSize, frame.bottom.toDouble() - bevelSize)
+        context.moveTo(stone.x.toDouble() + bevelSize,stone.y.toDouble() + bevelSize)
+        context.lineTo(stone.rightSide.toDouble() - bevelSize, stone.y.toDouble() + bevelSize)
+        context.lineTo(stone.rightSide.toDouble() - bevelSize, stone.bottom.toDouble() - bevelSize)
         context.stroke()
 
-        context.strokeStyle = color.darkenBy(100).asCss()
+        context.strokeStyle = stone.color.darkenBy(100).asCss()
         context.beginPath()
-        context.moveTo(frame.x.toDouble() + bevelSize,frame.y.toDouble() + bevelSize)
-        context.lineTo(frame.x.toDouble() + bevelSize, frame.bottom.toDouble() - bevelSize)
-        context.lineTo(frame.rightSide.toDouble() - bevelSize, frame.bottom.toDouble() - bevelSize)
+        context.moveTo(stone.x.toDouble() + bevelSize,stone.y.toDouble() + bevelSize)
+        context.lineTo(stone.x.toDouble() + bevelSize, stone.bottom.toDouble() - bevelSize)
+        context.lineTo(stone.rightSide.toDouble() - bevelSize, stone.bottom.toDouble() - bevelSize)
         context.stroke()
     }
 }
