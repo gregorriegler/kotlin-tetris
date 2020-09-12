@@ -74,7 +74,7 @@ enum class Filling {
             return when (filling) {
                 BOMB -> Color.black
                 FILLED -> Color.orange
-                SOIL -> Color.byDepth(soilColors, depth)
+                SOIL -> Color.byDepth(soilColors, depth, Color.changeColorEvery)
                 else -> Color.grey
             }
         }

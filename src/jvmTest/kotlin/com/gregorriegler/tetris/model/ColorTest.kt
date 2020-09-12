@@ -9,9 +9,9 @@ class `A Color` {
     @Test
     fun `should make a range`() {
         val range = listOf(Color(0, 0, 0), Color(255, 255, 255))
-        assertThat(Color.byDepth(range, 0)).isEqualTo(Color(0, 0, 0))
-        assertThat(Color.byDepth(range, 100)).isEqualTo(Color(255, 255, 255))
-        assertThat(Color.byDepth(range, 50)).isEqualTo(Color(127.5f, 127.5f,127.5f))
+        assertThat(Color.byDepth(range, 0, 50)).isEqualTo(Color(0, 0, 0))
+        assertThat(Color.byDepth(range, 25, 50)).isEqualTo(Color(127.5f, 127.5f,127.5f))
+        assertThat(Color.byDepth(range, 50, 50)).isEqualTo(Color(255, 255, 255))
     }
 
     @Test
@@ -21,8 +21,8 @@ class `A Color` {
             Color(255, 255, 255),
             Color(0, 0, 0)
         )
-        assertThat(Color.byDepth(range, 0)).isEqualTo(Color(0, 0, 0))
-        assertThat(Color.byDepth(range, 100)).isEqualTo(Color(255, 255, 255))
-        assertThat(Color.byDepth(range, 150)).isEqualTo(Color(127.5f, 127.5f,127.5f))
+        assertThat(Color.byDepth(range, 0, 50)).isEqualTo(Color(0, 0, 0))
+        assertThat(Color.byDepth(range, 50, 50)).isEqualTo(Color(255, 255, 255))
+        assertThat(Color.byDepth(range, 75, 50)).isEqualTo(Color(127.5f, 127.5f,127.5f))
     }
 }

@@ -12,9 +12,9 @@ class Color(
     constructor(red: Float, green: Float, blue: Float) : this(red, green, blue, 1f)
 
     companion object {
+        val changeColorEvery: Int = 25
         val black: Color = Color(0f, 0f, 0f)
         val orange: Color = Color(240f, 150f, 50f)
-        val green: Color = Color(124f, 200f, 50f)
         val grey: Color = Color(11f, 11f, 11f)
 
         fun random(): Color {
@@ -23,11 +23,10 @@ class Color(
 
         private fun randomColorPart() = Random.nextInt(10, 240).toFloat()
 
-        fun byDepth(colors: List<Color>, depth: Int): Color {
-            val fromIndex: Int = depth / 100
+        fun byDepth(colors: List<Color>, depth: Int, changeColorEvery: Int): Color {
+            val fromIndex: Int = depth / changeColorEvery
             val toIndex: Int = (fromIndex + 1) % colors.size
-            val gradient: Int = depth % 100
-            return gradient(colors[fromIndex], colors[toIndex], gradient)
+            return gradient(colors[fromIndex], colors[toIndex], depth % changeColorEvery * (100 / changeColorEvery))
         }
 
         private fun gradient(from: Color, to: Color, gradient: Int): Color = Color(
