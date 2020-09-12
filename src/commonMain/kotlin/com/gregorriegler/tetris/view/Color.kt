@@ -1,17 +1,36 @@
 package com.gregorriegler.tetris.view
 
+import com.gregorriegler.tetris.view.Color.Companion.black
+import kotlin.math.floor
+import kotlin.random.Random
+
 class Color(
     private val red: Float,
     private val green: Float,
     private val blue: Float,
     private val alpha: Float
 ) {
+    constructor(red: Int, green: Int, blue: Int) : this(red.toFloat(), green.toFloat(), blue.toFloat(), 1f)
+    constructor(red: Float, green: Float, blue: Float) : this(red, green, blue, 1f)
 
     companion object {
-        val black: Color = Color(0f, 0f, 0f, 1f)
-        val orange: Color = Color(240f, 150f, 50f, 1f)
-        val green: Color = Color(124f, 200f, 50f, 1f)
-        val grey: Color = Color(11f, 11f, 11f, 1f)
+        val black: Color = Color(0f, 0f, 0f)
+        val orange: Color = Color(240f, 150f, 50f)
+        val green: Color = Color(124f, 200f, 50f)
+        val grey: Color = Color(11f, 11f, 11f)
+
+        private fun randomColorPart() = Random.nextInt(10, 240).toFloat()
+
+        fun byDepth(colors: List<Color>, depth: Int): Color {
+            val i: Int = depth / 100
+            return black
+        }
+
+        fun gradient(from: Color, to: Color, gradient: Int): Color = Color(
+        (to.red - from.red) / 100 * gradient,
+        (to.green - from.green) / 100 * gradient,
+        (to.blue - from.blue) / 100 * gradient
+        )
     }
 
     fun enlightenBy(absolute: Int): Color {
@@ -24,7 +43,7 @@ class Color(
 
     fun asCss(): String = "rgba(${red.toInt()}, ${green.toInt()}, ${blue.toInt()}, ${alpha})"
 
-    override fun toString(): String = asCss()
+    override fun toString(): String = "rgba(${red}, ${green}, ${blue}, ${alpha})"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
