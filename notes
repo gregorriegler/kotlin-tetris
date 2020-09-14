@@ -1,4 +1,5 @@
-- random golds in soil to pick up, the deeper, the more reward
+- maybe dig by one more line to show whole bomb radius
+- random coins in soil to pick up, the deeper, the more reward
 - fallings should not stick but fall to the ground
 - need a field state (loose) that prevents overall sticking (for e.g. explosion)
 - I falls into single fillable field within 2 soils, erases first field, but not the followings
