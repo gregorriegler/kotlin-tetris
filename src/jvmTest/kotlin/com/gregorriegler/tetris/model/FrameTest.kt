@@ -9,14 +9,14 @@ class `A Frame` {
     @Test
     fun `returns the top center field`() {
         val frame = TetrisFrame(3, 3)
-        assertEquals(Field.filled(MovablePosition(1, 0)), frame.topCenterFilled())
+        assertEquals(Field.filled(Position.of(1, 0)), frame.topCenterFilled())
     }
 
     @Test
     fun `moves an area to the left`() {
         val frame = TetrisFrame(3, 3)
         assertEquals(
-            Area(Field.empty(MovablePosition(-1, 0)), Field.filled(MovablePosition(0, 0)), Field.filled(MovablePosition(1, 0))),
+            Area(Field.empty(Position.of(-1, 0)), Field.filled(Position.of(0, 0)), Field.filled(Position.of(1, 0))),
             frame.left(
                 Area("""
                 -##
@@ -73,18 +73,18 @@ class `A Frame` {
         val x = -1
         val y = 0
         val expected = Area(
-            Field.empty(MovablePosition(x, y)),
-            Field.empty(MovablePosition(0, 0)),
-            Field.empty(MovablePosition(1, 0)),
-            Field.filled(MovablePosition(2, 0)),
-            Field.empty(MovablePosition(-1, 1)),
-            Field.empty(MovablePosition(0, 1)),
-            Field.filled(MovablePosition(1, 1)),
-            Field.filled(MovablePosition(2, 1)),
-            Field.empty(MovablePosition(-1, 2)),
-            Field.empty(MovablePosition(0, 2)),
-            Field.empty(MovablePosition(1, 2)),
-            Field.filled(MovablePosition(2, 2)),
+            Field.empty(Position.of(x, y)),
+            Field.empty(Position.of(0, 0)),
+            Field.empty(Position.of(1, 0)),
+            Field.filled(Position.of(2, 0)),
+            Field.empty(Position.of(-1, 1)),
+            Field.empty(Position.of(0, 1)),
+            Field.filled(Position.of(1, 1)),
+            Field.filled(Position.of(2, 1)),
+            Field.empty(Position.of(-1, 2)),
+            Field.empty(Position.of(0, 2)),
+            Field.empty(Position.of(1, 2)),
+            Field.filled(Position.of(2, 2)),
         )
         val actual = frame.left(area, debris)
         assertEquals(
@@ -209,7 +209,7 @@ class `A Frame` {
 
     @Test
     fun `knows an area is not at the bottom`() {
-        assertFalse(TetrisFrame(3, 3).isAtBottom(Area(Field.filled(MovablePosition(1, 1)))))
+        assertFalse(TetrisFrame(3, 3).isAtBottom(Area(Field.filled(Position.of(1, 1)))))
         assertFalse(TetrisFrame(4, 4).isAtBottom(Area("""
             >>
             ##
@@ -219,7 +219,7 @@ class `A Frame` {
 
     @Test
     fun `knows an area is at the bottom`() {
-        assertTrue(TetrisFrame(2, 2).isAtBottom(Area(Field.filled(MovablePosition(1, 1)))))
+        assertTrue(TetrisFrame(2, 2).isAtBottom(Area(Field.filled(Position.of(1, 1)))))
         assertTrue(TetrisFrame(4, 4).isAtBottom(Area("""
             >>
             >>

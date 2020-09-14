@@ -61,5 +61,5 @@ class Structure(string: String) : Area(string) {
         }
     }
 
-    fun startingPosition(area: Area): Area = move(MovablePosition((area.width - width) / 2, area.y - height))
+    fun startingPosition(area: Area): Area = move(Position.of((area.width - width) / 2, area.y - height))
 }

@@ -3,7 +3,7 @@ package com.gregorriegler.tetris.model
 open class Area(fields: List<Field>) : PositionedFrame {
 
     companion object {
-        fun circle(center: MovablePosition, radius: Int): Area = Area(
+        fun circle(center: Position, radius: Int): Area = Area(
             (center.y - radius..center.y + radius)
                 .flatMap { y ->
                     (center.x - radius..center.x + radius)
@@ -11,7 +11,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
                             val dx = x - center.x
                             val dy = y - center.y
                             (dx * dx + dy * dy <= radius * radius)
-                        }.map { x -> Field.filled(MovablePosition(x, y)) }
+                        }.map { x -> Field.filled(Position.of(x, y)) }
                 })
 
         fun parseFields(string: String): List<Field> = string.trimIndent()
@@ -21,32 +21,32 @@ open class Area(fields: List<Field>) : PositionedFrame {
                 row.toCharArray()
                     .withIndex()
                     .filterNot { it.value == Filling.INDENT_VALUE || it.value == Filling.PULL_VALUE }
-                    .map { Field(MovablePosition(it.index - pulls, y), it.value) }
+                    .map { Field(Position.of(it.index - pulls, y), it.value) }
             }
     }
 
     constructor(vararg fields: Field) : this(fields.toList())
     constructor(string: String) : this(parseFields(string))
     constructor(frame: TetrisFrame) : this(frame.rows().flatMap { y ->
-        frame.columns().map { x -> Field.empty(MovablePosition(x, y)) }
+        frame.columns().map { x -> Field.empty(Position.of(x, y)) }
     })
 
     val fields: List<Field> = fields.sorted()
     final override val x: Int = this.fields.minOfOrNull { it.x } ?: 0
-    final override val y: Int = (this.fields.firstOrNull() ?: Field.empty(MovablePosition(0, 0))).y
+    final override val y: Int = (this.fields.firstOrNull() ?: Field.empty(Position.of(0, 0))).y
     final override val rightSide: Int = this.fields.maxOfOrNull { it.x } ?: 0
-    final override val bottom: Int = (this.fields.lastOrNull() ?: Field.empty(MovablePosition(0, 0))).y
+    final override val bottom: Int = (this.fields.lastOrNull() ?: Field.empty(Position.of(0, 0))).y
     override val width: Int = rightSide - x + 1
     override val height: Int = bottom - y + 1
 
-    fun down(by: Int): Area = Area(fields.map { it.downBy(by) })
-    fun down(): Area = Area(fields.map { it.down() })
-    fun left(): Area = left(1)
-    fun left(by: Int): Area = Area(fields.map { it.leftBy(by) })
-    fun right(): Area = right(1)
-    fun right(by: Int): Area = Area(fields.map { it.rightBy(by) })
-    fun below(position: MovablePosition) = get(position.down())
-    fun above(position: MovablePosition) = get(position.up())
+    override fun down(): Area = Area(fields.map { it.down() })
+    override fun downBy(amount: Int): Area = Area(fields.map { it.downBy(amount) })
+    override fun left(): Area = leftBy(1)
+    override fun leftBy(amount: Int): Area = Area(fields.map { it.leftBy(amount) })
+    override fun right(): Area = rightBy(1)
+    override fun rightBy(amount: Int): Area = Area(fields.map { it.rightBy(amount) })
+    fun below(position: Position) = get(position.down())
+    fun above(position: Position) = get(position.up())
 
     fun sizeNonEmpty(): Int = nonEmptyFields().count()
     fun widthNonEmpty(): Int = (rightSideNonEmpty() - leftSideNonEmpty()) + 1
@@ -57,31 +57,27 @@ open class Area(fields: List<Field>) : PositionedFrame {
     fun state(): List<List<Filling>> =
         (0..bottom).map { y ->
             (0..rightSide).map { x ->
-                get(MovablePosition(x, y)).filling
+                get(Position.of(x, y)).filling
             }
         }.toList()
 
-    private fun row(y: Int): List<Field> = (0 until width).map { x -> get(MovablePosition(x, y)) }
+    private fun row(y: Int): List<Field> = (0 until width).map { x -> get(Position.of(x, y)) }
 
-    fun get(position: MovablePosition): Field =
+    fun get(position: Position): Field =
         if (isOutside(position)) {
             Field.empty(position)
         } else {
             fields.getOrNull(indexOf(position)) ?: Field.empty(position)
         }
 
-    private fun indexOf(position: MovablePosition) = (position.x - this.x) + ((position.y - this.y) * width)
+    private fun indexOf(position: Position) = (position.x - this.x) + ((position.y - this.y) * width)
 
-    private fun isOutside(position: MovablePosition): Boolean =
+    private fun isOutside(position: Position): Boolean =
         position.x < this.x || position.y < this.y || position.x > rightSide || position.y > bottom
 
     private fun allY() = fields.map { it.y }.distinct()
     private fun allX() = fields.map { it.x }.distinct()
-    private fun distance() = MovablePosition(x, y)
-
-    fun plus(other: Area): Area {
-        return Area(fields + other.fields)
-    }
+    private fun distance() = Position.of(x, y)
 
     fun rotate(): Area = Area(
         fields.map { field -> field.minus(distance()) }
@@ -96,9 +92,9 @@ open class Area(fields: List<Field>) : PositionedFrame {
                     allX().plus(area.allX()).distinct()
                         .map { x ->
                             Field(
-                                MovablePosition(x, y), Filling.higher(
-                                    get(MovablePosition(x, y)).filling,
-                                    area.get(MovablePosition(x, y)).filling
+                                Position.of(x, y), Filling.higher(
+                                    get(Position.of(x, y)).filling,
+                                    area.get(Position.of(x, y)).filling
                                 )
                             )
                         }
@@ -108,7 +104,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
     fun collidesWith(area: Area): Boolean = fields.any { area.collidesWith(it) }
     fun collidesWith(field: Field): Boolean = field.collides() && get(field.position).collides()
 
-    fun move(vector: MovablePosition): Area = Area(fields.map { field -> field.plus(vector) })
+    fun move(vector: Position): Area = Area(fields.map { field -> field.plus(vector) })
     fun within(area: Area): Area = Area(fields.filter { it.within(area) })
 
     fun specials(): Area = fields.fold(this) { area, field -> field.special(area) }
@@ -117,7 +113,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
         val fallingStacks: List<List<Field>> = fields.filter(this::willFall)
             .map(this::verticalStack)
             .toList()
-        val roomToFall = fallingStacks.associateBy({ Field.empty(MovablePosition(it[0].x, it[0].y + 1)) }, { it.size })
+        val roomToFall = fallingStacks.associateBy({ Field.empty(Position.of(it[0].x, it[0].y + 1)) }, { it.size })
         return Area(
             fields.map {
                 when {
@@ -149,8 +145,8 @@ open class Area(fields: List<Field>) : PositionedFrame {
         )
 
     private fun createRowOfSoil(y: Int): List<Field> = createRow(y, Field.Companion::soil)
-    private fun createRow(y: Int, field: (MovablePosition) -> Field): List<Field> =
-        (0 until width).map { x -> field(MovablePosition(x, y)) }
+    private fun createRow(y: Int, field: (Position) -> Field): List<Field> =
+        (0 until width).map { x -> field(Position.of(x, y)) }
 
     private fun allRowsExceptTop(amount: Int) = fields.filter { it.y >= amount }
 

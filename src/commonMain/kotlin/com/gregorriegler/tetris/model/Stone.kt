@@ -30,11 +30,11 @@ class Stone(
         }
 
         for(it in (1..rotate.widthNonEmpty() / 2)) {
-            if (!outOfGame(rotate.left(it), debris)) {
-                area = rotate.left(it)
+            if (!outOfGame(rotate.leftBy(it), debris)) {
+                area = rotate.leftBy(it)
                 break
-            } else if (!outOfGame(rotate.right(it), debris)) {
-                area = rotate.right(it)
+            } else if (!outOfGame(rotate.rightBy(it), debris)) {
+                area = rotate.rightBy(it)
                 break
             }
         }

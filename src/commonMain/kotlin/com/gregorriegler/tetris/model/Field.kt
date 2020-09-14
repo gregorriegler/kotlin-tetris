@@ -4,47 +4,48 @@ import com.gregorriegler.tetris.model.Filling.*
 import com.gregorriegler.tetris.view.Color
 
 class Field(
-    val position: MovablePosition,
+    val position: Position,
     val filling: Filling,
-) : Comparable<Field>, Position {
+) : Position {
 
     companion object {
-        fun filled(position: MovablePosition): Field {
+        fun filled(position: Position): Field {
             return Field(position, FILLED)
         }
 
-        fun bomb(position: MovablePosition): Field {
+        fun bomb(position: Position): Field {
             return Field(position, BOMB)
         }
 
-        fun soil(position: MovablePosition): Field {
+        fun soil(position: Position): Field {
             return Field(position, SOIL)
         }
 
-        fun empty(position: MovablePosition): Field {
+        fun empty(position: Position): Field {
             return Field(position, EMPTY)
         }
     }
 
-    constructor(x: Int, y: Int) : this(MovablePosition(x, y), EMPTY)
-    constructor(x: Int, y: Int, filling: Filling) : this(MovablePosition(x, y), filling)
-    constructor(position: MovablePosition) : this(position, EMPTY)
-    constructor(position: MovablePosition, filling: Char) : this(position, Filling.of(filling))
+    constructor(x: Int, y: Int) : this(Position.of(x, y), EMPTY)
+    constructor(x: Int, y: Int, filling: Filling) : this(Position.of(x, y), filling)
+    constructor(position: Position) : this(position, EMPTY)
+    constructor(position: Position, filling: Char) : this(position, Filling.of(filling))
 
     override val x: Int get() = position.x
     override val y: Int get() = position.y
-    fun color(depth: Int, palette: List<Color>) : Color = filling.color(position.y + depth, palette)
+    fun color(depth: Int, palette: List<Color>) : Color = filling.color(y + depth, palette)
 
-    fun upBy(amount: Int): Field = Field(this.position.upBy(amount), filling)
-    fun down(): Field = downBy(1)
-    fun downBy(amount: Int): Field = Field(this.position.downBy(amount), filling)
-    fun left(): Field = leftBy(1)
-    fun leftBy(amount: Int): Field = Field(this.position.leftBy(amount), filling)
-    fun right(): Field = rightBy(1)
-    fun rightBy(amount: Int): Field = Field(this.position.right(amount), filling)
-    fun plus(position: MovablePosition): Field = Field(this.position.plus(position), filling)
-    fun minus(position: MovablePosition): Field = Field(this.position.minus(position), filling)
-    fun rotate(width: Int): Field = Field(this.position.rotate(width), filling)
+    override fun upBy(amount: Int): Field = Field(this.position.upBy(amount), filling)
+    override fun down(): Field = downBy(1)
+    override fun downBy(amount: Int): Field = Field(this.position.downBy(amount), filling)
+    override fun left(): Field = leftBy(1)
+    override fun leftBy(amount: Int): Field = Field(this.position.leftBy(amount), filling)
+    override fun right(): Field = rightBy(1)
+    override fun rightBy(amount: Int): Field = Field(this.position.rightBy(amount), filling)
+    override fun rotate(width: Int): Field = Field(this.position.rotate(width), filling)
+    override fun plus(position: Position): Field = Field(this.position.plus(position), filling)
+    override fun minus(position: Position): Field = Field(this.position.minus(position), filling)
+
     fun isFilled(): Boolean = filling.isFilled()
     fun isEmpty(): Boolean = filling.isEmpty()
     fun collides(): Boolean = filling.collides()
@@ -55,9 +56,9 @@ class Field(
     fun collidesWith(fields: List<Field>): Boolean =
         collides() && fields.any { it.collides() && it.position == position }
 
-    fun within(frame: Frame): Boolean = this.position.within(frame)
 
-    fun erase(): Field = empty(MovablePosition(position.x, position.y))
+
+    fun erase(): Field = empty(Position.of(x, y))
 
     override fun toString(): String = "(${this.position},$filling)"
     override fun equals(other: Any?): Boolean {
@@ -77,8 +78,4 @@ class Field(
         result = 31 * result + filling.hashCode()
         return result
     }
-
-    override fun compareTo(other: Field): Int = position.compareTo(other.position)
-
-
 }

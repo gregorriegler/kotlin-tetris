@@ -7,7 +7,7 @@ class `A Field` {
 
     @Test
     fun `can create bomb`() {
-        val bomb = Field.bomb(MovablePosition(0, 3))
+        val bomb = Field.bomb(Position.of(0, 3))
         assertThat(bomb.filling).isEqualTo(Filling.BOMB)
         assertThat(bomb.x).isEqualTo(0)
         assertThat(bomb.y).isEqualTo(3)
@@ -51,12 +51,12 @@ class `A Field` {
 
     @Test
     fun `adds a position`() {
-        assertThat(Field(1,1).plus(MovablePosition(1,1))).isEqualTo(Field(2, 2))
+        assertThat(Field(1,1).plus(Position.of(1,1))).isEqualTo(Field(2, 2))
     }
 
     @Test
     fun `substracts a position`() {
-        assertThat(Field(1,1).minus(MovablePosition(1,1))).isEqualTo(Field(0, 0))
+        assertThat(Field(1,1).minus(Position.of(1,1))).isEqualTo(Field(0, 0))
     }
 
     @Test
@@ -77,16 +77,16 @@ class `A Field` {
 
     @Test
     fun erases() {
-        assertThat(Field.filled(MovablePosition(0, 0)).erase()).isEqualTo(Field.empty(MovablePosition(0, 0)))
-        assertThat(Field.empty(MovablePosition(0, 0)).erase()).isEqualTo(Field.empty(MovablePosition(0, 0)))
+        assertThat(Field.filled(Position.of(0, 0)).erase()).isEqualTo(Field.empty(Position.of(0, 0)))
+        assertThat(Field.empty(Position.of(0, 0)).erase()).isEqualTo(Field.empty(Position.of(0, 0)))
     }
 
     @Test
     fun compares() {
-        assertThat(Field.filled(MovablePosition(0, 0)).compareTo(Field.filled(MovablePosition(0, 0)))).isEqualTo(0)
-        assertThat(Field.filled(MovablePosition(1, 0)).compareTo(Field.filled(MovablePosition(0, 0)))).isGreaterThan(0)
-        assertThat(Field.filled(MovablePosition(0, 1)).compareTo(Field.filled(MovablePosition(0, 0)))).isGreaterThan(0)
-        assertThat(Field.filled(MovablePosition(0, 0)).compareTo(Field.filled(MovablePosition(1, 0)))).isLessThan(0)
-        assertThat(Field.filled(MovablePosition(0, 0)).compareTo(Field.filled(MovablePosition(0, 1)))).isLessThan(0)
+        assertThat(Field.filled(Position.of(0, 0)).compareTo(Field.filled(Position.of(0, 0)))).isEqualTo(0)
+        assertThat(Field.filled(Position.of(1, 0)).compareTo(Field.filled(Position.of(0, 0)))).isGreaterThan(0)
+        assertThat(Field.filled(Position.of(0, 1)).compareTo(Field.filled(Position.of(0, 0)))).isGreaterThan(0)
+        assertThat(Field.filled(Position.of(0, 0)).compareTo(Field.filled(Position.of(1, 0)))).isLessThan(0)
+        assertThat(Field.filled(Position.of(0, 0)).compareTo(Field.filled(Position.of(0, 1)))).isLessThan(0)
     }
 }

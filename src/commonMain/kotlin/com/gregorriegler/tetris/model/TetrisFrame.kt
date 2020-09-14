@@ -7,7 +7,7 @@ class TetrisFrame(
     override val height: Int,
 ) : Frame {
 
-    fun topCenterFilled(): Field = Field.filled(MovablePosition(center(), 0))
+    fun topCenterFilled(): Field = Field.filled(Position.of(center(), 0))
     fun rows() = (0 until height)
     fun columns() = (0 until width)
 
