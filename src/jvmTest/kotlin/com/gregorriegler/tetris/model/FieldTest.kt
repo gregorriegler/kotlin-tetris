@@ -7,7 +7,7 @@ class `A Field` {
 
     @Test
     fun `can create bomb`() {
-        val bomb = Field.bomb(Position.of(0, 3))
+        val bomb = Field.bomb(0, 3)
         assertThat(bomb.filling).isEqualTo(Filling.BOMB)
         assertThat(bomb.x).isEqualTo(0)
         assertThat(bomb.y).isEqualTo(3)
@@ -77,16 +77,16 @@ class `A Field` {
 
     @Test
     fun erases() {
-        assertThat(Field.filled(Position.of(0, 0)).erase()).isEqualTo(Field.empty(Position.of(0, 0)))
-        assertThat(Field.empty(Position.of(0, 0)).erase()).isEqualTo(Field.empty(Position.of(0, 0)))
+        assertThat(Field.filled(0, 0).erase()).isEqualTo(Field.empty(0, 0))
+        assertThat(Field.empty(0, 0).erase()).isEqualTo(Field.empty(0, 0))
     }
 
     @Test
     fun compares() {
-        assertThat(Field.filled(Position.of(0, 0)).compareTo(Field.filled(Position.of(0, 0)))).isEqualTo(0)
-        assertThat(Field.filled(Position.of(1, 0)).compareTo(Field.filled(Position.of(0, 0)))).isGreaterThan(0)
-        assertThat(Field.filled(Position.of(0, 1)).compareTo(Field.filled(Position.of(0, 0)))).isGreaterThan(0)
-        assertThat(Field.filled(Position.of(0, 0)).compareTo(Field.filled(Position.of(1, 0)))).isLessThan(0)
-        assertThat(Field.filled(Position.of(0, 0)).compareTo(Field.filled(Position.of(0, 1)))).isLessThan(0)
+        assertThat(Field.filled(0, 0).compareTo(Field.filled(0, 0))).isEqualTo(0)
+        assertThat(Field.filled(1, 0).compareTo(Field.filled(0, 0))).isGreaterThan(0)
+        assertThat(Field.filled(0, 1).compareTo(Field.filled(0, 0))).isGreaterThan(0)
+        assertThat(Field.filled(0, 0).compareTo(Field.filled(1, 0))).isLessThan(0)
+        assertThat(Field.filled(0, 0).compareTo(Field.filled(0, 1))).isLessThan(0)
     }
 }

@@ -16,11 +16,11 @@ class `An Area` {
 
         assertEquals(2, area.width)
         assertEquals(2, area.height)
-        assertTrue(area.collidesWith(Field.filled(Position.of(0, 0))))
-        assertTrue(area.collidesWith(Field.filled(Position.of(1, 0))))
-        assertTrue(area.collidesWith(Field.filled(Position.of(0, 1))))
-        assertTrue(area.collidesWith(Field.filled(Position.of(1, 1))))
-        assertFalse(area.collidesWith(Field.filled(Position.of(2, 1))))
+        assertTrue(area.collidesWith(Field.filled(0, 0)))
+        assertTrue(area.collidesWith(Field.filled(1, 0)))
+        assertTrue(area.collidesWith(Field.filled(0, 1)))
+        assertTrue(area.collidesWith(Field.filled(1, 1)))
+        assertFalse(area.collidesWith(Field.filled(2, 1)))
         assertThat(area.sizeNonEmpty()).isEqualTo(4)
     }
 
@@ -34,11 +34,11 @@ class `An Area` {
 
         assertEquals(2, area.width)
         assertEquals(2, area.height)
-        assertTrue(area.collidesWith(Field.filled(Position.of(0, 0))))
-        assertFalse(area.collidesWith(Field.filled(Position.of(1, 0))))
-        assertTrue(area.collidesWith(Field.filled(Position.of(0, 1))))
-        assertTrue(area.collidesWith(Field.filled(Position.of(1, 1))))
-        assertFalse(area.collidesWith(Field.filled(Position.of(2, 1))))
+        assertTrue(area.collidesWith(Field.filled(0, 0)))
+        assertFalse(area.collidesWith(Field.filled(1, 0)))
+        assertTrue(area.collidesWith(Field.filled(0, 1)))
+        assertTrue(area.collidesWith(Field.filled(1, 1)))
+        assertFalse(area.collidesWith(Field.filled(2, 1)))
         assertThat(area.sizeNonEmpty()).isEqualTo(3)
     }
 
@@ -53,15 +53,15 @@ class `An Area` {
 
         assertEquals(3, area.width)
         assertEquals(3, area.height)
-        assertFalse(area.collidesWith(Field.filled(Position.of(0, 0))))
-        assertFalse(area.collidesWith(Field.filled(Position.of(1, 0))))
-        assertFalse(area.collidesWith(Field.filled(Position.of(2, 0))))
-        assertFalse(area.collidesWith(Field.filled(Position.of(0, 1))))
-        assertTrue(area.collidesWith(Field.filled(Position.of(1, 1))))
-        assertFalse(area.collidesWith(Field.filled(Position.of(2, 1))))
-        assertFalse(area.collidesWith(Field.filled(Position.of(0, 2))))
-        assertFalse(area.collidesWith(Field.filled(Position.of(1, 2))))
-        assertFalse(area.collidesWith(Field.filled(Position.of(2, 2))))
+        assertFalse(area.collidesWith(Field.filled(0, 0)))
+        assertFalse(area.collidesWith(Field.filled(1, 0)))
+        assertFalse(area.collidesWith(Field.filled(2, 0)))
+        assertFalse(area.collidesWith(Field.filled(0, 1)))
+        assertTrue(area.collidesWith(Field.filled(1, 1)))
+        assertFalse(area.collidesWith(Field.filled(2, 1)))
+        assertFalse(area.collidesWith(Field.filled(0, 2)))
+        assertFalse(area.collidesWith(Field.filled(1, 2)))
+        assertFalse(area.collidesWith(Field.filled(2, 2)))
         assertThat(area.sizeNonEmpty()).isEqualTo(1)
     }
 
@@ -74,10 +74,10 @@ class `An Area` {
 
         assertEquals(1, area.width)
         assertEquals(1, area.height)
-        assertTrue(area.collidesWith(Field.filled(Position.of(0, 0))))
-        assertFalse(area.collidesWith(Field.filled(Position.of(1, 0))))
-        assertFalse(area.collidesWith(Field.filled(Position.of(2, 0))))
-        assertFalse(area.collidesWith(Field.filled(Position.of(0, 1))))
+        assertTrue(area.collidesWith(Field.filled(0, 0)))
+        assertFalse(area.collidesWith(Field.filled(1, 0)))
+        assertFalse(area.collidesWith(Field.filled(2, 0)))
+        assertFalse(area.collidesWith(Field.filled(0, 1)))
         assertThat(area.sizeNonEmpty()).isEqualTo(1)
     }
 
@@ -90,11 +90,11 @@ class `An Area` {
 
         assertEquals(2, area.width)
         assertEquals(2, area.height)
-        assertTrue(area.collidesWith(Field.filled(Position.of(1, 0))))
-        assertTrue(area.collidesWith(Field.filled(Position.of(2, 0))))
-        assertTrue(area.collidesWith(Field.filled(Position.of(1, 1))))
-        assertTrue(area.collidesWith(Field.filled(Position.of(2, 1))))
-        assertFalse(area.collidesWith(Field.filled(Position.of(0, 1))))
+        assertTrue(area.collidesWith(Field.filled(1, 0)))
+        assertTrue(area.collidesWith(Field.filled(2, 0)))
+        assertTrue(area.collidesWith(Field.filled(1, 1)))
+        assertTrue(area.collidesWith(Field.filled(2, 1)))
+        assertFalse(area.collidesWith(Field.filled(0, 1)))
     }
 
     @Test
@@ -107,11 +107,11 @@ class `An Area` {
 
         assertEquals(2, area.width)
         assertEquals(2, area.height)
-        assertTrue(area.collidesWith(Field.filled(Position.of(0, 1))))
-        assertTrue(area.collidesWith(Field.filled(Position.of(1, 1))))
-        assertTrue(area.collidesWith(Field.filled(Position.of(0, 2))))
-        assertTrue(area.collidesWith(Field.filled(Position.of(1, 2))))
-        assertFalse(area.collidesWith(Field.filled(Position.of(0, 0))))
+        assertTrue(area.collidesWith(Field.filled(0, 1)))
+        assertTrue(area.collidesWith(Field.filled(1, 1)))
+        assertTrue(area.collidesWith(Field.filled(0, 2)))
+        assertTrue(area.collidesWith(Field.filled(1, 2)))
+        assertFalse(area.collidesWith(Field.filled(0, 0)))
     }
 
     @Test
@@ -138,10 +138,10 @@ class `An Area` {
             >##
         """
         )
-        assertThat(area.get(Position.of(0, 0))).isEqualTo(Field.empty(Position.of(0, 0)))
-        assertThat(area.get(Position.of(1, 1))).isEqualTo(Field.filled(Position.of(1, 1)))
-        assertThat(area.get(Position.of(2, 1))).isEqualTo(Field.filled(Position.of(2, 1)))
-        assertThat(area.get(Position.of(3, 1))).isEqualTo(Field.empty(Position.of(3, 1)))
+        assertThat(area.get(Position.of(0, 0))).isEqualTo(Field.empty(0, 0))
+        assertThat(area.get(Position.of(1, 1))).isEqualTo(Field.filled(1, 1))
+        assertThat(area.get(Position.of(2, 1))).isEqualTo(Field.filled(2, 1))
+        assertThat(area.get(Position.of(3, 1))).isEqualTo(Field.empty(3, 1))
     }
 
     @Test
@@ -190,9 +190,9 @@ class `An Area` {
 
     @Test
     fun `collides with a field`() {
-        assertTrue(Area("#").collidesWith(Field.filled(Position.of(0, 0))))
-        assertTrue(Area("-#").collidesWith(Field.filled(Position.of(1, 0))))
-        assertTrue(Area(">#").collidesWith(Field.filled(Position.of(1, 0))))
+        assertTrue(Area("#").collidesWith(Field.filled(0, 0)))
+        assertTrue(Area("-#").collidesWith(Field.filled(1, 0)))
+        assertTrue(Area(">#").collidesWith(Field.filled(1, 0)))
     }
 
     @Test
@@ -207,11 +207,11 @@ class `An Area` {
 
     @Test
     fun `does not collide with a field`() {
-        assertFalse(Area("#").collidesWith(Field.filled(Position.of(1, 1))))
-        assertFalse(Area("#").collidesWith(Field.empty(Position.of(0, 0))))
-        assertFalse(Area("-#").collidesWith(Field.filled(Position.of(0, 0))))
-        assertFalse(Area("-#").collidesWith(Field.empty(Position.of(0, 0))))
-        assertFalse(Area(">#").collidesWith(Field.filled(Position.of(0, 0))))
+        assertFalse(Area("#").collidesWith(Field.filled(1, 1)))
+        assertFalse(Area("#").collidesWith(Field.empty(0, 0)))
+        assertFalse(Area("-#").collidesWith(Field.filled(0, 0)))
+        assertFalse(Area("-#").collidesWith(Field.empty(0, 0)))
+        assertFalse(Area(">#").collidesWith(Field.filled(0, 0)))
     }
 
     @Test
@@ -369,10 +369,10 @@ class `An Area` {
 
     @Test
     fun `returns the starting area for a structure`() {
-        assertEquals(Area(Field.filled(Position.of(1, -1))), Structure("#").startingPosition(Area(TetrisFrame(3, 3))))
-        assertEquals(Area(Field.filled(Position.of(1, -1))), Structure("#").startingPosition(Area(TetrisFrame(4, 4))))
-        assertEquals(Area(Field.filled(Position.of(1, -2)), Field.filled(Position.of(1, -1))), Structure("#\n#").startingPosition(Area(TetrisFrame(3, 3))))
-        assertEquals(Area(Field.filled(Position.of(1, -1)), Field.filled(Position.of(2, -1))), Structure("##").startingPosition(Area(TetrisFrame(4, 4))))
+        assertEquals(Area(Field.filled(1, -1)), Structure("#").startingPosition(Area(TetrisFrame(3, 3))))
+        assertEquals(Area(Field.filled(1, -1)), Structure("#").startingPosition(Area(TetrisFrame(4, 4))))
+        assertEquals(Area(Field.filled(1, -2), Field.filled(1, -1)), Structure("#\n#").startingPosition(Area(TetrisFrame(3, 3))))
+        assertEquals(Area(Field.filled(1, -1), Field.filled(2, -1)), Structure("##").startingPosition(Area(TetrisFrame(4, 4))))
     }
 }
 

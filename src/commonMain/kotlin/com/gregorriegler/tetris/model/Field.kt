@@ -9,25 +9,31 @@ class Field(
 ) : Position {
 
     companion object {
-        fun filled(position: Position): Field {
-            return Field(position, FILLED)
+
+        fun filled(x: Int, y: Int): Field {
+            return Field(x, y, FILLED)
         }
 
-        fun bomb(position: Position): Field {
-            return Field(position, BOMB)
+        fun bomb(x: Int, y: Int): Field {
+            return Field(x, y, BOMB)
         }
 
-        fun soil(position: Position): Field {
-            return Field(position, SOIL)
+        fun soil(x: Int, y: Int): Field {
+            return Field(x, y, SOIL)
         }
 
         fun empty(position: Position): Field {
             return Field(position, EMPTY)
         }
+
+        fun empty(x: Int, y: Int): Field {
+            return Field(x, y, EMPTY)
+        }
     }
 
     constructor(x: Int, y: Int) : this(Position.of(x, y), EMPTY)
     constructor(x: Int, y: Int, filling: Filling) : this(Position.of(x, y), filling)
+    constructor(x: Int, y: Int, filling: Char) : this(Position.of(x, y), Filling.of(filling))
     constructor(position: Position) : this(position, EMPTY)
     constructor(position: Position, filling: Char) : this(position, Filling.of(filling))
 
@@ -56,9 +62,7 @@ class Field(
     fun collidesWith(fields: List<Field>): Boolean =
         collides() && fields.any { it.collides() && it.position == position }
 
-
-
-    fun erase(): Field = empty(Position.of(x, y))
+    fun erase(): Field = empty(x, y)
 
     override fun toString(): String = "(${this.position},$filling)"
     override fun equals(other: Any?): Boolean {

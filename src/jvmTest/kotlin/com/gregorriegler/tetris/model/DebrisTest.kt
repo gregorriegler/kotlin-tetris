@@ -16,14 +16,14 @@ class `A Debris` {
         assertEquals(3, debris.width())
         assertEquals(3, debris.height())
 
-        assertFalse(Field.filled(Position.of(0, 0)).collidesWith(debris.area))
-        assertFalse(Field.filled(Position.of(1, 0)).collidesWith(debris.area))
-        assertFalse(Field.filled(Position.of(2, 0)).collidesWith(debris.area))
-        assertFalse(Field.filled(Position.of(0, 1)).collidesWith(debris.area))
-        assertTrue(Field.filled(Position.of(1, 1)).collidesWith(debris.area))
-        assertFalse(Field.filled(Position.of(2, 1)).collidesWith(debris.area))
-        assertTrue(Field.filled(Position.of(0, 2)).collidesWith(debris.area))
-        assertTrue(Field.filled(Position.of(1, 2)).collidesWith(debris.area))
-        assertTrue(Field.filled(Position.of(2, 2)).collidesWith(debris.area))
+        assertFalse(Field.filled(0, 0).collidesWith(debris.area))
+        assertFalse(Field.filled(1, 0).collidesWith(debris.area))
+        assertFalse(Field.filled(2, 0).collidesWith(debris.area))
+        assertFalse(Field.filled(0, 1).collidesWith(debris.area))
+        assertTrue(Field.filled(1, 1).collidesWith(debris.area))
+        assertFalse(Field.filled(2, 1).collidesWith(debris.area))
+        assertTrue(Field.filled(0, 2).collidesWith(debris.area))
+        assertTrue(Field.filled(1, 2).collidesWith(debris.area))
+        assertTrue(Field.filled(2, 2).collidesWith(debris.area))
     }
 }

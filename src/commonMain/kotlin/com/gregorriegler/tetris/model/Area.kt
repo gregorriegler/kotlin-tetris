@@ -11,7 +11,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
                             val dx = x - center.x
                             val dy = y - center.y
                             (dx * dx + dy * dy <= radius * radius)
-                        }.map { x -> Field.filled(Position.of(x, y)) }
+                        }.map { x -> Field.filled(x, y) }
                 })
 
         fun parseFields(string: String): List<Field> = string.trimIndent()
@@ -21,21 +21,21 @@ open class Area(fields: List<Field>) : PositionedFrame {
                 row.toCharArray()
                     .withIndex()
                     .filterNot { it.value == Filling.INDENT_VALUE || it.value == Filling.PULL_VALUE }
-                    .map { Field(Position.of(it.index - pulls, y), it.value) }
+                    .map { Field(it.index - pulls, y, it.value) }
             }
     }
 
     constructor(vararg fields: Field) : this(fields.toList())
     constructor(string: String) : this(parseFields(string))
     constructor(frame: TetrisFrame) : this(frame.rows().flatMap { y ->
-        frame.columns().map { x -> Field.empty(Position.of(x, y)) }
+        frame.columns().map { x -> Field.empty(x, y) }
     })
 
     val fields: List<Field> = fields.sorted()
     final override val x: Int = this.fields.minOfOrNull { it.x } ?: 0
-    final override val y: Int = (this.fields.firstOrNull() ?: Field.empty(Position.of(0, 0))).y
+    final override val y: Int = (this.fields.firstOrNull() ?: Field.empty(0, 0)).y
     final override val rightSide: Int = this.fields.maxOfOrNull { it.x } ?: 0
-    final override val bottom: Int = (this.fields.lastOrNull() ?: Field.empty(Position.of(0, 0))).y
+    final override val bottom: Int = (this.fields.lastOrNull() ?: Field.empty(0, 0)).y
     override val width: Int = rightSide - x + 1
     override val height: Int = bottom - y + 1
 
@@ -113,7 +113,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
         val fallingStacks: List<List<Field>> = fields.filter(this::willFall)
             .map(this::verticalStack)
             .toList()
-        val roomToFall = fallingStacks.associateBy({ Field.empty(Position.of(it[0].x, it[0].y + 1)) }, { it.size })
+        val roomToFall = fallingStacks.associateBy({ Field.empty(it[0].x, it[0].y + 1) }, { it.size })
         return Area(
             fields.map {
                 when {
@@ -145,8 +145,8 @@ open class Area(fields: List<Field>) : PositionedFrame {
         )
 
     private fun createRowOfSoil(y: Int): List<Field> = createRow(y, Field.Companion::soil)
-    private fun createRow(y: Int, field: (Position) -> Field): List<Field> =
-        (0 until width).map { x -> field(Position.of(x, y)) }
+    private fun createRow(y: Int, field: (x:Int, y: Int) -> Field): List<Field> =
+        (0 until width).map { x -> field(x, y) }
 
     private fun allRowsExceptTop(amount: Int) = fields.filter { it.y >= amount }
 
