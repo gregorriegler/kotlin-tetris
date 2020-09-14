@@ -34,8 +34,6 @@ class Field(
     constructor(x: Int, y: Int) : this(Position.of(x, y), EMPTY)
     constructor(x: Int, y: Int, filling: Filling) : this(Position.of(x, y), filling)
     constructor(x: Int, y: Int, filling: Char) : this(Position.of(x, y), Filling.of(filling))
-    constructor(position: Position) : this(position, EMPTY)
-    constructor(position: Position, filling: Char) : this(position, Filling.of(filling))
 
     override val x: Int get() = position.x
     override val y: Int get() = position.y
