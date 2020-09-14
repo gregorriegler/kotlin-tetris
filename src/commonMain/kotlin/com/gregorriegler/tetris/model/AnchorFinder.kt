@@ -2,9 +2,9 @@ package com.gregorriegler.tetris.model
 
 class AnchorFinder(val area: Area) {
 
-    private val checked: HashSet<Position> = HashSet()
+    private val checked: HashSet<MovablePosition> = HashSet()
 
-    fun hasAnchor(position: Position): Boolean {
+    fun hasAnchor(position: MovablePosition): Boolean {
         if (checked.contains(position)) return false
         checked.add(position)
         return area.get(position).falls() && (
@@ -16,7 +16,7 @@ class AnchorFinder(val area: Area) {
                 )
     }
 
-    private fun isAnchor(position: Position) = standsOnSoil(position) || standsOnBottom(position)
-    private fun standsOnSoil(position: Position) = area.below(position).isSoil()
-    private fun standsOnBottom(position: Position) = position.y == area.bottom
+    private fun isAnchor(position: MovablePosition) = standsOnSoil(position) || standsOnBottom(position)
+    private fun standsOnSoil(position: MovablePosition) = area.below(position).isSoil()
+    private fun standsOnBottom(position: MovablePosition) = position.y == area.bottom
 }

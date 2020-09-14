@@ -1,37 +1,39 @@
 package com.gregorriegler.tetris.model
 
 import com.gregorriegler.tetris.model.Filling.*
+import com.gregorriegler.tetris.view.Color
 
 class Field(
-    val position: Position,
+    val position: MovablePosition,
     val filling: Filling,
-) : Comparable<Field> {
-
-    val x: Int get() = position.x
-    val y: Int get() = position.y
+) : Comparable<Field>, Position {
 
     companion object {
-        fun filled(position: Position): Field {
+        fun filled(position: MovablePosition): Field {
             return Field(position, FILLED)
         }
 
-        fun bomb(position: Position): Field {
+        fun bomb(position: MovablePosition): Field {
             return Field(position, BOMB)
         }
 
-        fun soil(position: Position): Field {
+        fun soil(position: MovablePosition): Field {
             return Field(position, SOIL)
         }
 
-        fun empty(position: Position): Field {
+        fun empty(position: MovablePosition): Field {
             return Field(position, EMPTY)
         }
     }
 
-    constructor(x: Int, y: Int) : this(Position(x, y), EMPTY)
-    constructor(x: Int, y: Int, filling: Filling) : this(Position(x, y), filling)
-    constructor(position: Position) : this(position, EMPTY)
-    constructor(position: Position, filling: Char) : this(position, Filling.of(filling))
+    constructor(x: Int, y: Int) : this(MovablePosition(x, y), EMPTY)
+    constructor(x: Int, y: Int, filling: Filling) : this(MovablePosition(x, y), filling)
+    constructor(position: MovablePosition) : this(position, EMPTY)
+    constructor(position: MovablePosition, filling: Char) : this(position, Filling.of(filling))
+
+    override val x: Int get() = position.x
+    override val y: Int get() = position.y
+    fun color(depth: Int, palette: List<Color>) : Color = filling.color(position.y + depth, palette)
 
     fun upBy(amount: Int): Field = Field(this.position.upBy(amount), filling)
     fun down(): Field = downBy(1)
@@ -40,8 +42,8 @@ class Field(
     fun leftBy(amount: Int): Field = Field(this.position.leftBy(amount), filling)
     fun right(): Field = rightBy(1)
     fun rightBy(amount: Int): Field = Field(this.position.right(amount), filling)
-    fun plus(position: Position): Field = Field(this.position.plus(position), filling)
-    fun minus(position: Position): Field = Field(this.position.minus(position), filling)
+    fun plus(position: MovablePosition): Field = Field(this.position.plus(position), filling)
+    fun minus(position: MovablePosition): Field = Field(this.position.minus(position), filling)
     fun rotate(width: Int): Field = Field(this.position.rotate(width), filling)
     fun isFilled(): Boolean = filling.isFilled()
     fun isEmpty(): Boolean = filling.isEmpty()
@@ -55,7 +57,7 @@ class Field(
 
     fun within(frame: Frame): Boolean = this.position.within(frame)
 
-    fun erase(): Field = empty(Position(position.x, position.y))
+    fun erase(): Field = empty(MovablePosition(position.x, position.y))
 
     override fun toString(): String = "(${this.position},$filling)"
     override fun equals(other: Any?): Boolean {

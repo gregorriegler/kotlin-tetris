@@ -5,7 +5,7 @@ import com.gregorriegler.tetris.view.Color
 class Debris(
     var area: Area,
     var depth: Int,
-    val soilColors: List<Color>
+    val palette: List<Color>
 ) {
     constructor(area: Area, depth: Int = 0) : this(
         area, depth, listOf(
@@ -26,14 +26,10 @@ class Debris(
 
     val fields: List<Field> get() = area.fields
 
-    fun asStones(gameFrame: PositionedFrame): List<ColoredPositionedFrame> {
+    fun asStones(display: PositionedFrame): List<TetrisStone> {
         return fields
             .filterNot { it.isEmpty() }
-            .map { field ->
-                ColoredPositionedFrame.tetrisStone(
-                    gameFrame, area, field.position, color(field.filling, field.position.y + depth)
-                )
-            }
+            .map { TetrisStone.of(display, area, it, depth, palette) }
     }
 
     fun add(stone: Stone) {
@@ -58,7 +54,7 @@ class Debris(
             area.combine(stone.area)
                 .within(area),
             depth,
-            soilColors
+            palette
         )
 
     fun specials() {
@@ -83,9 +79,5 @@ class Debris(
         if (area != other.area) return false
 
         return true
-    }
-
-    fun color(filling: Filling, depth: Int): Color {
-        return Filling.color(filling, depth, soilColors)
     }
 }

@@ -17,21 +17,21 @@ class `A Stone` {
 
         @Test
         fun `starts above the center`() {
-            assertPosition(stone, Field.filled(Position(1, -1)))
+            assertPosition(stone, Field.filled(MovablePosition(1, -1)))
         }
 
         @Test
         fun `can be moved down`() {
             stone.down()
 
-            assertPosition(stone, Field.filled(Position(1, 0)))
+            assertPosition(stone, Field.filled(MovablePosition(1, 0)))
         }
 
         @Test
         fun `can be moved to the bottom`() {
             repeat(3, { stone.down() })
 
-            assertPosition(stone, Field.filled(Position(1, 2)))
+            assertPosition(stone, Field.filled(MovablePosition(1, 2)))
             assertTrue(stone.landed(debris3x3))
         }
 
@@ -39,7 +39,7 @@ class `A Stone` {
         fun `can not be moved out of the frame at the bottom`() {
             repeat(4, { stone.down() })
 
-            assertPosition(stone, Field.filled(Position(1, 2)))
+            assertPosition(stone, Field.filled(MovablePosition(1, 2)))
             assertTrue(stone.landed(Debris(frame)))
         }
 
@@ -48,7 +48,7 @@ class `A Stone` {
             stone.down()
             stone.left(debris3x3)
 
-            assertPosition(stone, Field.filled(Position(0, 0)))
+            assertPosition(stone, Field.filled(MovablePosition(0, 0)))
         }
 
         @Test
@@ -57,7 +57,7 @@ class `A Stone` {
             stone.left(debris3x3)
             stone.left(debris3x3)
 
-            assertPosition(stone, Field.filled(Position(0, 0)))
+            assertPosition(stone, Field.filled(MovablePosition(0, 0)))
         }
 
         @Test
@@ -65,7 +65,7 @@ class `A Stone` {
             stone.down()
             stone.right(debris3x3)
 
-            assertPosition(stone, Field.filled(Position(2, 0)))
+            assertPosition(stone, Field.filled(MovablePosition(2, 0)))
         }
 
         @Test
@@ -74,7 +74,7 @@ class `A Stone` {
             stone.right(debris3x3)
             stone.right(debris3x3)
 
-            assertPosition(stone, Field.filled(Position(2, 0)))
+            assertPosition(stone, Field.filled(MovablePosition(2, 0)))
         }
     }
 
@@ -87,10 +87,10 @@ class `A Stone` {
             assertPositionByArea(
                 stone,
                 Area(
-                    Field.filled(Position(1, -2)),
-                    Field.filled(Position(2, -2)),
-                    Field.filled(Position(1, -1)),
-                    Field.filled(Position(2, -1))
+                    Field.filled(MovablePosition(1, -2)),
+                    Field.filled(MovablePosition(2, -2)),
+                    Field.filled(MovablePosition(1, -1)),
+                    Field.filled(MovablePosition(2, -1))
                 )
             )
         }
@@ -102,10 +102,10 @@ class `A Stone` {
             assertPositionByArea(
                 stone,
                 Area(
-                    Field.filled(Position(1, -1)),
-                    Field.filled(Position(2, -1)),
-                    Field.filled(Position(1, -0)),
-                    Field.filled(Position(2, -0))
+                    Field.filled(MovablePosition(1, -1)),
+                    Field.filled(MovablePosition(2, -1)),
+                    Field.filled(MovablePosition(1, -0)),
+                    Field.filled(MovablePosition(2, -0))
                 )
             )
         }
@@ -117,10 +117,10 @@ class `A Stone` {
             assertPositionByArea(
                 stone,
                 Area(
-                    Field.filled(Position(1, 2)),
-                    Field.filled(Position(2, 2)),
-                    Field.filled(Position(1, 3)),
-                    Field.filled(Position(2, 3))
+                    Field.filled(MovablePosition(1, 2)),
+                    Field.filled(MovablePosition(2, 2)),
+                    Field.filled(MovablePosition(1, 3)),
+                    Field.filled(MovablePosition(2, 3))
                 )
             )
             assertTrue(stone.landed(Debris(TetrisFrame(4, 4))))
@@ -172,10 +172,10 @@ class `A Stone` {
             assertPositionByArea(
                 stone,
                 Area(
-                    Field.filled(Position(0, -1)),
-                    Field.filled(Position(1, -1)),
-                    Field.filled(Position(0, 0)),
-                    Field.filled(Position(1, 0))
+                    Field.filled(MovablePosition(0, -1)),
+                    Field.filled(MovablePosition(1, -1)),
+                    Field.filled(MovablePosition(0, 0)),
+                    Field.filled(MovablePosition(1, 0))
                 )
             )
             assertFalse(stone.landed(Debris(TetrisFrame(4, 4))))
@@ -190,10 +190,10 @@ class `A Stone` {
             assertPositionByArea(
                 stone,
                 Area(
-                    Field.filled(Position(0, -1)),
-                    Field.filled(Position(1, -1)),
-                    Field.filled(Position(0, 0)),
-                    Field.filled(Position(1, 0))
+                    Field.filled(MovablePosition(0, -1)),
+                    Field.filled(MovablePosition(1, -1)),
+                    Field.filled(MovablePosition(0, 0)),
+                    Field.filled(MovablePosition(1, 0))
                 )
             )
             assertFalse(stone.landed(Debris(TetrisFrame(4, 4))))
@@ -207,10 +207,10 @@ class `A Stone` {
             assertPositionByArea(
                 stone,
                 Area(
-                    Field.filled(Position(2, -1)),
-                    Field.filled(Position(3, -1)),
-                    Field.filled(Position(2, 0)),
-                    Field.filled(Position(3, 0))
+                    Field.filled(MovablePosition(2, -1)),
+                    Field.filled(MovablePosition(3, -1)),
+                    Field.filled(MovablePosition(2, 0)),
+                    Field.filled(MovablePosition(3, 0))
                 )
             )
             assertFalse(stone.landed(Debris(TetrisFrame(4, 4))))
@@ -225,10 +225,10 @@ class `A Stone` {
             assertPositionByArea(
                 stone,
                 Area(
-                    Field.filled(Position(2, -1)),
-                    Field.filled(Position(3, -1)),
-                    Field.filled(Position(2, 0)),
-                    Field.filled(Position(3, 0))
+                    Field.filled(MovablePosition(2, -1)),
+                    Field.filled(MovablePosition(3, -1)),
+                    Field.filled(MovablePosition(2, 0)),
+                    Field.filled(MovablePosition(3, 0))
                 )
             )
             assertFalse(stone.landed(Debris(TetrisFrame(4, 4))))

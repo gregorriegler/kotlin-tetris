@@ -1,12 +1,10 @@
 package com.gregorriegler.tetris.model
 
-import com.gregorriegler.tetris.view.Color
-
 open class SimplePositionedFrame(
-    override val x: Int,
-    override val y: Int,
-    override val width: Int,
-    override val height: Int,
+    final override val x: Int,
+    final override val y: Int,
+    final override val width: Int,
+    final override val height: Int,
 ) : PositionedFrame {
 
     override val rightSide: Int = x + width

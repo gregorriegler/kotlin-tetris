@@ -18,14 +18,14 @@ class TetrisJs {
     private val canvas: HTMLCanvasElement = document.createElement("canvas") as HTMLCanvasElement
     private val context: CanvasRenderingContext2D
     private val tetris: Tetris = Tetris()
-    private val gameFrame: PositionedFrame
+    private val display: PositionedFrame
 
     init {
         context = canvas.getContext("2d") as CanvasRenderingContext2D
         context.canvas.width = window.innerWidth
         context.canvas.height = window.innerHeight
         document.body!!.appendChild(canvas)
-        gameFrame = SimplePositionedFrame.max(tetris, SimpleFrame(window.innerWidth, window.innerHeight))
+        display = SimplePositionedFrame.max(tetris, SimpleFrame(window.innerWidth, window.innerHeight))
     }
 
     fun start() {
@@ -52,14 +52,14 @@ class TetrisJs {
 
     private fun draw(debris: Debris) {
         clearScreen()
-        debris.asStones(gameFrame).forEach { drawFilled(it) }
+        debris.asStones(display).forEach { drawFilled(it) }
     }
 
     private fun clearScreen() {
         context.clearRect(0.0, 0.0, context.canvas.width.toDouble(), context.canvas.height.toDouble())
     }
 
-    private fun drawFilled(stone: ColoredPositionedFrame) {
+    private fun drawFilled(stone: TetrisStone) {
         context.fillStyle = stone.color.asCss()
         context.fillRect(
             stone.x.toDouble(),

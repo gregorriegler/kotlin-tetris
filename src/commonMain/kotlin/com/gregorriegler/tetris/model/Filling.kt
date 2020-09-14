@@ -9,18 +9,21 @@ enum class Filling {
         override fun isFilled(): Boolean = true
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
-        override fun special(position: Position, area: Area): Area = explode(position, area)
+        override fun color(depth: Int, soilColors: List<Color>): Color = Color.black
+
+        override fun special(position: MovablePosition, area: Area): Area = explode(position, area)
         override fun toString(): String = BOMB_VALUE.toString()
 
-        private fun explode(position: Position, area: Area): Area {
-            return area.erase(Area.circle(position, 4))
-        }
+        private fun explode(position: MovablePosition, area: Area): Area = area.erase(Area.circle(position, 4))
     },
     SOIL {
         override fun combine(filling: Filling): Filling = SOIL
         override fun isFilled(): Boolean = false
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
+        override fun color(depth: Int, soilColors: List<Color>): Color =
+            Color.byDepth(soilColors, depth, Color.changeColorEvery)
+
         override fun toString(): String = SOIL_VALUE.toString()
     },
     FILLED {
@@ -28,6 +31,8 @@ enum class Filling {
         override fun isFilled(): Boolean = true
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
+        override fun color(depth: Int, soilColors: List<Color>): Color = Color.orange
+
         override fun toString(): String = FILLED_VALUE.toString()
     },
     EMPTY {
@@ -49,7 +54,8 @@ enum class Filling {
     abstract fun isFilled(): Boolean
     abstract fun isEmpty(): Boolean
     abstract fun collides(): Boolean
-    open fun special(position: Position, area: Area): Area = area
+    open fun color(depth: Int, soilColors: List<Color>) = Color.grey
+    open fun special(position: MovablePosition, area: Area): Area = area
 
 
     companion object {
@@ -69,15 +75,6 @@ enum class Filling {
                 BOMB_VALUE -> BOMB
                 else -> EMPTY
             }
-
-        fun color(filling: Filling, depth: Int, soilColors: List<Color>): Color {
-            return when (filling) {
-                BOMB -> Color.black
-                FILLED -> Color.orange
-                SOIL -> Color.byDepth(soilColors, depth, Color.changeColorEvery)
-                else -> Color.grey
-            }
-        }
 
         fun higher(filling1: Filling, filling2: Filling): Filling {
             return if (filling1.ordinal < filling2.ordinal) filling1 else filling2
