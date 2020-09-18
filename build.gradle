@@ -2,6 +2,7 @@ plugins {
     id 'org.jetbrains.kotlin.multiplatform' version '1.4.0'
    // id 'de.dplatz.clear' version '0.3'
     id 'org.openjfx.javafxplugin' version '0.0.9'
+    id 'com.adarshr.test-logger' version '2.1.0'
 }
 
 group = 'com.gregorriegler'
@@ -63,4 +64,29 @@ jvmTest {
 repositories {
     mavenCentral()
     jcenter()
+}
+
+testlogger {
+    theme 'mocha'
+    showExceptions true
+    showStackTraces true
+    showFullStackTraces false
+    showCauses true
+    slowThreshold 2000
+    showSummary true
+    showSimpleNames true
+    showPassed true
+    showSkipped true
+    showFailed true
+    showStandardStreams false
+    showPassedStandardStreams true
+    showSkippedStandardStreams true
+    showFailedStandardStreams true
+    logLevel 'lifecycle'
+}
+
+gradle.addListener new BuildAdapter() {
+    void projectsEvaluated(Gradle gradle) {
+        exec { commandLine 'clear' }
+    }
 }
