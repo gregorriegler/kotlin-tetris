@@ -16,7 +16,7 @@ class `A Field` {
     @Test
     fun `has a filling`() {
         assertThat(Field(1,1).filling).isEqualTo(Filling.EMPTY)
-        assertThat(Field(1,1, Filling.FILLED).filling).isEqualTo(Filling.FILLED)
+        assertThat(Field(1,1, Filling.FALLING).filling).isEqualTo(Filling.FALLING)
     }
 
     @Test

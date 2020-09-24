@@ -11,7 +11,7 @@ class Field(
     companion object {
 
         fun filled(x: Int, y: Int): Field {
-            return Field(x, y, FILLED)
+            return Field(x, y, FALLING)
         }
 
         fun bomb(x: Int, y: Int): Field {

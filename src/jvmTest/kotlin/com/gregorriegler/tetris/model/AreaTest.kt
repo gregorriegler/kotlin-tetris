@@ -123,8 +123,8 @@ class `An Area` {
         """).state()).isEqualTo(
             listOf(
                 listOf(Filling.EMPTY, Filling.EMPTY),
-                listOf(Filling.FILLED, Filling.FILLED),
-                listOf(Filling.FILLED, Filling.FILLED),
+                listOf(Filling.FALLING, Filling.FALLING),
+                listOf(Filling.FALLING, Filling.FALLING),
             )
         )
     }

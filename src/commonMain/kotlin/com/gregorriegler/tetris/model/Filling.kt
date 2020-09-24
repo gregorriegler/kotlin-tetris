@@ -24,8 +24,8 @@ enum class Filling {
             Color.byDepth(soilColors, depth, Color.changeColorEvery)
         override fun toString(): String = SOIL_VALUE.toString()
     },
-    FILLED {
-        override fun combine(filling: Filling): Filling = FILLED
+    FALLING {
+        override fun combine(filling: Filling): Filling = FALLING
         override fun falls(): Boolean = true
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
@@ -65,7 +65,7 @@ enum class Filling {
 
         fun of(char: Char): Filling =
             when (char) {
-                FILLED_VALUE -> FILLED
+                FILLED_VALUE -> FALLING
                 SOIL_VALUE -> SOIL
                 EMPTY_VALUE -> EMPTY
                 INDENT_VALUE -> INDENT
