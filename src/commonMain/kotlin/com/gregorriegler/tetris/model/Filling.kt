@@ -51,6 +51,7 @@ enum class Filling {
         override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
+        override fun color(depth: Int, soilColors: List<Color>): Color = Color.gold
         override fun toString(): String = COIN_VALUE.toString()
     };
 

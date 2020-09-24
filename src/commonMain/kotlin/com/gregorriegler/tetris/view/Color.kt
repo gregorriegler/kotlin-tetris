@@ -16,6 +16,7 @@ class Color(
         val black: Color = Color(0f, 0f, 0f)
         val orange: Color = Color(240f, 150f, 50f)
         val grey: Color = Color(11f, 11f, 11f)
+        val gold: Color = Color(255f, 215f, 0f)
 
         fun random(): Color {
             return Color(randomColorPart(), randomColorPart(), randomColorPart())

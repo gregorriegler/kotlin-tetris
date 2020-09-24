@@ -67,7 +67,7 @@ class Debris(
         depth += dig.depth
     }
 
-    private fun coinPercentage(depth: Int) = 0
+    private fun coinPercentage(depth: Int) = depth/100 + 2
 
     override fun toString(): String = area.toString()
 
