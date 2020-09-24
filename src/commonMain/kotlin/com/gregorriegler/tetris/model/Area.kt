@@ -57,18 +57,11 @@ open class Area(fields: List<Field>) : PositionedFrame {
     fun state(): List<List<Filling>> =
         (0..bottom).map { y ->
             (0..rightSide).map { x ->
-                get(Position.of(x, y)).filling
+                get(x, y).filling
             }
         }.toList()
 
-    private fun row(y: Int): List<Field> = (0 until width).map { x -> get(Position.of(x, y)) }
-
-    fun get(position: Position): Field =
-        if (isOutside(position)) {
-            Field.empty(position)
-        } else {
-            fields.getOrNull(indexOf(position)) ?: Field.empty(position)
-        }
+    private fun row(y: Int): List<Field> = (0 until width).map { x -> get(x, y) }
 
     private fun indexOf(position: Position) = (position.x - this.x) + ((position.y - this.y) * width)
 
@@ -92,14 +85,22 @@ open class Area(fields: List<Field>) : PositionedFrame {
                     allX().plus(area.allX()).distinct()
                         .map { x ->
                             Field(
-                                Position.of(x, y), Filling.higher(
-                                    get(Position.of(x, y)).filling,
-                                    area.get(Position.of(x, y)).filling
+                                x, y, Filling.higher(
+                                    get(x, y).filling,
+                                    area.get(x, y).filling
                                 )
                             )
                         }
                 }
         )
+
+    fun get(x: Int, y: Int) = get(Position.of(x, y))
+    fun get(position: Position): Field =
+        if (isOutside(position)) {
+            Field.empty(position)
+        } else {
+            fields.getOrNull(indexOf(position)) ?: Field.empty(position)
+        }
 
     fun collidesWith(area: Area): Boolean = fields.any { area.collidesWith(it) }
     fun collidesWith(field: Field): Boolean = field.collides() && get(field).collides()
@@ -124,8 +125,9 @@ open class Area(fields: List<Field>) : PositionedFrame {
             })
     }
 
-    private fun willFall(field: Field): Boolean = field.falls() && below(field).isEmpty()
-            && !AnchorFinder(this).hasAnchor(field)
+    private fun willFall(field: Field): Boolean = field.falls() && below(field).isEmpty() && !hasAnchor(field)
+
+    private fun hasAnchor(field: Field) = AnchorFinder(this).hasAnchor(field)
 
     private fun verticalStack(it: Field) = VerticalStackIterator(this, it).asSequence().toList()
 
@@ -145,7 +147,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
         )
 
     private fun createRowOfSoil(y: Int): List<Field> = createRow(y, Field.Companion::soil)
-    private fun createRow(y: Int, field: (x:Int, y: Int) -> Field): List<Field> =
+    private fun createRow(y: Int, field: (x: Int, y: Int) -> Field): List<Field> =
         (0 until width).map { x -> field(x, y) }
 
     private fun allRowsExceptTop(amount: Int) = fields.filter { it.y >= amount }
