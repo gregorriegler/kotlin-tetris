@@ -102,7 +102,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
         )
 
     fun collidesWith(area: Area): Boolean = fields.any { area.collidesWith(it) }
-    fun collidesWith(field: Field): Boolean = field.collides() && get(field.position).collides()
+    fun collidesWith(field: Field): Boolean = field.collides() && get(field).collides()
 
     fun move(vector: Position): Area = Area(fields.map { field -> field.plus(vector) })
     fun within(area: Area): Area = Area(fields.filter { it.within(area) })
@@ -124,8 +124,8 @@ open class Area(fields: List<Field>) : PositionedFrame {
             })
     }
 
-    private fun willFall(field: Field): Boolean = field.falls() && below(field.position).isEmpty()
-            && !AnchorFinder(this).hasAnchor(field.position)
+    private fun willFall(field: Field): Boolean = field.falls() && below(field).isEmpty()
+            && !AnchorFinder(this).hasAnchor(field)
 
     private fun verticalStack(it: Field) = VerticalStackIterator(this, it).asSequence().toList()
 
@@ -159,7 +159,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
     fun erase(area: Area): Area = erase(area.fields)
 
     private fun erase(fields: List<Field>): Area = Area(this.fields.map { field ->
-        if (field.collidesWith(fields) || (field.isSoil() && above(field.position).collidesWith(fields))) {
+        if (field.collidesWith(fields) || (field.isSoil() && above(field).collidesWith(fields))) {
             field.erase()
         } else {
             field
