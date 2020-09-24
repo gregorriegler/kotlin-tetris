@@ -85,5 +85,16 @@ enum class Filling {
         fun higher(filling1: Filling, filling2: Filling): Filling {
             return if (filling1.ordinal < filling2.ordinal) filling1 else filling2
         }
+
+        fun coinOrSoil(coinPercentage: Int): Filling =
+            when (coinPercentage) {
+                0 -> SOIL
+                100 -> COIN
+                else -> random(coinPercentage)
+            }
+
+        private fun random(coinPercentage: Int): Filling {
+            return ((0 until coinPercentage).map { COIN } + (coinPercentage until 100).map { SOIL }).random()
+        }
     }
 }

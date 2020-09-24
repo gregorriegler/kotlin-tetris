@@ -38,101 +38,173 @@ class DigTest {
     }
 
     @Test
+    fun `creates a coin about half of the time`() {
+        val count = (0 until 100)
+            .map { Filling.coinOrSoil(50) }
+            .filter { it == Filling.COIN }
+            .count()
+
+        assertThat(count).isBetween(30, 70)
+    }
+
+    @Test
     fun `can dig an area`() {
-        assertThat(Area("""
+        assertThat(
+            Area(
+                """
             ---
             ---
             ---
-        """).dig(1, 0).area).isEqualTo(Area("""
+        """
+            ).dig(1, 0).area
+        ).isEqualTo(
+            Area(
+                """
             ---
             ---
             ■■■
-        """))
+        """
+            )
+        )
 
         // only dig one row at a time
-        assertThat(Area("""
+        assertThat(
+            Area(
+                """
             ---
             ---
             ---
-        """).dig(2, 0).area).isEqualTo(Area("""
+        """
+            ).dig(2, 0).area
+        ).isEqualTo(
+            Area(
+                """
             ---
             ---
             ■■■
-        """))
+        """
+            )
+        )
 
-        assertThat(Area("""
+        assertThat(
+            Area(
+                """
             ---
             ---
             ---
-        """).dig(2, 0).area.dig(2, 0).area).isEqualTo(Area("""
+        """
+            ).dig(2, 0).area.dig(2, 0).area
+        ).isEqualTo(
+            Area(
+                """
             ---
             ■■■
             ■■■
-        """))
+        """
+            )
+        )
     }
 
     @Test
     fun `digging generates coin`() {
-        assertThat(Area("""
+        assertThat(
+            Area(
+                """
             ---
             ---
             ---
-        """).dig(1, 100).area).isEqualTo(Area("""
+        """
+            ).dig(1, 100).area
+        ).isEqualTo(
+            Area(
+                """
             ---
             ---
             OOO
-        """))
+        """
+            )
+        )
     }
 
     @Test
     fun `can dig partly filled area`() {
-        assertThat(Area("""
+        assertThat(
+            Area(
+                """
             ---
             ---
             ■--
-        """).dig(1, 0).area).isEqualTo(Area("""
+        """
+            ).dig(1, 0).area
+        ).isEqualTo(
+            Area(
+                """
             ---
             ■--
             ■■■
-        """))
+        """
+            )
+        )
 
-        assertThat(Area("""
+        assertThat(
+            Area(
+                """
             ---
             ---
             ■--
-        """).dig(2, 0).area.dig(2, 0).area).isEqualTo(Area("""
+        """
+            ).dig(2, 0).area.dig(2, 0).area
+        ).isEqualTo(
+            Area(
+                """
             ■--
             ■■■
             ■■■
-        """))
+        """
+            )
+        )
 
-        assertThat(Area("""
+        assertThat(
+            Area(
+                """
             ---
             ---
             #--
-        """).dig(1, 0).area).isEqualTo(Area("""
+        """
+            ).dig(1, 0).area
+        ).isEqualTo(
+            Area(
+                """
             ---
             #--
             ■■■
-        """))
+        """
+            )
+        )
     }
 
     @Test
     fun `can dig a debris`() {
-        val debris = Debris("""
+        val debris = Debris(
+            """
             ---
             ■#-
             ■■■
-        """)
+        """
+        )
 
         debris.dig(2)
         debris.dig(2)
 
-        assertThat(debris).isEqualTo(Debris("""
+        assertThat(debris).isEqualTo(
+            Debris(
+                """
             ■#-
             ■■■
             ■■■
-        """))
+        """
+            )
+        )
     }
 
     @Test

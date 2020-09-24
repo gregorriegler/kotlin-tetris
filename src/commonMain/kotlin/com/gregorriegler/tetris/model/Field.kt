@@ -16,11 +16,7 @@ class Field(
         fun coin(x: Int, y: Int): Field = Field(x, y, COIN)
         fun empty(position: Position): Field = Field(position, EMPTY)
         fun empty(x: Int, y: Int): Field = Field(x, y, EMPTY)
-        fun soilOrCoin(x: Int, y: Int, coinPercentage: Int): Field = when (coinPercentage) {
-            0 -> soil(x, y)
-            100 -> coin(x, y)
-            else -> soil(x, y)
-        }
+        fun soilOrCoin(x: Int, y: Int, coinPercentage: Int): Field = Field(x, y, Filling.coinOrSoil(coinPercentage))
     }
 
     constructor(x: Int, y: Int) : this(Position.of(x, y), EMPTY)
