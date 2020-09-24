@@ -78,6 +78,7 @@ enum class Filling {
                 EMPTY_VALUE -> EMPTY
                 INDENT_VALUE -> INDENT
                 BOMB_VALUE -> BOMB
+                COIN_VALUE -> COIN
                 else -> EMPTY
             }
 

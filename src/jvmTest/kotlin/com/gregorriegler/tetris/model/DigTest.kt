@@ -22,6 +22,22 @@ class DigTest {
     }
 
     @Test
+    fun `creates a soil when coin percentage is 0`() {
+        val field = Field.soilOrCoin(0, 3, 0)
+        assertThat(field.filling).isEqualTo(Filling.SOIL)
+        assertThat(field.x).isEqualTo(0)
+        assertThat(field.y).isEqualTo(3)
+    }
+
+    @Test
+    fun `creates a coin when coin percentage is 100`() {
+        val field = Field.soilOrCoin(0, 3, 100)
+        assertThat(field.filling).isEqualTo(Filling.COIN)
+        assertThat(field.x).isEqualTo(0)
+        assertThat(field.y).isEqualTo(3)
+    }
+
+    @Test
     fun `can dig an area`() {
         assertThat(Area("""
             ---
@@ -52,6 +68,19 @@ class DigTest {
             ---
             ■■■
             ■■■
+        """))
+    }
+
+    @Test
+    fun `digging generates coin`() {
+        assertThat(Area("""
+            ---
+            ---
+            ---
+        """).dig(1, 100).area).isEqualTo(Area("""
+            ---
+            ---
+            OOO
         """))
     }
 

@@ -148,7 +148,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
                     + (height - amount until height).flatMap { this.createRowOfSoilOrCoin(it, coinPercentage) }
         )
 
-    private fun createRowOfSoilOrCoin(y: Int, coinPercentage: Int): List<Field> = (0 until width).map { x -> Field.soil(x, y)}
+    private fun createRowOfSoilOrCoin(y: Int, coinPercentage: Int): List<Field> = (0 until width).map { x -> Field.soilOrCoin(x, y, coinPercentage)}
 
     private fun allRowsExceptTop(amount: Int) = fields.filter { it.y >= amount }
 

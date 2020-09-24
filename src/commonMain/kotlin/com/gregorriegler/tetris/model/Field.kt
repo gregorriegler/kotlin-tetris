@@ -10,28 +10,16 @@ class Field(
 
     companion object {
 
-        fun filled(x: Int, y: Int): Field {
-            return Field(x, y, FALLING)
-        }
-
-        fun bomb(x: Int, y: Int): Field {
-            return Field(x, y, BOMB)
-        }
-
-        fun soil(x: Int, y: Int): Field {
-            return Field(x, y, SOIL)
-        }
-
-        fun coin(x: Int, y: Int): Field {
-            return Field(x, y, COIN)
-        }
-
-        fun empty(position: Position): Field {
-            return Field(position, EMPTY)
-        }
-
-        fun empty(x: Int, y: Int): Field {
-            return Field(x, y, EMPTY)
+        fun filled(x: Int, y: Int): Field = Field(x, y, FALLING)
+        fun bomb(x: Int, y: Int): Field = Field(x, y, BOMB)
+        fun soil(x: Int, y: Int): Field = Field(x, y, SOIL)
+        fun coin(x: Int, y: Int): Field = Field(x, y, COIN)
+        fun empty(position: Position): Field = Field(position, EMPTY)
+        fun empty(x: Int, y: Int): Field = Field(x, y, EMPTY)
+        fun soilOrCoin(x: Int, y: Int, coinPercentage: Int): Field = when (coinPercentage) {
+            0 -> soil(x, y)
+            100 -> coin(x, y)
+            else -> soil(x, y)
         }
     }
 
