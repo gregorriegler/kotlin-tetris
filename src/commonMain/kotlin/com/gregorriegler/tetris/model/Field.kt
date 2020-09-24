@@ -50,11 +50,10 @@ class Field(
     override fun plus(position: Position): Field = Field(this.position.plus(position), filling)
     override fun minus(position: Position): Field = Field(this.position.minus(position), filling)
 
-    fun isFilled(): Boolean = filling.isFilled()
     fun isEmpty(): Boolean = filling.isEmpty()
     fun collides(): Boolean = filling.collides()
     fun isSoil() = filling == SOIL
-    fun falls(): Boolean = filling.isFilled()
+    fun falls(): Boolean = filling.falls()
     fun special(area: Area): Area = filling.special(this.position, area)
     fun collidesWith(area: Area): Boolean = collidesWith(area.fields)
     fun collidesWith(fields: List<Field>): Boolean =

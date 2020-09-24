@@ -1,6 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.multiplatform' version '1.4.0'
-   // id 'de.dplatz.clear' version '0.3'
+    id 'de.dplatz.clear' version '0.3'
     id 'org.openjfx.javafxplugin' version '0.0.9'
     id 'com.adarshr.test-logger' version '2.1.0'
 }
@@ -34,15 +34,15 @@ kotlin {
         jvmTest {
             dependencies {
                 def junitVersion = '5.6.2'
-                implementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
-                implementation "org.junit.jupiter:junit-jupiter-params:${junitVersion}"
-                runtimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+                implementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+                implementation "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+                runtimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
                 implementation 'org.assertj:assertj-core:3.16.1'
             }
         }
         jsMain {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.6.12")
+                implementation "org.jetbrains.kotlinx:kotlinx-html-js:0.6.12"
             }
         }
     }
@@ -75,7 +75,7 @@ testlogger {
     slowThreshold 2000
     showSummary true
     showSimpleNames true
-    showPassed true
+    showPassed false
     showSkipped true
     showFailed true
     showStandardStreams false
@@ -83,10 +83,4 @@ testlogger {
     showSkippedStandardStreams true
     showFailedStandardStreams true
     logLevel 'lifecycle'
-}
-
-gradle.addListener new BuildAdapter() {
-    void projectsEvaluated(Gradle gradle) {
-        exec { commandLine 'clear' }
-    }
 }

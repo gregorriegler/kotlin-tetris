@@ -24,19 +24,19 @@ class TetrisFrame(
             area.right()
 
     fun down(area: Area): Area =
-        if (area.bottomNonEmpty() < height - 1)
+        if (area.bottomFalling() < height - 1)
             area.down()
         else
             area
 
-    private fun isAtLeftBorder(area: Area) = area.leftSideNonEmpty() <= 0
-    private fun isAtRightBorder(area: Area) = area.rightSideNonEmpty() >= width - 1
-    fun isAtBottom(area: Area): Boolean = area.bottomNonEmpty() == height - 1
+    private fun isAtLeftBorder(area: Area) = area.leftSideFalling() <= 0
+    private fun isAtRightBorder(area: Area) = area.rightSideFalling() >= width - 1
+    fun isAtBottom(area: Area): Boolean = area.bottomFalling() == height - 1
     private fun center() = width.toDouble().div(2).roundToInt() - 1
     fun isOutside(area: Area): Boolean =
-        area.rightSideNonEmpty() > width - 1
-                || area.leftSideNonEmpty() < 0
-                || area.bottomNonEmpty() > height - 1
+        area.rightSideFalling() > width - 1
+                || area.leftSideFalling() < 0
+                || area.bottomFalling() > height - 1
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -48,12 +48,12 @@ open class Area(fields: List<Field>) : PositionedFrame {
     fun below(position: Position) = get(position.down())
     fun above(position: Position) = get(position.up())
 
-    fun sizeNonEmpty(): Int = nonEmptyFields().count()
-    fun widthNonEmpty(): Int = (rightSideNonEmpty() - leftSideNonEmpty()) + 1
-    fun leftSideNonEmpty(): Int = nonEmptyFields().map { it.x }.minOrNull() ?: 0
-    fun rightSideNonEmpty(): Int = nonEmptyFields().map { it.x }.maxOrNull() ?: 0
-    fun bottomNonEmpty(): Int = nonEmptyFields().map { it.y }.maxOrNull() ?: 0
-    private fun nonEmptyFields() = fields.filter { it.isFilled() }
+    fun sizeFalling(): Int = fallingFields().count()
+    fun widthFalling(): Int = (rightSideFalling() - leftSideFalling()) + 1
+    fun leftSideFalling(): Int = fallingFields().map { it.x }.minOrNull() ?: 0
+    fun rightSideFalling(): Int = fallingFields().map { it.x }.maxOrNull() ?: 0
+    fun bottomFalling(): Int = fallingFields().map { it.y }.maxOrNull() ?: 0
+    private fun fallingFields() = fields.filter { it.falls() }
     fun state(): List<List<Filling>> =
         (0..bottom).map { y ->
             (0..rightSide).map { x ->
@@ -168,7 +168,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
 
     private fun filledRows(): List<Field> {
         return (y..bottom)
-            .filter { y -> row(y).all { it.isFilled() || it.isSoil() } }
+            .filter { y -> row(y).all { it.falls() || it.isSoil() } }
             .filterNot { y -> isRowOfSoil(y) }
             .flatMap { y -> row(y).filterNot { it.isSoil() } }
     }

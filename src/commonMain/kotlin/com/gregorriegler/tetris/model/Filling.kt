@@ -6,11 +6,10 @@ enum class Filling {
 
     BOMB {
         override fun combine(filling: Filling): Filling = BOMB
-        override fun isFilled(): Boolean = true
+        override fun falls(): Boolean = true
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
         override fun color(depth: Int, soilColors: List<Color>): Color = Color.black
-
         override fun special(position: Position, area: Area): Area = explode(position, area)
         override fun toString(): String = BOMB_VALUE.toString()
 
@@ -18,40 +17,38 @@ enum class Filling {
     },
     SOIL {
         override fun combine(filling: Filling): Filling = SOIL
-        override fun isFilled(): Boolean = false
+        override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
         override fun color(depth: Int, soilColors: List<Color>): Color =
             Color.byDepth(soilColors, depth, Color.changeColorEvery)
-
         override fun toString(): String = SOIL_VALUE.toString()
     },
     FILLED {
         override fun combine(filling: Filling): Filling = FILLED
-        override fun isFilled(): Boolean = true
+        override fun falls(): Boolean = true
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
         override fun color(depth: Int, soilColors: List<Color>): Color = Color.orange
-
         override fun toString(): String = FILLED_VALUE.toString()
     },
     EMPTY {
         override fun combine(filling: Filling): Filling = filling
-        override fun isFilled(): Boolean = false
+        override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = true
         override fun collides(): Boolean = false
         override fun toString(): String = EMPTY_VALUE.toString()
     },
     INDENT {
         override fun combine(filling: Filling): Filling = filling
-        override fun isFilled(): Boolean = false
+        override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = true
         override fun collides(): Boolean = false
         override fun toString(): String = INDENT_VALUE.toString()
     };
 
     abstract fun combine(filling: Filling): Filling
-    abstract fun isFilled(): Boolean
+    abstract fun falls(): Boolean
     abstract fun isEmpty(): Boolean
     abstract fun collides(): Boolean
     open fun color(depth: Int, soilColors: List<Color>) = Color.grey

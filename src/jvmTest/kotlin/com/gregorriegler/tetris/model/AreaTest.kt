@@ -21,7 +21,7 @@ class `An Area` {
         assertTrue(area.collidesWith(Field.filled(0, 1)))
         assertTrue(area.collidesWith(Field.filled(1, 1)))
         assertFalse(area.collidesWith(Field.filled(2, 1)))
-        assertThat(area.sizeNonEmpty()).isEqualTo(4)
+        assertThat(area.sizeFalling()).isEqualTo(4)
     }
 
     @Test
@@ -39,7 +39,7 @@ class `An Area` {
         assertTrue(area.collidesWith(Field.filled(0, 1)))
         assertTrue(area.collidesWith(Field.filled(1, 1)))
         assertFalse(area.collidesWith(Field.filled(2, 1)))
-        assertThat(area.sizeNonEmpty()).isEqualTo(3)
+        assertThat(area.sizeFalling()).isEqualTo(3)
     }
 
     @Test
@@ -62,7 +62,7 @@ class `An Area` {
         assertFalse(area.collidesWith(Field.filled(0, 2)))
         assertFalse(area.collidesWith(Field.filled(1, 2)))
         assertFalse(area.collidesWith(Field.filled(2, 2)))
-        assertThat(area.sizeNonEmpty()).isEqualTo(1)
+        assertThat(area.sizeFalling()).isEqualTo(1)
     }
 
     @Test
@@ -78,7 +78,7 @@ class `An Area` {
         assertFalse(area.collidesWith(Field.filled(1, 0)))
         assertFalse(area.collidesWith(Field.filled(2, 0)))
         assertFalse(area.collidesWith(Field.filled(0, 1)))
-        assertThat(area.sizeNonEmpty()).isEqualTo(1)
+        assertThat(area.sizeFalling()).isEqualTo(1)
     }
 
     @Test
@@ -171,21 +171,21 @@ class `An Area` {
 
     @Test
     fun `has a bottom`() {
-        assertEquals(0, Area("#").bottomNonEmpty())
-        assertEquals(1, Area("#\n#").bottomNonEmpty())
+        assertEquals(0, Area("#").bottomFalling())
+        assertEquals(1, Area("#\n#").bottomFalling())
     }
 
     @Test
     fun `has a left side of non-empty`() {
-        assertEquals(0, Area("#").leftSideNonEmpty())
-        assertEquals(1, Area("-##").leftSideNonEmpty())
+        assertEquals(0, Area("#").leftSideFalling())
+        assertEquals(1, Area("-##").leftSideFalling())
     }
 
     @Test
     fun `has a right side`() {
-        assertEquals(0, Area("#").rightSideNonEmpty())
-        assertEquals(1, Area("##").rightSideNonEmpty())
-        assertEquals(1, Area("##-").rightSideNonEmpty())
+        assertEquals(0, Area("#").rightSideFalling())
+        assertEquals(1, Area("##").rightSideFalling())
+        assertEquals(1, Area("##-").rightSideFalling())
     }
 
     @Test
