@@ -19,7 +19,7 @@ class DigTest {
             ---
             ---
             ---
-        """).dig(1).first).isEqualTo(Area("""
+        """).dig(1).area).isEqualTo(Area("""
             ---
             ---
             ■■■
@@ -30,7 +30,7 @@ class DigTest {
             ---
             ---
             ---
-        """).dig(2).first).isEqualTo(Area("""
+        """).dig(2).area).isEqualTo(Area("""
             ---
             ---
             ■■■
@@ -40,7 +40,7 @@ class DigTest {
             ---
             ---
             ---
-        """).dig(2).first.dig(2).first).isEqualTo(Area("""
+        """).dig(2).area.dig(2).area).isEqualTo(Area("""
             ---
             ■■■
             ■■■
@@ -53,7 +53,7 @@ class DigTest {
             ---
             ---
             ■--
-        """).dig(1).first).isEqualTo(Area("""
+        """).dig(1).area).isEqualTo(Area("""
             ---
             ■--
             ■■■
@@ -63,7 +63,7 @@ class DigTest {
             ---
             ---
             ■--
-        """).dig(2).first.dig(2).first).isEqualTo(Area("""
+        """).dig(2).area.dig(2).area).isEqualTo(Area("""
             ■--
             ■■■
             ■■■
@@ -73,7 +73,7 @@ class DigTest {
             ---
             ---
             #--
-        """).dig(1).first).isEqualTo(Area("""
+        """).dig(1).area).isEqualTo(Area("""
             ---
             #--
             ■■■

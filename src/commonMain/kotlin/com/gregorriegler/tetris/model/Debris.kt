@@ -63,8 +63,8 @@ class Debris(
 
     fun dig(amount: Int) {
         val dig = area.dig(amount)
-        area = dig.first
-        depth += dig.second
+        area = dig.area
+        depth += dig.depth
     }
 
     override fun toString(): String = area.toString()

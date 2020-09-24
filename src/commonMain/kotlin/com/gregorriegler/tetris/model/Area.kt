@@ -131,11 +131,11 @@ open class Area(fields: List<Field>) : PositionedFrame {
 
     private fun verticalStack(it: Field) = VerticalStackIterator(this, it).asSequence().toList()
 
-    fun dig(amount: Int): Pair<Area, Int> =
+    fun dig(amount: Int): DigResult =
         if ((height - amount until height).any { !isRowOfSoil(it) }) {
-            Pair(addRowsOfSoil(1), 1)
+            DigResult(addRowsOfSoil(1), 1)
         } else {
-            Pair(this, 0)
+            DigResult(this, 0)
         }
 
     private fun isRowOfSoil(y: Int): Boolean = row(y).all { it.isSoil() }
