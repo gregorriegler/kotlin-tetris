@@ -131,24 +131,24 @@ open class Area(fields: List<Field>) : PositionedFrame {
 
     private fun verticalStack(it: Field) = VerticalStackIterator(this, it).asSequence().toList()
 
-    fun dig(amount: Int): DigResult =
-        if ((height - amount until height).any { !isRowOfSoil(it) }) {
-            DigResult(addRowsOfSoil(1), 1)
+    fun dig(amount: Int, coinPercentage: Int): DigResult =
+        if (bottomRows(amount).any { notCompletelySoil(it) }) {
+            DigResult(addRowsOfSoil(1, coinPercentage), 1)
         } else {
-            DigResult(this, 0)
+            DigResult(this, coinPercentage)
         }
 
-    private fun isRowOfSoil(y: Int): Boolean = row(y).all { it.isSoil() }
+    private fun notCompletelySoil(row: List<Field>) = row.any { !it.isSoil() }
 
-    private fun addRowsOfSoil(amount: Int): Area =
+    private fun bottomRows(amount: Int) = (height - amount until height).map { row(it) }
+
+    private fun addRowsOfSoil(amount: Int, coinPercentage: Int): Area =
         Area(
             allRowsExceptTop(amount).map { it.upBy(amount) }
-                    + (height - amount until height).flatMap(this::createRowOfSoil)
+                    + (height - amount until height).flatMap { this.createRowOfSoilOrCoin(it, coinPercentage) }
         )
 
-    private fun createRowOfSoil(y: Int): List<Field> = createRow(y, Field.Companion::soil)
-    private fun createRow(y: Int, field: (x: Int, y: Int) -> Field): List<Field> =
-        (0 until width).map { x -> field(x, y) }
+    private fun createRowOfSoilOrCoin(y: Int, coinPercentage: Int): List<Field> = (0 until width).map { x -> Field.soil(x, y)}
 
     private fun allRowsExceptTop(amount: Int) = fields.filter { it.y >= amount }
 
@@ -170,9 +170,10 @@ open class Area(fields: List<Field>) : PositionedFrame {
 
     private fun filledRows(): List<Field> {
         return (y..bottom)
-            .filter { y -> row(y).all { it.falls() || it.isSoil() } }
-            .filterNot { y -> isRowOfSoil(y) }
-            .flatMap { y -> row(y).filterNot { it.isSoil() } }
+            .map { row(it) }
+            .filter { it.all { it.falls() || it.isSoil() } }
+            .filterNot { it.all { it.isSoil() } }
+            .flatMap { it.filterNot { it.isSoil() } }
     }
 
     override fun toString(): String =

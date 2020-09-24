@@ -62,10 +62,12 @@ class Debris(
     }
 
     fun dig(amount: Int) {
-        val dig = area.dig(amount)
+        val dig = area.dig(amount, coinPercentage(depth))
         area = dig.area
         depth += dig.depth
     }
+
+    private fun coinPercentage(depth: Int) = 0
 
     override fun toString(): String = area.toString()
 
