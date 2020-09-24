@@ -14,6 +14,14 @@ class DigTest {
     }
 
     @Test
+    fun `can create coin`() {
+        val coin = Field.coin(0, 3)
+        assertThat(coin.filling).isEqualTo(Filling.COIN)
+        assertThat(coin.x).isEqualTo(0)
+        assertThat(coin.y).isEqualTo(3)
+    }
+
+    @Test
     fun `can dig an area`() {
         assertThat(Area("""
             ---

@@ -45,6 +45,13 @@ enum class Filling {
         override fun isEmpty(): Boolean = true
         override fun collides(): Boolean = false
         override fun toString(): String = INDENT_VALUE.toString()
+    },
+    COIN {
+        override fun combine(filling: Filling): Filling = this
+        override fun falls(): Boolean = false
+        override fun isEmpty(): Boolean = false
+        override fun collides(): Boolean = true
+        override fun toString(): String = COIN_VALUE.toString()
     };
 
     abstract fun combine(filling: Filling): Filling
@@ -60,6 +67,7 @@ enum class Filling {
         const val SOIL_VALUE: Char = '■'
         const val EMPTY_VALUE: Char = '-'
         const val BOMB_VALUE: Char = 'X'
+        const val COIN_VALUE: Char = 'O'
         const val INDENT_VALUE: Char = '>'
         const val PULL_VALUE: Char = '<'
 

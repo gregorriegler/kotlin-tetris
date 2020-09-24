@@ -22,6 +22,10 @@ class Field(
             return Field(x, y, SOIL)
         }
 
+        fun coin(x: Int, y: Int): Field {
+            return Field(x, y, COIN)
+        }
+
         fun empty(position: Position): Field {
             return Field(position, EMPTY)
         }
