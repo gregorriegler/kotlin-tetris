@@ -20,9 +20,16 @@ enum class Filling {
         override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
-        override fun color(depth: Int, soilColors: List<Color>): Color =
-            Color.byDepth(soilColors, depth, Color.changeColorEvery)
+        override fun color(depth: Int, soilColors: List<Color>): Color = Color.byDepth(soilColors, depth, Color.changeColorEvery)
         override fun toString(): String = SOIL_VALUE.toString()
+    },
+    COIN {
+        override fun combine(filling: Filling): Filling = this
+        override fun falls(): Boolean = false
+        override fun isEmpty(): Boolean = false
+        override fun collides(): Boolean = true
+        override fun color(depth: Int, soilColors: List<Color>): Color = Color.gold
+        override fun toString(): String = COIN_VALUE.toString()
     },
     FALLING {
         override fun combine(filling: Filling): Filling = FALLING
@@ -45,15 +52,8 @@ enum class Filling {
         override fun isEmpty(): Boolean = true
         override fun collides(): Boolean = false
         override fun toString(): String = INDENT_VALUE.toString()
-    },
-    COIN {
-        override fun combine(filling: Filling): Filling = this
-        override fun falls(): Boolean = false
-        override fun isEmpty(): Boolean = false
-        override fun collides(): Boolean = true
-        override fun color(depth: Int, soilColors: List<Color>): Color = Color.gold
-        override fun toString(): String = COIN_VALUE.toString()
     };
+
 
     abstract fun combine(filling: Filling): Filling
     abstract fun falls(): Boolean
@@ -76,10 +76,10 @@ enum class Filling {
             when (char) {
                 FILLED_VALUE -> FALLING
                 SOIL_VALUE -> SOIL
-                EMPTY_VALUE -> EMPTY
                 INDENT_VALUE -> INDENT
                 BOMB_VALUE -> BOMB
                 COIN_VALUE -> COIN
+                EMPTY_VALUE -> EMPTY
                 else -> EMPTY
             }
 
@@ -87,7 +87,7 @@ enum class Filling {
             return if (filling1.ordinal < filling2.ordinal) filling1 else filling2
         }
 
-        fun coinOrSoil(coinPercentage: Int): Filling =
+        fun soilOrCoin(coinPercentage: Int): Filling =
             when (coinPercentage) {
                 0 -> SOIL
                 100 -> COIN

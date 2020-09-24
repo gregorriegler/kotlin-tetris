@@ -9,14 +9,13 @@ class Field(
 ) : Position {
 
     companion object {
-
         fun filled(x: Int, y: Int): Field = Field(x, y, FALLING)
         fun bomb(x: Int, y: Int): Field = Field(x, y, BOMB)
         fun soil(x: Int, y: Int): Field = Field(x, y, SOIL)
         fun coin(x: Int, y: Int): Field = Field(x, y, COIN)
         fun empty(position: Position): Field = Field(position, EMPTY)
         fun empty(x: Int, y: Int): Field = Field(x, y, EMPTY)
-        fun soilOrCoin(x: Int, y: Int, coinPercentage: Int): Field = Field(x, y, Filling.coinOrSoil(coinPercentage))
+        fun soilOrCoin(x: Int, y: Int, coinPercentage: Int): Field = Field(x, y, Filling.soilOrCoin(coinPercentage))
     }
 
     constructor(x: Int, y: Int) : this(Position.of(x, y), EMPTY)
@@ -40,7 +39,7 @@ class Field(
 
     fun isEmpty(): Boolean = filling.isEmpty()
     fun collides(): Boolean = filling.collides()
-    fun isSoil() = filling == SOIL
+    fun isSoilOrCoin() = filling == SOIL || filling == COIN
     fun falls(): Boolean = filling.falls()
     fun special(area: Area): Area = filling.special(this.position, area)
     fun collidesWith(area: Area): Boolean = collidesWith(area.fields)

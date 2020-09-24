@@ -17,6 +17,6 @@ class AnchorFinder(val area: Area) {
     }
 
     private fun isAnchor(position: Position) = standsOnSoil(position) || standsOnBottom(position)
-    private fun standsOnSoil(position: Position) = area.below(position).isSoil()
+    private fun standsOnSoil(position: Position) = area.below(position).isSoilOrCoin()
     private fun standsOnBottom(position: Position) = position.y == area.bottom
 }

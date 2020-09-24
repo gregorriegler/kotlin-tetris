@@ -135,18 +135,18 @@ open class Area(fields: List<Field>) : PositionedFrame {
         if (bottomRows(amount).any { notCompletelySoil(it) }) {
             DigResult(addRowsOfSoil(1, coinPercentage), 1)
         } else {
-            DigResult(this, coinPercentage)
+            DigResult(this, 0)
         }
 
-    private fun notCompletelySoil(row: List<Field>) = row.any { !it.isSoil() }
+    private fun notCompletelySoil(row: List<Field>) = row.any { !it.isSoilOrCoin() }
 
     private fun bottomRows(amount: Int) = (height - amount until height).map { row(it) }
 
-    private fun addRowsOfSoil(amount: Int, coinPercentage: Int): Area =
-        Area(
-            allRowsExceptTop(amount).map { it.upBy(amount) }
-                    + (height - amount until height).flatMap { this.createRowOfSoilOrCoin(it, coinPercentage) }
-        )
+    private fun addRowsOfSoil(amount: Int, coinPercentage: Int): Area {
+        val upperRows = allRowsExceptTop(amount).map { it.upBy(amount) }
+        val soilRows = (height - amount until height).flatMap { this.createRowOfSoilOrCoin(it, coinPercentage) }
+        return Area(upperRows + soilRows)
+    }
 
     private fun createRowOfSoilOrCoin(y: Int, coinPercentage: Int): List<Field> = (0 until width).map { x -> Field.soilOrCoin(x, y, coinPercentage)}
 
@@ -161,7 +161,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
     fun erase(area: Area): Area = erase(area.fields)
 
     private fun erase(fields: List<Field>): Area = Area(this.fields.map { field ->
-        if (field.collidesWith(fields) || (field.isSoil() && above(field).collidesWith(fields))) {
+        if (field.collidesWith(fields) || (field.isSoilOrCoin() && above(field).collidesWith(fields))) {
             field.erase()
         } else {
             field
@@ -171,9 +171,9 @@ open class Area(fields: List<Field>) : PositionedFrame {
     private fun filledRows(): List<Field> {
         return (y..bottom)
             .map { row(it) }
-            .filter { it.all { it.falls() || it.isSoil() } }
-            .filterNot { it.all { it.isSoil() } }
-            .flatMap { it.filterNot { it.isSoil() } }
+            .filter { it.all { it.falls() || it.isSoilOrCoin() } }
+            .filterNot { it.all { it.isSoilOrCoin() } }
+            .flatMap { it.filterNot { it.isSoilOrCoin() } }
     }
 
     override fun toString(): String =

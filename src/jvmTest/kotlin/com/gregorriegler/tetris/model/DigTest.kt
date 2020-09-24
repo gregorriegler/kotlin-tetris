@@ -40,7 +40,7 @@ class DigTest {
     @Test
     fun `creates a coin about half of the time`() {
         val count = (0 until 100)
-            .map { Filling.coinOrSoil(50) }
+            .map { Filling.soilOrCoin(50) }
             .filter { it == Filling.COIN }
             .count()
 
@@ -103,6 +103,29 @@ class DigTest {
         """
             )
         )
+    }
+
+    @Test
+    fun `tells how many lines it digged`() {
+        assertThat(
+            Area(
+                """
+            ---
+            ---
+            ---
+        """
+            ).dig(1, 0).depth
+        ).isEqualTo(1)
+
+        assertThat(
+            Area(
+                """
+            ---
+            ---
+            ■■■
+        """
+            ).dig(1, 0).depth
+        ).isEqualTo(0)
     }
 
     @Test
@@ -205,6 +228,31 @@ class DigTest {
         """
             )
         )
+    }
+
+    @Test
+    fun `does not increase depth`() {
+        val debris = Debris(
+            """
+            ---
+            ■■■
+            ■■■
+        """
+        )
+
+        debris.dig(2)
+
+        assertThat(debris).isEqualTo(
+            Debris(
+                """
+            ---
+            ■■■
+            ■■■
+        """
+            )
+        )
+
+        assertThat(debris.depth).isEqualTo(0)
     }
 
     @Test
