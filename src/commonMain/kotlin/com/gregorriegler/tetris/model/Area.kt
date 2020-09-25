@@ -152,10 +152,10 @@ open class Area(fields: List<Field>) : PositionedFrame {
 
     private fun allRowsExceptTop(amount: Int) = fields.filter { it.y >= amount }
 
-    fun eraseFilledRows(): Pair<Area, Int> {
+    fun eraseFilledRows(): EraseResult {
         val filledRows = filledRows()
         val remainingArea = erase(filledRows)
-        return Pair(remainingArea, filledRows.size)
+        return EraseResult(remainingArea, filledRows.size)
     }
 
     fun erase(area: Area): Area = erase(area.fields)

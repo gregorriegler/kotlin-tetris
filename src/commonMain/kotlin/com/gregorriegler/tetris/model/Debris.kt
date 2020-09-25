@@ -38,8 +38,8 @@ class Debris(
 
     fun eraseFilledRows(): Int {
         val removed = area.eraseFilledRows()
-        area = removed.first
-        return removed.second
+        area = removed.area
+        return removed.score
     }
 
     fun fall() {

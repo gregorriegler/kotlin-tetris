@@ -228,13 +228,13 @@ class `An Area` {
 
     @Test
     fun `erases filled rows`() {
-        assertThat(Area("#").eraseFilledRows()).isEqualTo(Pair(Area("-"), 1))
+        assertThat(Area("#").eraseFilledRows()).isEqualTo(EraseResult(Area("-"), 1))
 
         assertThat(Area("""
             >
             #
         """).eraseFilledRows()).isEqualTo(
-            Pair(Area("""
+            EraseResult(Area("""
             >
             -
             """.trimIndent()), 1))
@@ -243,7 +243,7 @@ class `An Area` {
             -
             #
         """).eraseFilledRows()).isEqualTo(
-            Pair(Area("""
+            EraseResult(Area("""
             -
             -
         """), 1))
@@ -253,7 +253,8 @@ class `An Area` {
             ##
             #-
             ##
-        """).eraseFilledRows()).isEqualTo(Pair(Area("""
+        """).eraseFilledRows()).isEqualTo(
+            EraseResult(Area("""
             #-
             --
             #-
