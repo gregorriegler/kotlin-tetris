@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <title>Digtris</title>
     <style type="text/css">
-        html, body {margin: 0; height: 100%; overflow: hidden}
+        html, body {margin: 0; height: 100%; overflow: hidden; text-align: center}
+        #game {position: relative; display: inline-block;}
+        canvas {display: inline-block}
+        #score {display: inline-block; width: 80px; text-align: right; vertical-align: top}
+        #score::before {
+            content: "Score: "
+        }
     </style>
 </head>
 <body>

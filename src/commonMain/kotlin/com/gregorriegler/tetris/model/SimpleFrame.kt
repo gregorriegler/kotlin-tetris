@@ -5,6 +5,12 @@ class SimpleFrame (
     override val height: Int
 ) : Frame {
 
+    companion object {
+        fun max(subject: Frame, availableSpace: Frame): Frame {
+            return SimpleFrame((availableSpace.height / subject.height) * subject.width, availableSpace.height)
+        }
+    }
+
     override fun toString(): String {
         return "SimpleFrame(width=$width, height=$height)"
     }

@@ -10,19 +10,6 @@ open class SimplePositionedFrame(
     override val rightSide: Int = x + width
     override val bottom: Int = y + height
 
-    companion object {
-        fun max(subject: Frame, availableSpace: Frame): PositionedFrame {
-            val width = (availableSpace.height / subject.height) * subject.width
-            return SimplePositionedFrame(
-                availableSpace.width / 2 - width / 2,
-                0,
-                width,
-                availableSpace.height
-            )
-        }
-    }
-
-
     override fun toString(): String {
         return "SimplePositionedFrame(left=$x, top=$y, right=$rightSide, bottom=$bottom)"
     }

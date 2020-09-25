@@ -26,7 +26,7 @@ class Debris(
 
     val fields: List<Field> get() = area.fields
 
-    fun asStones(display: PositionedFrame): List<TetrisStone> {
+    fun asStones(display: Frame): List<TetrisStone> {
         return fields
             .filterNot { it.isEmpty() }
             .map { TetrisStone.of(display, area, it, depth, palette) }

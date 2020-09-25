@@ -7,7 +7,7 @@ class TetrisStone(x: Int, y: Int, width: Int, height: Int, val color: Color) :
 
     companion object {
         fun of(
-            display: PositionedFrame,
+            display: Frame,
             gameSize: Frame,
             field: Field,
             depth: Int,
@@ -15,8 +15,8 @@ class TetrisStone(x: Int, y: Int, width: Int, height: Int, val color: Color) :
         ): TetrisStone {
             val stoneWidth = display.width / gameSize.width
             val stoneHeight = display.height / gameSize.height
-            val squareLeft = display.x + field.x * stoneWidth + 4
-            val squareTop = display.y + field.y * stoneHeight + 4
+            val squareLeft = field.x * stoneWidth
+            val squareTop = field.y * stoneHeight
 
             return TetrisStone(
                 squareLeft,
