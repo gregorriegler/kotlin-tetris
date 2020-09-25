@@ -1,5 +1,7 @@
 package com.gregorriegler.tetris.model
 
+import com.gregorriegler.tetris.view.Color
+
 open class Area(fields: List<Field>) : PositionedFrame {
 
     companion object {
@@ -60,6 +62,12 @@ open class Area(fields: List<Field>) : PositionedFrame {
                 get(x, y).filling
             }
         }.toList()
+
+    fun asStones(display: Frame, depth: Int, palette: List<Color>): List<TetrisStone> {
+        return fields
+            .filterNot { it.isEmpty() }
+            .map { TetrisStone.of(display, this, it, depth, palette) }
+    }
 
     private fun row(y: Int): List<Field> = (0 until width).map { x -> get(x, y) }
 

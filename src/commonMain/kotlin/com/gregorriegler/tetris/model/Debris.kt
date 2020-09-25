@@ -24,12 +24,8 @@ class Debris(
     constructor(frame: TetrisFrame) : this(Area(frame))
     constructor(debris: String) : this(Area(debris))
 
-    val fields: List<Field> get() = area.fields
-
     fun asStones(display: Frame): List<TetrisStone> {
-        return fields
-            .filterNot { it.isEmpty() }
-            .map { TetrisStone.of(display, area, it, depth, palette) }
+        return area.asStones(display, depth, palette)
     }
 
     fun add(stone: Stone) {

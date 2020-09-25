@@ -57,7 +57,11 @@ class Structure(string: String) : Area(string) {
         }
 
         fun createBomb(): Structure {
-            return Structure("""X""")
+            return Structure("""
+                ---
+                -X-
+                ---
+                """)
         }
     }
 

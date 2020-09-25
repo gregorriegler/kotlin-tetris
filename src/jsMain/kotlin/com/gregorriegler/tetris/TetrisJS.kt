@@ -1,6 +1,7 @@
 package com.gregorriegler.tetris
 
 import com.gregorriegler.tetris.model.*
+import com.gregorriegler.tetris.view.Color
 import kotlinx.browser.document
 import kotlinx.browser.window
 import org.w3c.dom.CanvasRenderingContext2D
@@ -16,27 +17,38 @@ fun main() {
 
 class TetrisJs {
     private val game: HTMLDivElement = document.createElement("div") as HTMLDivElement
-    private val canvas: HTMLCanvasElement = document.createElement("canvas") as HTMLCanvasElement
+    private val displayCanvas: HTMLCanvasElement = document.createElement("canvas") as HTMLCanvasElement
+    private val displayCanvasContext: CanvasRenderingContext2D
+    private val nextStoneCanvas: HTMLCanvasElement = document.createElement("canvas") as HTMLCanvasElement
+    private val nextStoneCanvasContext: CanvasRenderingContext2D
     private val score: HTMLDivElement = document.createElement("div") as HTMLDivElement
-    private val context: CanvasRenderingContext2D
     private val tetris: Tetris = Tetris()
     private val display: Frame = SimpleFrame.max(tetris, SimpleFrame(window.innerWidth, window.innerHeight))
 
     init {
         game.id = "game"
-        score.id = "score"
         document.body!!.appendChild(game)
-        context = canvas.getContext("2d") as CanvasRenderingContext2D
-        context.canvas.width = display.width
-        context.canvas.height = display.height
-        game.appendChild(canvas)
+
+        displayCanvasContext = displayCanvas.getContext("2d") as CanvasRenderingContext2D
+        displayCanvasContext.canvas.width = display.width
+        displayCanvasContext.canvas.height = display.height
+        game.appendChild(displayCanvas)
+
+        score.id = "score"
         game.appendChild(score)
+
+        nextStoneCanvasContext = nextStoneCanvas.getContext("2d") as CanvasRenderingContext2D
+        nextStoneCanvasContext.canvas.width = 100
+        nextStoneCanvasContext.canvas.height = 100
+        game.appendChild(nextStoneCanvas)
+
     }
 
     fun start() {
         window.setInterval({
             tetris.time(Date.now().toLong())
-            draw(tetris.gameDisplay())
+            drawGame(tetris.gameDisplay())
+            drawNextStone(tetris.nextStone)
             score.textContent = tetris.score.toString()
         }, 10)
         window.addEventListener("keydown", {
@@ -56,38 +68,43 @@ class TetrisJs {
         })
     }
 
-    private fun draw(debris: Debris) {
-        clearScreen()
-        debris.asStones(display).forEach { drawFilled(it) }
+    private fun drawGame(debris: Debris) {
+        clearCanvas(displayCanvasContext)
+        debris.asStones(display).forEach { drawFilled(it, displayCanvasContext) }
     }
 
-    private fun clearScreen() {
-        context.clearRect(0.0, 0.0, context.canvas.width.toDouble(), context.canvas.height.toDouble())
+    private fun drawNextStone(nextStone: Structure) {
+        clearCanvas(nextStoneCanvasContext)
+        nextStone.asStones(SimpleFrame(100, 100), 0, listOf(Color.grey)).forEach { drawFilled(it, nextStoneCanvasContext) }
     }
 
-    private fun drawFilled(stone: TetrisStone) {
-        context.fillStyle = stone.color.asCss()
-        context.fillRect(
+    private fun clearCanvas(canvasRenderingContext2D: CanvasRenderingContext2D) {
+        canvasRenderingContext2D.clearRect(0.0, 0.0, canvasRenderingContext2D.canvas.width.toDouble(), canvasRenderingContext2D.canvas.height.toDouble())
+    }
+
+    private fun drawFilled(stone: TetrisStone, canvasContext: CanvasRenderingContext2D) {
+        canvasContext.fillStyle = stone.color.asCss()
+        canvasContext.fillRect(
             stone.x.toDouble(),
             stone.y.toDouble(),
             stone.width.toDouble(),
             stone.height.toDouble()
         )
-        context.strokeStyle = stone.color.enlightenBy(100).asCss()
+        canvasContext.strokeStyle = stone.color.enlightenBy(100).asCss()
 
         val bevelSize = 1
-        context.beginPath()
-        context.moveTo(stone.x.toDouble() + bevelSize, stone.y.toDouble() + bevelSize)
-        context.lineTo(stone.rightSide.toDouble() - bevelSize, stone.y.toDouble() + bevelSize)
-        context.lineTo(stone.rightSide.toDouble() - bevelSize, stone.bottom.toDouble() - bevelSize)
-        context.stroke()
+        canvasContext.beginPath()
+        canvasContext.moveTo(stone.x.toDouble() + bevelSize, stone.y.toDouble() + bevelSize)
+        canvasContext.lineTo(stone.rightSide.toDouble() - bevelSize, stone.y.toDouble() + bevelSize)
+        canvasContext.lineTo(stone.rightSide.toDouble() - bevelSize, stone.bottom.toDouble() - bevelSize)
+        canvasContext.stroke()
 
-        context.strokeStyle = stone.color.darkenBy(100).asCss()
-        context.beginPath()
-        context.moveTo(stone.x.toDouble() + bevelSize, stone.y.toDouble() + bevelSize)
-        context.lineTo(stone.x.toDouble() + bevelSize, stone.bottom.toDouble() - bevelSize)
-        context.lineTo(stone.rightSide.toDouble() - bevelSize, stone.bottom.toDouble() - bevelSize)
-        context.stroke()
+        canvasContext.strokeStyle = stone.color.darkenBy(100).asCss()
+        canvasContext.beginPath()
+        canvasContext.moveTo(stone.x.toDouble() + bevelSize, stone.y.toDouble() + bevelSize)
+        canvasContext.lineTo(stone.x.toDouble() + bevelSize, stone.bottom.toDouble() - bevelSize)
+        canvasContext.lineTo(stone.rightSide.toDouble() - bevelSize, stone.bottom.toDouble() - bevelSize)
+        canvasContext.stroke()
     }
 }
 
