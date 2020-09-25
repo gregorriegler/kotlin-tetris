@@ -25,4 +25,20 @@ class `A Color` {
         assertThat(Color.byDepth(range, 50, 50)).isEqualTo(Color(255, 255, 255))
         assertThat(Color.byDepth(range, 75, 50)).isEqualTo(Color(127.5f, 127.5f,127.5f))
     }
+
+    @Test
+    fun `should make a range of 9 colors`() {
+        val range = listOf(
+            Color(0, 0, 0),
+            Color(255, 255, 255),
+            Color(0, 0, 0),
+            Color(255, 255, 255),
+            Color(0, 0, 0),
+            Color(255, 255, 255),
+            Color(0, 0, 0),
+            Color(255, 255, 255),
+            Color(0, 0, 0)
+        )
+        assertThat(Color.byDepth(range, 1000, 25)).isEqualTo(Color(0, 0, 0))
+    }
 }

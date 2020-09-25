@@ -25,7 +25,7 @@ class Color(
         private fun randomColorPart() = Random.nextInt(10, 240).toFloat()
 
         fun byDepth(colors: List<Color>, depth: Int, changeColorEvery: Int): Color {
-            val fromIndex: Int = depth / changeColorEvery
+            val fromIndex: Int = depth / changeColorEvery % colors.size
             val toIndex: Int = (fromIndex + 1) % colors.size
             return gradient(colors[fromIndex], colors[toIndex], depth % changeColorEvery * (100 / changeColorEvery))
         }
