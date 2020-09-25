@@ -25,12 +25,21 @@ class `Erasing debris` {
         ).isEqualTo(
             Score(
                 """
-                    #-#
-                    ---
-                    #-#
-                    """,
-                9
+                #-#
+                ---
+                #-#
+                """,
+                5
             )
+        )
+    }
+
+    @Test
+    fun `erasing coin increases the score`() {
+        assertThat(
+            Area("O").erase("#")
+        ).isEqualTo(
+            Score("-", 10)
         )
     }
 
@@ -57,7 +66,7 @@ class `Erasing debris` {
                 ---
                 #-#
                 """,
-                9
+                14
             )
         )
     }
@@ -122,9 +131,9 @@ class `Erasing debris` {
         """
         )
 
-        val howMany: Int = debris.eraseFilledRows()
+        val score: Int = debris.eraseFilledRows()
 
-        assertEquals(3, howMany)
+        assertEquals(6, score)
         assertEquals(
             Debris(
                 """
@@ -147,9 +156,9 @@ class `Erasing debris` {
         """
         )
 
-        val howMany: Int = debris.eraseFilledRows()
+        val score: Int = debris.eraseFilledRows()
 
-        assertEquals(3, howMany)
+        assertEquals(24, score)
         assertEquals(
             Debris(
                 """

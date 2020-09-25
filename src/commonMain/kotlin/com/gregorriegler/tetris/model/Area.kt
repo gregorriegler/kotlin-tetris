@@ -156,16 +156,19 @@ open class Area(fields: List<Field>) : PositionedFrame {
     private fun allRowsExceptTop(amount: Int) = fields.filter { it.y >= amount }
 
     fun eraseFilledRows(): Score = erase(filledRows())
-    fun erase(area: String): Score = erase(Area(area))
+    fun erase(areaString: String): Score = erase(Area(areaString))
     fun erase(area: Area): Score = erase(area.fields)
 
-    private fun erase(fields: List<Field>): Score = Score(Area(this.fields.map { field ->
-        if (field.collidesWith(fields) || (field.isSoilOrCoin() && above(field).collidesWith(fields))) {
-            field.erase()
-        } else {
-            field
+    private fun erase(fields: List<Field>): Score {
+        val fieldScores = this.fields.map { field ->
+            if (field.collidesWith(fields) || (field.isSoilOrCoin() && above(field).collidesWith(fields))) {
+                field.erase()
+            } else {
+                FieldScore(field, 0)
+            }
         }
-    }), fields.size)
+        return Score(Area(fieldScores.map { it.field }), fieldScores.sumOf { it.score })
+    }
 
     private fun filledRows(): List<Field> {
         return (y..bottom)

@@ -46,9 +46,10 @@ class Field(
     fun collidesWith(fields: List<Field>): Boolean =
         collides() && fields.any { it.collides() && it.position == position }
 
-    fun erase(): Field = empty(x, y)
+    fun erase(): FieldScore = FieldScore(empty(x,y), filling.score())
 
     override fun toString(): String = "(${this.position},$filling)"
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false

@@ -77,8 +77,9 @@ class `A Field` {
 
     @Test
     fun erases() {
-        assertThat(Field.filled(0, 0).erase()).isEqualTo(Field.empty(0, 0))
-        assertThat(Field.empty(0, 0).erase()).isEqualTo(Field.empty(0, 0))
+        assertThat(Field.empty(0, 0).erase()).isEqualTo(FieldScore(Field.empty(0, 0), 0))
+        assertThat(Field.filled(0, 0).erase()).isEqualTo(FieldScore(Field.empty(0, 0), 1))
+        assertThat(Field.coin(0, 0).erase()).isEqualTo(FieldScore(Field.empty(0, 0), 10))
     }
 
     @Test

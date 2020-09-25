@@ -31,6 +31,7 @@ enum class Filling {
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
         override fun color(depth: Int, soilColors: List<Color>): Color = Color.gold
+        override fun score(): Int = 10
         override fun toString(): String = COIN_VALUE.toString()
     },
     FALLING {
@@ -46,6 +47,7 @@ enum class Filling {
         override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = true
         override fun collides(): Boolean = false
+        override fun score(): Int = 0
         override fun toString(): String = EMPTY_VALUE.toString()
     },
     INDENT {
@@ -62,6 +64,7 @@ enum class Filling {
     abstract fun isEmpty(): Boolean
     abstract fun collides(): Boolean
     open fun color(depth: Int, soilColors: List<Color>) = Color.grey
+    open fun score(): Int = 1
     open fun special(position: Position, area: Area): Score = Score(area, 0)
 
 
