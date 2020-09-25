@@ -57,8 +57,10 @@ class Debris(
             palette
         )
 
-    fun specials() {
-        area = area.specials()
+    fun specials(): Int {
+        val specialsResult = area.specials()
+        area = specialsResult.area
+        return specialsResult.score
     }
 
     fun dig(amount: Int) {

@@ -8,56 +8,58 @@ class `Erasing debris` {
 
     @Test
     fun `can erase area by area`() {
-        val erased = Area(
-            """
-            ###
-            ###
-            ###
-            """
-        ).erase(
+        assertThat(
             Area(
                 """
-            -#-
-            ###
-            -#-
-        """
+                ###
+                ###
+                ###
+                """
+            ).erase(
+                """
+                -#-
+                ###
+                -#-
+                """
+            )
+        ).isEqualTo(
+            Score(
+                """
+                    #-#
+                    ---
+                    #-#
+                    """,
+                9
             )
         )
-        val expected = Area(
-            """
-            #-#
-            ---
-            #-#
-        """
-        )
-        assertThat(erased).isEqualTo(expected)
     }
 
     @Test
     fun `can erase soil and coin by area`() {
-        val erased = Area(
-            """
-            ###
-            ■O■
-            ###
-            """
-        ).erase(
+        assertThat(
             Area(
                 """
-            -#-
-            ###
-            -#-
-        """
+                ###
+                ■O■
+                ###
+                """
+            ).erase(
+                """
+                -#-
+                ###
+                -#-
+                """
+            )
+        ).isEqualTo(
+            Score(
+                """
+                #-#
+                ---
+                #-#
+                """,
+                9
             )
         )
-        val expected = Area(
-            """
-            #-#
-            ---
-            #-#
-        """
-        )
-        assertThat(erased).isEqualTo(expected)
     }
 
     @Test

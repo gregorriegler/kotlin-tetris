@@ -108,7 +108,9 @@ open class Area(fields: List<Field>) : PositionedFrame {
     fun move(vector: Position): Area = Area(fields.map { field -> field.plus(vector) })
     fun within(area: Area): Area = Area(fields.filter { it.within(area) })
 
-    fun specials(): Area = fields.fold(this) { area, field -> field.special(area) }
+    fun specials(): Score = fields.fold(
+        Score(this, 0)
+    ) { previous, field -> field.special(previous.area).plus(previous.score) }
 
     fun fall(): Area {
         val fallingStacks: List<List<Field>> = fields.filter(this::willFall)
@@ -148,25 +150,22 @@ open class Area(fields: List<Field>) : PositionedFrame {
         return Area(upperRows + soilRows)
     }
 
-    private fun createRowOfSoilOrCoin(y: Int, coinPercentage: Int): List<Field> = (0 until width).map { x -> Field.soilOrCoin(x, y, coinPercentage)}
+    private fun createRowOfSoilOrCoin(y: Int, coinPercentage: Int): List<Field> =
+        (0 until width).map { x -> Field.soilOrCoin(x, y, coinPercentage) }
 
     private fun allRowsExceptTop(amount: Int) = fields.filter { it.y >= amount }
 
-    fun eraseFilledRows(): EraseResult {
-        val filledRows = filledRows()
-        val remainingArea = erase(filledRows)
-        return EraseResult(remainingArea, filledRows.size)
-    }
+    fun eraseFilledRows(): Score = erase(filledRows())
+    fun erase(area: String): Score = erase(Area(area))
+    fun erase(area: Area): Score = erase(area.fields)
 
-    fun erase(area: Area): Area = erase(area.fields)
-
-    private fun erase(fields: List<Field>): Area = Area(this.fields.map { field ->
+    private fun erase(fields: List<Field>): Score = Score(Area(this.fields.map { field ->
         if (field.collidesWith(fields) || (field.isSoilOrCoin() && above(field).collidesWith(fields))) {
             field.erase()
         } else {
             field
         }
-    })
+    }), fields.size)
 
     private fun filledRows(): List<Field> {
         return (y..bottom)

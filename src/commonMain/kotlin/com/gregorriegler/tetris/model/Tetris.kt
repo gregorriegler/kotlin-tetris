@@ -1,7 +1,5 @@
 package com.gregorriegler.tetris.model
 
-import com.gregorriegler.tetris.view.Color
-
 class Tetris(
     private val frame: TetrisFrame,
     private val stones: List<Structure>,
@@ -49,7 +47,7 @@ class Tetris(
 
         if (stone.landed(debris)) {
             debris.add(stone)
-            debris.specials()
+            increaseScore(debris.specials())
             increaseScore(debris.eraseFilledRows())
             stone = Stone(nextStone, frame)
             nextStone = stones.random()

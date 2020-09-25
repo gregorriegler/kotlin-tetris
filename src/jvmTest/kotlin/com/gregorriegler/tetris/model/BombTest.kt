@@ -45,8 +45,9 @@ class `A Bomb` {
             ###############
             ###############
         """)
-        debris.specials()
+        val score = debris.specials()
 
+        assertThat(score).isEqualTo(49)
         assertThat(debris).isEqualTo(Debris("""
             #######-#######
             #####-----#####

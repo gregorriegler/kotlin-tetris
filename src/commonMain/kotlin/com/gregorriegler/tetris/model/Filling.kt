@@ -10,17 +10,19 @@ enum class Filling {
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
         override fun color(depth: Int, soilColors: List<Color>): Color = Color.black
-        override fun special(position: Position, area: Area): Area = explode(position, area)
+        override fun special(position: Position, area: Area): Score = explode(position, area)
         override fun toString(): String = BOMB_VALUE.toString()
 
-        private fun explode(position: Position, area: Area): Area = area.erase(Area.circle(position, 4))
+        private fun explode(position: Position, area: Area): Score = area.erase(Area.circle(position, 4))
     },
     SOIL {
         override fun combine(filling: Filling): Filling = SOIL
         override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
-        override fun color(depth: Int, soilColors: List<Color>): Color = Color.byDepth(soilColors, depth, Color.changeColorEvery)
+        override fun color(depth: Int, soilColors: List<Color>): Color =
+            Color.byDepth(soilColors, depth, Color.changeColorEvery)
+
         override fun toString(): String = SOIL_VALUE.toString()
     },
     COIN {
@@ -60,7 +62,7 @@ enum class Filling {
     abstract fun isEmpty(): Boolean
     abstract fun collides(): Boolean
     open fun color(depth: Int, soilColors: List<Color>) = Color.grey
-    open fun special(position: Position, area: Area): Area = area
+    open fun special(position: Position, area: Area): Score = Score(area, 0)
 
 
     companion object {
