@@ -1,5 +1,5 @@
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform' version '1.4.0'
+    id 'org.jetbrains.kotlin.multiplatform' version '1.4.10'
     id 'de.dplatz.clear' version '0.3'
     id 'org.openjfx.javafxplugin' version '0.0.9'
     id 'com.adarshr.test-logger' version '2.1.0'
@@ -17,7 +17,6 @@ kotlin {
     }
     js {
         browser {
-
         }
         binaries.executable()
     }
@@ -42,7 +41,7 @@ kotlin {
         }
         jsMain {
             dependencies {
-                implementation "org.jetbrains.kotlinx:kotlinx-html-js:0.6.12"
+                implementation "org.jetbrains.kotlinx:kotlinx-html-js:0.7.2"
             }
         }
     }

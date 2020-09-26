@@ -1,3 +1,4 @@
+- possibly extract Erase as its own Class
 - more beautiful ui, arrange elements in index.html for easier styling
 - the deeper the faster
 - bomb fun but too powerful, maybe reduce radius
