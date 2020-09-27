@@ -15,11 +15,11 @@ class Tetris(
     constructor() : this(
         TetrisFrame(13, 24),
         listOf(
-//            Structure.createDot(),
-//            Structure.createI(),
-//            Structure.createT(),
-//            Structure.createL(),
-//            Structure.createJ(),
+            Structure.createDot(),
+            Structure.createI(),
+            Structure.createT(),
+            Structure.createL(),
+            Structure.createJ(),
             Structure.createBomb()
         ),
         4

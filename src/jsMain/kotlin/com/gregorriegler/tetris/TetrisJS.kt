@@ -20,6 +20,8 @@ class TetrisJs {
     private val nextStoneCanvasContext: CanvasRenderingContext2D = nextStoneCanvas.getContext("2d") as CanvasRenderingContext2D
     private val score: HTMLParagraphElement = document.getElementById("score") as HTMLParagraphElement
     private val depth: HTMLParagraphElement = document.getElementById("depth") as HTMLParagraphElement
+    private val game: HTMLDivElement = document.getElementById("game") as HTMLDivElement
+    private val fullscreen: HTMLButtonElement = document.getElementById("fullscreen") as HTMLButtonElement
     private val gameOver: HTMLDivElement = document.getElementById("game-over") as HTMLDivElement
     private val playAgain: HTMLButtonElement = document.getElementById("play-again") as HTMLButtonElement
     private var tetris: Tetris = Tetris()
@@ -48,9 +50,53 @@ class TetrisJs {
                 else -> Unit
             }
         })
+
+        var startX = 0
+        var startY = 0
+        window.addEventListener("touchstart", {
+            it as TouchEvent
+            startX = it.changedTouches[0]?.clientX!!
+            startY = it.changedTouches[0]?.clientY!!
+        })
+        window.addEventListener("touchmove", {
+            it as TouchEvent
+            val moveX = it.changedTouches[0]?.clientX!!
+            val moveY = it.changedTouches[0]?.clientY!!
+
+            if(moveX <= startX - 5){
+                tetris.left()
+            } else if(moveX >= startX + 5){
+                tetris.right()
+            }
+            if(moveY >= startY + 10) {
+                tetris.speed()
+            } else {
+                tetris.normal()
+            }
+            startX = it.changedTouches[0]?.clientX!!
+            startY = it.changedTouches[0]?.clientY!!
+        })
+        window.addEventListener("touchend", {
+            tetris.normal()
+        })
+
+        window.addEventListener("click", {
+            tetris.rotate()
+        })
+
         playAgain.addEventListener("click", {
             restart()
         })
+
+        fullscreen.addEventListener("click", {toggleFullscreen()})
+    }
+
+    private fun toggleFullscreen() {
+        if(document.fullscreenElement == null) {
+            document.body?.requestFullscreen()
+        } else {
+            document.exitFullscreen()
+        }
     }
 
     private fun restart() {
