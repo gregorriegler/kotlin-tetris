@@ -71,6 +71,11 @@ class TetrisJs {
         displayCanvasContext.canvas.height = display.height
         clearCanvas(displayCanvasContext)
 
+        drawBackgroundGradient(display)
+        debris.asStones(display).forEach { drawFilled(it, displayCanvasContext) }
+    }
+
+    private fun drawBackgroundGradient(display: Frame) {
         val maxHeight = 5000.0
         val gradientTop = 0.0 - tetris.depth * 20
         val gradientBottom = maxHeight - tetris.depth * 20
@@ -81,8 +86,6 @@ class TetrisJs {
         gradient.addColorStop(1.0, "#794906")
         displayCanvasContext.fillStyle = gradient;
         displayCanvasContext.fillRect(0.0, 0.0, display.width.toDouble(), display.height.toDouble());
-
-        debris.asStones(display).forEach { drawFilled(it, displayCanvasContext) }
     }
 
     private fun drawNextStone(nextStone: Structure) {
