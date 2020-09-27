@@ -21,6 +21,7 @@ class TetrisJs {
     private val nextStoneCanvas: HTMLCanvasElement = document.getElementById("next-stone") as HTMLCanvasElement
     private val nextStoneCanvasContext: CanvasRenderingContext2D = nextStoneCanvas.getContext("2d") as CanvasRenderingContext2D
     private val score: HTMLParagraphElement = document.getElementById("score") as HTMLParagraphElement
+    private val depth: HTMLParagraphElement = document.getElementById("depth") as HTMLParagraphElement
     private val tetris: Tetris = Tetris()
 
     fun start() {
@@ -29,6 +30,8 @@ class TetrisJs {
             drawGame(tetris.gameDisplay())
             drawNextStone(tetris.nextStone)
             score.textContent = tetris.score.toString()
+            depth.textContent = tetris.depth.toString()
+
         }, 10)
         window.addEventListener("keydown", {
             when ((it as KeyboardEvent).key) {

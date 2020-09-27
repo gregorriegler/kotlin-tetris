@@ -1,3 +1,8 @@
+- show game over
+- play again button
+- show score of a move in an effect like in a role playing game
+- the deeper you go the faster
+
 - possibly extract Erase as its own Class
 - more beautiful ui, arrange elements in index.html for easier styling
 - the deeper the faster

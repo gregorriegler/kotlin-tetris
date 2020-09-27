@@ -29,6 +29,10 @@ class Tetris(
         private set
     var score: Int = 0
         private set
+
+    val depth: Int
+        get() = debris.depth
+
     var gameOver: String = ""
         private set
     var tick: Int = 1
