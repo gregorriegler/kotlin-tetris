@@ -77,12 +77,14 @@ class TetrisJs {
 
     private fun drawBackgroundGradient(display: Frame) {
         val maxHeight = 5000.0
-        val gradientTop = 0.0 - tetris.depth * 20
-        val gradientBottom = maxHeight - tetris.depth * 20
+        val stoneSize = 30
+        val gradientTop = 0.0 - tetris.depth * stoneSize
+        val gradientBottom = maxHeight - tetris.depth * stoneSize
         val gradient = displayCanvasContext.createLinearGradient(0.0, gradientTop, 0.0, gradientBottom)
-        gradient.addColorStop(0.0, "aliceblue")
-        gradient.addColorStop(0.1, "white")
-        gradient.addColorStop(0.2, "#DEDBDB")
+        gradient.addColorStop(0.0, "#ccffff")
+        gradient.addColorStop(0.08, "aliceblue")
+        gradient.addColorStop(0.16, "white")
+        gradient.addColorStop(0.2, "#CBCBCB")
         gradient.addColorStop(1.0, "#794906")
         displayCanvasContext.fillStyle = gradient;
         displayCanvasContext.fillRect(0.0, 0.0, display.width.toDouble(), display.height.toDouble());
