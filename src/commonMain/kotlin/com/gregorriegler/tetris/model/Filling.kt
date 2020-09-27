@@ -13,7 +13,7 @@ enum class Filling {
         override fun special(position: Position, area: Area): Score = explode(position, area)
         override fun toString(): String = BOMB_VALUE.toString()
 
-        private fun explode(position: Position, area: Area): Score = area.erase(Area.circle(position, 4))
+        private fun explode(position: Position, area: Area): Score = area.erase(Area.circle(position, 3))
     },
     SOIL {
         override fun combine(filling: Filling): Filling = SOIL

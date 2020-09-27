@@ -17,17 +17,11 @@ fun main() {
 
 class TetrisJs {
     private val displayCanvas: HTMLCanvasElement = document.getElementById("display") as HTMLCanvasElement
-    private val displayCanvasContext: CanvasRenderingContext2D
+    private val displayCanvasContext: CanvasRenderingContext2D = displayCanvas.getContext("2d") as CanvasRenderingContext2D
     private val nextStoneCanvas: HTMLCanvasElement = document.getElementById("next-stone") as HTMLCanvasElement
-    private val nextStoneCanvasContext: CanvasRenderingContext2D
+    private val nextStoneCanvasContext: CanvasRenderingContext2D = nextStoneCanvas.getContext("2d") as CanvasRenderingContext2D
     private val score: HTMLParagraphElement = document.getElementById("score") as HTMLParagraphElement
     private val tetris: Tetris = Tetris()
-    private val display: Frame = SimpleFrame.max(tetris, SimpleFrame(window.innerWidth, window.innerHeight))
-
-    init {
-        displayCanvasContext = displayCanvas.getContext("2d") as CanvasRenderingContext2D
-        nextStoneCanvasContext = nextStoneCanvas.getContext("2d") as CanvasRenderingContext2D
-    }
 
     fun start() {
         window.setInterval({
@@ -54,6 +48,7 @@ class TetrisJs {
     }
 
     private fun drawGame(debris: Debris) {
+        val display: Frame = SimpleFrame.max(tetris, SimpleFrame(displayCanvas.clientWidth, displayCanvas.clientHeight))
         displayCanvasContext.canvas.width = display.width
         displayCanvasContext.canvas.height = display.height
         clearCanvas(displayCanvasContext)
@@ -96,4 +91,3 @@ class TetrisJs {
         canvasContext.stroke()
     }
 }
-
