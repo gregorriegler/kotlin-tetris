@@ -82,12 +82,13 @@ class TetrisJs {
         val gradientBottom = maxHeight - tetris.depth * stoneSize
         val gradient = displayCanvasContext.createLinearGradient(0.0, gradientTop, 0.0, gradientBottom)
         gradient.addColorStop(0.0, "#ccffff")
-        gradient.addColorStop(0.08, "aliceblue")
+        gradient.addColorStop(0.04, "#ccffff")
+        gradient.addColorStop(0.12, "aliceblue")
         gradient.addColorStop(0.16, "white")
         gradient.addColorStop(0.2, "#CBCBCB")
-        gradient.addColorStop(1.0, "#794906")
-        displayCanvasContext.fillStyle = gradient;
-        displayCanvasContext.fillRect(0.0, 0.0, display.width.toDouble(), display.height.toDouble());
+        gradient.addColorStop(1.0, "#9a9b9b")
+        displayCanvasContext.fillStyle = gradient
+        displayCanvasContext.fillRect(0.0, 0.0, display.width.toDouble(), display.height.toDouble())
     }
 
     private fun drawNextStone(nextStone: Structure) {
