@@ -4,9 +4,7 @@ import com.gregorriegler.tetris.model.*
 import com.gregorriegler.tetris.view.Color
 import kotlinx.browser.document
 import kotlinx.browser.window
-import org.w3c.dom.CanvasRenderingContext2D
-import org.w3c.dom.HTMLCanvasElement
-import org.w3c.dom.HTMLParagraphElement
+import org.w3c.dom.*
 import org.w3c.dom.events.KeyboardEvent
 import kotlin.js.Date
 
@@ -22,7 +20,9 @@ class TetrisJs {
     private val nextStoneCanvasContext: CanvasRenderingContext2D = nextStoneCanvas.getContext("2d") as CanvasRenderingContext2D
     private val score: HTMLParagraphElement = document.getElementById("score") as HTMLParagraphElement
     private val depth: HTMLParagraphElement = document.getElementById("depth") as HTMLParagraphElement
-    private val tetris: Tetris = Tetris()
+    private val gameOver: HTMLDivElement = document.getElementById("game-over") as HTMLDivElement
+    private val playAgain: HTMLButtonElement = document.getElementById("play-again") as HTMLButtonElement
+    private var tetris: Tetris = Tetris()
 
     fun start() {
         window.setInterval({
@@ -31,7 +31,7 @@ class TetrisJs {
             drawNextStone(tetris.nextStone)
             score.textContent = tetris.score.toString()
             depth.textContent = tetris.depth.toString()
-
+            drawGameOver()
         }, 10)
         window.addEventListener("keydown", {
             when ((it as KeyboardEvent).key) {
@@ -48,6 +48,21 @@ class TetrisJs {
                 else -> Unit
             }
         })
+        playAgain.addEventListener("click", {
+            restart()
+        })
+    }
+
+    private fun restart() {
+        tetris = Tetris()
+    }
+
+    private fun drawGameOver() {
+        if(tetris.gameOver.isNotBlank()) {
+            this.gameOver.style.display = "block"
+        } else {
+            this.gameOver.style.display = "none"
+        }
     }
 
     private fun drawGame(debris: Debris) {
@@ -79,7 +94,7 @@ class TetrisJs {
         )
         canvasContext.strokeStyle = stone.color.enlightenBy(100).asCss()
 
-        val bevelSize = 1
+        val bevelSize = 4
         canvasContext.beginPath()
         canvasContext.moveTo(stone.x.toDouble() + bevelSize, stone.y.toDouble() + bevelSize)
         canvasContext.lineTo(stone.rightSide.toDouble() - bevelSize, stone.y.toDouble() + bevelSize)
