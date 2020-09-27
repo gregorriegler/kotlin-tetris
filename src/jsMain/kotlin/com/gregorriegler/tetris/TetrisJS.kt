@@ -6,7 +6,7 @@ import kotlinx.browser.document
 import kotlinx.browser.window
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.HTMLCanvasElement
-import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.HTMLParagraphElement
 import org.w3c.dom.events.KeyboardEvent
 import kotlin.js.Date
 
@@ -16,32 +16,17 @@ fun main() {
 }
 
 class TetrisJs {
-    private val game: HTMLDivElement = document.createElement("div") as HTMLDivElement
-    private val displayCanvas: HTMLCanvasElement = document.createElement("canvas") as HTMLCanvasElement
+    private val displayCanvas: HTMLCanvasElement = document.getElementById("display") as HTMLCanvasElement
     private val displayCanvasContext: CanvasRenderingContext2D
-    private val nextStoneCanvas: HTMLCanvasElement = document.createElement("canvas") as HTMLCanvasElement
+    private val nextStoneCanvas: HTMLCanvasElement = document.getElementById("next-stone") as HTMLCanvasElement
     private val nextStoneCanvasContext: CanvasRenderingContext2D
-    private val score: HTMLDivElement = document.createElement("div") as HTMLDivElement
+    private val score: HTMLParagraphElement = document.getElementById("score") as HTMLParagraphElement
     private val tetris: Tetris = Tetris()
     private val display: Frame = SimpleFrame.max(tetris, SimpleFrame(window.innerWidth, window.innerHeight))
 
     init {
-        game.id = "game"
-        document.body!!.appendChild(game)
-
         displayCanvasContext = displayCanvas.getContext("2d") as CanvasRenderingContext2D
-        displayCanvasContext.canvas.width = display.width
-        displayCanvasContext.canvas.height = display.height
-        game.appendChild(displayCanvas)
-
-        score.id = "score"
-        game.appendChild(score)
-
         nextStoneCanvasContext = nextStoneCanvas.getContext("2d") as CanvasRenderingContext2D
-        nextStoneCanvasContext.canvas.width = 100
-        nextStoneCanvasContext.canvas.height = 100
-        game.appendChild(nextStoneCanvas)
-
     }
 
     fun start() {
@@ -69,11 +54,15 @@ class TetrisJs {
     }
 
     private fun drawGame(debris: Debris) {
+        displayCanvasContext.canvas.width = display.width
+        displayCanvasContext.canvas.height = display.height
         clearCanvas(displayCanvasContext)
         debris.asStones(display).forEach { drawFilled(it, displayCanvasContext) }
     }
 
     private fun drawNextStone(nextStone: Structure) {
+        nextStoneCanvasContext.canvas.width = 100
+        nextStoneCanvasContext.canvas.height = 100
         clearCanvas(nextStoneCanvasContext)
         nextStone.asStones(SimpleFrame(100, 100), 0, listOf(Color.grey)).forEach { drawFilled(it, nextStoneCanvasContext) }
     }

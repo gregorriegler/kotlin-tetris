@@ -4,16 +4,77 @@
     <meta charset="UTF-8">
     <title>Digtris</title>
     <style type="text/css">
-        html, body {margin: 0; height: 100%; overflow: hidden; text-align: center}
-        #game {position: relative; display: inline-block;}
-        canvas {display: inline-block}
-        #score {display: inline-block; width: 80px; text-align: right; vertical-align: top}
-        #score::before {
-            content: "Score: "
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        #game {
+            position: relative;
+            background-color: darkgray;
+            width: 76vh;
+            height: 100vh;
+            margin: auto;
+        }
+
+        #game-left {
+            width: 70%;
+            height: 100%;
+            float: left;
+            background-color: aliceblue;
+        }
+
+        #display {
+            width: 100%;
+            height: 100%;
+        }
+
+        #game-right {
+            position: relative;
+            padding-top: 10px;
+            width: 30%;
+            height: 100%;
+            float: right;
+            background-color: lightblue;
+        }
+
+        #score-container{
+            text-align: center;
+        }
+
+        #score {
+            width: 90%;
+            text-align: right;
+        }
+
+        #next-stone {
+            display: block;
+            width: 20vh;
+            height: 20vh;
+            margin: 20px auto;
+            background-color: azure;
         }
     </style>
 </head>
 <body>
+<div id="game">
+    <div id="game-left">
+        <canvas id="display"></canvas>
+    </div>
+    <div id="game-right">
+        <div id="score-container">
+            <h2>Score</h2>
+            <p id="score">9999</p>
+        </div>
+        <canvas id="next-stone"></canvas>
+    </div>
+</div>
 <script src="tetris.js"></script>
 </body>
 </html>

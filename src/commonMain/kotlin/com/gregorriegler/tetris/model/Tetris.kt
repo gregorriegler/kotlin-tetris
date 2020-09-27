@@ -13,7 +13,7 @@ class Tetris(
     override val height get() = frame.height
 
     constructor() : this(
-        TetrisFrame(12, 24),
+        TetrisFrame(13, 24),
         listOf(
             Structure.createDot(),
             Structure.createI(),
