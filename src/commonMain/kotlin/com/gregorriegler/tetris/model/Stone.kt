@@ -6,47 +6,47 @@ class Stone(
 ) {
     constructor(structure: String, frame: TetrisFrame) : this(Structure(structure), frame)
 
-    var area: Area = structure.startingPosition(Area(frame))
+    var grid: Grid = structure.startingPosition(Grid(frame))
         private set
 
     fun down() {
-        area = frame.down(area)
+        grid = frame.down(grid)
     }
 
     fun left(debris: Debris) {
-        area = frame.left(area, debris)
+        grid = frame.left(grid, debris)
     }
 
     fun right(debris: Debris) {
-        area = frame.right(area, debris)
+        grid = frame.right(grid, debris)
     }
 
     fun rotate(debris: Debris) {
-        val rotate = area.rotate()
+        val rotate = grid.rotate()
 
         if (!outOfGame(rotate, debris)) {
-            area = rotate
+            grid = rotate
             return
         }
 
         for(it in (1..rotate.widthFalling() / 2)) {
             if (!outOfGame(rotate.leftBy(it), debris)) {
-                area = rotate.leftBy(it)
+                grid = rotate.leftBy(it)
                 break
             } else if (!outOfGame(rotate.rightBy(it), debris)) {
-                area = rotate.rightBy(it)
+                grid = rotate.rightBy(it)
                 break
             }
         }
     }
 
-    fun outOfGame(area: Area, debris: Debris): Boolean {
-        return area.collidesWith(debris.area) || frame.isOutside(area)
+    fun outOfGame(grid: Grid, debris: Debris): Boolean {
+        return grid.collidesWith(debris.grid) || frame.isOutside(grid)
     }
 
-    fun landed(debris: Debris) = atBottom() || area.down().collidesWith(debris.area)
-    private fun atBottom(): Boolean = frame.isAtBottom(area)
+    fun landed(debris: Debris) = atBottom() || grid.down().collidesWith(debris.grid)
+    private fun atBottom(): Boolean = frame.isAtBottom(grid)
     override fun toString(): String {
-        return area.toString()
+        return grid.toString()
     }
 }

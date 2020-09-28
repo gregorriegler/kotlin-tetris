@@ -2,10 +2,10 @@ package com.gregorriegler.tetris.model
 
 import com.gregorriegler.tetris.view.Color
 
-open class Area(fields: List<Field>) : PositionedFrame {
+open class Grid(fields: List<Field>) : PositionedFrame {
 
     companion object {
-        fun circle(center: Position, radius: Int): Area = Area(
+        fun circle(center: Position, radius: Int): Grid = Grid(
             (center.y - radius..center.y + radius)
                 .flatMap { y ->
                     (center.x - radius..center.x + radius)
@@ -41,12 +41,12 @@ open class Area(fields: List<Field>) : PositionedFrame {
     override val width: Int = rightSide - x + 1
     override val height: Int = bottom - y + 1
 
-    override fun down(): Area = Area(fields.map { it.down() })
-    override fun downBy(amount: Int): Area = Area(fields.map { it.downBy(amount) })
-    override fun left(): Area = leftBy(1)
-    override fun leftBy(amount: Int): Area = Area(fields.map { it.leftBy(amount) })
-    override fun right(): Area = rightBy(1)
-    override fun rightBy(amount: Int): Area = Area(fields.map { it.rightBy(amount) })
+    override fun down(): Grid = Grid(fields.map { it.down() })
+    override fun downBy(amount: Int): Grid = Grid(fields.map { it.downBy(amount) })
+    override fun left(): Grid = leftBy(1)
+    override fun leftBy(amount: Int): Grid = Grid(fields.map { it.leftBy(amount) })
+    override fun right(): Grid = rightBy(1)
+    override fun rightBy(amount: Int): Grid = Grid(fields.map { it.rightBy(amount) })
     fun below(position: Position) = get(position.down())
     fun above(position: Position) = get(position.up())
 
@@ -80,22 +80,22 @@ open class Area(fields: List<Field>) : PositionedFrame {
     private fun allX() = fields.map { it.x }.distinct()
     private fun distance() = Position.of(x, y)
 
-    fun rotate(): Area = Area(
+    fun rotate(): Grid = Grid(
         fields.map { field -> field.minus(distance()) }
             .map { field -> field.rotate(width) }
             .map { field -> field.plus(distance()) }
     )
 
-    fun combine(area: Area): Area =
-        Area(
-            allY().plus(area.allY()).distinct()
+    fun combine(grid: Grid): Grid =
+        Grid(
+            allY().plus(grid.allY()).distinct()
                 .flatMap { y ->
-                    allX().plus(area.allX()).distinct()
+                    allX().plus(grid.allX()).distinct()
                         .map { x ->
                             Field(
                                 x, y, Filling.higher(
                                     get(x, y).filling,
-                                    area.get(x, y).filling
+                                    grid.get(x, y).filling
                                 )
                             )
                         }
@@ -110,18 +110,18 @@ open class Area(fields: List<Field>) : PositionedFrame {
             fields.getOrNull(indexOf(position)) ?: Field.empty(position)
         }
 
-    fun collidesWith(area: Area): Boolean = fields.any { area.collidesWith(it) }
+    fun collidesWith(grid: Grid): Boolean = fields.any { grid.collidesWith(it) }
     fun collidesWith(field: Field): Boolean = field.collides() && get(field).collides()
 
-    fun move(vector: Position): Area = Area(fields.map { field -> field.plus(vector) })
-    fun within(area: Area): Area = Area(fields.filter { it.within(area) })
+    fun move(vector: Position): Grid = Grid(fields.map { field -> field.plus(vector) })
+    fun within(grid: Grid): Grid = Grid(fields.filter { it.within(grid) })
 
-    fun fall(): Area {
+    fun fall(): Grid {
         val fallingStacks: List<List<Field>> = fields.filter(this::willFall)
             .map(this::verticalStack)
             .toList()
         val roomToFall = fallingStacks.associateBy({ Field.empty(it[0].x, it[0].y + 1) }, { it.size })
-        return Area(
+        return Grid(
             fields.map {
                 when {
                     fallingStacks.any { stack -> stack.contains(it) } -> it.down()
@@ -148,10 +148,10 @@ open class Area(fields: List<Field>) : PositionedFrame {
 
     private fun bottomRows(amount: Int) = (height - amount until height).map { row(it) }
 
-    private fun addRowsOfSoil(amount: Int, coinPercentage: Int): Area {
+    private fun addRowsOfSoil(amount: Int, coinPercentage: Int): Grid {
         val upperRows = allRowsExceptTop(amount).map { it.upBy(amount) }
         val soilRows = (height - amount until height).flatMap { this.createRowOfSoilOrCoin(it, coinPercentage) }
-        return Area(upperRows + soilRows)
+        return Grid(upperRows + soilRows)
     }
 
     private fun createRowOfSoilOrCoin(y: Int, coinPercentage: Int): List<Field> =
@@ -174,7 +174,7 @@ open class Area(fields: List<Field>) : PositionedFrame {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
 
-        other as Area
+        other as Grid
 
         if (fields.toSet() != other.fields.toSet()) return false
 

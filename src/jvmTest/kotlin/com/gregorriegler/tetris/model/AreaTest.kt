@@ -4,49 +4,49 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-class `An Area` {
+class `A Grid` {
 
     @Test
     fun `can be created from a string`() {
-        val area = Area(
+        val grid = Grid(
             """
             ##
             ##
         """
         )
 
-        assertEquals(2, area.width)
-        assertEquals(2, area.height)
-        assertTrue(area.collidesWith(Field.filled(0, 0)))
-        assertTrue(area.collidesWith(Field.filled(1, 0)))
-        assertTrue(area.collidesWith(Field.filled(0, 1)))
-        assertTrue(area.collidesWith(Field.filled(1, 1)))
-        assertFalse(area.collidesWith(Field.filled(2, 1)))
-        assertThat(area.sizeFalling()).isEqualTo(4)
+        assertEquals(2, grid.width)
+        assertEquals(2, grid.height)
+        assertTrue(grid.collidesWith(Field.filled(0, 0)))
+        assertTrue(grid.collidesWith(Field.filled(1, 0)))
+        assertTrue(grid.collidesWith(Field.filled(0, 1)))
+        assertTrue(grid.collidesWith(Field.filled(1, 1)))
+        assertFalse(grid.collidesWith(Field.filled(2, 1)))
+        assertThat(grid.sizeFalling()).isEqualTo(4)
     }
 
     @Test
     fun `can be created from a string #2`() {
-        val area = Area(
+        val grid = Grid(
             """
             #-
             ##
         """
         )
 
-        assertEquals(2, area.width)
-        assertEquals(2, area.height)
-        assertTrue(area.collidesWith(Field.filled(0, 0)))
-        assertFalse(area.collidesWith(Field.filled(1, 0)))
-        assertTrue(area.collidesWith(Field.filled(0, 1)))
-        assertTrue(area.collidesWith(Field.filled(1, 1)))
-        assertFalse(area.collidesWith(Field.filled(2, 1)))
-        assertThat(area.sizeFalling()).isEqualTo(3)
+        assertEquals(2, grid.width)
+        assertEquals(2, grid.height)
+        assertTrue(grid.collidesWith(Field.filled(0, 0)))
+        assertFalse(grid.collidesWith(Field.filled(1, 0)))
+        assertTrue(grid.collidesWith(Field.filled(0, 1)))
+        assertTrue(grid.collidesWith(Field.filled(1, 1)))
+        assertFalse(grid.collidesWith(Field.filled(2, 1)))
+        assertThat(grid.sizeFalling()).isEqualTo(3)
     }
 
     @Test
     fun `can be created from a string #3`() {
-        val area = Area(
+        val grid = Grid(
             """
             ---
             -#-
@@ -54,58 +54,58 @@ class `An Area` {
         """
         )
 
-        assertEquals(3, area.width)
-        assertEquals(3, area.height)
-        assertFalse(area.collidesWith(Field.filled(0, 0)))
-        assertFalse(area.collidesWith(Field.filled(1, 0)))
-        assertFalse(area.collidesWith(Field.filled(2, 0)))
-        assertFalse(area.collidesWith(Field.filled(0, 1)))
-        assertTrue(area.collidesWith(Field.filled(1, 1)))
-        assertFalse(area.collidesWith(Field.filled(2, 1)))
-        assertFalse(area.collidesWith(Field.filled(0, 2)))
-        assertFalse(area.collidesWith(Field.filled(1, 2)))
-        assertFalse(area.collidesWith(Field.filled(2, 2)))
-        assertThat(area.sizeFalling()).isEqualTo(1)
+        assertEquals(3, grid.width)
+        assertEquals(3, grid.height)
+        assertFalse(grid.collidesWith(Field.filled(0, 0)))
+        assertFalse(grid.collidesWith(Field.filled(1, 0)))
+        assertFalse(grid.collidesWith(Field.filled(2, 0)))
+        assertFalse(grid.collidesWith(Field.filled(0, 1)))
+        assertTrue(grid.collidesWith(Field.filled(1, 1)))
+        assertFalse(grid.collidesWith(Field.filled(2, 1)))
+        assertFalse(grid.collidesWith(Field.filled(0, 2)))
+        assertFalse(grid.collidesWith(Field.filled(1, 2)))
+        assertFalse(grid.collidesWith(Field.filled(2, 2)))
+        assertThat(grid.sizeFalling()).isEqualTo(1)
     }
 
     @Test
     fun `can be created from a string with bomb`() {
-        val area = Area(
+        val grid = Grid(
             """
             X
         """
         )
 
-        assertEquals(1, area.width)
-        assertEquals(1, area.height)
-        assertTrue(area.collidesWith(Field.filled(0, 0)))
-        assertFalse(area.collidesWith(Field.filled(1, 0)))
-        assertFalse(area.collidesWith(Field.filled(2, 0)))
-        assertFalse(area.collidesWith(Field.filled(0, 1)))
-        assertThat(area.sizeFalling()).isEqualTo(1)
+        assertEquals(1, grid.width)
+        assertEquals(1, grid.height)
+        assertTrue(grid.collidesWith(Field.filled(0, 0)))
+        assertFalse(grid.collidesWith(Field.filled(1, 0)))
+        assertFalse(grid.collidesWith(Field.filled(2, 0)))
+        assertFalse(grid.collidesWith(Field.filled(0, 1)))
+        assertThat(grid.sizeFalling()).isEqualTo(1)
     }
 
     @Test
     fun `can be indented on the x axis`() {
-        val area = Area(
+        val grid = Grid(
             """
             >##
             >##
         """
         )
 
-        assertEquals(2, area.width)
-        assertEquals(2, area.height)
-        assertTrue(area.collidesWith(Field.filled(1, 0)))
-        assertTrue(area.collidesWith(Field.filled(2, 0)))
-        assertTrue(area.collidesWith(Field.filled(1, 1)))
-        assertTrue(area.collidesWith(Field.filled(2, 1)))
-        assertFalse(area.collidesWith(Field.filled(0, 1)))
+        assertEquals(2, grid.width)
+        assertEquals(2, grid.height)
+        assertTrue(grid.collidesWith(Field.filled(1, 0)))
+        assertTrue(grid.collidesWith(Field.filled(2, 0)))
+        assertTrue(grid.collidesWith(Field.filled(1, 1)))
+        assertTrue(grid.collidesWith(Field.filled(2, 1)))
+        assertFalse(grid.collidesWith(Field.filled(0, 1)))
     }
 
     @Test
     fun `can be indented on the y axis`() {
-        val area = Area(
+        val grid = Grid(
             """
             >>
             ##
@@ -113,19 +113,19 @@ class `An Area` {
         """
         )
 
-        assertEquals(2, area.width)
-        assertEquals(2, area.height)
-        assertTrue(area.collidesWith(Field.filled(0, 1)))
-        assertTrue(area.collidesWith(Field.filled(1, 1)))
-        assertTrue(area.collidesWith(Field.filled(0, 2)))
-        assertTrue(area.collidesWith(Field.filled(1, 2)))
-        assertFalse(area.collidesWith(Field.filled(0, 0)))
+        assertEquals(2, grid.width)
+        assertEquals(2, grid.height)
+        assertTrue(grid.collidesWith(Field.filled(0, 1)))
+        assertTrue(grid.collidesWith(Field.filled(1, 1)))
+        assertTrue(grid.collidesWith(Field.filled(0, 2)))
+        assertTrue(grid.collidesWith(Field.filled(1, 2)))
+        assertFalse(grid.collidesWith(Field.filled(0, 0)))
     }
 
     @Test
     fun `gets the state`() {
         assertThat(
-            Area(
+            Grid(
                 """
             >>
             ##
@@ -143,17 +143,17 @@ class `An Area` {
 
     @Test
     fun `gets fields`() {
-        val area = Area(
+        val grid = Grid(
             """
             >>>
             >##
             >##
         """
         )
-        assertThat(area.get(0, 0)).isEqualTo(Field.empty(0, 0))
-        assertThat(area.get(1, 1)).isEqualTo(Field.filled(1, 1))
-        assertThat(area.get(2, 1)).isEqualTo(Field.filled(2, 1))
-        assertThat(area.get(3, 1)).isEqualTo(Field.empty(3, 1))
+        assertThat(grid.get(0, 0)).isEqualTo(Field.empty(0, 0))
+        assertThat(grid.get(1, 1)).isEqualTo(Field.filled(1, 1))
+        assertThat(grid.get(2, 1)).isEqualTo(Field.filled(2, 1))
+        assertThat(grid.get(3, 1)).isEqualTo(Field.empty(3, 1))
     }
 
     @Test
@@ -163,7 +163,7 @@ class `An Area` {
             --
             ##
             ##
-        """.trimIndent() + '\n', Area(
+        """.trimIndent() + '\n', Grid(
                 """
             >>
             ##
@@ -175,80 +175,80 @@ class `An Area` {
 
     @Test
     fun `has a width`() {
-        assertEquals(1, Area("#").width)
-        assertEquals(2, Area("##").width)
+        assertEquals(1, Grid("#").width)
+        assertEquals(2, Grid("##").width)
     }
 
     @Test
     fun `has a height`() {
-        assertEquals(1, Area("#").height)
-        assertEquals(2, Area("#\n#").height)
+        assertEquals(1, Grid("#").height)
+        assertEquals(2, Grid("#\n#").height)
     }
 
     @Test
     fun `has a bottom`() {
-        assertEquals(0, Area("#").bottomFalling())
-        assertEquals(1, Area("#\n#").bottomFalling())
+        assertEquals(0, Grid("#").bottomFalling())
+        assertEquals(1, Grid("#\n#").bottomFalling())
     }
 
     @Test
     fun `has a left side of non-empty`() {
-        assertEquals(0, Area("#").leftSideFalling())
-        assertEquals(1, Area("-##").leftSideFalling())
+        assertEquals(0, Grid("#").leftSideFalling())
+        assertEquals(1, Grid("-##").leftSideFalling())
     }
 
     @Test
     fun `has a right side`() {
-        assertEquals(0, Area("#").rightSideFalling())
-        assertEquals(1, Area("##").rightSideFalling())
-        assertEquals(1, Area("##-").rightSideFalling())
+        assertEquals(0, Grid("#").rightSideFalling())
+        assertEquals(1, Grid("##").rightSideFalling())
+        assertEquals(1, Grid("##-").rightSideFalling())
     }
 
     @Test
     fun `collides with a field`() {
-        assertTrue(Area("#").collidesWith(Field.filled(0, 0)))
-        assertTrue(Area("-#").collidesWith(Field.filled(1, 0)))
-        assertTrue(Area(">#").collidesWith(Field.filled(1, 0)))
+        assertTrue(Grid("#").collidesWith(Field.filled(0, 0)))
+        assertTrue(Grid("-#").collidesWith(Field.filled(1, 0)))
+        assertTrue(Grid(">#").collidesWith(Field.filled(1, 0)))
     }
 
     @Test
-    fun `collides with an area`() {
-        assertThat(Area("#-").collidesWith(Area("#-"))).isTrue
+    fun `collides with a grid`() {
+        assertThat(Grid("#-").collidesWith(Grid("#-"))).isTrue
     }
 
     @Test
-    fun `does not collide with an area`() {
-        assertThat(Area("#-").collidesWith(Area("-#"))).isFalse
+    fun `does not collide with a grid`() {
+        assertThat(Grid("#-").collidesWith(Grid("-#"))).isFalse
     }
 
     @Test
     fun `does not collide with a field`() {
-        assertFalse(Area("#").collidesWith(Field.filled(1, 1)))
-        assertFalse(Area("#").collidesWith(Field.empty(0, 0)))
-        assertFalse(Area("-#").collidesWith(Field.filled(0, 0)))
-        assertFalse(Area("-#").collidesWith(Field.empty(0, 0)))
-        assertFalse(Area(">#").collidesWith(Field.filled(0, 0)))
+        assertFalse(Grid("#").collidesWith(Field.filled(1, 1)))
+        assertFalse(Grid("#").collidesWith(Field.empty(0, 0)))
+        assertFalse(Grid("-#").collidesWith(Field.filled(0, 0)))
+        assertFalse(Grid("-#").collidesWith(Field.empty(0, 0)))
+        assertFalse(Grid(">#").collidesWith(Field.filled(0, 0)))
     }
 
     @Test
     fun combines() {
-        assertThat(Area("-#\n#-").combine(Area("#-")))
-            .isEqualTo(Area("##\n#-"))
+        assertThat(Grid("-#\n#-").combine(Grid("#-")))
+            .isEqualTo(Grid("##\n#-"))
     }
 
     @Test
     fun `combines empty rows`() {
-        assertThat(Area(">\n-").combine(Area("-")))
-            .isEqualTo(Area("-\n-"))
+        assertThat(Grid(">\n-").combine(Grid("-")))
+            .isEqualTo(Grid("-\n-"))
     }
 
     @Test
     fun `erases filled rows`() {
-        assertThat(Eraser(Area("#")).eraseFilledRows()).isEqualTo(EraseResult(Area("-"), 1))
+        assertThat(Eraser(Grid("#")).eraseFilledRows()).isEqualTo(EraseResult(Grid("-"), 1))
 
         assertThat(
             Eraser(
-                Area(
+                Grid(
                     """
                     >
                     #
@@ -257,7 +257,7 @@ class `An Area` {
             ).eraseFilledRows()
         ).isEqualTo(
             EraseResult(
-                Area(
+                Grid(
                     """
                     >
                     -
@@ -268,7 +268,7 @@ class `An Area` {
 
         assertThat(
             Eraser(
-                Area(
+                Grid(
                     """
                     -
                     #
@@ -277,7 +277,7 @@ class `An Area` {
             ).eraseFilledRows()
         ).isEqualTo(
             EraseResult(
-                Area(
+                Grid(
                     """
                     -
                     -
@@ -288,7 +288,7 @@ class `An Area` {
 
         assertThat(
             Eraser(
-                Area(
+                Grid(
                     """
                     #-
                     ##
@@ -299,7 +299,7 @@ class `An Area` {
             ).eraseFilledRows()
         ).isEqualTo(
             EraseResult(
-                Area(
+                Grid(
                     """
             #-
             --
@@ -314,13 +314,13 @@ class `An Area` {
     @Test
     fun `moves down`() {
         assertThat(
-            Area(
+            Grid(
                 """
                 -##
             """
             ).down()
         ).isEqualTo(
-            Area(
+            Grid(
                 """
                 >>>
                 -##
@@ -331,19 +331,19 @@ class `An Area` {
 
     @Test
     fun `moves left`() {
-        assertThat(Area("-##").left()).isEqualTo(Area("<-##"))
-        assertThat(Area("--#").leftBy(2)).isEqualTo(Area("<<--#"))
+        assertThat(Grid("-##").left()).isEqualTo(Grid("<-##"))
+        assertThat(Grid("--#").leftBy(2)).isEqualTo(Grid("<<--#"))
     }
 
     @Test
     fun `moves right`() {
-        assertThat(Area("##-").right()).isEqualTo(Area(">##-"))
+        assertThat(Grid("##-").right()).isEqualTo(Grid(">##-"))
     }
 
     @Test
     fun rotates() {
         assertThat(
-            Area(
+            Grid(
                 """
                 ---
                 ###
@@ -352,7 +352,7 @@ class `An Area` {
             ).rotate()
         )
             .isEqualTo(
-                Area(
+                Grid(
                     """
                 -#-
                 -#-
@@ -362,7 +362,7 @@ class `An Area` {
             )
 
         assertThat(
-            Area(
+            Grid(
                 """
                 ---
                 ###
@@ -371,7 +371,7 @@ class `An Area` {
             ).rotate()
         )
             .isEqualTo(
-                Area(
+                Grid(
                     """
                 -#-
                 ##-
@@ -381,7 +381,7 @@ class `An Area` {
             )
 
         assertThat(
-            Area(
+            Grid(
                 """
                 >>>
                 >>>
@@ -392,7 +392,7 @@ class `An Area` {
             ).rotate()
         )
             .isEqualTo(
-                Area(
+                Grid(
                     """
                 >>>
                 >>>
@@ -407,7 +407,7 @@ class `An Area` {
     @Test
     fun `keeps position on rotating`() {
         assertThat(
-            Area(
+            Grid(
                 """
                 ---
                 ###
@@ -416,7 +416,7 @@ class `An Area` {
             ).rotate().rotate()
         )
             .isEqualTo(
-                Area(
+                Grid(
                     """
                 ---
                 ###
@@ -426,7 +426,7 @@ class `An Area` {
             )
 
         assertThat(
-            Area(
+            Grid(
                 """
                 -----
                 -----
@@ -437,7 +437,7 @@ class `An Area` {
             ).rotate().rotate()
         )
             .isEqualTo(
-                Area(
+                Grid(
                     """
                 -----
                 -----
@@ -449,7 +449,7 @@ class `An Area` {
             )
 
         assertThat(
-            Area(
+            Grid(
                 """
                 --#--
                 --#--
@@ -460,7 +460,7 @@ class `An Area` {
             ).rotate().rotate()
         )
             .isEqualTo(
-                Area(
+                Grid(
                     """
                 --#--
                 --#--
@@ -473,16 +473,16 @@ class `An Area` {
     }
 
     @Test
-    fun `returns the starting area for a structure`() {
-        assertEquals(Area(Field.filled(1, -1)), Structure("#").startingPosition(Area(TetrisFrame(3, 3))))
-        assertEquals(Area(Field.filled(1, -1)), Structure("#").startingPosition(Area(TetrisFrame(4, 4))))
+    fun `returns the starting grid for a structure`() {
+        assertEquals(Grid(Field.filled(1, -1)), Structure("#").startingPosition(Grid(TetrisFrame(3, 3))))
+        assertEquals(Grid(Field.filled(1, -1)), Structure("#").startingPosition(Grid(TetrisFrame(4, 4))))
         assertEquals(
-            Area(Field.filled(1, -2), Field.filled(1, -1)),
-            Structure("#\n#").startingPosition(Area(TetrisFrame(3, 3)))
+            Grid(Field.filled(1, -2), Field.filled(1, -1)),
+            Structure("#\n#").startingPosition(Grid(TetrisFrame(3, 3)))
         )
         assertEquals(
-            Area(Field.filled(1, -1), Field.filled(2, -1)),
-            Structure("##").startingPosition(Area(TetrisFrame(4, 4)))
+            Grid(Field.filled(1, -1), Field.filled(2, -1)),
+            Structure("##").startingPosition(Grid(TetrisFrame(4, 4)))
         )
     }
 }

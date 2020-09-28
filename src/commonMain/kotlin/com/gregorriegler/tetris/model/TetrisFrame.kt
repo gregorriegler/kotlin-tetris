@@ -9,32 +9,32 @@ class TetrisFrame(
 
     fun topCenterFilled(): Field = Field.filled(center(), 0)
 
-    fun left(area: Area, debris: Debris): Area =
-        if (isAtLeftBorder(area) || area.left().collidesWith(debris.area))
-            area
+    fun left(grid: Grid, debris: Debris): Grid =
+        if (isAtLeftBorder(grid) || grid.left().collidesWith(debris.grid))
+            grid
         else
-            area.left()
+            grid.left()
 
-    fun right(area: Area, debris: Debris): Area =
-        if (isAtRightBorder(area) || area.right().collidesWith(debris.area))
-            area
+    fun right(grid: Grid, debris: Debris): Grid =
+        if (isAtRightBorder(grid) || grid.right().collidesWith(debris.grid))
+            grid
         else
-            area.right()
+            grid.right()
 
-    fun down(area: Area): Area =
-        if (area.bottomFalling() < height - 1)
-            area.down()
+    fun down(grid: Grid): Grid =
+        if (grid.bottomFalling() < height - 1)
+            grid.down()
         else
-            area
+            grid
 
-    private fun isAtLeftBorder(area: Area) = area.leftSideFalling() <= 0
-    private fun isAtRightBorder(area: Area) = area.rightSideFalling() >= width - 1
-    fun isAtBottom(area: Area): Boolean = area.bottomFalling() == height - 1
+    private fun isAtLeftBorder(grid: Grid) = grid.leftSideFalling() <= 0
+    private fun isAtRightBorder(grid: Grid) = grid.rightSideFalling() >= width - 1
+    fun isAtBottom(grid: Grid): Boolean = grid.bottomFalling() == height - 1
     private fun center() = width.toDouble().div(2).roundToInt() - 1
-    fun isOutside(area: Area): Boolean =
-        area.rightSideFalling() > width - 1
-                || area.leftSideFalling() < 0
-                || area.bottomFalling() > height - 1
+    fun isOutside(grid: Grid): Boolean =
+        grid.rightSideFalling() > width - 1
+                || grid.leftSideFalling() < 0
+                || grid.bottomFalling() > height - 1
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

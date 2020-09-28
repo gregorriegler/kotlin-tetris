@@ -1,11 +1,11 @@
 package com.gregorriegler.tetris.model
 
-internal class VerticalStackIterator(val area: Area, start: Field) : Iterator<Field> {
+internal class VerticalStackIterator(val grid: Grid, start: Field) : Iterator<Field> {
     var current: Field = start
     override fun hasNext() = current.falls()
     override fun next(): Field {
         val next = current
-        current = area.above(current.position)
+        current = grid.above(current.position)
         return next
     }
 }

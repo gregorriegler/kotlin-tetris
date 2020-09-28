@@ -1,6 +1,6 @@
 package com.gregorriegler.tetris.model
 
 data class DigResult(
-    val area: Area,
+    val grid: Grid,
     val depth: Int
 )

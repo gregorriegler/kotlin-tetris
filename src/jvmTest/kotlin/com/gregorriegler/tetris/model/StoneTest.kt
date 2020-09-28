@@ -84,9 +84,9 @@ class `A Stone` {
 
         @Test
         fun `starts above the center`() {
-            assertPositionByArea(
+            assertPositionByGrid(
                 stone,
-                Area(
+                Grid(
                     Field.filled(1, -2),
                     Field.filled(2, -2),
                     Field.filled(1, -1),
@@ -99,9 +99,9 @@ class `A Stone` {
         fun `can be moved down`() {
             stone.down()
 
-            assertPositionByArea(
+            assertPositionByGrid(
                 stone,
-                Area(
+                Grid(
                     Field.filled(1, -1),
                     Field.filled(2, -1),
                     Field.filled(1, -0),
@@ -114,9 +114,9 @@ class `A Stone` {
         fun `can be moved to the bottom`() {
             repeat(4, { stone.down() })
 
-            assertPositionByArea(
+            assertPositionByGrid(
                 stone,
-                Area(
+                Grid(
                     Field.filled(1, 2),
                     Field.filled(2, 2),
                     Field.filled(1, 3),
@@ -130,9 +130,9 @@ class `A Stone` {
         fun `can not be moved out of the frame at the bottom`() {
             repeat(10, { stone.down() })
 
-            assertPositionByArea(
+            assertPositionByGrid(
                 stone,
-                Area("""
+                Grid("""
                     >>>
                     >>>
                     >##
@@ -146,9 +146,9 @@ class `A Stone` {
         fun `lands on debris`() {
             repeat(3, { stone.down() })
 
-            assertPositionByArea(
+            assertPositionByGrid(
                 stone,
-                Area("""
+                Grid("""
                 >>>
                 >##
                 >##
@@ -169,9 +169,9 @@ class `A Stone` {
             stone.down()
             stone.left(debris4x4)
 
-            assertPositionByArea(
+            assertPositionByGrid(
                 stone,
-                Area(
+                Grid(
                     Field.filled(0, -1),
                     Field.filled(1, -1),
                     Field.filled(0, 0),
@@ -187,9 +187,9 @@ class `A Stone` {
             stone.left(debris4x4)
             stone.left(debris4x4)
 
-            assertPositionByArea(
+            assertPositionByGrid(
                 stone,
-                Area(
+                Grid(
                     Field.filled(0, -1),
                     Field.filled(1, -1),
                     Field.filled(0, 0),
@@ -204,9 +204,9 @@ class `A Stone` {
             stone.down()
             stone.right(debris4x4)
 
-            assertPositionByArea(
+            assertPositionByGrid(
                 stone,
-                Area(
+                Grid(
                     Field.filled(2, -1),
                     Field.filled(3, -1),
                     Field.filled(2, 0),
@@ -222,9 +222,9 @@ class `A Stone` {
             stone.right(debris4x4)
             stone.right(debris4x4)
 
-            assertPositionByArea(
+            assertPositionByGrid(
                 stone,
-                Area(
+                Grid(
                     Field.filled(2, -1),
                     Field.filled(3, -1),
                     Field.filled(2, 0),
@@ -490,11 +490,11 @@ class `A Stone` {
     }
 
     private fun assertPosition(stone: Stone, field: Field) {
-        assertPositionByArea(stone, Area(field))
+        assertPositionByGrid(stone, Grid(field))
     }
 
-    private fun assertPositionByArea(stone: Stone, area: Area) {
-        assertThat(stone.area).isEqualTo(area)
+    private fun assertPositionByGrid(stone: Stone, grid: Grid) {
+        assertThat(stone.grid).isEqualTo(grid)
     }
 
     private fun assertState(state: String, stone: Stone) {

@@ -1,22 +1,20 @@
 package com.gregorriegler.tetris.model
 
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class FallTest {
     @Test
-    fun `area falls to bottom`() {
+    fun `grid falls to bottom`() {
         assertThat(
-            Area(
+            Grid(
                 """
                 #
                 -
                 """
             ).fall().fall()
         ).isEqualTo(
-            Area(
+            Grid(
                 """
                 -
                 #
@@ -26,9 +24,9 @@ class FallTest {
     }
 
     @Test
-    fun `area falls on soil`() {
+    fun `grid falls on soil`() {
         assertThat(
-            Area(
+            Grid(
                 """
                 #
                 -
@@ -36,7 +34,7 @@ class FallTest {
                 """
             ).fall().fall()
         ).isEqualTo(
-            Area(
+            Grid(
                 """
                 -
                 #
@@ -47,9 +45,9 @@ class FallTest {
     }
 
     @Test
-    fun `area falls by just one field`() {
+    fun `grid falls by just one field`() {
         assertThat(
-            Area(
+            Grid(
                 """
                 #
                 -
@@ -57,7 +55,7 @@ class FallTest {
                 """
             ).fall()
         ).isEqualTo(
-            Area(
+            Grid(
                 """
                 -
                 #
@@ -68,21 +66,21 @@ class FallTest {
     }
 
     @Test
-    fun `area on bottom does not fall any further`() {
-        assertThat(Area("#").fall()).isEqualTo(Area("#"))
+    fun `grid on bottom does not fall any further`() {
+        assertThat(Grid("#").fall()).isEqualTo(Grid("#"))
     }
 
     @Test
     fun `fields that have an anchor don't fall`() {
         assertThat(
-            Area(
+            Grid(
                 """
                 ##
                 #-
                 """
             ).fall()
         ).isEqualTo(
-            Area(
+            Grid(
                 """
                 ##
                 #-
@@ -94,7 +92,7 @@ class FallTest {
     @Test
     fun `soil counts as anchor`() {
         assertThat(
-            Area(
+            Grid(
                 """
                 ##
                 #-
@@ -102,7 +100,7 @@ class FallTest {
                 """
             ).fall()
         ).isEqualTo(
-            Area(
+            Grid(
                 """
                 ##
                 #-
@@ -115,7 +113,7 @@ class FallTest {
     @Test
     fun `anchor found on zig zags`() {
         assertThat(
-            Area(
+            Grid(
                 """
                 ##
                 -#
@@ -124,7 +122,7 @@ class FallTest {
                 """
             ).fall()
         ).isEqualTo(
-            Area(
+            Grid(
                 """
                 ##
                 -#
@@ -138,7 +136,7 @@ class FallTest {
     @Test
     fun `above anchor found`() {
         assertThat(
-            Area(
+            Grid(
                 """
                 ###
                 #-#
@@ -146,7 +144,7 @@ class FallTest {
                 """
             ).fall()
         ).isEqualTo(
-            Area(
+            Grid(
                 """
                 ###
                 #-#
@@ -159,14 +157,14 @@ class FallTest {
     @Test
     fun `whole lines fall`() {
         assertThat(
-            Area(
+            Grid(
                 """
                 ##
                 --
                 """
             ).fall()
         ).isEqualTo(
-            Area(
+            Grid(
                 """
                 --
                 ##
@@ -178,7 +176,7 @@ class FallTest {
     @Test
     fun `debris falls together`() {
         assertThat(
-            Area(
+            Grid(
                 """
                 #
                 #
@@ -186,7 +184,7 @@ class FallTest {
                 """
             ).fall()
         ).isEqualTo(
-            Area(
+            Grid(
                 """
                 -
                 #
@@ -196,7 +194,7 @@ class FallTest {
         )
 
         assertThat(
-            Area(
+            Grid(
                 """
                 ###
                 ###
@@ -204,7 +202,7 @@ class FallTest {
                 """
             ).fall()
         ).isEqualTo(
-            Area(
+            Grid(
                 """
                 ---
                 ###

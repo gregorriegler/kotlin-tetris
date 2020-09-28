@@ -1,6 +1,6 @@
 package com.gregorriegler.tetris.model
 
-class Structure(string: String) : Area(string) {
+class Structure(string: String) : Grid(string) {
     companion object {
         fun create1by1(): Structure {
             return Structure("#")
@@ -65,5 +65,5 @@ class Structure(string: String) : Area(string) {
         }
     }
 
-    fun startingPosition(area: Area): Area = move(Position.of((area.width - width) / 2, area.y - height))
+    fun startingPosition(grid: Grid): Grid = move(Position.of((grid.width - width) / 2, grid.y - height))
 }

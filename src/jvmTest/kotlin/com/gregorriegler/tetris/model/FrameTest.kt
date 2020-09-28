@@ -13,12 +13,12 @@ class `A Frame` {
     }
 
     @Test
-    fun `moves an area to the left`() {
+    fun `moves a grid to the left`() {
         val frame = TetrisFrame(3, 3)
         assertEquals(
-            Area(Field.empty(-1, 0), Field.filled(0, 0), Field.filled(1, 0)),
+            Grid(Field.empty(-1, 0), Field.filled(0, 0), Field.filled(1, 0)),
             frame.left(
-                Area("""
+                Grid("""
                 -##
                 """),
                 Debris(TetrisFrame(3, 3))
@@ -30,12 +30,12 @@ class `A Frame` {
     fun `respects the left wall when moving left`() {
         val frame = TetrisFrame(3, 3)
         assertEquals(
-            Area("""
+            Grid("""
                 ##-
                 """
             ),
             frame.left(
-                Area("""
+                Grid("""
                 ##-
                 """
                 ),
@@ -47,19 +47,19 @@ class `A Frame` {
     @Test
     fun `respects debris when moving left`() {
         val frame = TetrisFrame(3, 3)
-        val area = Area("""
+        val grid = Grid("""
                 -##
                 """)
         val debris = Debris("""
                 #--
                 """)
-        assertEquals(area, frame.left(area, debris))
+        assertEquals(grid, frame.left(grid, debris))
     }
 
     @Test
     fun `moves inside debris when moving left`() {
         val frame = TetrisFrame(4, 3)
-        val area = Area("""
+        val grid = Grid("""
                 ---#
                 --##
                 ---#
@@ -72,7 +72,7 @@ class `A Frame` {
 
         val x = -1
         val y = 0
-        val expected = Area(
+        val expected = Grid(
             Field.empty(x, y),
             Field.empty(0, 0),
             Field.empty(1, 0),
@@ -86,7 +86,7 @@ class `A Frame` {
             Field.empty(1, 2),
             Field.filled(2, 2),
         )
-        val actual = frame.left(area, debris)
+        val actual = frame.left(grid, debris)
         assertEquals(
             expected,
             actual
@@ -94,24 +94,24 @@ class `A Frame` {
     }
 
     @Test
-    fun `moves an area to the right`() {
+    fun `moves a grid to the right`() {
         val frame = TetrisFrame(3, 3)
         assertThat(
-            frame.right(Area("##-"), Debris(frame))
-        ).isEqualTo(Area(">##-"))
+            frame.right(Grid("##-"), Debris(frame))
+        ).isEqualTo(Grid(">##-"))
     }
 
     @Test
     fun `respects the right wall when moving right`() {
         val frame = TetrisFrame(2, 2)
         assertEquals(
-            Area("""
+            Grid("""
                 -#
                 -#
                 """
             ),
             frame.right(
-                Area("""
+                Grid("""
                 -#
                 -#
                 """
@@ -125,13 +125,13 @@ class `A Frame` {
     fun `respects debris when moving right`() {
         val frame = TetrisFrame(3, 3)
         assertEquals(
-            Area("""
+            Grid("""
                 ---
                 ##-
                 """
             ),
             frame.right(
-                Area("""
+                Grid("""
                 ---
                 ##-
                 """
@@ -147,7 +147,7 @@ class `A Frame` {
     @Test
     fun `moves inside debris when moving right`() {
         val frame = TetrisFrame(4, 3)
-        val area = Area("""
+        val grid = Grid("""
                 #---
                 ##--
                 #---
@@ -159,27 +159,27 @@ class `A Frame` {
                 """)
 
         assertEquals(
-            Area("""
+            Grid("""
                 >#---
                 >##--
                 >#---
                 """),
-            frame.right(area, debris)
+            frame.right(grid, debris)
         )
     }
 
     @Test
-    fun `moves an area down`() {
+    fun `moves a grid down`() {
         val frame = TetrisFrame(3, 3)
         assertEquals(
-            Area("""
+            Grid("""
                 >>
                 ##
                 --
                 """
             ),
             frame.down(
-                Area("""
+                Grid("""
                     ##
                     --
                     """
@@ -189,16 +189,16 @@ class `A Frame` {
     }
 
     @Test
-    fun `does not move an area below the bottom`() {
+    fun `does not move a grid below the bottom`() {
         val frame = TetrisFrame(2, 2)
         assertEquals(
-            Area("""
+            Grid("""
                 --
                 ##
                 """
             ),
             frame.down(
-                Area("""
+                Grid("""
                 --
                 ##
                 """
@@ -208,9 +208,9 @@ class `A Frame` {
     }
 
     @Test
-    fun `knows an area is not at the bottom`() {
-        assertFalse(TetrisFrame(3, 3).isAtBottom(Area(Field.filled(1, 1))))
-        assertFalse(TetrisFrame(4, 4).isAtBottom(Area("""
+    fun `knows a grid is not at the bottom`() {
+        assertFalse(TetrisFrame(3, 3).isAtBottom(Grid(Field.filled(1, 1))))
+        assertFalse(TetrisFrame(4, 4).isAtBottom(Grid("""
             >>
             ##
             ##
@@ -218,9 +218,9 @@ class `A Frame` {
     }
 
     @Test
-    fun `knows an area is at the bottom`() {
-        assertTrue(TetrisFrame(2, 2).isAtBottom(Area(Field.filled(1, 1))))
-        assertTrue(TetrisFrame(4, 4).isAtBottom(Area("""
+    fun `knows a grid is at the bottom`() {
+        assertTrue(TetrisFrame(2, 2).isAtBottom(Grid(Field.filled(1, 1))))
+        assertTrue(TetrisFrame(4, 4).isAtBottom(Grid("""
             >>
             >>
             ##

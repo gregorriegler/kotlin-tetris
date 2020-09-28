@@ -48,17 +48,17 @@ class DigTest {
     }
 
     @Test
-    fun `can dig an area`() {
+    fun `can dig a grid`() {
         assertThat(
-            Area(
+            Grid(
                 """
             ---
             ---
             ---
         """
-            ).dig(1, 0).area
+            ).dig(1, 0).grid
         ).isEqualTo(
-            Area(
+            Grid(
                 """
             ---
             ---
@@ -69,15 +69,15 @@ class DigTest {
 
         // only dig one row at a time
         assertThat(
-            Area(
+            Grid(
                 """
             ---
             ---
             ---
         """
-            ).dig(2, 0).area
+            ).dig(2, 0).grid
         ).isEqualTo(
-            Area(
+            Grid(
                 """
             ---
             ---
@@ -87,15 +87,15 @@ class DigTest {
         )
 
         assertThat(
-            Area(
+            Grid(
                 """
             ---
             ---
             ---
         """
-            ).dig(2, 0).area.dig(2, 0).area
+            ).dig(2, 0).grid.dig(2, 0).grid
         ).isEqualTo(
-            Area(
+            Grid(
                 """
             ---
             ■■■
@@ -108,7 +108,7 @@ class DigTest {
     @Test
     fun `tells how many lines it digged`() {
         assertThat(
-            Area(
+            Grid(
                 """
             ---
             ---
@@ -118,7 +118,7 @@ class DigTest {
         ).isEqualTo(1)
 
         assertThat(
-            Area(
+            Grid(
                 """
             ---
             ---
@@ -131,15 +131,15 @@ class DigTest {
     @Test
     fun `digging generates coin`() {
         assertThat(
-            Area(
+            Grid(
                 """
             ---
             ---
             ---
         """
-            ).dig(1, 100).area
+            ).dig(1, 100).grid
         ).isEqualTo(
-            Area(
+            Grid(
                 """
             ---
             ---
@@ -150,17 +150,17 @@ class DigTest {
     }
 
     @Test
-    fun `can dig partly filled area`() {
+    fun `can dig partly filled grid`() {
         assertThat(
-            Area(
+            Grid(
                 """
             ---
             ---
             ■--
         """
-            ).dig(1, 0).area
+            ).dig(1, 0).grid
         ).isEqualTo(
-            Area(
+            Grid(
                 """
             ---
             ■--
@@ -170,15 +170,15 @@ class DigTest {
         )
 
         assertThat(
-            Area(
+            Grid(
                 """
             ---
             ---
             ■--
         """
-            ).dig(2, 0).area.dig(2, 0).area
+            ).dig(2, 0).grid.dig(2, 0).grid
         ).isEqualTo(
-            Area(
+            Grid(
                 """
             ■--
             ■■■
@@ -188,15 +188,15 @@ class DigTest {
         )
 
         assertThat(
-            Area(
+            Grid(
                 """
             ---
             ---
             #--
         """
-            ).dig(1, 0).area
+            ).dig(1, 0).grid
         ).isEqualTo(
-            Area(
+            Grid(
                 """
             ---
             #--

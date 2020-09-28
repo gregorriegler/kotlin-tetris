@@ -3,12 +3,12 @@ package com.gregorriegler.tetris.model
 import com.gregorriegler.tetris.view.Color
 
 class Debris(
-    var area: Area,
+    var grid: Grid,
     var depth: Int,
     val palette: List<Color>
 ) {
-    constructor(area: Area, depth: Int = 0) : this(
-        area, depth, listOf(
+    constructor(grid: Grid, depth: Int = 0) : this(
+        grid, depth, listOf(
             Color.random(),
             Color.random(),
             Color.random(),
@@ -21,64 +21,64 @@ class Debris(
         )
     )
 
-    constructor(frame: TetrisFrame) : this(Area(frame))
-    constructor(debris: String) : this(Area(debris))
+    constructor(frame: TetrisFrame) : this(Grid(frame))
+    constructor(debris: String) : this(Grid(debris))
 
     fun asStones(display: Frame): List<TetrisStone> {
-        return area.asStones(display, depth, palette)
+        return grid.asStones(display, depth, palette)
     }
 
     fun add(stone: Stone) {
-        area = area.combine(stone.area).within(area)
+        grid = grid.combine(stone.grid).within(grid)
     }
 
     fun eraseFilledRows(): Int {
-        val removed = Eraser(area).eraseFilledRows()
-        area = removed.area
+        val removed = Eraser(grid).eraseFilledRows()
+        grid = removed.grid
         return removed.score
     }
 
     fun fall() {
-        area = area.fall()
+        grid = grid.fall()
     }
 
-    fun width(): Int = area.width
-    fun height(): Int = area.height
+    fun width(): Int = grid.width
+    fun height(): Int = grid.height
 
     fun withStone(stone: Stone): Debris =
         Debris(
-            area.combine(stone.area)
-                .within(area),
+            grid.combine(stone.grid)
+                .within(grid),
             depth,
             palette
         )
 
     fun specials(): Int {
-        val specialsResult = Eraser(area).specials()
-        area = specialsResult.area
+        val specialsResult = Eraser(grid).specials()
+        grid = specialsResult.grid
         return specialsResult.score
     }
 
     fun dig(amount: Int) {
-        val dig = area.dig(amount, coinPercentage(depth))
-        area = dig.area
+        val dig = grid.dig(amount, coinPercentage(depth))
+        grid = dig.grid
         depth += dig.depth
     }
 
-    fun collidesWith(field: Field): Boolean = area.collidesWith(field)
+    fun collidesWith(field: Field): Boolean = grid.collidesWith(field)
 
     private fun coinPercentage(depth: Int) = depth/100 + 2
 
-    override fun toString(): String = area.toString()
+    override fun toString(): String = grid.toString()
 
-    override fun hashCode(): Int = area.hashCode()
+    override fun hashCode(): Int = grid.hashCode()
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
 
         other as Debris
 
-        if (area != other.area) return false
+        if (grid != other.grid) return false
 
         return true
     }

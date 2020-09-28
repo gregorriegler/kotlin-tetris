@@ -7,14 +7,14 @@ class `A Bomb` {
 
     @Test
     fun `can create circle`() {
-        assertThat(Area.circle(Position.of(1, 1), 1)).isEqualTo(Area(
+        assertThat(Grid.circle(Position.of(1, 1), 1)).isEqualTo(Grid(
             """
             >#>
             ###
             >#>
             """))
 
-        assertThat(Area.circle(Position.of(6, 6), 6)).isEqualTo(Area(
+        assertThat(Grid.circle(Position.of(6, 6), 6)).isEqualTo(Grid(
             """
             >>>>>>#
             >>>#######

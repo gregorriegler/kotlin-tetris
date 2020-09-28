@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test
 class `Erasing debris` {
 
     @Test
-    fun `can erase area by area`() {
+    fun `can erase grid from grid`() {
         assertThat(
             Eraser(
-                Area(
+                Grid(
                     """
                         ###
                         ###
@@ -39,17 +39,17 @@ class `Erasing debris` {
     @Test
     fun `erasing coin increases the score`() {
         assertThat(
-            Eraser(Area("O")).erase("#")
+            Eraser(Grid("O")).erase("#")
         ).isEqualTo(
             EraseResult("-", 10)
         )
     }
 
     @Test
-    fun `can erase soil and coin by area`() {
+    fun `can erase soil and coin by grid`() {
         assertThat(
             Eraser(
-                Area(
+                Grid(
                     """
                     ###
                     ■O■
