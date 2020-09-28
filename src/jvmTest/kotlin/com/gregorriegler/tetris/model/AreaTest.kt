@@ -8,7 +8,8 @@ class `An Area` {
 
     @Test
     fun `can be created from a string`() {
-        val area = Area("""
+        val area = Area(
+            """
             ##
             ##
         """
@@ -26,7 +27,8 @@ class `An Area` {
 
     @Test
     fun `can be created from a string #2`() {
-        val area = Area("""
+        val area = Area(
+            """
             #-
             ##
         """
@@ -44,7 +46,8 @@ class `An Area` {
 
     @Test
     fun `can be created from a string #3`() {
-        val area = Area("""
+        val area = Area(
+            """
             ---
             -#-
             ---
@@ -67,7 +70,8 @@ class `An Area` {
 
     @Test
     fun `can be created from a string with bomb`() {
-        val area = Area("""
+        val area = Area(
+            """
             X
         """
         )
@@ -83,10 +87,12 @@ class `An Area` {
 
     @Test
     fun `can be indented on the x axis`() {
-        val area = Area("""
+        val area = Area(
+            """
             >##
             >##
-        """)
+        """
+        )
 
         assertEquals(2, area.width)
         assertEquals(2, area.height)
@@ -99,11 +105,13 @@ class `An Area` {
 
     @Test
     fun `can be indented on the y axis`() {
-        val area = Area("""
+        val area = Area(
+            """
             >>
             ##
             ##
-        """)
+        """
+        )
 
         assertEquals(2, area.width)
         assertEquals(2, area.height)
@@ -116,11 +124,15 @@ class `An Area` {
 
     @Test
     fun `gets the state`() {
-        assertThat(Area("""
+        assertThat(
+            Area(
+                """
             >>
             ##
             ##
-        """).state()).isEqualTo(
+        """
+            ).state()
+        ).isEqualTo(
             listOf(
                 listOf(Filling.EMPTY, Filling.EMPTY),
                 listOf(Filling.FALLING, Filling.FALLING),
@@ -146,15 +158,19 @@ class `An Area` {
 
     @Test
     fun `draws itself`() {
-        assertEquals('\n' + """
+        assertEquals(
+            '\n' + """
             --
             ##
             ##
-        """.trimIndent() + '\n', Area("""
+        """.trimIndent() + '\n', Area(
+                """
             >>
             ##
             ##
-        """).toString())
+        """
+            ).toString()
+        )
     }
 
     @Test
@@ -228,49 +244,89 @@ class `An Area` {
 
     @Test
     fun `erases filled rows`() {
-        assertThat(Area("#").eraseFilledRows()).isEqualTo(Score(Area("-"), 1))
+        assertThat(Eraser(Area("#")).eraseFilledRows()).isEqualTo(EraseResult(Area("-"), 1))
 
-        assertThat(Area("""
-            >
-            #
-        """).eraseFilledRows()).isEqualTo(
-            Score(Area("""
-            >
-            -
-            """.trimIndent()), 1))
+        assertThat(
+            Eraser(
+                Area(
+                    """
+                    >
+                    #
+                """
+                )
+            ).eraseFilledRows()
+        ).isEqualTo(
+            EraseResult(
+                Area(
+                    """
+                    >
+                    -
+                    """
+                ), 1
+            )
+        )
 
-        assertThat(Area("""
-            -
-            #
-        """).eraseFilledRows()).isEqualTo(
-            Score(Area("""
-            -
-            -
-        """), 1))
+        assertThat(
+            Eraser(
+                Area(
+                    """
+                    -
+                    #
+                    """
+                )
+            ).eraseFilledRows()
+        ).isEqualTo(
+            EraseResult(
+                Area(
+                    """
+                    -
+                    -
+                    """
+                ), 1
+            )
+        )
 
-        assertThat(Area("""
-            #-
-            ##
-            #-
-            ##
-        """).eraseFilledRows()).isEqualTo(
-            Score(Area("""
+        assertThat(
+            Eraser(
+                Area(
+                    """
+                    #-
+                    ##
+                    #-
+                    ##
+                """
+                )
+            ).eraseFilledRows()
+        ).isEqualTo(
+            EraseResult(
+                Area(
+                    """
             #-
             --
             #-
             --
-        """), 4))
+        """
+                ), 4
+            )
+        )
     }
 
     @Test
     fun `moves down`() {
-        assertThat(Area("""
+        assertThat(
+            Area(
+                """
                 -##
-            """).down()
-        ).isEqualTo(Area("""
+            """
+            ).down()
+        ).isEqualTo(
+            Area(
+                """
                 >>>
                 -##
-            """))
+            """
+            )
+        )
     }
 
     @Test
@@ -286,94 +342,148 @@ class `An Area` {
 
     @Test
     fun rotates() {
-        assertThat(Area("""
+        assertThat(
+            Area(
+                """
                 ---
                 ###
                 ---
-                """).rotate())
-            .isEqualTo(Area("""
+                """
+            ).rotate()
+        )
+            .isEqualTo(
+                Area(
+                    """
                 -#-
                 -#-
                 -#-
-                """))
+                """
+                )
+            )
 
-        assertThat(Area("""
+        assertThat(
+            Area(
+                """
                 ---
                 ###
                 -#-
-                """).rotate())
-            .isEqualTo(Area("""
+                """
+            ).rotate()
+        )
+            .isEqualTo(
+                Area(
+                    """
                 -#-
                 ##-
                 -#-
-                """))
+                """
+                )
+            )
 
-        assertThat(Area("""
+        assertThat(
+            Area(
+                """
                 >>>
                 >>>
                 ##-
                 #--
                 #--
-                """).rotate())
-            .isEqualTo(Area("""
+                """
+            ).rotate()
+        )
+            .isEqualTo(
+                Area(
+                    """
                 >>>
                 >>>
                 ###
                 --#
                 ---
-                """))
+                """
+                )
+            )
     }
 
     @Test
     fun `keeps position on rotating`() {
-        assertThat(Area("""
+        assertThat(
+            Area(
+                """
                 ---
                 ###
                 ---
-                """).rotate().rotate())
-            .isEqualTo(Area("""
+                """
+            ).rotate().rotate()
+        )
+            .isEqualTo(
+                Area(
+                    """
                 ---
                 ###
                 ---
-                """))
+                """
+                )
+            )
 
-        assertThat(Area("""
+        assertThat(
+            Area(
+                """
                 -----
                 -----
                 #####
                 -----
                 -----
-                """).rotate().rotate())
-            .isEqualTo(Area("""
+                """
+            ).rotate().rotate()
+        )
+            .isEqualTo(
+                Area(
+                    """
                 -----
                 -----
                 #####
                 -----
                 -----
-                """))
+                """
+                )
+            )
 
-        assertThat(Area("""
+        assertThat(
+            Area(
+                """
                 --#--
                 --#--
                 -###-
                 --#--
                 --#--
-                """).rotate().rotate())
-            .isEqualTo(Area("""
+                """
+            ).rotate().rotate()
+        )
+            .isEqualTo(
+                Area(
+                    """
                 --#--
                 --#--
                 -###-
                 --#--
                 --#--
-                """))
+                """
+                )
+            )
     }
 
     @Test
     fun `returns the starting area for a structure`() {
         assertEquals(Area(Field.filled(1, -1)), Structure("#").startingPosition(Area(TetrisFrame(3, 3))))
         assertEquals(Area(Field.filled(1, -1)), Structure("#").startingPosition(Area(TetrisFrame(4, 4))))
-        assertEquals(Area(Field.filled(1, -2), Field.filled(1, -1)), Structure("#\n#").startingPosition(Area(TetrisFrame(3, 3))))
-        assertEquals(Area(Field.filled(1, -1), Field.filled(2, -1)), Structure("##").startingPosition(Area(TetrisFrame(4, 4))))
+        assertEquals(
+            Area(Field.filled(1, -2), Field.filled(1, -1)),
+            Structure("#\n#").startingPosition(Area(TetrisFrame(3, 3)))
+        )
+        assertEquals(
+            Area(Field.filled(1, -1), Field.filled(2, -1)),
+            Structure("##").startingPosition(Area(TetrisFrame(4, 4)))
+        )
     }
 }
 

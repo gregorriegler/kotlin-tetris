@@ -9,21 +9,23 @@ class `Erasing debris` {
     @Test
     fun `can erase area by area`() {
         assertThat(
-            Area(
-                """
-                ###
-                ###
-                ###
-                """
+            Eraser(
+                Area(
+                    """
+                        ###
+                        ###
+                        ###
+                        """
+                )
             ).erase(
                 """
-                -#-
-                ###
-                -#-
-                """
+                        -#-
+                        ###
+                        -#-
+                        """
             )
         ).isEqualTo(
-            Score(
+            EraseResult(
                 """
                 #-#
                 ---
@@ -37,30 +39,32 @@ class `Erasing debris` {
     @Test
     fun `erasing coin increases the score`() {
         assertThat(
-            Area("O").erase("#")
+            Eraser(Area("O")).erase("#")
         ).isEqualTo(
-            Score("-", 10)
+            EraseResult("-", 10)
         )
     }
 
     @Test
     fun `can erase soil and coin by area`() {
         assertThat(
-            Area(
-                """
-                ###
-                ■O■
-                ###
-                """
+            Eraser(
+                Area(
+                    """
+                    ###
+                    ■O■
+                    ###
+                    """
+                )
             ).erase(
-                """
-                -#-
-                ###
-                -#-
-                """
+            """
+                    -#-
+                    ###
+                    -#-
+                    """
             )
         ).isEqualTo(
-            Score(
+            EraseResult(
                 """
                 #-#
                 ---

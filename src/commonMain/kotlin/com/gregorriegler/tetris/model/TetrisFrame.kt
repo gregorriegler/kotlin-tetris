@@ -8,8 +8,6 @@ class TetrisFrame(
 ) : Frame {
 
     fun topCenterFilled(): Field = Field.filled(center(), 0)
-    fun rows() = (0 until height)
-    fun columns() = (0 until width)
 
     fun left(area: Area, debris: Debris): Area =
         if (isAtLeftBorder(area) || area.left().collidesWith(debris.area))
