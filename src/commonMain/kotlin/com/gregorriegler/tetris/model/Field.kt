@@ -42,7 +42,6 @@ class Field(
     fun isSoilOrCoin() = filling == SOIL || filling == COIN
     fun falls(): Boolean = filling.falls()
     fun special(area: Area): Score = filling.special(this.position, area)
-    fun collidesWith(area: Area): Boolean = collidesWith(area.fields)
     fun collidesWith(fields: List<Field>): Boolean =
         collides() && fields.any { it.collides() && it.position == position }
 
