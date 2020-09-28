@@ -13,7 +13,7 @@ enum class Filling {
         override fun special(position: Position, grid: Grid): EraseResult = explode(position, grid)
         override fun toString(): String = BOMB_VALUE.toString()
 
-        private fun explode(position: Position, grid: Grid): EraseResult = Eraser(grid).erase(Grid.circle(position, 3))
+        private fun explode(position: Position, grid: Grid): EraseResult = grid.erase(Grid.circle(position, 3))
     },
     SOIL {
         override fun combine(filling: Filling): Filling = SOIL

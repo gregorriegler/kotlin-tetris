@@ -183,11 +183,15 @@ class `A Grid` {
         """
         )
 
-        assertThat(Grid(grid.filledRowsAndSoilBelow())).isEqualTo(Grid("""
+        assertThat(Grid(grid.filledRowsAndSoilBelow())).isEqualTo(
+            Grid(
+                """
             >>>
             ###
             ■■■
-        """))
+        """
+            )
+        )
     }
 
     @Test
@@ -261,16 +265,14 @@ class `A Grid` {
 
     @Test
     fun `erases filled rows`() {
-        assertThat(Eraser(Grid("#")).eraseFilledRows()).isEqualTo(EraseResult(Grid("-"), 1))
+        assertThat(Grid("#").eraseFilledRows()).isEqualTo(EraseResult(Grid("-"), 1))
 
         assertThat(
-            Eraser(
-                Grid(
-                    """
-                    >
-                    #
+            Grid(
                 """
-                )
+                >
+                #
+                """
             ).eraseFilledRows()
         ).isEqualTo(
             EraseResult(
@@ -284,13 +286,11 @@ class `A Grid` {
         )
 
         assertThat(
-            Eraser(
-                Grid(
-                    """
+            Grid(
+                """
                     -
                     #
                     """
-                )
             ).eraseFilledRows()
         ).isEqualTo(
             EraseResult(
@@ -304,25 +304,23 @@ class `A Grid` {
         )
 
         assertThat(
-            Eraser(
-                Grid(
-                    """
+            Grid(
+                """
                     #-
                     ##
                     #-
                     ##
                 """
-                )
             ).eraseFilledRows()
         ).isEqualTo(
             EraseResult(
                 Grid(
                     """
-            #-
-            --
-            #-
-            --
-        """
+                    #-
+                    --
+                    #-
+                    --
+                    """
                 ), 4
             )
         )
@@ -334,14 +332,14 @@ class `A Grid` {
             Grid(
                 """
                 -##
-            """
+                """
             ).down()
         ).isEqualTo(
             Grid(
                 """
                 >>>
                 -##
-            """
+                """
             )
         )
     }

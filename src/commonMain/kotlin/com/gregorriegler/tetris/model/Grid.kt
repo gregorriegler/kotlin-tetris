@@ -177,6 +177,18 @@ open class Grid(fields: List<Field>) : PositionedFrame {
             .flatMap { it.filterNot { it.isSoilOrCoin() } }
     }
 
+    fun erase(gridAsString: String): EraseResult = erase(Grid(gridAsString))
+    fun erase(grid: Grid): EraseResult = erase(grid.fields)
+    fun eraseFilledRows(): EraseResult = erase(filledRowsAndSoilBelow())
+    fun specials(): EraseResult = fields.fold(
+        EraseResult(this, 0)
+    ) { previous, field -> field.special(previous.grid).plus(previous.score) }
+
+    private fun erase(fields: List<Field>): EraseResult {
+        val fieldScores = this.fields.map { it.erase(fields) }
+        return EraseResult(Grid(fieldScores.map { it.field }), fieldScores.sumOf { it.score })
+    }
+
     override fun toString(): String =
         "\n" + state().joinToString(separator = "\n") { it -> it.joinToString(separator = "") { it.toString() } } + "\n"
 

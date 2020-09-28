@@ -33,7 +33,7 @@ class Debris(
     }
 
     fun eraseFilledRows(): Int {
-        val removed = Eraser(grid).eraseFilledRows()
+        val removed = grid.eraseFilledRows()
         grid = removed.grid
         return removed.score
     }
@@ -54,7 +54,7 @@ class Debris(
         )
 
     fun specials(): Int {
-        val specialsResult = Eraser(grid).specials()
+        val specialsResult = grid.specials()
         grid = specialsResult.grid
         return specialsResult.score
     }

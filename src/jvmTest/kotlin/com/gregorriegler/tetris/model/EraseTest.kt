@@ -9,20 +9,18 @@ class `Erasing debris` {
     @Test
     fun `can erase grid from grid`() {
         assertThat(
-            Eraser(
-                Grid(
+            Grid(
+                """
+                    ###
+                    ###
+                    ###
                     """
-                        ###
-                        ###
-                        ###
-                        """
-                )
             ).erase(
                 """
-                        -#-
-                        ###
-                        -#-
-                        """
+                    -#-
+                    ###
+                    -#-
+                    """
             )
         ).isEqualTo(
             EraseResult(
@@ -39,7 +37,7 @@ class `Erasing debris` {
     @Test
     fun `erasing coin increases the score`() {
         assertThat(
-            Eraser(Grid("O")).erase("#")
+            Grid("O").erase("#")
         ).isEqualTo(
             EraseResult("-", 10)
         )
@@ -48,20 +46,18 @@ class `Erasing debris` {
     @Test
     fun `can erase soil and coin by grid`() {
         assertThat(
-            Eraser(
-                Grid(
-                    """
-                    ###
-                    ■O■
-                    ###
-                    """
-                )
+            Grid(
+                """
+                ###
+                ■O■
+                ###
+                """
             ).erase(
-            """
-                    -#-
-                    ###
-                    -#-
-                    """
+                """
+                -#-
+                ###
+                -#-
+                """
             )
         ).isEqualTo(
             EraseResult(
