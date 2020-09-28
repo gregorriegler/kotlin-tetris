@@ -159,7 +159,17 @@ open class Grid(fields: List<Field>) : PositionedFrame {
 
     private fun allRowsExceptTop(amount: Int) = fields.filter { it.y >= amount }
 
-    fun filledRows(): List<Field> {
+    fun filledRowsAndSoilBelow(): List<Field> {
+        return filledRows().flatMap {
+            if (below(it).isSoilOrCoin()) {
+                listOf(below(it), it)
+            } else {
+                listOf(it)
+            }
+        }
+    }
+
+    private fun filledRows(): List<Field> {
         return (y..bottom)
             .map { row(it) }
             .filter { it.all { it.falls() || it.isSoilOrCoin() } }

@@ -174,6 +174,23 @@ class `A Grid` {
     }
 
     @Test
+    fun `returns filled rows and soil below`() {
+        val grid = Grid(
+            """
+            ---
+            ###
+            ■■■
+        """
+        )
+
+        assertThat(Grid(grid.filledRowsAndSoilBelow())).isEqualTo(Grid("""
+            >>>
+            ###
+            ■■■
+        """))
+    }
+
+    @Test
     fun `has a width`() {
         assertEquals(1, Grid("#").width)
         assertEquals(2, Grid("##").width)
