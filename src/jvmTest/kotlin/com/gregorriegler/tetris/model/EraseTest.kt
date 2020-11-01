@@ -11,16 +11,16 @@ class `Erasing debris` {
         assertThat(
             Grid(
                 """
-                    ###
-                    ###
-                    ###
-                    """
+                ###
+                ###
+                ###
+                """
             ).erase(
                 """
-                    -#-
-                    ###
-                    -#-
-                    """
+                -#-
+                ###
+                -#-
+                """
             )
         ).isEqualTo(
             EraseResult(
@@ -78,7 +78,7 @@ class `Erasing debris` {
             ---
             -#-
             ###
-        """
+            """
         )
 
         val howMany: Int = debris.eraseFilledRows()
@@ -87,10 +87,10 @@ class `Erasing debris` {
         assertEquals(
             Debris(
                 """
-            ---
-            -#-
-            ---
-            """
+                ---
+                -#-
+                ---
+                """
             ),
             debris
         )
@@ -103,7 +103,7 @@ class `Erasing debris` {
             -#-
             ###
             ###
-        """
+            """
         )
 
         val howMany: Int = debris.eraseFilledRows()
@@ -112,10 +112,10 @@ class `Erasing debris` {
         assertEquals(
             Debris(
                 """
-            -#-
-            ---
-            ---
-            """
+                -#-
+                ---
+                ---
+                """
             ),
             debris
         )
@@ -128,7 +128,7 @@ class `Erasing debris` {
             -#-
             ###
             ■■■
-        """
+            """
         )
 
         val score: Int = debris.eraseFilledRows()
@@ -137,10 +137,10 @@ class `Erasing debris` {
         assertEquals(
             Debris(
                 """
-            -#-
-            ---
-            ---
-            """
+                -#-
+                ---
+                ---
+                """
             ),
             debris
         )
@@ -153,7 +153,7 @@ class `Erasing debris` {
             -#-
             ###
             OO■
-        """
+            """
         )
 
         val score: Int = debris.eraseFilledRows()
@@ -162,10 +162,10 @@ class `Erasing debris` {
         assertEquals(
             Debris(
                 """
-            -#-
-            ---
-            ---
-            """
+                -#-
+                ---
+                ---
+                """
             ),
             debris
         )
@@ -178,7 +178,7 @@ class `Erasing debris` {
             """
             -#-
             ##■
-        """
+            """
         )
 
         val howMany: Int = debris.eraseFilledRows()
@@ -187,9 +187,9 @@ class `Erasing debris` {
         assertEquals(
             Debris(
                 """
-            -#-
-            --■
-            """
+                -#-
+                --■
+                """
             ),
             debris
         )
@@ -201,7 +201,7 @@ class `Erasing debris` {
             """
             -#-
             OOO
-        """
+            """
         )
 
         val howMany: Int = debris.eraseFilledRows()
