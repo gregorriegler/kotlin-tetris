@@ -1,6 +1,6 @@
 package com.gregorriegler.tetris.model
 
-import com.gregorriegler.tetris.view.Color
+import com.gregorriegler.tetris.view.Palette
 
 open class Grid(fields: List<Field>) : PositionedFrame {
 
@@ -63,7 +63,7 @@ open class Grid(fields: List<Field>) : PositionedFrame {
             }
         }.toList()
 
-    fun asStones(display: Frame, depth: Int, palette: List<Color>): List<TetrisStone> {
+    fun asStones(display: Frame, depth: Int, palette: Palette): List<TetrisStone> {
         return fields
             .filterNot { it.isEmpty() }
             .map { TetrisStone.of(display, this, it, depth, palette) }

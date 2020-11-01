@@ -2,6 +2,7 @@ package com.gregorriegler.tetris.model
 
 import com.gregorriegler.tetris.model.Filling.*
 import com.gregorriegler.tetris.view.Color
+import com.gregorriegler.tetris.view.Palette
 
 class Field(
     val position: Position,
@@ -24,7 +25,7 @@ class Field(
 
     override val x: Int get() = position.x
     override val y: Int get() = position.y
-    fun color(depth: Int, palette: List<Color>) : Color = filling.color(y + depth, palette)
+    fun color(palette: Palette, depth: Int) : Color = filling.color(palette, y + depth)
 
     override fun upBy(amount: Int): Field = Field(this.position.upBy(amount), filling)
     override fun down(): Field = downBy(1)

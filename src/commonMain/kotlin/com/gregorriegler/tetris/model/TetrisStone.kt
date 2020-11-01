@@ -1,6 +1,7 @@
 package com.gregorriegler.tetris.model
 
 import com.gregorriegler.tetris.view.Color
+import com.gregorriegler.tetris.view.Palette
 
 class TetrisStone(x: Int, y: Int, width: Int, height: Int, val color: Color) :
     SimplePositionedFrame(x, y, width, height) {
@@ -11,7 +12,7 @@ class TetrisStone(x: Int, y: Int, width: Int, height: Int, val color: Color) :
             gameSize: Frame,
             field: Field,
             depth: Int,
-            palette: List<Color>
+            palette: Palette
         ): TetrisStone {
             val stoneWidth = display.width / gameSize.width
             val stoneHeight = display.height / gameSize.height
@@ -23,7 +24,7 @@ class TetrisStone(x: Int, y: Int, width: Int, height: Int, val color: Color) :
                 squareTop,
                 stoneWidth,
                 stoneHeight,
-                field.color(depth, palette)
+                field.color(palette, depth)
             )
         }
     }

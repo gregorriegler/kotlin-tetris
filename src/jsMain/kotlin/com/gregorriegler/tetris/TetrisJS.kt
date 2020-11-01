@@ -2,6 +2,7 @@ package com.gregorriegler.tetris
 
 import com.gregorriegler.tetris.model.*
 import com.gregorriegler.tetris.view.Color
+import com.gregorriegler.tetris.view.Palette
 import kotlinx.browser.document
 import kotlinx.browser.window
 import org.w3c.dom.*
@@ -141,7 +142,7 @@ class TetrisJs {
         nextStoneCanvasContext.canvas.width = 100
         nextStoneCanvasContext.canvas.height = 100
         clearCanvas(nextStoneCanvasContext)
-        nextStone.asStones(SimpleFrame(100, 100), 0, listOf(Color.grey)).forEach { drawFilled(it, nextStoneCanvasContext) }
+        nextStone.asStones(SimpleFrame(100, 100), 0, Palette(Color.grey)).forEach { drawFilled(it, nextStoneCanvasContext) }
     }
 
     private fun clearCanvas(canvasRenderingContext2D: CanvasRenderingContext2D) {

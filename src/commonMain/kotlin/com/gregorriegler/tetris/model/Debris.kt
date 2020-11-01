@@ -1,14 +1,15 @@
 package com.gregorriegler.tetris.model
 
 import com.gregorriegler.tetris.view.Color
+import com.gregorriegler.tetris.view.Palette
 
 class Debris(
     var grid: Grid,
     var depth: Int,
-    val palette: List<Color>
+    val palette: Palette
 ) {
     constructor(grid: Grid, depth: Int = 0) : this(
-        grid, depth, listOf(
+        grid, depth, Palette(
             Color.random(),
             Color.random(),
             Color.random(),
