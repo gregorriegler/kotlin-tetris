@@ -9,7 +9,7 @@ enum class Filling {
         override fun falls(): Boolean = true
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
-        override fun color(depth: Int, soilColors: List<Color>): Color = Color.black
+        override fun color(depth: Int, palette: List<Color>): Color = Color.black
         override fun special(position: Position, grid: Grid): EraseResult = explode(position, grid)
         override fun toString(): String = BOMB_VALUE.toString()
 
@@ -20,8 +20,8 @@ enum class Filling {
         override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
-        override fun color(depth: Int, soilColors: List<Color>): Color =
-            Color.byDepth(soilColors, depth, Color.changeColorEvery)
+        override fun color(depth: Int, palette: List<Color>): Color =
+            Color.colorByDepth(depth, palette, Color.changeColorEvery)
 
         override fun toString(): String = SOIL_VALUE.toString()
     },
@@ -30,7 +30,7 @@ enum class Filling {
         override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
-        override fun color(depth: Int, soilColors: List<Color>): Color = Color.gold
+        override fun color(depth: Int, palette: List<Color>): Color = Color.gold
         override fun score(): Int = 10
         override fun toString(): String = COIN_VALUE.toString()
     },
@@ -39,7 +39,7 @@ enum class Filling {
         override fun falls(): Boolean = true
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
-        override fun color(depth: Int, soilColors: List<Color>): Color = Color.orange
+        override fun color(depth: Int, palette: List<Color>): Color = Color.orange
         override fun toString(): String = FILLED_VALUE.toString()
     },
     EMPTY {
@@ -63,7 +63,7 @@ enum class Filling {
     abstract fun falls(): Boolean
     abstract fun isEmpty(): Boolean
     abstract fun collides(): Boolean
-    open fun color(depth: Int, soilColors: List<Color>) = Color.grey
+    open fun color(depth: Int, palette: List<Color>) = Color.grey
     open fun score(): Int = 1
     open fun special(position: Position, grid: Grid): EraseResult = EraseResult(grid, 0)
 

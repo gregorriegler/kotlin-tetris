@@ -24,17 +24,25 @@ class Color(
 
         private fun randomColorPart() = Random.nextInt(10, 240).toFloat()
 
-        fun byDepth(colors: List<Color>, depth: Int, changeColorEvery: Int): Color {
-            val fromIndex: Int = depth / changeColorEvery % colors.size
-            val toIndex: Int = (fromIndex + 1) % colors.size
-            return gradient(colors[fromIndex], colors[toIndex], depth % changeColorEvery * (100 / changeColorEvery))
+        fun colorByDepth(depth: Int, colors: List<Color>, changeColorEvery: Int): Color {
+            val palette = Palette(colors)
+            return palette.colorByDepth(depth, changeColorEvery)
         }
 
-        private fun gradient(from: Color, to: Color, gradient: Int): Color = Color(
-        from.red + (to.red - from.red) / 100 * gradient,
-        from.green + (to.green - from.green) / 100 * gradient,
-        from.blue + (to.blue - from.blue) / 100 * gradient
-        )
+        class Palette(val colors: List<Color>) {
+            fun colorByDepth(depth: Int, changeColorEvery: Int): Color {
+                val palette = Palette(colors)
+                val fromIndex: Int = depth / changeColorEvery % palette.colors.size
+                val toIndex: Int = (fromIndex + 1) % palette.colors.size
+                return gradient(palette.colors[fromIndex], palette.colors[toIndex], depth % changeColorEvery * (100 / changeColorEvery))
+            }
+
+            private fun gradient(from: Color, to: Color, gradient: Int): Color = Color(
+                from.red + (to.red - from.red) / 100 * gradient,
+                from.green + (to.green - from.green) / 100 * gradient,
+                from.blue + (to.blue - from.blue) / 100 * gradient
+            )
+        }
     }
 
     fun enlightenBy(absolute: Int): Color {
