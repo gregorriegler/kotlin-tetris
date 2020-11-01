@@ -25,7 +25,7 @@ open class Grid : PositionedFrame, Collidable {
             }
     }
 
-    val fields: List<Field>
+    private val fields: List<Field>
 
     final override val x: Int
     final override val y: Int

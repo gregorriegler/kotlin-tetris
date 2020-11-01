@@ -42,7 +42,7 @@ class Field(
     fun falls(): Boolean = filling.falls()
     fun special(grid: Grid): EraseResult = filling.special(this.position, grid)
     fun erase(grid: Grid): FieldScore {
-        return if (/*grid.collidesWith(this) does not work because of bug in Grid(List<Field>) constructor*/grid.fields.any(this::collidesWith)) {
+        return if (grid.collidesWith(this)) {
             erase()
         } else {
             FieldScore(this, 0)
