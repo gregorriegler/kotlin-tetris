@@ -3,9 +3,14 @@ package com.gregorriegler.tetris.model
 open class Grid : PositionedFrame, Collidable {
 
     constructor(fields: List<Field>) {
-        this.fields = fields.sorted()
-        this.x = this.fields.minOfOrNull { it.x } ?: 0
-        this.y = (this.fields.firstOrNull() ?: Field.empty(0, 0)).y
+        val sorted = fields.sorted()
+        this.x = sorted.minOfOrNull { it.x } ?: 0
+        this.y = (sorted.firstOrNull() ?: Field.empty(0, 0)).y
+
+        val tmp = mutableListOf<Field>()
+        tmp.addAll(sorted)
+        this.fields = tmp
+
         this.rightSide = this.fields.maxOfOrNull { it.x } ?: 0
         this.bottom = (this.fields.lastOrNull() ?: Field.empty(0, 0)).y
         this.width = rightSide - x + 1
