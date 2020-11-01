@@ -1,6 +1,6 @@
 package com.gregorriegler.tetris.model
 
-open class Grid(fields: List<Field>) : PositionedFrame {
+open class Grid(fields: List<Field>) : PositionedFrame, Collidable {
 
     companion object {
         fun circle(center: Position, radius: Int): Grid = Grid(
@@ -108,8 +108,8 @@ open class Grid(fields: List<Field>) : PositionedFrame {
             fields.getOrNull(indexOf(position)) ?: Field.empty(position)
         }
 
-    fun collidesWith(grid: Grid): Boolean = fields.any { grid.collidesWith(it) }
-    fun collidesWith(field: Field): Boolean = field.collides() && get(field).collides()
+    fun collidesWith(subject: Collidable): Boolean = fields.any { subject.collidesWith(it) }
+    override fun collidesWith(field: Field): Boolean = field.collides() && get(field).collides()
 
     fun move(vector: Position): Grid = Grid(fields.map { field -> field.plus(vector) })
     fun within(grid: Grid): Grid = Grid(fields.filter { it.within(grid) })

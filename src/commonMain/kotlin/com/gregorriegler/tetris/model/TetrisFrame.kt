@@ -9,14 +9,14 @@ class TetrisFrame(
 
     fun topCenterFilled(): Field = Field.filled(center(), 0)
 
-    fun left(grid: Grid, obstacle: Grid): Grid =
-        if (!isAtLeftBorder(grid) && !grid.left().collidesWith(obstacle))
+    fun left(grid: Grid, debris: Collidable): Grid =
+        if (!isAtLeftBorder(grid) && !grid.left().collidesWith(debris))
             grid.left()
         else
             grid
 
-    fun right(grid: Grid, obstacle: Grid): Grid =
-        if (!isAtRightBorder(grid) && !grid.right().collidesWith(obstacle))
+    fun right(grid: Grid, debris: Collidable): Grid =
+        if (!isAtRightBorder(grid) && !grid.right().collidesWith(debris))
             grid.right()
         else
             grid
@@ -48,6 +48,7 @@ class TetrisFrame(
 
         return true
     }
+
     override fun hashCode(): Int {
         var result = width
         result = 31 * result + height

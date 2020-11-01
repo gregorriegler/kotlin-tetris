@@ -5,7 +5,7 @@ import com.gregorriegler.tetris.model.Filling.*
 class Field(
     val position: Position,
     val filling: Filling,
-) : Position {
+) : Position, Collidable {
 
     companion object {
         fun filled(x: Int, y: Int): Field = Field(x, y, FALLING)
@@ -23,7 +23,7 @@ class Field(
 
     override val x: Int get() = position.x
     override val y: Int get() = position.y
-    fun color(palette: Palette, depth: Int) : Color = filling.color(palette, y + depth)
+    fun color(palette: Palette, depth: Int): Color = filling.color(palette, y + depth)
 
     override fun upBy(amount: Int): Field = Field(this.position.upBy(amount), filling)
     override fun down(): Field = downBy(1)
@@ -41,18 +41,17 @@ class Field(
     fun isSoilOrCoin() = filling == SOIL || filling == COIN
     fun falls(): Boolean = filling.falls()
     fun special(grid: Grid): EraseResult = filling.special(this.position, grid)
-    fun collidesWith(fields: List<Field>): Boolean =
-        collides() && fields.any { it.collides() && it.position == position }
-
     fun erase(fields: List<Field>): FieldScore {
-        return if (collidesWith(fields)) {
+        return if (fields.any(this::collidesWith)) {
             erase()
         } else {
             FieldScore(this, 0)
         }
     }
-    fun erase(): FieldScore = FieldScore(empty(x,y), filling.score())
 
+    override fun collidesWith(field: Field): Boolean = collides() && field.collides() && position == field.position
+
+    fun erase(): FieldScore = FieldScore(empty(x, y), filling.score())
     override fun toString(): String = "(${this.position},$filling)"
 
     override fun equals(other: Any?): Boolean {

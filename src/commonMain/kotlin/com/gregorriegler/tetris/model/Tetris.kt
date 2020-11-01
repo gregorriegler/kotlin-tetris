@@ -37,9 +37,9 @@ class Tetris(
         private set
     var tick: Int = 1
 
-    fun left() = stone.left(debris.grid)
-    fun right() = stone.right(debris.grid)
-    fun rotate() = stone.rotate(debris.grid)
+    fun left() = stone.left(debris)
+    fun right() = stone.right(debris)
+    fun rotate() = stone.rotate(debris)
     fun speed() = clock.speed()
     fun normal() = clock.normal()
     fun time(time: Long) = clock.time(time)
@@ -49,7 +49,7 @@ class Tetris(
             return
         }
 
-        if (stone.landed(debris.grid)) {
+        if (stone.landed(debris)) {
             debris.add(stone)
             increaseScore(debris.specials())
             increaseScore(debris.eraseFilledRows())

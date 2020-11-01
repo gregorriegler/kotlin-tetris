@@ -13,37 +13,37 @@ class Stone(
         grid = frame.down(grid)
     }
 
-    fun left(obstacle: Grid) {
-        grid = frame.left(grid, obstacle)
+    fun left(debris: Collidable) {
+        grid = frame.left(grid, debris)
     }
 
-    fun right(obstacle: Grid) {
-        grid = frame.right(grid, obstacle)
+    fun right(debris: Collidable) {
+        grid = frame.right(grid, debris)
     }
 
-    fun rotate(obstacle: Grid) {
+    fun rotate(debris: Collidable) {
         val rotate = grid.rotate()
 
-        if (!outOfGame(rotate, obstacle)) {
+        if (!outOfGame(rotate, debris)) {
             grid = rotate
             return
         }
 
-        for(it in (1..rotate.widthFalling() / 2)) {
-            if (!outOfGame(rotate.leftBy(it), obstacle)) {
+        for (it in (1..rotate.widthFalling() / 2)) {
+            if (!outOfGame(rotate.leftBy(it), debris)) {
                 grid = rotate.leftBy(it)
                 break
-            } else if (!outOfGame(rotate.rightBy(it), obstacle)) {
+            } else if (!outOfGame(rotate.rightBy(it), debris)) {
                 grid = rotate.rightBy(it)
                 break
             }
         }
     }
 
-    fun landed(obstacle: Grid) = atBottom() || grid.down().collidesWith(obstacle)
+    fun landed(obstacle: Collidable) = atBottom() || grid.down().collidesWith(obstacle)
 
-    private fun outOfGame(grid: Grid, obstacle: Grid): Boolean {
-        return grid.collidesWith(obstacle) || frame.isOutside(grid)
+    private fun outOfGame(grid: Grid, debris: Collidable): Boolean {
+        return grid.collidesWith(debris) || frame.isOutside(grid)
     }
 
     private fun atBottom(): Boolean = frame.isAtBottom(grid)

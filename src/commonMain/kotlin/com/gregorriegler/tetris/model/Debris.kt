@@ -4,7 +4,7 @@ class Debris(
     var grid: Grid,
     var depth: Int = 0,
     val palette: Palette = Palette.random(10)
-) {
+) : Collidable {
     constructor(frame: TetrisFrame) : this(Grid(frame))
     constructor(debris: String) : this(Grid(debris))
 
@@ -48,7 +48,7 @@ class Debris(
         depth += dig.depth
     }
 
-    fun collidesWith(field: Field): Boolean = grid.collidesWith(field)
+    override fun collidesWith(field: Field): Boolean = grid.collidesWith(field)
 
     private fun coinPercentage(depth: Int) = depth / 100 + 2
 
