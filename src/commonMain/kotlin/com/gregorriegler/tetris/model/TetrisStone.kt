@@ -1,8 +1,5 @@
 package com.gregorriegler.tetris.model
 
-import com.gregorriegler.tetris.view.Color
-import com.gregorriegler.tetris.view.Palette
-
 class TetrisStone(x: Int, y: Int, width: Int, height: Int, val color: Color) :
     SimplePositionedFrame(x, y, width, height) {
 

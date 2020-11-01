@@ -1,8 +1,6 @@
 package com.gregorriegler.tetris.model
 
 import com.gregorriegler.tetris.model.Filling.*
-import com.gregorriegler.tetris.view.Color
-import com.gregorriegler.tetris.view.Palette
 
 class Field(
     val position: Position,

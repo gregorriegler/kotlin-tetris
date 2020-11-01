@@ -1,8 +1,5 @@
 package com.gregorriegler.tetris.model
 
-import com.gregorriegler.tetris.view.Color
-import com.gregorriegler.tetris.view.Palette
-
 enum class Filling {
 
     BOMB {

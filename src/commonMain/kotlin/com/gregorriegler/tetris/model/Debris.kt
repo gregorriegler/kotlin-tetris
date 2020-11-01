@@ -1,7 +1,5 @@
 package com.gregorriegler.tetris.model
 
-import com.gregorriegler.tetris.view.Palette
-
 class Debris(
     var grid: Grid,
     var depth: Int = 0,

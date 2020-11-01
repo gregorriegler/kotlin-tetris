@@ -1,7 +1,5 @@
 package com.gregorriegler.tetris.model
 
-import com.gregorriegler.tetris.view.Palette
-
 open class Grid(fields: List<Field>) : PositionedFrame {
 
     companion object {

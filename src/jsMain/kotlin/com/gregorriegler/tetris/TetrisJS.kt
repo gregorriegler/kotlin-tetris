@@ -1,8 +1,6 @@
 package com.gregorriegler.tetris
 
 import com.gregorriegler.tetris.model.*
-import com.gregorriegler.tetris.view.Color
-import com.gregorriegler.tetris.view.Palette
 import kotlinx.browser.document
 import kotlinx.browser.window
 import org.w3c.dom.*

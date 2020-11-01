@@ -1,4 +1,4 @@
-package com.gregorriegler.tetris.view
+package com.gregorriegler.tetris.model
 
 class Palette(private vararg val colors: Color) {
 
