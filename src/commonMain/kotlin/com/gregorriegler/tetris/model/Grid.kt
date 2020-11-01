@@ -34,6 +34,8 @@ open class Grid : PositionedFrame, Collidable {
     final override val width: Int
     final override val height: Int
 
+    constructor(string: String) : this(parseFields(string))
+    constructor(vararg fields: Field) : this(fields.toList())
     constructor(fields: List<Field>) {
         this.x = fields.minOfOrNull { it.x } ?: 0
         this.y = fields.minOfOrNull { it.y } ?: 0
@@ -43,10 +45,6 @@ open class Grid : PositionedFrame, Collidable {
         this.height = bottom - y + 1
         this.fields = exploded(fields).toList()
     }
-
-    constructor(vararg fields: Field) : this(fields.toList())
-
-    constructor(string: String) : this(parseFields(string))
     constructor(frame: TetrisFrame) : this(frame.rows().flatMap { y ->
         frame.columns().map { x -> Field.empty(x, y) }
     })
@@ -89,7 +87,7 @@ open class Grid : PositionedFrame, Collidable {
     }
 
     private fun indexOf(position: Position) = (position.x - this.x) + ((position.y - this.y) * width)
-    private fun positionOf(index: Int): Position = SimplePosition(index%this.width, index/this.width)
+    private fun positionOf(index: Int): Position = SimplePosition(index % this.width, index / this.width)
 
     private fun isOutside(position: Position): Boolean =
         position.x < this.x || position.y < this.y || position.x > rightSide || position.y > bottom
