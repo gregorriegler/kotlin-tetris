@@ -175,7 +175,6 @@ open class Grid(fields: List<Field>) : PositionedFrame {
             .flatMap { it.filterNot { it.isSoilOrCoin() } }
     }
 
-    fun erase(gridAsString: String): EraseResult = erase(Grid(gridAsString))
     fun erase(grid: Grid): EraseResult = erase(grid.fields)
     fun eraseFilledRows(): EraseResult = erase(filledRowsAndSoilBelow())
     fun specials(): EraseResult = fields.fold(

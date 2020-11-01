@@ -210,11 +210,13 @@ class `Erasing debris` {
         assertEquals(
             Debris(
                 """
-            -#-
-            OOO
-        """
+                -#-
+                OOO
+                """
             ),
             debris
         )
     }
+
+    private fun Grid.erase(gridAsString: String): EraseResult = erase(Grid(gridAsString))
 }
