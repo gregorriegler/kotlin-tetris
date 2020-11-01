@@ -1,27 +1,12 @@
 package com.gregorriegler.tetris.model
 
-import com.gregorriegler.tetris.view.Color
 import com.gregorriegler.tetris.view.Palette
 
 class Debris(
     var grid: Grid,
-    var depth: Int,
-    val palette: Palette
+    var depth: Int = 0,
+    val palette: Palette = Palette.random(10)
 ) {
-    constructor(grid: Grid, depth: Int = 0) : this(
-        grid, depth, Palette(
-            Color.random(),
-            Color.random(),
-            Color.random(),
-            Color.random(),
-            Color.random(),
-            Color.random(),
-            Color.random(),
-            Color.random(),
-            Color.random(),
-        )
-    )
-
     constructor(frame: TetrisFrame) : this(Grid(frame))
     constructor(debris: String) : this(Grid(debris))
 
@@ -48,8 +33,7 @@ class Debris(
 
     fun withStone(stone: Stone): Debris =
         Debris(
-            grid.combine(stone.grid)
-                .within(grid),
+            grid.combine(stone.grid).within(grid),
             depth,
             palette
         )
@@ -68,7 +52,7 @@ class Debris(
 
     fun collidesWith(field: Field): Boolean = grid.collidesWith(field)
 
-    private fun coinPercentage(depth: Int) = depth/100 + 2
+    private fun coinPercentage(depth: Int) = depth / 100 + 2
 
     override fun toString(): String = grid.toString()
 
