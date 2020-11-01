@@ -2,6 +2,7 @@ package com.gregorriegler.tetris.model
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class `A Grid` {
@@ -120,6 +121,30 @@ class `A Grid` {
         assertTrue(grid.collidesWith(Field.filled(0, 2)))
         assertTrue(grid.collidesWith(Field.filled(1, 2)))
         assertFalse(grid.collidesWith(Field.filled(0, 0)))
+    }
+
+    @Test
+    fun `can be created from a list of fields`() {
+        val grid = Grid(listOf(Field.filled(1, 2)))
+
+        assertEquals(1, grid.width)
+        assertEquals(1, grid.height)
+        assertTrue(grid.collidesWith(Field.filled(1, 2)))
+        assertThat(grid.get(1,2)).isEqualTo(Field.filled(1, 2))
+        assertThat(grid.sizeFalling()).isEqualTo(1)
+    }
+
+    @Disabled("reveals a bug in the creation of a Grid with gaps")
+    @Test
+    fun `can be created from a list of fields#2`() {
+        val grid = Grid(listOf(Field.filled(1, 0), Field.filled(0,1)))
+
+        assertEquals(2, grid.width)
+        assertEquals(2, grid.height)
+        assertTrue(grid.collidesWith(Field.filled(1,0)))
+        assertTrue(grid.collidesWith(Field.filled(0,1)))
+        assertThat(grid.get(1,0)).isEqualTo(Field.filled(1, 0))
+        assertThat(grid.sizeFalling()).isEqualTo(2)
     }
 
     @Test

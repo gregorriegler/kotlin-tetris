@@ -1,6 +1,16 @@
 package com.gregorriegler.tetris.model
 
-open class Grid(fields: List<Field>) : PositionedFrame, Collidable {
+open class Grid : PositionedFrame, Collidable {
+
+    constructor(fields: List<Field>) {
+        this.fields = fields.sorted()
+        this.x = this.fields.minOfOrNull { it.x } ?: 0
+        this.y = (this.fields.firstOrNull() ?: Field.empty(0, 0)).y
+        this.rightSide = this.fields.maxOfOrNull { it.x } ?: 0
+        this.bottom = (this.fields.lastOrNull() ?: Field.empty(0, 0)).y
+        this.width = rightSide - x + 1
+        this.height = bottom - y + 1
+    }
 
     companion object {
         fun circle(center: Position, radius: Int): Grid = Grid(
@@ -31,13 +41,13 @@ open class Grid(fields: List<Field>) : PositionedFrame, Collidable {
         frame.columns().map { x -> Field.empty(x, y) }
     })
 
-    val fields: List<Field> = fields.sorted()
-    final override val x: Int = this.fields.minOfOrNull { it.x } ?: 0
-    final override val y: Int = (this.fields.firstOrNull() ?: Field.empty(0, 0)).y
-    final override val rightSide: Int = this.fields.maxOfOrNull { it.x } ?: 0
-    final override val bottom: Int = (this.fields.lastOrNull() ?: Field.empty(0, 0)).y
-    override val width: Int = rightSide - x + 1
-    override val height: Int = bottom - y + 1
+    val fields: List<Field>
+    final override val x: Int
+    final override val y: Int
+    final override val rightSide: Int
+    final override val bottom: Int
+    final override val width: Int
+    final override val height: Int
 
     override fun down(): Grid = Grid(fields.map { it.down() })
     override fun downBy(amount: Int): Grid = Grid(fields.map { it.downBy(amount) })
