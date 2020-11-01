@@ -183,7 +183,7 @@ class `A Grid` {
         """
         )
 
-        assertThat(Grid(grid.filledRowsAndSoilBelow())).isEqualTo(
+        assertThat(grid.filledRowsAndSoilBelow()).isEqualTo(
             Grid(
                 """
             >>>

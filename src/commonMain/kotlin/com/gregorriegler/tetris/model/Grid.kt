@@ -157,14 +157,14 @@ open class Grid(fields: List<Field>) : PositionedFrame, Collidable {
 
     private fun allRowsExceptTop(amount: Int) = fields.filter { it.y >= amount }
 
-    fun filledRowsAndSoilBelow(): List<Field> {
-        return filledRows().flatMap {
+    fun filledRowsAndSoilBelow(): Grid {
+        return Grid(filledRows().flatMap {
             if (below(it).isSoilOrCoin()) {
                 listOf(below(it), it)
             } else {
                 listOf(it)
             }
-        }
+        })
     }
 
     private fun filledRows(): List<Field> {
@@ -175,16 +175,14 @@ open class Grid(fields: List<Field>) : PositionedFrame, Collidable {
             .flatMap { it.filterNot { it.isSoilOrCoin() } }
     }
 
-    fun erase(grid: Grid): EraseResult = erase(grid.fields)
     fun eraseFilledRows(): EraseResult = erase(filledRowsAndSoilBelow())
+    fun erase(grid: Grid): EraseResult {
+        val fieldScores = fields.map { it.erase(grid) }
+        return EraseResult(Grid(fieldScores.map { it.field }), fieldScores.sumOf { it.score })
+    }
     fun specials(): EraseResult = fields.fold(
         EraseResult(this, 0)
     ) { previous, field -> field.special(previous.grid).plus(previous.score) }
-
-    private fun erase(fields: List<Field>): EraseResult {
-        val fieldScores = this.fields.map { it.erase(fields) }
-        return EraseResult(Grid(fieldScores.map { it.field }), fieldScores.sumOf { it.score })
-    }
 
     override fun toString(): String =
         "\n" + state().joinToString(separator = "\n") { it -> it.joinToString(separator = "") { it.toString() } } + "\n"

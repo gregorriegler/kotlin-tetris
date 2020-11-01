@@ -41,13 +41,14 @@ class Field(
     fun isSoilOrCoin() = filling == SOIL || filling == COIN
     fun falls(): Boolean = filling.falls()
     fun special(grid: Grid): EraseResult = filling.special(this.position, grid)
-    fun erase(fields: List<Field>): FieldScore {
-        return if (fields.any(this::collidesWith)) {
+    fun erase(grid: Grid): FieldScore {
+        return if (/*grid.collidesWith(this) does not work because of bug in Grid(List<Field>) constructor*/grid.fields.any(this::collidesWith)) {
             erase()
         } else {
             FieldScore(this, 0)
         }
     }
+
 
     override fun collidesWith(field: Field): Boolean = collides() && field.collides() && position == field.position
 
