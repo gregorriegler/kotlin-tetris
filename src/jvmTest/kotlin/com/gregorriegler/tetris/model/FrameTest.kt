@@ -15,13 +15,14 @@ class `A Frame` {
     @Test
     fun `moves a grid to the left`() {
         val frame = TetrisFrame(3, 3)
+        val grid1 = Debris(TetrisFrame(3, 3))
         assertEquals(
             Grid(Field.empty(-1, 0), Field.filled(0, 0), Field.filled(1, 0)),
             frame.left(
                 Grid("""
                 -##
                 """),
-                Debris(TetrisFrame(3, 3))
+                grid1.grid
             )
         )
     }
@@ -29,6 +30,7 @@ class `A Frame` {
     @Test
     fun `respects the left wall when moving left`() {
         val frame = TetrisFrame(3, 3)
+        val grid1 = Debris(TetrisFrame(3, 3))
         assertEquals(
             Grid("""
                 ##-
@@ -39,7 +41,7 @@ class `A Frame` {
                 ##-
                 """
                 ),
-                Debris(TetrisFrame(3, 3))
+                grid1.grid
             )
         )
     }
@@ -53,7 +55,7 @@ class `A Frame` {
         val debris = Debris("""
                 #--
                 """)
-        assertEquals(grid, frame.left(grid, debris))
+        assertEquals(grid, frame.left(grid, debris.grid))
     }
 
     @Test
@@ -86,7 +88,7 @@ class `A Frame` {
             Field.empty(1, 2),
             Field.filled(2, 2),
         )
-        val actual = frame.left(grid, debris)
+        val actual = frame.left(grid, debris.grid)
         assertEquals(
             expected,
             actual
@@ -96,14 +98,16 @@ class `A Frame` {
     @Test
     fun `moves a grid to the right`() {
         val frame = TetrisFrame(3, 3)
+        val obstacle = Debris(frame)
         assertThat(
-            frame.right(Grid("##-"), Debris(frame))
+            frame.right(Grid("##-"), obstacle.grid)
         ).isEqualTo(Grid(">##-"))
     }
 
     @Test
     fun `respects the right wall when moving right`() {
         val frame = TetrisFrame(2, 2)
+        val obstacle = Debris(frame)
         assertEquals(
             Grid("""
                 -#
@@ -116,7 +120,7 @@ class `A Frame` {
                 -#
                 """
                 ),
-                Debris(frame)
+                obstacle.grid
             )
         )
     }
@@ -124,6 +128,13 @@ class `A Frame` {
     @Test
     fun `respects debris when moving right`() {
         val frame = TetrisFrame(3, 3)
+        val obstacle = Debris(
+            """
+                --#
+                --#
+                --#
+                """
+        )
         assertEquals(
             Grid("""
                 ---
@@ -136,11 +147,7 @@ class `A Frame` {
                 ##-
                 """
                 ),
-                Debris("""
-                --#
-                --#
-                --#
-                """)
+                obstacle.grid
             ))
     }
 
@@ -164,7 +171,7 @@ class `A Frame` {
                 >##--
                 >#---
                 """),
-            frame.right(grid, debris)
+            frame.right(grid, debris.grid)
         )
     }
 

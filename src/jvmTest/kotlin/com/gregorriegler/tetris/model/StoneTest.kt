@@ -32,7 +32,7 @@ class `A Stone` {
             repeat(3, { stone.down() })
 
             assertPosition(stone, Field.filled(1, 2))
-            assertTrue(stone.landed(debris3x3))
+            assertTrue(stone.landed(debris3x3.grid))
         }
 
         @Test
@@ -40,13 +40,14 @@ class `A Stone` {
             repeat(4, { stone.down() })
 
             assertPosition(stone, Field.filled(1, 2))
-            assertTrue(stone.landed(Debris(frame)))
+            val obstacle = Debris(frame)
+            assertTrue(stone.landed(obstacle.grid))
         }
 
         @Test
         fun `can be moved to the left`() {
             stone.down()
-            stone.left(debris3x3)
+            stone.left(debris3x3.grid)
 
             assertPosition(stone, Field.filled(0, 0))
         }
@@ -54,8 +55,8 @@ class `A Stone` {
         @Test
         fun `can not be moved out of the frame at the left`() {
             stone.down()
-            stone.left(debris3x3)
-            stone.left(debris3x3)
+            stone.left(debris3x3.grid)
+            stone.left(debris3x3.grid)
 
             assertPosition(stone, Field.filled(0, 0))
         }
@@ -63,7 +64,7 @@ class `A Stone` {
         @Test
         fun `can be moved to the right`() {
             stone.down()
-            stone.right(debris3x3)
+            stone.right(debris3x3.grid)
 
             assertPosition(stone, Field.filled(2, 0))
         }
@@ -71,8 +72,8 @@ class `A Stone` {
         @Test
         fun `can not be moved out of the frame at the right`() {
             stone.down()
-            stone.right(debris3x3)
-            stone.right(debris3x3)
+            stone.right(debris3x3.grid)
+            stone.right(debris3x3.grid)
 
             assertPosition(stone, Field.filled(2, 0))
         }
@@ -123,7 +124,8 @@ class `A Stone` {
                     Field.filled(2, 3)
                 )
             )
-            assertTrue(stone.landed(Debris(TetrisFrame(4, 4))))
+            val obstacle = Debris(TetrisFrame(4, 4))
+            assertTrue(stone.landed(obstacle.grid))
         }
 
         @Test
@@ -139,7 +141,8 @@ class `A Stone` {
                     >##
                 """)
             )
-            assertTrue(stone.landed(Debris(TetrisFrame(4, 4))))
+            val obstacle = Debris(TetrisFrame(4, 4))
+            assertTrue(stone.landed(obstacle.grid))
         }
 
         @Test
@@ -155,19 +158,21 @@ class `A Stone` {
                 """)
             )
 
-            assertTrue(stone.landed(Debris("""
+            val obstacle = Debris(
+                """
                 ----
                 ----
                 ----
                 ####
             """
-            )))
+            )
+            assertTrue(stone.landed(obstacle.grid))
         }
 
         @Test
         fun `can be moved to the left`() {
             stone.down()
-            stone.left(debris4x4)
+            stone.left(debris4x4.grid)
 
             assertPositionByGrid(
                 stone,
@@ -178,14 +183,15 @@ class `A Stone` {
                     Field.filled(1, 0)
                 )
             )
-            assertFalse(stone.landed(Debris(TetrisFrame(4, 4))))
+            val obstacle = Debris(TetrisFrame(4, 4))
+            assertFalse(stone.landed(obstacle.grid))
         }
 
         @Test
         fun `can not be moved out of the frame at the left`() {
             stone.down()
-            stone.left(debris4x4)
-            stone.left(debris4x4)
+            stone.left(debris4x4.grid)
+            stone.left(debris4x4.grid)
 
             assertPositionByGrid(
                 stone,
@@ -196,13 +202,14 @@ class `A Stone` {
                     Field.filled(1, 0)
                 )
             )
-            assertFalse(stone.landed(Debris(TetrisFrame(4, 4))))
+            val obstacle = Debris(TetrisFrame(4, 4))
+            assertFalse(stone.landed(obstacle.grid))
         }
 
         @Test
         fun `can be moved to the right`() {
             stone.down()
-            stone.right(debris4x4)
+            stone.right(debris4x4.grid)
 
             assertPositionByGrid(
                 stone,
@@ -213,14 +220,15 @@ class `A Stone` {
                     Field.filled(3, 0)
                 )
             )
-            assertFalse(stone.landed(Debris(TetrisFrame(4, 4))))
+            val obstacle = Debris(TetrisFrame(4, 4))
+            assertFalse(stone.landed(obstacle.grid))
         }
 
         @Test
         fun `can not be moved out of the frame at the right`() {
             stone.down()
-            stone.right(debris4x4)
-            stone.right(debris4x4)
+            stone.right(debris4x4.grid)
+            stone.right(debris4x4.grid)
 
             assertPositionByGrid(
                 stone,
@@ -231,7 +239,8 @@ class `A Stone` {
                     Field.filled(3, 0)
                 )
             )
-            assertFalse(stone.landed(Debris(TetrisFrame(4, 4))))
+            val obstacle = Debris(TetrisFrame(4, 4))
+            assertFalse(stone.landed(obstacle.grid))
         }
     }
 
@@ -252,7 +261,8 @@ class `A Stone` {
             stone.down()
             stone.down()
             stone.down()
-            stone.rotate(Debris(frame))
+            val obstacle = Debris(frame)
+            stone.rotate(obstacle.grid)
 
             assertState(
                 """
@@ -277,8 +287,10 @@ class `A Stone` {
             stone.down()
             stone.down()
             stone.down()
-            stone.right(Debris(frame))
-            stone.rotate(Debris(frame))
+            val obstacle = Debris(frame)
+            stone.right(obstacle.grid)
+            val obstacle1 = Debris(frame)
+            stone.rotate(obstacle1.grid)
 
             assertState(
                 """
@@ -304,8 +316,10 @@ class `A Stone` {
             stone.down()
             stone.down()
             stone.down()
-            stone.left(Debris(frame))
-            stone.rotate(Debris(frame))
+            val obstacle = Debris(frame)
+            stone.left(obstacle.grid)
+            val obstacle1 = Debris(frame)
+            stone.rotate(obstacle1.grid)
 
             assertState(
                 """
@@ -332,7 +346,8 @@ class `A Stone` {
             stone.down()
             stone.down()
             stone.down()
-            stone.rotate(Debris(frame))
+            val obstacle = Debris(frame)
+            stone.rotate(obstacle.grid)
 
             assertState(
                 """
@@ -365,7 +380,7 @@ class `A Stone` {
             stone.down()
             stone.down()
             stone.down()
-            stone.rotate(debris)
+            stone.rotate(debris.grid)
 
             assertState(
                 """
@@ -398,8 +413,8 @@ class `A Stone` {
             stone.down()
             stone.down()
             stone.down()
-            stone.right(debris)
-            stone.rotate(debris)
+            stone.right(debris.grid)
+            stone.rotate(debris.grid)
 
             assertState(
                 """
@@ -434,9 +449,9 @@ class `A Stone` {
             )
 
             repeat(5, {stone.down()})
-            stone.right(debris)
-            stone.right(debris)
-            stone.rotate(debris)
+            stone.right(debris.grid)
+            stone.right(debris.grid)
+            stone.rotate(debris.grid)
 
             assertState(
                 """
@@ -473,9 +488,9 @@ class `A Stone` {
         )
 
         repeat(5, {stone.down()})
-        stone.left(debris)
-        stone.left(debris)
-        stone.rotate(debris)
+        stone.left(debris.grid)
+        stone.left(debris.grid)
+        stone.rotate(debris.grid)
 
         assertState(
             """

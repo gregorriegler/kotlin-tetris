@@ -13,37 +13,37 @@ class Stone(
         grid = frame.down(grid)
     }
 
-    fun left(debris: Debris) {
-        grid = frame.left(grid, debris)
+    fun left(obstacle: Grid) {
+        grid = frame.left(grid, obstacle)
     }
 
-    fun right(debris: Debris) {
-        grid = frame.right(grid, debris)
+    fun right(obstacle: Grid) {
+        grid = frame.right(grid, obstacle)
     }
 
-    fun rotate(debris: Debris) {
+    fun rotate(obstacle: Grid) {
         val rotate = grid.rotate()
 
-        if (!outOfGame(rotate, debris)) {
+        if (!outOfGame(rotate, obstacle)) {
             grid = rotate
             return
         }
 
         for(it in (1..rotate.widthFalling() / 2)) {
-            if (!outOfGame(rotate.leftBy(it), debris)) {
+            if (!outOfGame(rotate.leftBy(it), obstacle)) {
                 grid = rotate.leftBy(it)
                 break
-            } else if (!outOfGame(rotate.rightBy(it), debris)) {
+            } else if (!outOfGame(rotate.rightBy(it), obstacle)) {
                 grid = rotate.rightBy(it)
                 break
             }
         }
     }
 
-    fun landed(debris: Debris) = atBottom() || grid.down().collidesWith(debris.grid)
+    fun landed(obstacle: Grid) = atBottom() || grid.down().collidesWith(obstacle)
 
-    private fun outOfGame(grid: Grid, debris: Debris): Boolean {
-        return grid.collidesWith(debris.grid) || frame.isOutside(grid)
+    private fun outOfGame(grid: Grid, obstacle: Grid): Boolean {
+        return grid.collidesWith(obstacle) || frame.isOutside(grid)
     }
 
     private fun atBottom(): Boolean = frame.isAtBottom(grid)

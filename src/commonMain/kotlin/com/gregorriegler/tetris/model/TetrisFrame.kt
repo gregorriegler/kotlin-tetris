@@ -9,23 +9,23 @@ class TetrisFrame(
 
     fun topCenterFilled(): Field = Field.filled(center(), 0)
 
-    fun left(grid: Grid, debris: Debris): Grid =
-        if (isAtLeftBorder(grid) || grid.left().collidesWith(debris.grid))
-            grid
-        else
+    fun left(grid: Grid, obstacle: Grid): Grid =
+        if (!isAtLeftBorder(grid) && !grid.left().collidesWith(obstacle))
             grid.left()
-
-    fun right(grid: Grid, debris: Debris): Grid =
-        if (isAtRightBorder(grid) || grid.right().collidesWith(debris.grid))
-            grid
         else
+            grid
+
+    fun right(grid: Grid, obstacle: Grid): Grid =
+        if (!isAtRightBorder(grid) && !grid.right().collidesWith(obstacle))
             grid.right()
+        else
+            grid
 
     fun down(grid: Grid): Grid =
-        if (isAtBottom(grid))
-            grid
-        else
+        if (!isAtBottom(grid))
             grid.down()
+        else
+            grid
 
     private fun isAtLeftBorder(grid: Grid) = grid.leftSideFalling() <= 0
     private fun isAtRightBorder(grid: Grid) = grid.rightSideFalling() >= width - 1
