@@ -210,22 +210,30 @@ class `A Frame` {
     @Test
     fun `knows a grid is not at the bottom`() {
         assertFalse(TetrisFrame(3, 3).isAtBottom(Grid(Field.filled(1, 1))))
-        assertFalse(TetrisFrame(4, 4).isAtBottom(Grid("""
-            >>
-            ##
-            ##
-        """.trimIndent())))
+        assertFalse(
+            TetrisFrame(4, 4).isAtBottom(
+                Grid("""
+                    >>
+                    ##
+                    ##
+                """.trimIndent())
+            )
+        )
     }
 
     @Test
     fun `knows a grid is at the bottom`() {
         assertTrue(TetrisFrame(2, 2).isAtBottom(Grid(Field.filled(1, 1))))
-        assertTrue(TetrisFrame(4, 4).isAtBottom(Grid("""
-            >>
-            >>
-            ##
-            ##
-        """.trimIndent())))
+        assertTrue(
+            TetrisFrame(4, 4).isAtBottom(
+                Grid("""
+                    >>
+                    >>
+                    ##
+                    ##
+                """.trimIndent())
+            )
+        )
     }
 }
 

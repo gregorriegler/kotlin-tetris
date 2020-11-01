@@ -13,7 +13,7 @@ class Structure(string: String) : Grid(string) {
                 -#--
                 -#--
                 -#--
-            """
+                """
             )
         }
 
@@ -22,7 +22,7 @@ class Structure(string: String) : Grid(string) {
                 """
                 ##
                 ##
-            """
+                """
             )
         }
 
@@ -32,7 +32,7 @@ class Structure(string: String) : Grid(string) {
                 -#-
                 -##
                 -#-
-            """
+                """
             )
         }
 
@@ -42,7 +42,7 @@ class Structure(string: String) : Grid(string) {
                 #--
                 #--
                 ##-
-            """
+                """
             )
         }
 
@@ -52,16 +52,18 @@ class Structure(string: String) : Grid(string) {
                 ##-
                 #--
                 #--
-            """
+                """
             )
         }
 
         fun createBomb(): Structure {
-            return Structure("""
+            return Structure(
+                """
                 ---
                 -X-
                 ---
-                """)
+                """
+            )
         }
     }
 

@@ -40,12 +40,14 @@ class Stone(
         }
     }
 
-    fun outOfGame(grid: Grid, debris: Debris): Boolean {
+    fun landed(debris: Debris) = atBottom() || grid.down().collidesWith(debris.grid)
+
+    private fun outOfGame(grid: Grid, debris: Debris): Boolean {
         return grid.collidesWith(debris.grid) || frame.isOutside(grid)
     }
 
-    fun landed(debris: Debris) = atBottom() || grid.down().collidesWith(debris.grid)
     private fun atBottom(): Boolean = frame.isAtBottom(grid)
+
     override fun toString(): String {
         return grid.toString()
     }

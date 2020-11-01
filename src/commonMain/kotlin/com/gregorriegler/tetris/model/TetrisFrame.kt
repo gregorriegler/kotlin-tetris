@@ -22,14 +22,15 @@ class TetrisFrame(
             grid.right()
 
     fun down(grid: Grid): Grid =
-        if (grid.bottomFalling() < height - 1)
-            grid.down()
-        else
+        if (isAtBottom(grid))
             grid
+        else
+            grid.down()
 
     private fun isAtLeftBorder(grid: Grid) = grid.leftSideFalling() <= 0
     private fun isAtRightBorder(grid: Grid) = grid.rightSideFalling() >= width - 1
-    fun isAtBottom(grid: Grid): Boolean = grid.bottomFalling() == height - 1
+    fun isAtBottom(grid: Grid) = grid.bottomFalling() > height - 2
+
     private fun center() = width.toDouble().div(2).roundToInt() - 1
     fun isOutside(grid: Grid): Boolean =
         grid.rightSideFalling() > width - 1
