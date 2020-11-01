@@ -2,21 +2,6 @@ package com.gregorriegler.tetris.model
 
 open class Grid : PositionedFrame, Collidable {
 
-    constructor(fields: List<Field>) {
-        val sorted = fields.sorted()
-        this.x = sorted.minOfOrNull { it.x } ?: 0
-        this.y = (sorted.firstOrNull() ?: Field.empty(0, 0)).y
-
-        val tmp = mutableListOf<Field>()
-        tmp.addAll(sorted)
-        this.fields = tmp
-
-        this.rightSide = this.fields.maxOfOrNull { it.x } ?: 0
-        this.bottom = (this.fields.lastOrNull() ?: Field.empty(0, 0)).y
-        this.width = rightSide - x + 1
-        this.height = bottom - y + 1
-    }
-
     companion object {
         fun circle(center: Position, radius: Int): Grid = Grid(
             (center.y - radius..center.y + radius)
@@ -40,13 +25,8 @@ open class Grid : PositionedFrame, Collidable {
             }
     }
 
-    constructor(vararg fields: Field) : this(fields.toList())
-    constructor(string: String) : this(parseFields(string))
-    constructor(frame: TetrisFrame) : this(frame.rows().flatMap { y ->
-        frame.columns().map { x -> Field.empty(x, y) }
-    })
-
     val fields: List<Field>
+
     final override val x: Int
     final override val y: Int
     final override val rightSide: Int
@@ -54,7 +34,25 @@ open class Grid : PositionedFrame, Collidable {
     final override val width: Int
     final override val height: Int
 
+    constructor(fields: List<Field>) {
+        this.x = fields.minOfOrNull { it.x } ?: 0
+        this.y = fields.minOfOrNull { it.y } ?: 0
+        this.rightSide = fields.maxOfOrNull { it.x } ?: 0
+        this.bottom = fields.maxOfOrNull { it.y } ?: 0
+        this.width = rightSide - x + 1
+        this.height = bottom - y + 1
+        this.fields = exploded(fields).toList()
+    }
+
+    constructor(vararg fields: Field) : this(fields.toList())
+
+    constructor(string: String) : this(parseFields(string))
+    constructor(frame: TetrisFrame) : this(frame.rows().flatMap { y ->
+        frame.columns().map { x -> Field.empty(x, y) }
+    })
+
     override fun down(): Grid = Grid(fields.map { it.down() })
+
     override fun downBy(amount: Int): Grid = Grid(fields.map { it.downBy(amount) })
     override fun left(): Grid = leftBy(1)
     override fun leftBy(amount: Int): Grid = Grid(fields.map { it.leftBy(amount) })
@@ -84,7 +82,14 @@ open class Grid : PositionedFrame, Collidable {
 
     private fun row(y: Int): List<Field> = (0 until width).map { x -> get(x, y) }
 
+    private fun exploded(fields: List<Field>): Array<Field> {
+        val explodedFields = Array(width * height) { index -> Field.empty(positionOf(index)) }
+        fields.forEach { explodedFields[indexOf(it)] = it }
+        return explodedFields
+    }
+
     private fun indexOf(position: Position) = (position.x - this.x) + ((position.y - this.y) * width)
+    private fun positionOf(index: Int): Position = SimplePosition(index%this.width, index/this.width)
 
     private fun isOutside(position: Position): Boolean =
         position.x < this.x || position.y < this.y || position.x > rightSide || position.y > bottom
@@ -195,6 +200,7 @@ open class Grid : PositionedFrame, Collidable {
         val fieldScores = fields.map { it.erase(grid) }
         return EraseResult(Grid(fieldScores.map { it.field }), fieldScores.sumOf { it.score })
     }
+
     fun specials(): EraseResult = fields.fold(
         EraseResult(this, 0)
     ) { previous, field -> field.special(previous.grid).plus(previous.score) }

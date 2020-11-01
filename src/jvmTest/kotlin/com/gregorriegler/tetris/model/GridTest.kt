@@ -2,7 +2,6 @@ package com.gregorriegler.tetris.model
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class `A Grid` {
@@ -134,7 +133,6 @@ class `A Grid` {
         assertThat(grid.sizeFalling()).isEqualTo(1)
     }
 
-    @Disabled("reveals a bug in the creation of a Grid with gaps")
     @Test
     fun `can be created from a list of fields#2`() {
         val grid = Grid(listOf(Field.filled(1, 0), Field.filled(0,1)))
