@@ -4,15 +4,9 @@ open class Grid : PositionedFrame, Collidable {
 
     companion object {
         fun circle(center: Position, radius: Int): Grid =
-            (center.y - radius..center.y + radius)
-                .flatMap { y ->
-                    (center.x - radius..center.x + radius)
-                        .filter { x ->
-                            val dx = x - center.x
-                            val dy = y - center.y
-                            (dx * dx + dy * dy <= radius * radius)
-                        }.map { x -> Field.filled(x, y) }
-                }.let { Grid(it) }
+            center.circle(radius)
+                .map { Field(it, Filling.FALLING) }
+                .let { Grid(it) }
 
         fun parseFields(string: String): List<Field> = string.trimIndent()
             .split("\n")
