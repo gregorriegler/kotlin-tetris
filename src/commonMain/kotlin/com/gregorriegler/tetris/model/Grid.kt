@@ -3,7 +3,7 @@ package com.gregorriegler.tetris.model
 open class Grid : PositionedFrame, Collidable {
 
     companion object {
-        fun circle(center: Position, radius: Int): Grid = Grid(
+        fun circle(center: Position, radius: Int): Grid =
             (center.y - radius..center.y + radius)
                 .flatMap { y ->
                     (center.x - radius..center.x + radius)
@@ -12,7 +12,7 @@ open class Grid : PositionedFrame, Collidable {
                             val dy = y - center.y
                             (dx * dx + dy * dy <= radius * radius)
                         }.map { x -> Field.filled(x, y) }
-                })
+                }.let { Grid(it) }
 
         fun parseFields(string: String): List<Field> = string.trimIndent()
             .split("\n")
@@ -97,11 +97,11 @@ open class Grid : PositionedFrame, Collidable {
     private fun allX() = fields.map { it.x }.distinct()
     private fun distance() = Position.of(x, y)
 
-    fun rotate(): Grid = Grid(
+    fun rotate(): Grid =
         fields.map { field -> field.minus(distance()) }
             .map { field -> field.rotate(width) }
             .map { field -> field.plus(distance()) }
-    )
+            .let { Grid(it) }
 
     fun combine(grid: Grid): Grid =
         allY().plus(grid.allY())

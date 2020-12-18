@@ -61,12 +61,14 @@ class Tetris(
             return
         } else {
             debris.fall()
-            debris.dig(digAmount)
+            debris.dig(digAmount, chanceForCoin())
             stone.down()
         }
 
         tick++
     }
+
+    private fun chanceForCoin(): (Int) -> Int = { it / 100 + 2 }
 
     fun gameDisplayString(): String = debris.withStone(stone).toString()
     fun gameDisplay(): Debris = debris.withStone(stone)
