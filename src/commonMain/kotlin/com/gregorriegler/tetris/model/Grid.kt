@@ -10,9 +10,9 @@ open class Grid : PositionedFrame, Collidable {
 
         fun parseFields(string: String): List<Field> = string.trimIndent()
             .split("\n")
-            .flatMapIndexed { y, row ->
-                val pulls = row.filter { it == Filling.PULL_VALUE }.count() * 2
-                row.toCharArray()
+            .flatMapIndexed { y, lines ->
+                val pulls = lines.filter { it == Filling.PULL_VALUE }.count() * 2
+                lines.toCharArray()
                     .withIndex()
                     .filterNot { it.value == Filling.INDENT_VALUE || it.value == Filling.PULL_VALUE }
                     .map { Field(it.index - pulls, y, it.value) }
@@ -131,14 +131,13 @@ open class Grid : PositionedFrame, Collidable {
             .map(this::verticalStack)
             .toList()
         val roomToFall = fallingStacks.associateBy({ Field.empty(it[0].x, it[0].y + 1) }, { it.size })
-        return Grid(
-            fields.map {
-                when {
-                    fallingStacks.any { stack -> stack.contains(it) } -> it.down()
-                    roomToFall.keys.contains(it) -> it.upBy(roomToFall[it] ?: 1)
-                    else -> it
-                }
-            })
+        return Grid(fields.map {
+            when {
+                fallingStacks.any { stack -> stack.contains(it) } -> it.down()
+                roomToFall.keys.contains(it) -> it.upBy(roomToFall[it] ?: 1)
+                else -> it
+            }
+        })
     }
 
     private fun willFall(field: Field): Boolean = field.falls() && below(field).isEmpty() && !hasAnchor(field)
@@ -170,21 +169,21 @@ open class Grid : PositionedFrame, Collidable {
     private fun allRowsExceptTop(amount: Int) = fields.filter { it.y >= amount }
 
     fun filledRowsAndSoilBelow(): Grid {
-        return Grid(filledRows().flatMap {
+        return filledRows().flatMap {
             if (below(it).isSoilOrCoin()) {
                 listOf(below(it), it)
             } else {
                 listOf(it)
             }
-        })
+        }.let { Grid(it) }
     }
 
     private fun filledRows(): List<Field> {
         return (y..bottom)
             .map { row(it) }
-            .filter { it.all { it.falls() || it.isSoilOrCoin() } }
-            .filterNot { it.all { it.isSoilOrCoin() } }
-            .flatMap { it.filterNot { it.isSoilOrCoin() } }
+            .filter { it.all { field -> field.falls() || field.isSoilOrCoin() } }
+            .filterNot { it.all { field -> field.isSoilOrCoin() } }
+            .flatMap { it.filterNot { field -> field.isSoilOrCoin() } }
     }
 
     fun eraseFilledRows(): EraseResult = erase(filledRowsAndSoilBelow())
