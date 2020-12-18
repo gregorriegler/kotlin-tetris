@@ -104,20 +104,19 @@ open class Grid : PositionedFrame, Collidable {
     )
 
     fun combine(grid: Grid): Grid =
-        Grid(
-            allY().plus(grid.allY()).distinct()
-                .flatMap { y ->
-                    allX().plus(grid.allX()).distinct()
-                        .map { x ->
-                            Field(
-                                x, y, Filling.higher(
-                                    get(x, y).filling,
-                                    grid.get(x, y).filling
-                                )
-                            )
-                        }
-                }
-        )
+        allY().plus(grid.allY())
+            .distinct()
+            .flatMap { y ->
+                allX().plus(grid.allX())
+                    .distinct()
+                    .map { x -> Position.of(x, y) }
+                    .map {
+                        Field(it, Filling.higher(
+                            get(it).filling,
+                            grid.get(it).filling
+                        ))
+                    }
+            }.let { Grid(it) }
 
     fun get(x: Int, y: Int) = get(Position.of(x, y))
     fun get(position: Position) =
