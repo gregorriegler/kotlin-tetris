@@ -45,6 +45,7 @@ open class Grid : PositionedFrame, Collidable {
         this.height = bottom - y + 1
         this.fields = exploded(fields).toList()
     }
+
     constructor(frame: TetrisFrame) : this(frame.rows().flatMap { y ->
         frame.columns().map { x -> Field.empty(x, y) }
     })
@@ -119,11 +120,11 @@ open class Grid : PositionedFrame, Collidable {
         )
 
     fun get(x: Int, y: Int) = get(Position.of(x, y))
-    fun get(position: Position): Field =
+    fun get(position: Position) =
         if (isOutside(position)) {
             Field.empty(position)
         } else {
-            fields.getOrNull(indexOf(position)) ?: Field.empty(position)
+            fields.getOrElse(indexOf(position)) { Field.empty(position) }
         }
 
     fun collidesWith(subject: Collidable): Boolean = fields.any { subject.collidesWith(it) }
