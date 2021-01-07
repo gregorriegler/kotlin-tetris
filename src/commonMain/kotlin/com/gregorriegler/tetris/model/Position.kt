@@ -1,7 +1,5 @@
 package com.gregorriegler.tetris.model
 
-fun Int.squared() = this * this
-
 interface Position : Comparable<Position> {
     val x: Int
     val y: Int
@@ -11,6 +9,7 @@ interface Position : Comparable<Position> {
     }
 
     fun up(): Position = upBy(1)
+
     fun upBy(amount: Int): Position = of(this.x, this.y - amount)
     fun down(): Position = downBy(1)
     fun downBy(amount: Int): Position = of(this.x, this.y + amount)
@@ -29,6 +28,7 @@ interface Position : Comparable<Position> {
                     ((x - this.x).squared() + (y - this.y).squared() <= radius.squared())
                 }.map { x -> of(x, y) }
             }
+    fun Int.squared() = this * this
 
     override fun compareTo(other: Position): Int =
         when {

@@ -32,6 +32,12 @@ class Field(
     override fun leftBy(amount: Int): Field = Field(this.position.leftBy(amount), filling)
     override fun right(): Field = rightBy(1)
     override fun rightBy(amount: Int): Field = Field(this.position.rightBy(amount), filling)
+
+    fun rotateRespectingOffset(grid: Grid) =
+        minus(grid)
+            .let { Field(it.position.rotate(grid.width), it.filling) }
+            .plus(grid)
+
     override fun rotate(width: Int): Field = Field(this.position.rotate(width), filling)
     override fun plus(position: Position): Field = Field(this.position.plus(position), filling)
     override fun minus(position: Position): Field = Field(this.position.minus(position), filling)
