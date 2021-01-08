@@ -3,7 +3,6 @@ package com.gregorriegler.tetris.model
 interface Position : Comparable<Position> {
     val x: Int
     val y: Int
-
     companion object {
         fun of(x: Int, y: Int): Position = SimplePosition(x, y)
     }
