@@ -17,6 +17,10 @@ interface Position : Comparable<Position> {
     fun right(): Position = rightBy(1)
     fun rightBy(amount: Int): Position = of(this.x + amount, this.y)
     fun rotate(width: Int): Position = of(width - this.y - 1, this.x)
+    fun rotatePosition(grid: Grid) = this.minus(grid)
+        .rotate(grid.width)
+        .plus(grid)
+
     fun plus(position: Position): Position = of(this.x + position.x, this.y + position.y)
     fun minus(position: Position): Position = of(this.x - position.x, this.y - position.y)
     fun within(frame: Frame): Boolean = this.x >= 0 && this.x < frame.width && this.y >= 0 && this.y < frame.height
