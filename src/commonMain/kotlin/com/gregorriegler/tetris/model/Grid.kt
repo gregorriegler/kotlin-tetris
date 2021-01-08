@@ -90,8 +90,7 @@ open class Grid : PositionedFrame, Collidable {
     private fun allY() = fields.map { it.y }.distinct()
     private fun allX() = fields.map { it.x }.distinct()
 
-    fun rotate(): Grid =
-        Grid(fields.map { it.rotateField(this) })
+    fun rotate(): Grid = Grid(fields.map { it.rotate(this) })
 
     fun combine(grid: Grid): Grid =
         allY().plus(grid.allY())

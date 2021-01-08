@@ -62,17 +62,18 @@ class `A Field` {
     @Test
     fun `rotates a field in a 3x3 block`() {
         //top row
-        assertThat(Field(0,0).rotate(3)).isEqualTo(Field(2, 0))
-        assertThat(Field(1,0).rotate(3)).isEqualTo(Field(2, 1))
-        assertThat(Field(2,0).rotate(3)).isEqualTo(Field(2, 2))
+        val grid3x3 = Grid("###\n###\n###")
+        assertThat(Field(0,0).rotate(grid3x3)).isEqualTo(Field(2, 0))
+        assertThat(Field(1,0).rotate(grid3x3)).isEqualTo(Field(2, 1))
+        assertThat(Field(2,0).rotate(grid3x3)).isEqualTo(Field(2, 2))
         //center row
-        assertThat(Field(0,1).rotate(3)).isEqualTo(Field(1, 0))
-        assertThat(Field(1,1).rotate(3)).isEqualTo(Field(1, 1))
-        assertThat(Field(2,1).rotate(3)).isEqualTo(Field(1, 2))
+        assertThat(Field(0,1).rotate(grid3x3)).isEqualTo(Field(1, 0))
+        assertThat(Field(1,1).rotate(grid3x3)).isEqualTo(Field(1, 1))
+        assertThat(Field(2,1).rotate(grid3x3)).isEqualTo(Field(1, 2))
         //bottom row
-        assertThat(Field(0,2).rotate(3)).isEqualTo(Field(0, 0))
-        assertThat(Field(1,2).rotate(3)).isEqualTo(Field(0, 1))
-        assertThat(Field(2,2).rotate(3)).isEqualTo(Field(0, 2))
+        assertThat(Field(0,2).rotate(grid3x3)).isEqualTo(Field(0, 0))
+        assertThat(Field(1,2).rotate(grid3x3)).isEqualTo(Field(0, 1))
+        assertThat(Field(2,2).rotate(grid3x3)).isEqualTo(Field(0, 2))
     }
 
     @Test

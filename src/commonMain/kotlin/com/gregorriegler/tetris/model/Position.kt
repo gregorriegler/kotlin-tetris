@@ -18,14 +18,12 @@ interface Position : Comparable<Position> {
     fun right(): Position = rightBy(1)
     fun rightBy(amount: Int): Position = of(this.x + amount, this.y)
 
-    fun rotatePosition(grid: Grid): Position {
+    fun rotate(grid: Grid): Position {
         return of(
             grid.rightSide - (this.y - grid.y),
             grid.y + (this.x - grid.x)
         )
     }
-
-    fun rotate(width: Int): Position = of(width - this.y - 1, this.x)
 
     fun plus(position: Position): Position = of(this.x + position.x, this.y + position.y)
     fun minus(position: Position): Position = of(this.x - position.x, this.y - position.y)
