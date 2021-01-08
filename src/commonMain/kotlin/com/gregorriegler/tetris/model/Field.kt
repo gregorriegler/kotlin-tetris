@@ -39,10 +39,6 @@ class Field(
             .plus(grid)
 
     override fun rotate(width: Int): Field = Field(this.position.rotate(width), filling)
-    override fun rotateNew(): Position {
-        return Field(this.position.rotateNew(), filling)
-    }
-
     override fun plus(position: Position): Field = Field(this.position.plus(position), filling)
     override fun minus(position: Position): Field = Field(this.position.minus(position), filling)
 
