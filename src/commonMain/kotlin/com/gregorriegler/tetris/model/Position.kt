@@ -3,6 +3,7 @@ package com.gregorriegler.tetris.model
 interface Position : Comparable<Position> {
     val x: Int
     val y: Int
+
     companion object {
         fun of(x: Int, y: Int): Position = SimplePosition(x, y)
     }
@@ -16,10 +17,15 @@ interface Position : Comparable<Position> {
     fun leftBy(amount: Int): Position = of(this.x - amount, this.y)
     fun right(): Position = rightBy(1)
     fun rightBy(amount: Int): Position = of(this.x + amount, this.y)
+
+    fun rotatePosition(grid: Grid): Position {
+        return of(
+            grid.rightSide - (this.y - grid.y),
+            grid.y + (this.x - grid.x)
+        )
+    }
+
     fun rotate(width: Int): Position = of(width - this.y - 1, this.x)
-    fun rotatePosition(grid: Grid) = this.minus(grid)
-        .rotate(grid.width)
-        .plus(grid)
 
     fun plus(position: Position): Position = of(this.x + position.x, this.y + position.y)
     fun minus(position: Position): Position = of(this.x - position.x, this.y - position.y)
@@ -31,6 +37,7 @@ interface Position : Comparable<Position> {
                     ((x - this.x).squared() + (y - this.y).squared() <= radius.squared())
                 }.map { x -> of(x, y) }
             }
+
     fun Int.squared() = this * this
 
     override fun compareTo(other: Position): Int =
