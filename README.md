@@ -8,6 +8,9 @@ The `commonMain` module contains the Games Core Code.
 For tests i mainly use Junit5 and AssertJ, so they are to be found in `jvmTest`.
 I use the `tdd.sh` script to run the tests continuously.
 
+### Play
+[Play here](http://gregorriegler.com/kotlin-tetris/)
+
 ### Run the game in a browser
 ```
 ./gradlew jsBrowserDevelopmentRun
