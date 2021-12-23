@@ -41,7 +41,6 @@ class Field(
     override fun minus(position: Position): Field = Field(this.position.minus(position), filling)
 
     fun isEmpty(): Boolean = filling.isEmpty()
-    fun collides(): Boolean = filling.collides()
     fun isSoilOrCoin() = filling == SOIL || filling == COIN
     fun falls(): Boolean = filling.falls()
     fun special(grid: Grid): EraseResult = filling.special(this.position, grid)
@@ -53,7 +52,7 @@ class Field(
         }
     }
 
-    override fun collidingAt(): List<Position> = if (this.collides()) listOf(this.position) else listOf()
+    override fun collidingAt(): List<Position> = filling.collidesAt(this.position)
 
     fun erase(): FieldScore = FieldScore(empty(x, y), filling.score())
     override fun toString(): String = "(${this.position},$filling)"

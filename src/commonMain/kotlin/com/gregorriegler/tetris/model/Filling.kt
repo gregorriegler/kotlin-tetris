@@ -7,7 +7,7 @@ enum class Filling {
         override fun fall(field: Field): Field = field
         override fun falls(): Boolean = true
         override fun isEmpty(): Boolean = false
-        override fun collides(): Boolean = true
+        override fun collidesAt(position: Position) = listOf(position)
         override fun color(palette: Palette, depth: Int): Color = Color.black
         override fun special(position: Position, grid: Grid): EraseResult = explode(position, grid)
         override fun toString(): String = BOMB_VALUE.toString()
@@ -19,7 +19,7 @@ enum class Filling {
         override fun fall(field: Field): Field = field
         override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = false
-        override fun collides(): Boolean = true
+        override fun collidesAt(position: Position) = listOf(position)
         override fun color(palette: Palette, depth: Int): Color =
             Color.colorByDepth(palette, depth, Color.changeColorEvery)
 
@@ -30,7 +30,7 @@ enum class Filling {
         override fun fall(field: Field): Field = field
         override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = false
-        override fun collides(): Boolean = true
+        override fun collidesAt(position: Position) = listOf(position)
         override fun color(palette: Palette, depth: Int): Color = Color.gold
         override fun score(): Int = 10
         override fun toString(): String = COIN_VALUE.toString()
@@ -40,7 +40,7 @@ enum class Filling {
         override fun fall(field: Field): Field = field.down()
         override fun falls(): Boolean = true
         override fun isEmpty(): Boolean = false
-        override fun collides(): Boolean = true
+        override fun collidesAt(position: Position) = listOf(position)
         override fun color(palette: Palette, depth: Int): Color = Color.orange
         override fun toString(): String = FILLED_VALUE.toString()
     },
@@ -49,7 +49,7 @@ enum class Filling {
         override fun fall(field: Field): Field = field
         override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = true
-        override fun collides(): Boolean = false
+        override fun collidesAt(position: Position) = emptyList<Position>()
         override fun score(): Int = 0
         override fun toString(): String = EMPTY_VALUE.toString()
     },
@@ -58,7 +58,7 @@ enum class Filling {
         override fun fall(field: Field): Field = field
         override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = true
-        override fun collides(): Boolean = false
+        override fun collidesAt(position: Position) = emptyList<Position>()
         override fun toString(): String = INDENT_VALUE.toString()
     };
 
@@ -66,7 +66,7 @@ enum class Filling {
     abstract fun fall(field: Field): Field
     abstract fun falls(): Boolean
     abstract fun isEmpty(): Boolean
-    abstract fun collides(): Boolean
+    abstract fun collidesAt(position: Position): List<Position>
     open fun color(palette: Palette, depth: Int) = Color.grey
     open fun score(): Int = 1
     open fun special(position: Position, grid: Grid): EraseResult = EraseResult(grid, 0)
