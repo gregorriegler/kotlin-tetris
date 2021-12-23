@@ -130,7 +130,7 @@ open class Grid : PositionedFrame, Collidable {
         val result = mutableListOf<Field>()
         result += fields.minus(fieldsOf(fallingStacks))
         result += fieldsOf(fallingStacks.map { it.fall() })
-        result += fallingStacks.map { it.emptyUp() }
+        result += fallingStacks.map { it.moveEmptyAbove() }
         return Grid(result)
     }
 
