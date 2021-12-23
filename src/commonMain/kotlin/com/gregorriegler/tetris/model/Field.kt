@@ -53,7 +53,7 @@ class Field(
         }
     }
 
-    override fun collidingPositions(): List<Position> = if (this.collides()) listOf(this.position) else listOf()
+    override fun collidingAt(): List<Position> = if (this.collides()) listOf(this.position) else listOf()
 
     fun erase(): FieldScore = FieldScore(empty(x, y), filling.score())
     override fun toString(): String = "(${this.position},$filling)"

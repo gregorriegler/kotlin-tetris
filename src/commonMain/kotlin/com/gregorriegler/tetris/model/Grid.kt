@@ -118,7 +118,7 @@ open class Grid : PositionedFrame, Collidable {
             fields.getOrElse(indexOf(position)) { Field.empty(position) }
         }
 
-    override fun collidingPositions(): List<Position> = fields.flatMap { it.collidingPositions() }
+    override fun collidingAt(): List<Position> = fields.flatMap { it.collidingAt() }
 
     fun move(vector: Position): Grid = Grid(fields.map { field -> field.plus(vector) })
     fun within(grid: Grid): Grid = Grid(fields.filter { it.within(grid) })

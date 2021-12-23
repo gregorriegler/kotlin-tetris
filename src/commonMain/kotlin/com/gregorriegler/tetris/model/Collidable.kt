@@ -1,8 +1,7 @@
 package com.gregorriegler.tetris.model
 
 interface Collidable {
-    fun collidingPositions(): List<Position>
-    fun collidesWith(other: Collidable): Boolean =
-        collidingPositions().any { other.collidingPositions().contains(it) }
+    fun collidingAt(): List<Position>
+    fun collidesWith(other: Collidable): Boolean = collidingAt().any { other.collidingAt().contains(it) }
 
 }
