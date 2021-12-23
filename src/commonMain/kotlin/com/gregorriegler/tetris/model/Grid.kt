@@ -17,6 +17,8 @@ open class Grid : PositionedFrame, Collidable {
                     .filterNot { it.value == Filling.INDENT_VALUE || it.value == Filling.PULL_VALUE }
                     .map { Field(it.index - pulls, y, it.value) }
             }
+
+
     }
 
     private val fields: List<Field>
@@ -124,10 +126,10 @@ open class Grid : PositionedFrame, Collidable {
     fun within(grid: Grid): Grid = Grid(fields.filter { it.within(grid) })
 
     fun fall(): Grid {
-        val fallingStacks: List<List<Field>> = fields.filter(this::willFall)
-            .map(this::verticalStack)
+        val fallingStacks: List<VerticalStack> = fields.filter(this::willFall)
+            .map { VerticalStack.of(this, it) }
             .toList()
-        val roomToFall = fallingStacks.associateBy({ Field.empty(it[0].x, it[0].y + 1) }, { it.size })
+        val roomToFall = fallingStacks.associateBy({ it.emptyBelow() }, { it.height() })
         return Grid(fields.map {
             when {
                 fallingStacks.any { stack -> stack.contains(it) } -> it.down()
@@ -137,11 +139,11 @@ open class Grid : PositionedFrame, Collidable {
         })
     }
 
+
+
     private fun willFall(field: Field): Boolean = field.falls() && below(field).isEmpty() && !hasAnchor(field)
 
     private fun hasAnchor(field: Field) = AnchorFinder(this).hasAnchor(field)
-
-    private fun verticalStack(it: Field) = VerticalStackIterator(this, it).asSequence().toList()
 
     fun dig(amount: Int, coinPercentage: Int): DigResult =
         if (bottomRows(amount).any { notCompletelySoil(it) }) {
