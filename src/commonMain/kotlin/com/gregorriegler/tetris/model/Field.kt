@@ -25,6 +25,8 @@ class Field(
     override val y: Int get() = position.y
     fun color(palette: Palette, depth: Int): Color = filling.color(palette, y + depth)
 
+
+    fun fall(): Field = filling.fall(this)
     override fun upBy(amount: Int): Field = Field(this.position.upBy(amount), filling)
     override fun down(): Field = downBy(1)
     override fun downBy(amount: Int): Field = Field(this.position.downBy(amount), filling)

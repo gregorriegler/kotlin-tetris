@@ -4,6 +4,7 @@ enum class Filling {
 
     BOMB {
         override fun combine(filling: Filling): Filling = BOMB
+        override fun fall(field: Field): Field = field
         override fun falls(): Boolean = true
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
@@ -15,6 +16,7 @@ enum class Filling {
     },
     SOIL {
         override fun combine(filling: Filling): Filling = SOIL
+        override fun fall(field: Field): Field = field
         override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
@@ -25,6 +27,7 @@ enum class Filling {
     },
     COIN {
         override fun combine(filling: Filling): Filling = this
+        override fun fall(field: Field): Field = field
         override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
@@ -34,6 +37,7 @@ enum class Filling {
     },
     FALLING {
         override fun combine(filling: Filling): Filling = FALLING
+        override fun fall(field: Field): Field = field.down()
         override fun falls(): Boolean = true
         override fun isEmpty(): Boolean = false
         override fun collides(): Boolean = true
@@ -42,6 +46,7 @@ enum class Filling {
     },
     EMPTY {
         override fun combine(filling: Filling): Filling = filling
+        override fun fall(field: Field): Field = field
         override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = true
         override fun collides(): Boolean = false
@@ -50,14 +55,15 @@ enum class Filling {
     },
     INDENT {
         override fun combine(filling: Filling): Filling = filling
+        override fun fall(field: Field): Field = field
         override fun falls(): Boolean = false
         override fun isEmpty(): Boolean = true
         override fun collides(): Boolean = false
         override fun toString(): String = INDENT_VALUE.toString()
     };
 
-
     abstract fun combine(filling: Filling): Filling
+    abstract fun fall(field: Field): Field
     abstract fun falls(): Boolean
     abstract fun isEmpty(): Boolean
     abstract fun collides(): Boolean

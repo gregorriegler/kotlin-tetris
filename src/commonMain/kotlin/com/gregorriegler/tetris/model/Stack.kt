@@ -8,10 +8,10 @@ class Stack(
 
     fun contains(it: Field) = fields.contains(it)
 
-    fun down() = Stack(fields.map { it.down() })
+    fun fall() = Stack(fields.map(Field::fall))
 
-    fun emptyUp() = this.emptyBelow().upBy(this.fields.size)
+    fun emptyUp() = this.fieldBelow().upBy(fields.size)
 
-    private fun emptyBelow() = Field.empty(fields[0].x, fields[0].y + 1)
+    private fun fieldBelow() = Field.empty(fields[0].x, fields[0].y + 1)
 
 }

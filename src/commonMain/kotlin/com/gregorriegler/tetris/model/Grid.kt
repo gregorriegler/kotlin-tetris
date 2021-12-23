@@ -129,12 +129,10 @@ open class Grid : PositionedFrame, Collidable {
         val fallingStacks: List<Stack> = fallingStacks()
         val result = mutableListOf<Field>()
         result += fields.minus(fieldsOf(fallingStacks))
-        result += fieldsOf(fallingStacks.map { it.down() })
+        result += fieldsOf(fallingStacks.map { it.fall() })
         result += fallingStacks.map { it.emptyUp() }
         return Grid(result)
     }
-
-
 
     private fun fieldsOf(fallingStacks: List<Stack>) = fallingStacks.flatMap { it.toList() }
 
@@ -146,7 +144,7 @@ open class Grid : PositionedFrame, Collidable {
         val list = mutableListOf<Field>()
         var next = field
         do {
-            list.add(next)
+            list += next
             next = this.get(next.up())
         } while (next.falls())
         return Stack(list)
