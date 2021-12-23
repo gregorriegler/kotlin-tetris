@@ -54,7 +54,7 @@ open class Grid : PositionedFrame, Collidable {
     override fun right(): Grid = rightBy(1)
     override fun rightBy(amount: Int): Grid = Grid(fields.map { it.rightBy(amount) })
     fun below(position: Position) = get(position.down())
-    fun above(position: Position) = get(position.up())
+    fun fallingStackAbove(position: Position) = get(position.up())
 
     fun sizeFalling(): Int = fallingFields().count()
     fun widthFalling(): Int = (rightSideFalling() - leftSideFalling()) + 1
@@ -126,19 +126,31 @@ open class Grid : PositionedFrame, Collidable {
     fun within(grid: Grid): Grid = Grid(fields.filter { it.within(grid) })
 
     fun fall(): Grid {
-        val fallingStacks: List<VerticalStack> = fields.filter(this::willFall)
-            .map { VerticalStack.of(this, it) }
-            .toList()
-        val roomToFall = fallingStacks.associateBy({ it.emptyBelow() }, { it.height() })
-        return Grid(fields.map {
-            when {
-                fallingStacks.any { stack -> stack.contains(it) } -> it.down()
-                roomToFall.keys.contains(it) -> it.upBy(roomToFall[it] ?: 1)
-                else -> it
-            }
-        })
+        val fallingStacks: List<Stack> = fallingStacks()
+        val result = mutableListOf<Field>()
+        result += fields.minus(fieldsOf(fallingStacks))
+        result += fieldsOf(fallingStacks.map { it.down() })
+        result += fallingStacks.map { it.emptyUp() }
+        return Grid(result)
     }
 
+
+
+    private fun fieldsOf(fallingStacks: List<Stack>) = fallingStacks.flatMap { it.toList() }
+
+    private fun fallingStacks() = fields.filter(this::willFall)
+        .map(this::fallingStackAbove)
+        .toList()
+
+    private fun fallingStackAbove(field: Field): Stack {
+        val list = mutableListOf<Field>()
+        var next = field
+        do {
+            list.add(next)
+            next = this.get(next.up())
+        } while (next.falls())
+        return Stack(list)
+    }
 
 
     private fun willFall(field: Field): Boolean = field.falls() && below(field).isEmpty() && !hasAnchor(field)
