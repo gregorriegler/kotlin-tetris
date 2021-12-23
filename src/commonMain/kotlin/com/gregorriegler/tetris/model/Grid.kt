@@ -54,7 +54,6 @@ open class Grid : PositionedFrame, Collidable {
     override fun right(): Grid = rightBy(1)
     override fun rightBy(amount: Int): Grid = Grid(fields.map { it.rightBy(amount) })
     fun below(position: Position) = get(position.down())
-    fun fallingStackAbove(position: Position) = get(position.up())
 
     fun sizeFalling(): Int = fallingFields().count()
     fun widthFalling(): Int = (rightSideFalling() - leftSideFalling()) + 1
