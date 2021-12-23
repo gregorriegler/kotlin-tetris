@@ -21,23 +21,26 @@ class Stone(
         grid = frame.right(grid, debris)
     }
 
-    fun rotate(debris: Collidable) {
-        val rotate = grid.rotate()
+    fun rotateWithin(debris: Collidable) {
+        grid = rotate(debris, grid)
+    }
 
-        if (!outOfGame(rotate, debris)) {
-            grid = rotate
-            return
+    private fun rotate(debris: Collidable, toRotate: Grid): Grid {
+        val rotated = toRotate.rotate()
+
+        if (!outOfGame(rotated, debris)) {
+            return rotated
         }
 
-        for (it in (1..rotate.widthFalling() / 2)) {
-            if (!outOfGame(rotate.leftBy(it), debris)) {
-                grid = rotate.leftBy(it)
-                break
-            } else if (!outOfGame(rotate.rightBy(it), debris)) {
-                grid = rotate.rightBy(it)
-                break
+        for (it in (1..rotated.widthFalling() / 2)) {
+            if (!outOfGame(rotated.leftBy(it), debris)) {
+                return rotated.leftBy(it)
+            }
+            if (!outOfGame(rotated.rightBy(it), debris)) {
+                return rotated.rightBy(it)
             }
         }
+        return toRotate;
     }
 
     fun landed(obstacle: Collidable) = atBottom() || grid.down().collidesWith(obstacle)

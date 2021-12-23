@@ -39,7 +39,7 @@ class Tetris(
 
     fun left() = stone.left(debris)
     fun right() = stone.right(debris)
-    fun rotate() = stone.rotate(debris)
+    fun rotate() = stone.rotateWithin(debris)
     fun speed() = clock.speed()
     fun normal() = clock.normal()
     fun time(time: Long) = clock.time(time)

@@ -262,7 +262,7 @@ class `A Stone` {
             stone.down()
             stone.down()
             val obstacle = Debris(frame)
-            stone.rotate(obstacle.grid)
+            stone.rotateWithin(obstacle.grid)
 
             assertState(
                 """
@@ -290,7 +290,7 @@ class `A Stone` {
             val obstacle = Debris(frame)
             stone.right(obstacle.grid)
             val obstacle1 = Debris(frame)
-            stone.rotate(obstacle1.grid)
+            stone.rotateWithin(obstacle1.grid)
 
             assertState(
                 """
@@ -319,7 +319,7 @@ class `A Stone` {
             val obstacle = Debris(frame)
             stone.left(obstacle.grid)
             val obstacle1 = Debris(frame)
-            stone.rotate(obstacle1.grid)
+            stone.rotateWithin(obstacle1.grid)
 
             assertState(
                 """
@@ -347,7 +347,7 @@ class `A Stone` {
             stone.down()
             stone.down()
             val obstacle = Debris(frame)
-            stone.rotate(obstacle.grid)
+            stone.rotateWithin(obstacle.grid)
 
             assertState(
                 """
@@ -380,7 +380,7 @@ class `A Stone` {
             stone.down()
             stone.down()
             stone.down()
-            stone.rotate(debris.grid)
+            stone.rotateWithin(debris.grid)
 
             assertState(
                 """
@@ -414,7 +414,7 @@ class `A Stone` {
             stone.down()
             stone.down()
             stone.right(debris.grid)
-            stone.rotate(debris.grid)
+            stone.rotateWithin(debris.grid)
 
             assertState(
                 """
@@ -451,7 +451,7 @@ class `A Stone` {
             repeat(5, {stone.down()})
             stone.right(debris.grid)
             stone.right(debris.grid)
-            stone.rotate(debris.grid)
+            stone.rotateWithin(debris.grid)
 
             assertState(
                 """
@@ -490,7 +490,7 @@ class `A Stone` {
         repeat(5, {stone.down()})
         stone.left(debris.grid)
         stone.left(debris.grid)
-        stone.rotate(debris.grid)
+        stone.rotateWithin(debris.grid)
 
         assertState(
             """
