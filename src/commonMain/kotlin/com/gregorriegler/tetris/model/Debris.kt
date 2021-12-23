@@ -52,7 +52,7 @@ class Debris(
         depth += dig.depth
     }
 
-    override fun collidesWith(field: Field): Boolean = grid.collidesWith(field)
+    override fun collidingPositions(): List<Position> = grid.collidingPositions()
 
     override fun toString(): String = grid.toString()
 

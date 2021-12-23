@@ -139,8 +139,8 @@ class `A Grid` {
 
         assertEquals(2, grid.width)
         assertEquals(2, grid.height)
-        assertTrue(grid.collidesWith(Field.filled(1,0)))
-        assertTrue(grid.collidesWith(Field.filled(0,1)))
+        assertTrue(grid.collidesWith(Field.filled(1, 0)))
+        assertTrue(grid.collidesWith(Field.filled(0, 1)))
         assertThat(grid.get(1,0)).isEqualTo(Field.filled(1, 0))
         assertThat(grid.sizeFalling()).isEqualTo(2)
     }
